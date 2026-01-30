@@ -1,0 +1,27 @@
+{
+  "name": "twitter-hybrid-poc",
+  "version": "1.0.0",
+  "description": "POC for Twitter's Hybrid Architecture Timeline Generation",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "worker": "node dist/worker.js",
+    "seed": "node dist/seed.js",
+    "dev": "ts-node src/index.ts"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "pg": "^8.11.3",
+    "redis": "^4.6.10",
+    "amqplib": "^0.10.3"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.20",
+    "@types/pg": "^8.10.9",
+    "@types/amqplib": "^0.10.4",
+    "@types/node": "^20.10.0",
+    "typescript": "^5.3.2",
+    "ts-node": "^10.9.1"
+  }
+}

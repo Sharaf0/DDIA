@@ -1,0 +1,1260 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KT: DDIA Chapter 1 - Reliable, Scalable, and Maintainable Applications</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #ffffff;
+            --text: #000000;
+            --gray: #f0f0f0;
+            --accent: #000000;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        .presentation {
+            height: 100%;
+            width: 100%;
+            display: flex;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .slide {
+            min-width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 5% 10%;
+            position: relative;
+            text-align: center;
+        }
+
+        /* Slide Types */
+        .title-slide h1 {
+            font-size: 4.5rem;
+            font-weight: 800;
+            letter-spacing: -2px;
+            margin-bottom: 20px;
+        }
+
+        .title-slide p {
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            opacity: 0.6;
+        }
+
+        .section-header {
+            background: #000;
+            color: #fff;
+        }
+
+        .section-header h2 {
+            font-size: 5rem;
+        }
+
+        .content-slide {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+            text-align: left;
+            align-items: center;
+        }
+
+        .content-slide.with-image {
+            grid-template-columns: 1fr 1.2fr;
+            text-align: left;
+        }
+
+        h2 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 1.8rem;
+            line-height: 1.4;
+            font-weight: 300;
+        }
+
+        ul {
+            font-size: 1.5rem;
+            line-height: 1.6;
+            font-weight: 300;
+            margin-top: 15px;
+            padding-left: 25px;
+        }
+
+        ul li {
+            margin-bottom: 10px;
+        }
+
+        .highlight {
+            background: #fef3c7;
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+            text-align: left;
+            overflow-x: auto;
+            margin-top: 15px;
+            white-space: pre;
+        }
+
+        .image-box {
+            width: 100%;
+            height: 500px;
+            background: #f9f9f9;
+            border: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .image-box img {
+            max-width: 95%;
+            max-height: 95%;
+            object-fit: contain;
+        }
+
+        .image-box.fill img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .title-slide {
+            gap: 20px;
+        }
+
+        .title-image {
+            height: 350px;
+            max-width: 280px;
+            border: none;
+            background: transparent;
+        }
+
+        .title-image img {
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            border-radius: 4px;
+        }
+
+        .section-header .image-box {
+            height: 55vh;
+            margin-top: 30px;
+            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .section-header .image-box img {
+            opacity: 0.9;
+        }
+
+        .questions-image {
+            height: 360px;
+            max-width: 600px;
+        }
+
+        /* Quote styling */
+        .quote {
+            font-style: italic;
+            border-left: 4px solid #000;
+            padding-left: 20px;
+            margin: 20px 0;
+        }
+
+        /* Stats box */
+        .stat-box {
+            background: #f8f8f8;
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .stat-box .number {
+            font-size: 4rem;
+            font-weight: 800;
+            color: #000;
+        }
+
+        .stat-box .label {
+            font-size: 1.2rem;
+            opacity: 0.7;
+            margin-top: 10px;
+        }
+
+        .stat-box.small .number {
+            font-size: 2.5rem;
+        }
+
+        .stat-box.small {
+            padding: 20px;
+        }
+
+        /* Two column layout */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            width: 100%;
+        }
+
+        /* Three column layout */
+        .three-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 25px;
+            width: 100%;
+        }
+
+        /* Side image for text-heavy slides */
+        .side-image {
+            position: absolute;
+            right: 60px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 200px;
+            height: 200px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .side-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Logo styling */
+        .logo-small {
+            height: 80px;
+            margin: 20px 0;
+        }
+
+        .logo-small img {
+            height: 100%;
+            object-fit: contain;
+        }
+
+        /* Controls */
+        .controls {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            gap: 15px;
+            z-index: 100;
+        }
+
+        .controls button {
+            background: #000;
+            color: #fff;
+            border: none;
+            padding: 15px 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            opacity: 0;
+            /* Barely seen */
+            transition: opacity 0.3s ease-in-out;
+            /* Smooth transition */
+        }
+
+        .controls button:hover {
+            opacity: 0.8;
+        }
+
+        .progress-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: #eee;
+            z-index: 101;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: #000;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .slide-number {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            opacity: 0.4;
+        }
+
+        /* Full image slide */
+        .full-image-slide .image-box {
+            height: 70vh;
+            width: 90%;
+            max-width: 1200px;
+        }
+
+        /* Emoji styling */
+        .emoji {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .sql-keywords-highlight {
+            color: dodgerblue;
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+    <div class="slide-number" id="slideNum">1 / 58</div>
+
+    <div class="presentation" id="presentation">
+
+        <!-- ==================== INTRO SECTION ==================== -->
+
+        <!-- 1. Title Slide -->
+        <section class="slide title-slide">
+            <p>Designing Data-Intensive Applications</p>
+            <h1>Reliable, Scalable, Maintainable</h1>
+            <p>Knowledge Transfer Session • Chapter 1</p>
+            <div class="image-box title-image">
+                <img src="images/book_cover.jpg" alt="Designing Data-Intensive Applications book cover" />
+            </div>
+        </section>
+
+        <!-- 2. About the Author -->
+        <section class="slide content-slide">
+            <h2>Meet the Author: Martin Kleppmann</h2>
+            <ul>
+                <li>Researcher at University of Cambridge</li>
+                <li>Previously software engineer at LinkedIn and Rapportive</li>
+                <li>Expert in <strong>distributed systems</strong>, <strong>databases</strong>, and <strong>data
+                        infrastructure</strong></li>
+                <li>Active contributor to open-source and academic research</li>
+                <li>Known for making complex distributed systems concepts accessible</li>
+            </ul>
+            <p style="margin-top: 30px; opacity: 0.7;">"I wrote this book because I wanted to understand how data
+                systems work under the hood."</p>
+        </section>
+
+        <!-- 3. Who Should Read This Book -->
+        <section class="slide content-slide">
+            <h2>Who Is This Book For?</h2>
+            <p>If you work with data at scale, this book is for you:</p>
+            <ul>
+                <li><strong>Backend Engineers</strong> — Building services that store and process data</li>
+                <li><strong>Data Engineers</strong> — Designing pipelines and data infrastructure</li>
+                <li><strong>System Architects</strong> — Making technology choices that scale</li>
+                <li><strong>DevOps/SREs</strong> — Operating and troubleshooting data systems</li>
+                <li><strong>Tech Leads</strong> — Evaluating tradeoffs in system design</li>
+            </ul>
+            <p style="margin-top: 25px;"><strong>Why care?</strong> Understanding how data systems work helps you make
+                better decisions, debug faster, and build more reliable systems.</p>
+        </section>
+
+        <!-- 4. Data-Intensive vs Compute-Intensive -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>Data-Intensive vs Compute-Intensive</h2>
+                <p>Today, the bottleneck is rarely CPU power.</p>
+                <p style="margin-top: 20px;">The bigger problems are usually:</p>
+                <ul>
+                    <li>The <strong>amount</strong> of data</li>
+                    <li>The <strong>complexity</strong> of data</li>
+                    <li>The <strong>speed</strong> at which it changes</li>
+                </ul>
+            </div>
+            <div class="image-box">
+                <img src="images/data-vs-compute.jpg" alt="Data pipelines contrasted with compute" />
+            </div>
+        </section>
+
+        <!-- 5. Standard Building Blocks -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>The Standard Building Blocks</h2>
+                <p>Most applications need these data systems:</p>
+                <ul>
+                    <li><strong>Databases</strong> — Store and retrieve data</li>
+                    <li><strong>Caches</strong> — Speed up expensive reads</li>
+                    <li><strong>Search Indexes</strong> — Filter and find data</li>
+                    <li><strong>Stream Processing</strong> — Handle async messages</li>
+                    <li><strong>Batch Processing</strong> — Crunch large datasets</li>
+                </ul>
+                <p style="margin-top: 15px; opacity: 0.7;">Like LEGO bricks — simple pieces that combine into complex
+                    systems.</p>
+            </div>
+            <div class="image-box">
+                <img src="images/lego-bricks.jpg" alt="LEGO bricks representing building blocks">
+            </div>
+        </section>
+
+        <!-- 6. Blurring Boundaries -->
+        <section class="slide content-slide">
+            <h2>Blurring Boundaries</h2>
+            <p>Traditional categories no longer fit neatly:</p>
+            <ul>
+                <li><strong>Redis</strong> — A datastore used as a message queue</li>
+                <li><strong>Apache Kafka</strong> — A message queue with database-like durability</li>
+            </ul>
+            <p style="margin-top: 30px;">Why lump them all under "Data Systems"? Because modern applications combine
+                many specialized tools.</p>
+        </section>
+
+        <!-- 7. Composite Data Systems (Figure 1-1) -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>Composite Data Systems</h2>
+                <p>A single tool can no longer meet all needs. Applications now stitch together:</p>
+                <ul>
+                    <li>Primary database</li>
+                    <li>Cache layer (Memcached)</li>
+                    <li>Full-text search (Elasticsearch)</li>
+                </ul>
+                <p style="margin-top: 20px;">You become not just a developer, but a <strong>data system
+                        designer</strong>.</p>
+            </div>
+            <div class="image-box">
+                <img src="images/1-1.png" alt="Figure 1-1: Architecture combining multiple data systems">
+            </div>
+        </section>
+
+        <!-- 8. The Hard Questions -->
+        <section class="slide content-slide">
+            <h2>The Hard Questions</h2>
+            <p>When designing composite data systems:</p>
+            <ul>
+                <li>How do you ensure data remains <strong>correct and complete</strong> when things go wrong?</li>
+                <li>How do you provide <strong>consistently good performance</strong> even when parts degrade?</li>
+                <li>How do you <strong>scale</strong> to handle increased load?</li>
+                <li>What does a good <strong>API</strong> look like?</li>
+            </ul>
+        </section>
+
+        <!-- 9. Three Concerns Section Header -->
+        <section class="slide section-header">
+            <h2>The Three Concerns</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">Reliability • Scalability • Maintainability
+            </p>
+        </section>
+
+        <!-- 10. Overview of Three Concerns -->
+        <section class="slide content-slide">
+            <h2>Three Concerns for Software Systems</h2>
+            <div class="two-col">
+                <div>
+                    <p><strong>1. Reliability</strong></p>
+                    <p style="font-size: 1.3rem;">Continue working correctly even when things go wrong.</p>
+                </div>
+                <div>
+                    <p><strong>2. Scalability</strong></p>
+                    <p style="font-size: 1.3rem;">Reasonable ways to deal with growth.</p>
+                </div>
+            </div>
+            <div style="margin-top: 40px;">
+                <p><strong>3. Maintainability</strong></p>
+                <p style="font-size: 1.3rem;">Many people can work on it productively over time.</p>
+            </div>
+        </section>
+
+        <!-- ==================== RELIABILITY SECTION ==================== -->
+
+        <!-- 11. Reliability Section Header -->
+        <section class="slide section-header">
+            <h2>Reliability</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">Making systems work correctly, even when
+                faults occur</p>
+        </section>
+
+        <!-- 12. What is Reliability? -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>What is Reliability?</h2>
+                <p>Typical expectations for reliable software:</p>
+                <ul>
+                    <li>Performs the function users expected</li>
+                    <li>Tolerates user mistakes and unexpected usage</li>
+                    <li>Performance is good enough under expected load</li>
+                    <li>Prevents unauthorized access and abuse</li>
+                </ul>
+                <p style="margin-top: 20px;"><strong>Reliability</strong> = "continuing to work correctly, even when
+                    things go wrong."</p>
+            </div>
+            <div class="image-box">
+                <img src="images/reliability.jpg" alt="Reliability concept">
+            </div>
+        </section>
+
+        <!-- 13. Faults vs Failures -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>Faults vs Failures</h2>
+                <p><strong>Fault:</strong> One component deviating from its spec.</p>
+                <p style="margin-top: 15px;"><strong>Failure:</strong> The system as a whole stops providing service to
+                    users.</p>
+                <p style="margin-top: 25px;">Think of a <strong>flat tire</strong>: A fault (puncture) doesn't have to
+                    cause failure (car stops) if you have fault tolerance (spare tire, roadside assistance).</p>
+                <p style="margin-top: 20px;">Goal: Build <strong>fault-tolerant</strong> systems that prevent faults
+                    from causing failures.</p>
+            </div>
+            <div class="image-box">
+                <img src="images/flat_tire.jpg" alt="Flat tire illustrating fault vs failure">
+            </div>
+        </section>
+
+        <!-- 14. Chaos Engineering -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>Chaos Engineering: Netflix Chaos Monkey</h2>
+                <p class="quote">"By deliberately inducing faults, you ensure that the fault-tolerance machinery is
+                    continually exercised and tested."</p>
+                <p style="margin-top: 20px;">Many critical bugs come from <strong>poor error handling</strong>. Chaos
+                    Monkey randomly kills processes in production to:</p>
+                <ul>
+                    <li>Verify fault-tolerance actually works</li>
+                    <li>Build confidence that faults will be handled correctly</li>
+                    <li>Find weaknesses before real failures do</li>
+                </ul>
+            </div>
+            <div class="image-box">
+                <img src="images/chaos-monkey.jpeg" alt="Netflix Chaos Monkey">
+            </div>
+        </section>
+
+        <!-- 15. Hardware Faults -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>1. Hardware Faults</h2>
+                <p>Hard disks crash. RAM fails. Power goes out. Networks disconnect.</p>
+                <div class="stat-box" style="margin-top: 25px;">
+                    <div class="number">10-50 years</div>
+                    <div class="label">Mean Time to Failure (MTTF) for hard disks</div>
+                </div>
+                <p style="margin-top: 15px;">With 10,000 disks → expect ~1 disk to die <strong>per day</strong>.</p>
+            </div>
+            <div class="image-box">
+                <img src="images/hardware-faults.jpg" alt="Hardware failures - servers and disks">
+            </div>
+        </section>
+
+        <!-- 16. Traditional Redundancy -->
+        <section class="slide content-slide">
+            <h2>Traditional Approach: Hardware Redundancy</h2>
+            <p>Add redundancy to individual components:</p>
+            <ul>
+                <li><strong>RAID</strong> — Disk redundancy <span style="font-size: x-small;">(Redundant Array of
+                        Independent Disks)</span></li>
+                <li><strong>Dual power supplies</strong> — Power redundancy</li>
+                <li><strong>Hot-swappable CPUs</strong> — Compute redundancy</li>
+                <li><strong>Batteries & generators</strong> — Backup power</li>
+            </ul>
+            <p style="margin-top: 25px;">This kept machines running for years without interruption.</p>
+        </section>
+
+        <!-- 17. Software Fault Tolerance -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>The Shift: Software Fault Tolerance</h2>
+                <p>Cloud computing changed the game:</p>
+                <ul>
+                    <li>Cloud VMs can become unavailable without warning</li>
+                    <li>Platforms prioritize <strong>flexibility</strong> over single-machine reliability</li>
+                    <li>More machines = more frequent hardware faults</li>
+                </ul>
+                <p style="margin-top: 20px;">Modern approach: Design systems to <strong>tolerate entire machine
+                        loss</strong> via software coordination.</p>
+            </div>
+            <div class="image-box">
+                <img src="images/software-redundancy.jpg" alt="Software-based redundancy across machines">
+            </div>
+        </section>
+
+        <!-- 18. Rolling Upgrades -->
+        <section class="slide content-slide">
+            <h2>Operational Advantage: Rolling Upgrades</h2>
+            <p>Systems tolerant of machine failure can be patched <strong>one node at a time</strong>, without downtime.
+            </p>
+            <ul>
+                <li>No planned downtime for security patches</li>
+                <li>Gradual rollout of changes</li>
+                <li>Ability to roll back quickly if issues arise</li>
+            </ul>
+        </section>
+
+        <!-- 19. Software Errors -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>2. Software Errors</h2>
+                <p>Systematic bugs are <strong>harder to anticipate</strong> than hardware faults.</p>
+                <p style="margin-top: 15px;">Unlike hardware (random & independent), software bugs are
+                    <strong>correlated</strong> across nodes → more system failures.
+                </p>
+                <p style="margin-top: 15px;">We've all seen the dreaded Blue Screen of Death...</p>
+            </div>
+            <div class="image-box">
+                <img src="images/bsod.jpg" alt="Blue Screen of Death - software error">
+            </div>
+        </section>
+
+        <!-- 20. Examples of Software Errors -->
+        <section class="slide content-slide">
+            <h2>Examples of Software Errors</h2>
+            <ul>
+                <li><strong>Leap second bug (June 30, 2012)</strong> — Linux kernel bug caused many applications to hang
+                    simultaneously</li>
+                <li><strong>Runaway processes</strong> — Using up CPU, memory, disk, or network</li>
+                <li><strong>Cascading failures</strong> — One fault triggers another, which triggers more</li>
+                <li><strong>Slow dependencies</strong> — A service slows down or returns corrupted responses</li>
+            </ul>
+            <p style="margin-top: 25px;">These bugs often lie <strong>dormant</strong> until unusual circumstances
+                trigger them.</p>
+        </section>
+
+        <!-- 21. Dealing with Software Errors -->
+        <section class="slide content-slide">
+            <h2>Dealing with Software Errors</h2>
+            <p>No quick solution, but many small things help:</p>
+            <ul>
+                <li>Carefully think about assumptions and interactions</li>
+                <li>Thorough testing</li>
+                <li>Process isolation</li>
+                <li>Allow processes to crash and restart</li>
+                <li>Measure, monitor, and analyze behavior in production</li>
+                <li>Self-checking systems that raise alerts on discrepancies</li>
+            </ul>
+        </section>
+
+        <!-- 22. Human Errors -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>3. Human Errors</h2>
+                <p>Humans are unreliable. Even with best intentions, mistakes happen.</p>
+                <div class="stat-box" style="margin-top: 25px;">
+                    <div class="number">Leading Cause</div>
+                    <div class="label">Configuration errors cause most outages (not hardware!)</div>
+                </div>
+                <p style="margin-top: 15px;">Hardware faults account for only <strong>10-25%</strong> of outages.</p>
+            </div>
+            <div class="image-box">
+                <img src="images/stupid.jpg" alt="Human error illustration">
+            </div>
+        </section>
+
+        <!-- 23. Mitigating Human Errors -->
+        <section class="slide content-slide">
+            <h2>Mitigating Human Errors</h2>
+            <ul>
+                <li><strong>Design for safety</strong> — Well-designed APIs that make "the right thing" easy</li>
+                <li><strong>Sandbox environments</strong> — Let people experiment without affecting production</li>
+                <li><strong>Thorough testing</strong> — Unit, integration, and manual tests; cover corner cases</li>
+                <li><strong>Quick recovery</strong> — Fast rollbacks, gradual rollouts (canary releases)</li>
+                <li><strong>Monitoring & telemetry</strong> — Early warning signals, track assumptions</li>
+                <li><strong>Good training</strong> — Management practices and procedures</li>
+            </ul>
+        </section>
+
+        <!-- 24. How Important is Reliability? -->
+        <section class="slide content-slide">
+            <h2>How Important is Reliability?</h2>
+            <p>Not just for nuclear power stations!</p>
+            <ul>
+                <li><strong>Business apps:</strong> Lost productivity, legal risks</li>
+                <li><strong>E-commerce:</strong> Lost revenue, reputation damage</li>
+                <li><strong>Personal data:</strong> Would users know how to restore from backup?</li>
+            </ul>
+            <p style="margin-top: 25px;" class="quote">"Consider a parent who stores all their pictures and videos of
+                their children in your photo application..."</p>
+            <p style="margin-top: 15px;">You may sacrifice reliability for cost sometimes, but <strong>be
+                    conscious</strong> when cutting corners.</p>
+        </section>
+
+        <!-- ==================== SCALABILITY SECTION ==================== -->
+
+        <!-- 25. Scalability Section Header -->
+        <section class="slide section-header">
+            <h2>Scalability</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">Strategies for keeping performance good as
+                load increases</p>
+        </section>
+
+        <!-- 26. What is Scalability? -->
+        <section class="slide content-slide">
+            <h2>What is Scalability?</h2>
+            <p>It's <strong>not</strong> a one-dimensional label.</p>
+            <p style="margin-top: 30px; font-size: 2rem;">❌ "X is scalable" or "Y doesn't scale"</p>
+            <p style="margin-top: 20px; font-size: 2rem;">✅ "If the system grows in X way, what are our options for
+                coping with that growth?"</p>
+            <p style="margin-top: 30px;">Scalability is about asking the right questions, not checking a box.</p>
+        </section>
+
+        <!-- 27. Describing Load -->
+        <section class="slide content-slide">
+            <h2>Describing Load</h2>
+            <p>First, describe the current load with <strong>Load Parameters</strong>:</p>
+            <ul>
+                <li>Requests per second (RPS)</li>
+                <li>Database read/write ratio</li>
+                <li>Simultaneously active users</li>
+                <li>Cache hit rate</li>
+            </ul>
+            <p style="margin-top: 25px;">The best parameters depend on your system's architecture. Let's look at a real
+                example...</p>
+        </section>
+
+        <!-- 28. Twitter Case Study Intro -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>Case Study: Twitter (2012)</h2>
+                <p>Two main operations:</p>
+                <div class="two-col" style="margin-top: 20px;">
+                    <div class="stat-box small">
+                        <div class="number">4.6k/sec</div>
+                        <div class="label">Post Tweet (avg), 12k peak</div>
+                    </div>
+                    <div class="stat-box small">
+                        <div class="number">300k/sec</div>
+                        <div class="label">Home Timeline reads</div>
+                    </div>
+                </div>
+                <p style="margin-top: 20px;">12k writes/sec is manageable. So what's the real challenge?</p>
+            </div>
+            <div class="image-box">
+                <img src="images/twitter-logo.png" alt="Twitter logo">
+            </div>
+        </section>
+
+        <!-- 29. Twitter: The Challenge - Fan-out -->
+        <section class="slide content-slide">
+            <h2>The Challenge: Fan-out</h2>
+            <p>The problem isn't tweet volume — it's <strong>fan-out</strong>.</p>
+            <p style="margin-top: 25px;"><strong>Fan-out:</strong> The number of requests to other services needed to
+                serve one incoming request.</p>
+            <p style="margin-top: 20px;">Each user follows many people. Each user is followed by many people. When
+                someone tweets, how do you get it to all their followers' timelines?</p>
+            <p style="margin-top: 25px;">Twitter tried two approaches...</p>
+        </section>
+
+        <!-- 30. Twitter Approach 1 (Figure 1-2) -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>Approach 1: Query on Read</h2>
+                <p>Insert tweets into a global collection. On read, query and merge:</p>
+                <div class="code-block"><span class="sql-keywords-highlight">SELECT</span> tweets.*, users.*<span
+                        class="sql-keywords-highlight"></br>FROM</span> tweets<span
+                        class="sql-keywords-highlight"></br>JOIN</span> users <span
+                        class="sql-keywords-highlight">ON</span> tweets.sender_id = users.id<span
+                        class="sql-keywords-highlight"></br>JOIN</span> follows <span
+                        class="sql-keywords-highlight">ON</span> follows.followee_id = users.id<span
+                        class="sql-keywords-highlight"></br>WHERE</span> follows.follower_id = current_user</div>
+                <p style="margin-top: 15px;"><strong>✅ Simple writes</strong></p>
+                <p><strong>❌ Expensive reads</strong> — Every timeline load hits the database hard</p>
+            </div>
+            <div class="image-box">
+                <img src="images/1-2.png" alt="Figure 1-2: Twitter Approach 1 - Query on read">
+            </div>
+        </section>
+
+        <!-- 31. Approach 1 Problem -->
+        <section class="slide content-slide">
+            <h2>Approach 1: The Problem</h2>
+            <p>With <strong>300,000 timeline reads/second</strong>, the database couldn't keep up.</p>
+            <p style="margin-top: 25px;">Each timeline read requires:</p>
+            <ul>
+                <li>Finding all users you follow</li>
+                <li>Finding all their tweets</li>
+                <li>Merging and sorting by time</li>
+            </ul>
+            <p style="margin-top: 25px;">Twitter needed a new approach...</p>
+        </section>
+
+        <!-- 32. Twitter Approach 2 (Figure 1-3) -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>Approach 2: Pre-compute Timelines</h2>
+                <p>Maintain a cache for each user's home timeline (like a mailbox).</p>
+                <p style="margin-top: 15px;">When a user posts a tweet, write it to <strong>all their followers'
+                        caches</strong>.</p>
+                <p style="margin-top: 20px;"><strong>✅ Cheap reads</strong> — Timeline already computed!</p>
+                <p><strong>❌ Expensive writes</strong> — One tweet = many writes</p>
+                <p style="margin-top: 15px;">This worked better! Reads are ~2 orders of magnitude more frequent than
+                    writes.</p>
+            </div>
+            <div class="image-box">
+                <img src="images/1-3.png" alt="Figure 1-3: Twitter Approach 2 - Pre-computed timelines">
+            </div>
+        </section>
+
+        <!-- 33. The Trump Problem -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>The "Trump Problem" 🐦</h2>
+                <p>Approach 2 has a catch...</p>
+                <p style="margin-top: 20px;">Average tweet → 75 followers → 75 writes</p>
+                <p style="margin-top: 10px;">4.6k tweets/sec × 75 = <strong>345k writes/sec</strong></p>
+                <p style="margin-top: 25px;">But some users have <strong>30+ million followers</strong>!</p>
+                <p style="margin-top: 15px;">One celebrity tweet = <strong>30 million writes</strong> to home timeline
+                    caches.</p>
+                <p style="margin-top: 15px;">Twitter tries to deliver within <strong>5 seconds</strong>. 😰</p>
+            </div>
+            <div class="image-box">
+                <img src="images/trump.jpg" alt="Celebrity with millions of followers">
+            </div>
+        </section>
+
+        <!-- 34. Twitter Hybrid Solution -->
+        <section class="slide content-slide">
+            <h2>The Hybrid Solution ✨</h2>
+            <p>Twitter now uses <strong>both approaches</strong>:</p>
+            <div class="two-col" style="margin-top: 30px;">
+                <div class="stat-box">
+                    <div class="emoji">👥</div>
+                    <div class="label"><strong>Regular users:</strong> Approach 2<br>(fan-out on write)</div>
+                </div>
+                <div class="stat-box">
+                    <div class="emoji">⭐</div>
+                    <div class="label"><strong>Celebrities:</strong> Approach 1<br>(merged on read)</div>
+                </div>
+            </div>
+            <p style="margin-top: 30px;">The <strong>distribution of followers per user</strong> is a key load parameter
+                for Twitter's scalability.</p>
+        </section>
+
+        <!-- 35. Describing Performance -->
+        <section class="slide content-slide">
+            <h2>Describing Performance</h2>
+            <p>Once you've described load, investigate what happens when it increases:</p>
+            <ul>
+                <li><strong>Option 1:</strong> Keep resources constant → how is performance affected?</li>
+                <li><strong>Option 2:</strong> Keep performance constant → how many resources needed?</li>
+            </ul>
+            <p style="margin-top: 25px;">Metrics differ by system type:</p>
+            <ul>
+                <li><strong>Batch processing:</strong> Throughput (records/second)</li>
+                <li><strong>Online systems:</strong> Response time</li>
+            </ul>
+        </section>
+
+        <!-- 36. Latency vs Response Time -->
+        <section class="slide content-slide">
+            <h2>Latency vs Response Time</h2>
+            <p>Often used interchangeably, but they're different:</p>
+            <div class="two-col" style="margin-top: 30px;">
+                <div>
+                    <p><strong>Response Time</strong></p>
+                    <p style="font-size: 1.3rem;">What the client sees: service time + network delays + queueing delays
+                    </p>
+                </div>
+                <div>
+                    <p><strong>Latency</strong></p>
+                    <p style="font-size: 1.3rem;">Time a request is waiting to be handled (awaiting service)</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 37. Response Time Distribution (Figure 1-4) -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>Response Time Distribution</h2>
+                <p>Response time varies. Think of it as a <strong>distribution</strong>, not a single number.</p>
+                <p style="margin-top: 15px;">Causes of variation:</p>
+                <ul>
+                    <li>Context switches</li>
+                    <li>Network packet loss & TCP retransmission</li>
+                    <li>Garbage collection pauses</li>
+                    <li>Page faults reading from disk</li>
+                </ul>
+            </div>
+            <div class="image-box">
+                <img src="images/1-4.png" alt="Figure 1-4: Response time distribution histogram">
+            </div>
+        </section>
+
+        <!-- 38. Why Averages Lie -->
+        <section class="slide content-slide">
+            <h2>Why Averages Can Be Misleading</h2>
+            <p>Imagine Jeff Bezos walks into a room with 1,000 people, each earning $50,000/year.</p>
+            <div class="stat-box" style="margin-top: 30px;">
+                <div class="number">$1,048,951</div>
+                <div class="label">Average income in the room</div>
+            </div>
+            <p style="margin-top: 25px; font-size: 1.3rem;">(1,000 × $50,000 + $1,000,000,000) ÷ 1,001 =
+                <strong>$1,048,951</strong>
+            </p>
+            <p style="margin-top: 25px;">The average tells you nothing about the typical person's experience. Same
+                problem with response times!</p>
+        </section>
+
+        <!-- 39. Percentiles -->
+        <section class="slide content-slide">
+            <h2>Percentiles: p50, p95, p99, p99.9</h2>
+            <p><strong>Median (p50):</strong> Half of requests faster, half slower. The "typical" experience.</p>
+            <p style="margin-top: 20px;"><strong>High percentiles (tail latencies):</strong></p>
+            <ul>
+                <li><strong>p95:</strong> 95% of requests are faster than this</li>
+                <li><strong>p99:</strong> 99% of requests are faster than this</li>
+                <li><strong>p99.9:</strong> 99.9% of requests are faster than this</li>
+            </ul>
+            <p style="margin-top: 20px;">Average (mean) is <strong>not</strong> a good metric — it doesn't tell you how
+                many users experienced that delay.</p>
+        </section>
+
+        <!-- 40. Why Tail Latencies Matter -->
+        <section class="slide content-slide">
+            <h2>Why p99.9 Matters: The Amazon Effect</h2>
+            <p>Amazon measures requirements at the <strong>99.9th percentile</strong>.</p>
+            <p style="margin-top: 15px;">Why? Customers with slowest requests often have the most data = <strong>most
+                    valuable customers</strong>.</p>
+            <div class="three-col" style="margin-top: 25px;">
+                <div class="stat-box small">
+                    <div class="number">1%</div>
+                    <div class="label">Sales drop per 100ms slower</div>
+                </div>
+                <div class="stat-box small">
+                    <div class="number">16%</div>
+                    <div class="label">Satisfaction drop per 1s slower</div>
+                </div>
+                <div class="stat-box small" style="background: #fff3cd;">
+                    <div class="number">p99.99?</div>
+                    <div class="label">Too expensive, diminishing returns</div>
+                </div>
+            </div>
+            <p style="margin-top: 20px; font-size: 1.3rem;">Optimizing the 99.99th percentile was deemed not worth the
+                effort for Amazon.</p>
+        </section>
+
+        <!-- 41. Tail Latency Amplification (Figure 1-5) -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>Tail Latency Amplification</h2>
+                <p>One end-user request may call <strong>multiple backend services</strong> in parallel.</p>
+                <p style="margin-top: 15px;">The end-user must wait for the <strong>slowest</strong> call.</p>
+                <p style="margin-top: 15px;">Even if only a small % of backend calls are slow, <strong>more calls =
+                        higher chance</strong> of hitting a slow one.</p>
+            </div>
+            <div class="image-box">
+                <img src="images/1-5.png" alt="Figure 1-5: Tail latency amplification across multiple backend calls">
+            </div>
+        </section>
+
+        <!-- 42. Head-of-Line Blocking -->
+        <section class="slide content-slide">
+            <h2>Head-of-Line Blocking</h2>
+            <p>A server can only process a limited number of things in parallel.</p>
+            <p style="margin-top: 20px;">A few slow requests can <strong>hold up subsequent requests</strong> in the
+                queue.</p>
+            <p style="margin-top: 15px;">Even if subsequent requests are fast to process, clients see slow response
+                times due to <strong>queueing delays</strong>.</p>
+            <p style="margin-top: 25px;"><strong>Important:</strong> Measure response times on the <strong>client
+                    side</strong>.</p>
+        </section>
+
+        <!-- 43. SLOs and SLAs -->
+        <section class="slide content-slide">
+            <h2>SLOs and SLAs</h2>
+            <p><strong>Service Level Objectives (SLOs)</strong> and <strong>Service Level Agreements (SLAs)</strong>
+                define expected performance.</p>
+            <p style="margin-top: 20px;">Example SLA:</p>
+            <ul>
+                <li>Median response time &lt; 200ms</li>
+                <li>99th percentile &lt; 1 second</li>
+                <li>Service up 99.9% of the time</li>
+            </ul>
+            <p style="margin-top: 20px;">If SLA is not met, customers may demand a <strong>refund</strong>.</p>
+        </section>
+
+        <!-- 44. Calculating Percentiles -->
+        <section class="slide content-slide">
+            <h2>Percentiles in Practice</h2>
+            <p>Calculate percentiles efficiently with algorithms like:</p>
+            <ul>
+                <li><strong>Forward decay</strong></li>
+                <li><strong>t-digest</strong></li>
+                <li><strong>HdrHistogram</strong></li>
+            </ul>
+            <p style="margin-top: 25px;"><strong>Warning:</strong> Averaging percentiles is <strong>mathematically
+                    meaningless</strong>!</p>
+            <p style="margin-top: 10px;">The right way: aggregate the <strong>histograms</strong>, then calculate
+                percentiles.</p>
+        </section>
+
+        <!-- 45. Scaling Up vs Out -->
+        <section class="slide content-slide">
+            <h2>Approaches for Coping with Load</h2>
+            <div class="two-col">
+                <div>
+                    <p><strong>Scaling Up (Vertical)</strong></p>
+                    <p style="font-size: 1.3rem;">Move to a more powerful machine.</p>
+                    <p style="font-size: 1.3rem; margin-top: 10px;">✅ Simple</p>
+                    <p style="font-size: 1.3rem;">❌ Expensive, hits ceiling</p>
+                </div>
+                <div>
+                    <p><strong>Scaling Out (Horizontal)</strong></p>
+                    <p style="font-size: 1.3rem;">Distribute load across multiple machines.</p>
+                    <p style="font-size: 1.3rem; margin-top: 10px;">✅ No ceiling</p>
+                    <p style="font-size: 1.3rem;">❌ More complex</p>
+                </div>
+            </div>
+            <p style="margin-top: 30px;">In reality, good architectures use a <strong>pragmatic mix</strong> of both.
+            </p>
+        </section>
+
+        <!-- 46. Elastic vs Manual -->
+        <section class="slide content-slide">
+            <h2>Elastic vs Manual Scaling</h2>
+            <p><strong>Elastic systems:</strong> Automatically add resources when load increases.</p>
+            <ul>
+                <li>Useful for highly unpredictable load</li>
+            </ul>
+            <p style="margin-top: 25px;"><strong>Manual scaling:</strong> Humans analyze capacity and decide to add
+                machines.</p>
+            <ul>
+                <li>Simpler, fewer operational surprises</li>
+            </ul>
+        </section>
+
+        <!-- 47. Stateful vs Stateless -->
+        <section class="slide content-slide">
+            <h2>Stateful vs Stateless Services</h2>
+            <p><strong>Stateless services:</strong> Easy to distribute across machines.</p>
+            <p style="margin-top: 20px;"><strong>Stateful data systems:</strong> Much more complex to distribute.</p>
+            <p style="margin-top: 20px;">Common wisdom: Keep your database on a single node until scaling cost or
+                high-availability <strong>forces</strong> you to distribute.</p>
+            <p style="margin-top: 20px;">This is changing as distributed system tools improve.</p>
+        </section>
+
+        <!-- 48. No Magic Scaling Sauce -->
+        <section class="slide content-slide">
+            <h2>No Magic Scaling Sauce</h2>
+            <p>Large-scale architectures are <strong>highly specific</strong> to the application.</p>
+            <p style="margin-top: 20px;">The problem may be:</p>
+            <ul>
+                <li>Volume of reads or writes</li>
+                <li>Volume of data to store</li>
+                <li>Complexity of data</li>
+                <li>Response time requirements</li>
+                <li>Access patterns</li>
+            </ul>
+            <p style="margin-top: 20px;">A system for 100k req/sec (1KB each) looks very different from 3 req/min (2GB
+                each).</p>
+        </section>
+
+        <!-- ==================== MAINTAINABILITY SECTION ==================== -->
+
+        <!-- 49. Maintainability Section Header -->
+        <section class="slide section-header">
+            <h2>Maintainability</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">Making life better for engineering and
+                operations teams</p>
+        </section>
+
+        <!-- 50. The Cost of Maintenance -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>The Cost of Maintenance</h2>
+                <p>The majority of software cost is <strong>not</strong> initial development.</p>
+                <p style="margin-top: 20px;">Ongoing maintenance includes:</p>
+                <ul>
+                    <li>Fixing bugs</li>
+                    <li>Keeping systems operational</li>
+                    <li>Investigating failures</li>
+                    <li>Adapting to new platforms</li>
+                    <li>Repaying technical debt</li>
+                    <li>Adding new features</li>
+                </ul>
+            </div>
+            <div class="image-box">
+                <img src="images/maintainability.jpg" alt="Maintenance and code management">
+            </div>
+        </section>
+
+        <!-- 51. Three Principles -->
+        <section class="slide content-slide">
+            <h2>Three Design Principles</h2>
+            <div class="two-col">
+                <div>
+                    <p><strong>1. Operability</strong></p>
+                    <p style="font-size: 1.3rem;">Make it easy for ops to keep the system running.</p>
+                </div>
+                <div>
+                    <p><strong>2. Simplicity</strong></p>
+                    <p style="font-size: 1.3rem;">Make it easy for new engineers to understand.</p>
+                </div>
+            </div>
+            <div style="margin-top: 40px;">
+                <p><strong>3. Evolvability</strong></p>
+                <p style="font-size: 1.3rem;">Make it easy to adapt for future requirements.</p>
+            </div>
+        </section>
+
+        <!-- 52. Operability -->
+        <section class="slide content-slide">
+            <h2>Operability: Life Easy for Ops</h2>
+            <p class="quote">"Good operations can work around bad software, but good software cannot run reliably with
+                bad operations."</p>
+            <p style="margin-top: 25px;">Good operability means:</p>
+            <ul>
+                <li>Good monitoring & visibility into runtime behavior</li>
+                <li>Support for automation and standard tools</li>
+                <li>Avoiding dependency on individual machines</li>
+                <li>Good documentation and operational model</li>
+                <li>Good defaults with ability to override</li>
+                <li>Self-healing with manual control when needed</li>
+                <li>Predictable behavior, minimizing surprises</li>
+            </ul>
+        </section>
+
+        <!-- 53. Simplicity -->
+        <section class="slide content-slide">
+            <h2>Simplicity: Managing Complexity</h2>
+            <p>Symptoms of complexity:</p>
+            <ul>
+                <li>Explosion of state space</li>
+                <li>Tight coupling of modules</li>
+                <li>Tangled dependencies</li>
+                <li>Inconsistent naming</li>
+                <li>Performance hacks everywhere</li>
+            </ul>
+            <p style="margin-top: 25px;"><strong>Accidental complexity:</strong> Not inherent in the problem, arises
+                from implementation.</p>
+            <p style="margin-top: 15px;"><strong>Best tool:</strong> Good <strong>abstractions</strong> that hide
+                implementation details.</p>
+        </section>
+
+        <!-- 54. Evolvability -->
+        <section class="slide content-slide">
+            <h2>Evolvability: Making Change Easy</h2>
+            <p>Requirements will change. Count on it.</p>
+            <ul>
+                <li>New facts are learned</li>
+                <li>Unanticipated use cases emerge</li>
+                <li>Business priorities shift</li>
+                <li>Platforms change</li>
+                <li>Legal/regulatory requirements change</li>
+            </ul>
+            <p style="margin-top: 25px;">Closely linked to <strong>simplicity</strong>: simple systems are easier to
+                modify.</p>
+            <p style="margin-top: 15px;">Also called: extensibility, modifiability, plasticity.</p>
+        </section>
+
+        <!-- ==================== SUMMARY SECTION ==================== -->
+
+        <!-- 55. Summary Section Header -->
+        <section class="slide section-header">
+            <h2>Summary</h2>
+        </section>
+
+        <!-- 56. Summary Content -->
+        <section class="slide content-slide">
+            <h2>Chapter 1 Summary</h2>
+            <p><strong>Reliability:</strong> Make systems work correctly even when faults occur (hardware, software,
+                human). Use fault-tolerance techniques.</p>
+            <p style="margin-top: 20px;"><strong>Scalability:</strong> Describe load (load parameters), measure
+                performance (percentiles), and build strategies to handle growth.</p>
+            <p style="margin-top: 20px;"><strong>Maintainability:</strong> Focus on Operability, Simplicity, and
+                Evolvability. Good abstractions reduce complexity.</p>
+            <p style="margin-top: 30px;">No easy fixes — but <strong>patterns and techniques</strong> reappear across
+                different applications. That's what the rest of the book covers.</p>
+        </section>
+
+        <!-- 57. Questions Slide -->
+        <section class="slide title-slide">
+            <h1>Questions?</h1>
+            <p>Designing Data-Intensive Applications • Chapter 1</p>
+            <div class="image-box questions-image">
+                <img src="images/questions.jpg" alt="Q&A discussion" />
+            </div>
+        </section>
+
+    </div>
+
+    <div class="controls">
+        <button onclick="prevSlide()">PREV</button>
+        <button onclick="nextSlide()">NEXT</button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const presentation = document.getElementById('presentation');
+        const progressBar = document.getElementById('progressBar');
+        const slideNum = document.getElementById('slideNum');
+        const totalSlides = slides.length;
+
+        function update() {
+            presentation.style.transform = `translateX(-${currentSlide * 100}vw)`;
+            progressBar.style.width = `${((currentSlide + 1) / totalSlides) * 100}%`;
+            slideNum.innerText = `${currentSlide + 1} / ${totalSlides}`;
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides - 1) {
+                currentSlide++;
+                update();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                update();
+            }
+        }
+
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'ArrowDown') nextSlide();
+            if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') prevSlide();
+            if (e.key >= '0' && e.key <= '9') {
+                const targetSlide = parseInt(e.key, 10);
+                currentSlide = Math.floor(totalSlides * (targetSlide / 10));
+                update();
+            }
+        });
+
+        // Initialize
+        update();
+    </script>
+
+</body>
+
+</html>
