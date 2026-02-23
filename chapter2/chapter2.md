@@ -5,8 +5,6 @@ Chapter 2. Data Models and Query Languages
 > 
 > Ludwig Wittgenstein, _Tractatus Logico-Philosophicus_ (1922)
 
-![](/api/v2/epubs/urn:orm:book:9781491903063/files/assets/ch02-map-ebook.png)
-
 Data models are perhaps the most important part of developing software, because they have such a profound effect: not only on how the software is written, but also on how we _think about the problem_ that we are solving.
 
 Most applications are built by layering one data model on top of another. For each layer, the key question is: how is it _represented_ in terms of the next-lower layer? For example:
