@@ -749,23 +749,23 @@ The subject of a triple is equivalent to a vertex in a graph. The object is one 
 
 ```
 @prefix : <urn:example:>.
-\_:lucy     a       :Person.
-\_:lucy     :name   "Lucy".
-\_:lucy     :bornIn \_:idaho.
-\_:idaho    a       :Location.
-\_:idaho    :name   "Idaho".
-\_:idaho    :type   "state".
-\_:idaho    :within \_:usa.
-\_:usa      a       :Location.
-\_:usa      :name   "United States".
-\_:usa      :type   "country".
-\_:usa      :within \_:namerica.
-\_:namerica a       :Location.
-\_:namerica :name   "North America".
-\_:namerica :type   "continent".
+_:lucy     a       :Person.
+_:lucy     :name   "Lucy".
+_:lucy     :bornIn _:idaho.
+_:idaho    a       :Location.
+_:idaho    :name   "Idaho".
+_:idaho    :type   "state".
+_:idaho    :within _:usa.
+_:usa      a       :Location.
+_:usa      :name   "United States".
+_:usa      :type   "country".
+_:usa      :within _:namerica.
+_:namerica a       :Location.
+_:namerica :name   "North America".
+_:namerica :type   "continent".
 ```
 
-In this example, vertices of the graph are written as `_:_someName_`. The name doesn’t mean anything outside of this file; it exists only because we otherwise wouldn’t know which triples refer to the same vertex. When the predicate represents an edge, the object is a vertex, as in `_:idaho :within _:usa`. When the predicate is a property, the object is a string literal, as in `_:usa :name "United States"`.
+In this example, vertices of the graph are written as `_:someName`. The name doesn’t mean anything outside of this file; it exists only because we otherwise wouldn’t know which triples refer to the same vertex. When the predicate represents an edge, the object is a vertex, as in `_:idaho :within _:usa`. When the predicate is a property, the object is a string literal, as in `_:usa :name "United States"`.
 
 It’s quite repetitive to repeat the same subject over and over again, but fortunately you can use semicolons to say multiple things about the same subject. This makes the Turtle format quite nice and readable: see [Example 2-7](#fig_graph_n3_shorthand).
 
@@ -773,10 +773,10 @@ It’s quite repetitive to repeat the same subject over and over again, but fort
 
 ```
 @prefix : <urn:example:>.
-\_:lucy     a :Person;   :name "Lucy";          :bornIn \_:idaho.
-\_:idaho    a :Location; :name "Idaho";         :type "state";   :within \_:usa.
-\_:usa      a :Location; :name "United States"; :type "country"; :within \_:namerica.
-\_:namerica a :Location; :name "North America"; :type "continent".
+_:lucy     a :Person;   :name "Lucy";          :bornIn _:idaho.
+_:idaho    a :Location; :name "Idaho";         :type "state";   :within _:usa.
+_:usa      a :Location; :name "United States"; :type "country"; :within _:namerica.
+_:namerica a :Location; :name "North America"; :type "continent".
 ```
 
 ### The semantic web
@@ -847,11 +847,10 @@ SELECT ?personName WHERE {
 
 The structure is very similar. The following two expressions are equivalent (variables start with a question mark in SPARQL):
 
-```sql
+```
+(person) -[:BORN_IN]-> () -[:WITHIN*0..]-> (location)   # Cypher
 
-(person) -\[:BORN\_IN\]-> () -\[:WITHIN\*0..\]-> (location)   # Cypher
-
-?person :bornIn / :within\* ?location.                   # SPARQL
+?person :bornIn / :within* ?location.                   # SPARQL
 ```
 
 Because RDF doesn’t distinguish between properties and edges but just uses predicates for both, you can use the same syntax for matching properties. In the following expression, the variable `usa` is bound to any vertex that has a `name` property whose value is the string `"United States"`:
