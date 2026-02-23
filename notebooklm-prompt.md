@@ -27,8 +27,8 @@ Explain Chapter [CHAPTER_NUMBER]: "[CHAPTER_TITLE]" — along with every image, 
 - End with a comprehensive chapter summary that ties all the concepts together.
 
 ### Quality Bar
-- After listening to the produced audio, I want to understand the topic **end to end with at least 90% comprehension**, and be able to **confidently present it to my team** afterward.
-- **Do not make the audio short** in a way that sacrifices detail or depth. Completeness is more important than brevity.
+- After listening to the produced media, I want to understand the topic **end to end with at least 90% comprehension**, and be able to **confidently present it to my team** afterward.
+- **Do not make the media short** in a way that sacrifices detail or depth. Completeness is more important than brevity.
 - If a concept requires a longer explanation to be truly understood, take the time to explain it fully.
 
 ### Key Principles
