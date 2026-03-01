@@ -6,7 +6,7 @@ Use this prompt when generating audio/video/slides/QAs from any chapter of "Desi
 
 ## Prompt
 
-Explain Chapter [CHAPTER_NUMBER]: "[CHAPTER_TITLE]" — along with every image, figure, diagram, and example — **comprehensively, deeply, thoroughly, and holistically**.
+Explain content — along with every image, figure, diagram, and example — **comprehensively, deeply, thoroughly, and holistically**.
 
 ### Audience & Tone
 - **Do not assume I know anything** about the topic. Start from the very basics and build up to the deepest, most nuanced details.
