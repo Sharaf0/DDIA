@@ -1,0 +1,1396 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KT: DDIA Chapter 2 - Data Models and Query Languages</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #ffffff;
+            --text: #0f172a;
+            --gray: #f0f0f0;
+            --accent: #2563eb;
+            --accent-light: #dbeafe;
+            --warm: #fef3c7;
+            --dark: #0f172a;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        .presentation {
+            height: 100%;
+            width: 100%;
+            display: flex;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .slide {
+            min-width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 5% 10%;
+            position: relative;
+            text-align: center;
+        }
+
+        /* ====== Slide Types ====== */
+        .title-slide h1 {
+            font-size: 4.5rem;
+            font-weight: 800;
+            letter-spacing: -2px;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #0f172a 0%, #2563eb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .title-slide p {
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            opacity: 0.6;
+        }
+
+        .title-slide {
+            gap: 20px;
+        }
+
+        .title-image {
+            height: 350px;
+            max-width: 280px;
+            border: none;
+            background: transparent;
+        }
+
+        .title-image img {
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            border-radius: 4px;
+        }
+
+        .section-header {
+            background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%);
+            color: #fff;
+        }
+
+        .section-header h2 {
+            font-size: 5rem;
+        }
+
+        .section-header .image-box {
+            height: 55vh;
+            margin-top: 30px;
+            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .section-header .image-box img {
+            opacity: 0.9;
+        }
+
+        .content-slide {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+            text-align: left;
+            align-items: center;
+        }
+
+        .content-slide.with-image {
+            grid-template-columns: 1fr 1.2fr;
+            text-align: left;
+        }
+
+        h2 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 1.8rem;
+            line-height: 1.4;
+            font-weight: 300;
+        }
+
+        ul {
+            font-size: 1.5rem;
+            line-height: 1.6;
+            font-weight: 300;
+            margin-top: 15px;
+            padding-left: 25px;
+        }
+
+        ul li {
+            margin-bottom: 10px;
+        }
+
+        .highlight {
+            background: var(--warm);
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+            text-align: left;
+            overflow-x: auto;
+            margin-top: 15px;
+            white-space: pre;
+        }
+
+        .image-box {
+            width: 100%;
+            height: 500px;
+            background: #f9f9f9;
+            border: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border-radius: 12px;
+        }
+
+        .image-box img {
+            max-width: 95%;
+            max-height: 95%;
+            object-fit: contain;
+        }
+
+        .image-box.fill img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Quote styling */
+        .quote {
+            font-style: italic;
+            border-left: 4px solid var(--accent);
+            padding-left: 20px;
+            margin: 20px 0;
+        }
+
+        /* Stats box */
+        .stat-box {
+            background: #f8f8f8;
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .stat-box .number {
+            font-size: 4rem;
+            font-weight: 800;
+            color: var(--accent);
+        }
+
+        .stat-box .label {
+            font-size: 1.2rem;
+            opacity: 0.7;
+            margin-top: 10px;
+        }
+
+        .stat-box.small .number {
+            font-size: 2.5rem;
+        }
+
+        .stat-box.small {
+            padding: 20px;
+        }
+
+        /* Two column layout */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            width: 100%;
+        }
+
+        /* Three column layout */
+        .three-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 25px;
+            width: 100%;
+        }
+
+        /* Side image */
+        .side-image {
+            position: absolute;
+            right: 60px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 200px;
+            height: 200px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .side-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Comparison cards */
+        .compare-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 25px;
+            text-align: left;
+        }
+
+        .compare-card h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--accent);
+        }
+
+        .compare-card p,
+        .compare-card ul {
+            font-size: 1.2rem;
+        }
+
+        .compare-card.accent {
+            background: var(--accent-light);
+            border-color: var(--accent);
+        }
+
+        /* Tag / pill style */
+        .tag {
+            display: inline-block;
+            background: var(--accent-light);
+            color: var(--accent);
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 4px;
+        }
+
+        /* Emoji styling */
+        .emoji {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .sql-keyword {
+            color: #569cd6;
+            font-weight: 600;
+        }
+
+        .code-comment {
+            color: #6a9955;
+        }
+
+        .code-string {
+            color: #ce9178;
+        }
+
+        /* Questions image */
+        .questions-image {
+            height: 360px;
+            max-width: 600px;
+        }
+
+        /* Full image slide */
+        .full-image-slide .image-box {
+            height: 70vh;
+            width: 90%;
+            max-width: 1200px;
+        }
+
+        /* Timeline */
+        .timeline {
+            display: flex;
+            align-items: flex-start;
+            gap: 0;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .timeline-item {
+            flex: 1;
+            text-align: center;
+            position: relative;
+            padding-top: 30px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--accent);
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            top: 4px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 16px;
+            height: 16px;
+            background: var(--accent);
+            border-radius: 50%;
+            border: 3px solid white;
+        }
+
+        .timeline-item .year {
+            font-weight: 800;
+            font-size: 1.3rem;
+            color: var(--accent);
+        }
+
+        .timeline-item .desc {
+            font-size: 1rem;
+            margin-top: 5px;
+            opacity: 0.7;
+        }
+
+        /* Controls */
+        .controls {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            gap: 15px;
+            z-index: 100;
+        }
+
+        .controls button {
+            background: var(--dark);
+            color: #fff;
+            border: none;
+            padding: 15px 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            border-radius: 6px;
+        }
+
+        .controls button:hover {
+            opacity: 0.8;
+        }
+
+        .progress-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: #eee;
+            z-index: 101;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), #7c3aed);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .slide-number {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            opacity: 0.4;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            body { font-size: 14px; }
+            .slide { padding: 10% 5%; }
+            .title-slide h1 { font-size: 2.5rem; }
+            .title-slide p { font-size: 1rem; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+    <div class="slide-number" id="slideNum">1 / 50</div>
+
+    <div class="presentation" id="presentation">
+
+        <!-- ==================== INTRO SECTION ==================== -->
+
+        <!-- 1. Title Slide -->
+        <section class="slide title-slide">
+            <p>Designing Data-Intensive Applications</p>
+            <h1>Data Models &amp; Query Languages</h1>
+            <p>Knowledge Transfer Session • Chapter 2</p>
+            <div class="image-box title-image">
+                <img src="../chapter1/images/book_cover.jpg" alt="DDIA book cover" />
+            </div>
+        </section>
+
+        <!-- 2. Chapter Opening Quote -->
+        <section class="slide content-slide">
+            <h2>"The limits of my language mean the limits of my world."</h2>
+            <p style="margin-top: 20px; opacity: 0.6;">— Ludwig Wittgenstein, <em>Tractatus Logico-Philosophicus</em> (1922)</p>
+            <p style="margin-top: 40px;">Data models are perhaps the <strong>most important</strong> part of developing software — they shape not only how the software is written, but how we <strong>think about the problem</strong>.</p>
+        </section>
+
+        <!-- 3. Layers of Data Models -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>Layers of Data Models</h2>
+                <p>Every application is built by layering models:</p>
+                <ul>
+                    <li><strong>Layer 1:</strong> Real world → objects, data structures, APIs</li>
+                    <li><strong>Layer 2:</strong> Objects → JSON, XML, tables, graphs</li>
+                    <li><strong>Layer 3:</strong> Data model → bytes on disk/memory</li>
+                    <li><strong>Layer 4:</strong> Bytes → electrical currents, magnetic fields</li>
+                </ul>
+                <p style="margin-top: 20px;">Each layer hides the complexity below it by providing a <strong>clean abstraction</strong>.</p>
+            </div>
+            <div class="image-box fill">
+                <img src="images/data-layers.jpg" alt="Abstraction layers" />
+            </div>
+        </section>
+
+        <!-- 4. What This Chapter Covers -->
+        <section class="slide content-slide">
+            <h2>What We'll Cover</h2>
+            <div class="three-col" style="margin-top: 20px;">
+                <div class="compare-card">
+                    <h3>📊 Relational Model</h3>
+                    <p>SQL, tables, rows, joins — the 50-year champion</p>
+                </div>
+                <div class="compare-card">
+                    <h3>📄 Document Model</h3>
+                    <p>JSON, MongoDB, schema flexibility, locality</p>
+                </div>
+                <div class="compare-card">
+                    <h3>🔗 Graph Model</h3>
+                    <p>Neo4j, Cypher, SPARQL, triple-stores</p>
+                </div>
+            </div>
+            <p style="margin-top: 30px;">Plus: <strong>Query languages</strong> — SQL, MapReduce, Cypher, SPARQL, Datalog</p>
+        </section>
+
+        <!-- ==================== RELATIONAL VS DOCUMENT ==================== -->
+
+        <!-- 5. Section: Relational vs Document -->
+        <section class="slide section-header">
+            <h2>Relational vs Document</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">The great data model debate</p>
+        </section>
+
+        <!-- 6. The Relational Model -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>The Relational Model</h2>
+                <p>Proposed by <strong>Edgar Codd</strong> in 1970.</p>
+                <ul>
+                    <li>Data organized into <strong>relations</strong> (tables)</li>
+                    <li>Each relation is an unordered collection of <strong>tuples</strong> (rows)</li>
+                    <li>Dominant for <strong>25–30 years</strong> — an eternity in computing</li>
+                </ul>
+                <p style="margin-top: 20px;">Originally for business data processing on mainframes: transactions, invoicing, payroll.</p>
+            </div>
+            <div class="image-box fill">
+                <img src="images/relational-db.jpg" alt="Relational database tables" />
+            </div>
+        </section>
+
+        <!-- 7. SQL Timeline -->
+        <section class="slide content-slide">
+            <h2>The Relational Reign</h2>
+            <p>Many competitors rose and fell. SQL kept winning:</p>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="year">1970s</div>
+                    <div class="desc">Network & Hierarchical models</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="year">1980s</div>
+                    <div class="desc">Relational model dominates</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="year">1990s</div>
+                    <div class="desc">Object databases rise & fall</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="year">2000s</div>
+                    <div class="desc">XML databases — niche only</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="year">2010s</div>
+                    <div class="desc">NoSQL arrives</div>
+                </div>
+            </div>
+            <p style="margin-top: 30px;">Relational databases generalized far beyond their original scope. Most of the web still runs on them.</p>
+        </section>
+
+        <!-- 8. The Birth of NoSQL -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>The Birth of NoSQL</h2>
+                <p>Originally just a <strong>catchy Twitter hashtag</strong> for a 2009 meetup. Later reinterpreted as <span class="highlight">Not Only SQL</span>.</p>
+                <p style="margin-top: 20px;">Driving forces:</p>
+                <ul>
+                    <li>Need for <strong>greater scalability</strong> (huge datasets, high write throughput)</li>
+                    <li>Preference for <strong>free and open source</strong> over commercial DBs</li>
+                    <li>Specialized query operations not well supported by relational</li>
+                    <li>Frustration with <strong>rigid schemas</strong></li>
+                </ul>
+            </div>
+            <div class="image-box fill">
+                <img src="images/nosql-revolution.jpg" alt="NoSQL revolution — modern tech" />
+            </div>
+        </section>
+
+        <!-- 9. Polyglot Persistence -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>Polyglot Persistence</h2>
+                <p>Different applications have different requirements.</p>
+                <p style="margin-top: 20px;">Relational databases will continue alongside nonrelational datastores — the best choice depends on the use case.</p>
+                <div class="stat-box small" style="margin-top: 20px;">
+                    <div class="number">🔀</div>
+                    <div class="label">Use the right tool for the right job</div>
+                </div>
+            </div>
+            <div class="image-box fill">
+                <img src="images/polyglot.jpg" alt="Multiple technologies working together" />
+            </div>
+        </section>
+
+        <!-- 10. The Object-Relational Mismatch -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>The Object-Relational Mismatch</h2>
+                <p>Most apps use OOP, but SQL stores data in tables.</p>
+                <p style="margin-top: 15px;">This disconnect is called <span class="highlight">impedance mismatch</span> — like mismatched electrical circuits.</p>
+                <p style="margin-top: 15px;"><strong>ORM frameworks</strong> (ActiveRecord, Hibernate) help but can't fully hide the differences.</p>
+            </div>
+            <div class="image-box fill">
+                <img src="images/puzzle-mismatch.jpg" alt="Puzzle pieces not fitting" />
+            </div>
+        </section>
+
+        <!-- 11. LinkedIn Profile Example (Figure 2-1) -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>Example: A LinkedIn Profile</h2>
+                <p>How to represent a résumé in SQL?</p>
+                <ul>
+                    <li><strong>users</strong> table: first_name, last_name (1 per user)</li>
+                    <li><strong>positions</strong> table: one-to-many via foreign key</li>
+                    <li><strong>education</strong> table: one-to-many via foreign key</li>
+                    <li><strong>contact_info</strong> table: one-to-many via foreign key</li>
+                </ul>
+                <p style="margin-top: 15px;">Multiple tables, multiple joins to load one profile.</p>
+            </div>
+            <div class="image-box">
+                <img src="images/ddia_0201.png" alt="Figure 2-1: LinkedIn profile as relational schema" />
+            </div>
+        </section>
+
+        <!-- 12. JSON Representation -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>The JSON Alternative</h2>
+                <p>A résumé is a self-contained <strong>document</strong>. JSON feels more natural:</p>
+                <div class="code-block" style="font-size: 0.85rem;">{
+  <span class="code-string">"user_id"</span>: 251,
+  <span class="code-string">"first_name"</span>: <span class="code-string">"Bill"</span>,
+  <span class="code-string">"positions"</span>: [
+    {<span class="code-string">"job_title"</span>: <span class="code-string">"Co-chair"</span>,
+     <span class="code-string">"org"</span>: <span class="code-string">"Gates Foundation"</span>}
+  ],
+  <span class="code-string">"education"</span>: [
+    {<span class="code-string">"school"</span>: <span class="code-string">"Harvard"</span>,
+     <span class="code-string">"start"</span>: 1973}
+  ]
+}</div>
+                <p style="margin-top: 10px;">Better <strong>locality</strong> — one query fetches everything.</p>
+            </div>
+            <div class="image-box fill">
+                <img src="images/json-code.jpg" alt="Code on screen" />
+            </div>
+        </section>
+
+        <!-- 13. Tree Structure (Figure 2-2) -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>Document = Tree Structure</h2>
+                <p>One-to-many relationships naturally form a <strong>tree</strong>:</p>
+                <ul>
+                    <li>User → positions</li>
+                    <li>User → education</li>
+                    <li>User → contact info</li>
+                </ul>
+                <p style="margin-top: 20px;">JSON makes this tree structure <strong>explicit</strong>.</p>
+                <p style="margin-top: 15px;">Document-oriented DBs (MongoDB, CouchDB, RethinkDB) support this model natively.</p>
+            </div>
+            <div class="image-box">
+                <img src="images/ddia_0202.png" alt="Figure 2-2: One-to-many tree structure" />
+            </div>
+        </section>
+
+        <!-- 14. Many-to-One: Why Use IDs? -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>Many-to-One: Why Use IDs?</h2>
+                <p>Why store <code>region_id</code> instead of <code>"Greater Seattle Area"</code>?</p>
+                <ul>
+                    <li><strong>Consistent</strong> style and spelling</li>
+                    <li><strong>No ambiguity</strong> (same-name cities)</li>
+                    <li><strong>Easy updates</strong> — change name in one place</li>
+                    <li><strong>Localization</strong> — display in viewer's language</li>
+                    <li><strong>Better search</strong> — Seattle is in Washington</li>
+                </ul>
+                <p style="margin-top: 15px;">This is the key idea behind <span class="highlight">normalization</span> — remove duplication.</p>
+            </div>
+            <div class="image-box fill">
+                <img src="images/filing-cabinet.jpg" alt="Organized filing system" />
+            </div>
+        </section>
+
+        <!-- 15. The Problem: Joins in Document DBs -->
+        <section class="slide content-slide">
+            <h2>Many-to-One Doesn't Fit Documents</h2>
+            <p>Normalization requires <strong>many-to-one</strong> relationships (many people → one region).</p>
+            <p style="margin-top: 20px;">In relational DBs: easy — just join by ID.</p>
+            <p style="margin-top: 15px;">In document DBs: joins are often <strong>weak or absent</strong>.</p>
+            <div class="two-col" style="margin-top: 25px;">
+                <div class="compare-card accent">
+                    <h3>Without DB joins</h3>
+                    <p>You emulate joins in application code — multiple queries, more complexity, worse performance.</p>
+                </div>
+                <div class="compare-card">
+                    <h3>Data gets interconnected</h3>
+                    <p>Features grow → more relationships → document model becomes awkward.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 16. LinkedIn Many-to-Many (Figure 2-3) -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>Growing Interconnections</h2>
+                <p>As features are added, data becomes more linked:</p>
+                <ul>
+                    <li><strong>Organizations as entities</strong> — not just strings, but links with logos, news feeds</li>
+                    <li><strong>Recommendations</strong> — reference to another user's profile and photo</li>
+                </ul>
+                <p style="margin-top: 15px;">What started as a simple document now needs <strong>many-to-many</strong> relationships.</p>
+            </div>
+            <div class="image-box">
+                <img src="images/ddia_0203.png" alt="Figure 2-3: LinkedIn — company as an entity" />
+            </div>
+        </section>
+
+        <!-- 17. Many-to-Many (Figure 2-4) -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>Many-to-Many Relationships</h2>
+                <p>References to organizations, schools, and other users <strong>require joins</strong> when queried.</p>
+                <p style="margin-top: 15px;">The data within each "document" can be grouped, but the <strong>references between documents</strong> are unavoidable.</p>
+                <p style="margin-top: 15px;">This is where the document model starts to struggle.</p>
+            </div>
+            <div class="image-box">
+                <img src="images/ddia_0204.png" alt="Figure 2-4: Many-to-many relationships in résumés" />
+            </div>
+        </section>
+
+        <!-- ==================== HISTORY: ARE DOCUMENT DBS REPEATING HISTORY? ==================== -->
+
+        <!-- 18. Section: Repeating History? -->
+        <section class="slide section-header">
+            <h2>Are We Repeating History?</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">From IMS to CODASYL to SQL to NoSQL</p>
+        </section>
+
+        <!-- 19. The Hierarchical Model (IMS) -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>The Hierarchical Model (1968)</h2>
+                <p>IBM's <strong>IMS</strong> — originally for Apollo space program stock-keeping. Still running today on mainframes!</p>
+                <ul>
+                    <li>Data stored as a <strong>tree of records</strong></li>
+                    <li>Remarkably similar to JSON/document model</li>
+                    <li>Great for one-to-many</li>
+                    <li>Terrible for many-to-many and joins</li>
+                </ul>
+                <p style="margin-top: 15px;">The exact same problems developers face with document DBs today.</p>
+            </div>
+            <div class="image-box fill">
+                <img src="images/retro-computer.jpg" alt="Vintage mainframe computing" />
+            </div>
+        </section>
+
+        <!-- 20. Network Model vs Relational -->
+        <section class="slide content-slide">
+            <h2>Two Solutions Emerged</h2>
+            <div class="two-col" style="margin-top: 20px;">
+                <div class="compare-card">
+                    <h3>🕸️ Network Model (CODASYL)</h3>
+                    <ul>
+                        <li>Records could have <strong>multiple parents</strong></li>
+                        <li>Links between records = pointers on disk</li>
+                        <li>Navigate via <strong>access paths</strong></li>
+                        <li>Like traversing an n-dimensional data space</li>
+                        <li>Code was <strong>complicated and inflexible</strong></li>
+                    </ul>
+                </div>
+                <div class="compare-card accent">
+                    <h3>📊 Relational Model (SQL)</h3>
+                    <ul>
+                        <li>Data laid out in the open — <strong>tables and rows</strong></li>
+                        <li>No labyrinthine nested structures</li>
+                        <li><strong>Query optimizer</strong> chooses access paths automatically</li>
+                        <li>Just declare a new index → auto-used</li>
+                        <li>Much easier to add <strong>new features</strong></li>
+                    </ul>
+                </div>
+            </div>
+            <p style="margin-top: 25px;">The relational model won because the query optimizer was a <strong>one-time investment</strong> that benefited all applications.</p>
+        </section>
+
+        <!-- 21. Document DBs vs  CODASYL -->
+        <section class="slide content-slide">
+            <h2>Document DBs: Back to Hierarchical?</h2>
+            <p>Document DBs reverted to storing nested records within their parent — like the hierarchical model.</p>
+            <p style="margin-top: 20px;"><strong>But</strong> they didn't follow CODASYL's path:</p>
+            <ul>
+                <li>Related items referenced by <strong>unique identifiers</strong> (foreign keys / document references)</li>
+                <li>Identifiers resolved at <strong>read time</strong> via joins or follow-up queries</li>
+                <li>No manual access path navigation</li>
+            </ul>
+            <p style="margin-top: 20px;">Relational and document models are <strong>not fundamentally different</strong> in how they handle many-to-one/many-to-many.</p>
+        </section>
+
+        <!-- ==================== RELATIONAL VS DOCUMENT TODAY ==================== -->
+
+        <!-- 22. Section: Today's Comparison -->
+        <section class="slide section-header">
+            <h2>Relational vs Document Today</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">Tradeoffs in the data model</p>
+        </section>
+
+        <!-- 23. Which Leads to Simpler Code? -->
+        <section class="slide content-slide">
+            <h2>Which Model → Simpler Code?</h2>
+            <div class="two-col" style="margin-top: 20px;">
+                <div class="compare-card">
+                    <h3>📄 Use Document If...</h3>
+                    <ul>
+                        <li>Data has a <strong>tree structure</strong> (one-to-many)</li>
+                        <li>Entire tree loaded at once</li>
+                        <li>Avoids "shredding" into many tables</li>
+                        <li>Few or no many-to-many relationships</li>
+                    </ul>
+                </div>
+                <div class="compare-card">
+                    <h3>📊 Use Relational If...</h3>
+                    <ul>
+                        <li>Data has <strong>many-to-many</strong> relationships</li>
+                        <li>Joins are needed frequently</li>
+                        <li>Data is highly <strong>interconnected</strong></li>
+                        <li>Denormalization would be too costly</li>
+                    </ul>
+                </div>
+            </div>
+            <p style="margin-top: 25px;">For <strong>highly interconnected</strong> data: document is awkward, relational is OK, <strong>graph</strong> is best.</p>
+        </section>
+
+        <!-- 24. Schema Flexibility -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>Schema-on-Read vs Schema-on-Write</h2>
+                <p>Document DBs are sometimes called "schemaless" — misleading!</p>
+                <p style="margin-top: 15px;"><span class="highlight">Schema-on-read</span>: structure is implicit, interpreted when data is read. Like <strong>dynamic typing</strong>.</p>
+                <p style="margin-top: 15px;"><span class="highlight">Schema-on-write</span>: schema is explicit, enforced on write. Like <strong>static typing</strong>.</p>
+                <p style="margin-top: 20px;">Neither is universally better — it depends on whether your data is <strong>homogeneous or heterogeneous</strong>.</p>
+            </div>
+            <div class="image-box fill">
+                <img src="images/flexibility.jpg" alt="Flexibility concept" />
+            </div>
+        </section>
+
+        <!-- 25. Schema Migration Example -->
+        <section class="slide content-slide">
+            <h2>Changing Data Format</h2>
+            <p>Want to split <code>name</code> into <code>first_name</code> and <code>last_name</code>?</p>
+            <div class="two-col" style="margin-top: 20px;">
+                <div class="compare-card">
+                    <h3>📄 Document DB</h3>
+                    <div class="code-block" style="font-size: 0.85rem;"><span class="code-comment">// Handle old documents at read time</span>
+<span class="sql-keyword">if</span> (user && user.name && !user.first_name) {
+  user.first_name = user.name.split(<span class="code-string">" "</span>)[0];
+}</div>
+                </div>
+                <div class="compare-card">
+                    <h3>📊 Relational DB</h3>
+                    <div class="code-block" style="font-size: 0.85rem;"><span class="sql-keyword">ALTER TABLE</span> users
+  <span class="sql-keyword">ADD COLUMN</span> first_name text;
+
+<span class="sql-keyword">UPDATE</span> users <span class="sql-keyword">SET</span> first_name =
+  split_part(name, <span class="code-string">' '</span>, 1);</div>
+                </div>
+            </div>
+            <p style="margin-top: 20px;">Most DBs run ALTER TABLE in milliseconds. <strong>MySQL is the exception</strong> — it copies the entire table. 😬</p>
+        </section>
+
+        <!-- 26. Data Locality -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>Data Locality for Queries</h2>
+                <p>A document is stored as a <strong>single continuous string</strong> (JSON, BSON, etc.).</p>
+                <p style="margin-top: 15px;">If you often load the entire document → <strong>locality advantage</strong>: one read, no joins.</p>
+                <p style="margin-top: 15px;"><strong>But:</strong></p>
+                <ul>
+                    <li>DB must load the <strong>entire document</strong> even for partial access</li>
+                    <li>Updates rewrite the <strong>whole document</strong></li>
+                    <li>Keep documents <strong>small</strong></li>
+                </ul>
+                <p style="margin-top: 15px;">Locality isn't exclusive to documents: <strong>Google Spanner</strong>, Oracle, Cassandra offer similar features in relational/column-family models.</p>
+            </div>
+            <div class="image-box fill">
+                <img src="images/server-cluster.jpg" alt="Server infrastructure" />
+            </div>
+        </section>
+
+        <!-- 27. Convergence -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>Convergence: The Best of Both</h2>
+                <p>The two models are growing closer:</p>
+                <ul>
+                    <li><strong>Relational → Document features:</strong> PostgreSQL, MySQL, DB2 now support JSON natively</li>
+                    <li><strong>Document → Relational features:</strong> RethinkDB supports joins; MongoDB resolves document references</li>
+                </ul>
+                <p style="margin-top: 20px;">A <strong>hybrid</strong> of relational and document is the likely future.</p>
+                <p style="margin-top: 15px; opacity: 0.7;">The data models complement each other.</p>
+            </div>
+            <div class="image-box fill">
+                <img src="images/convergence.jpg" alt="Convergence of technologies" />
+            </div>
+        </section>
+
+        <!-- ==================== QUERY LANGUAGES ==================== -->
+
+        <!-- 28. Section: Query Languages -->
+        <section class="slide section-header">
+            <h2>Query Languages for Data</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">Declarative vs Imperative</p>
+        </section>
+
+        <!-- 29. Imperative vs Declarative -->
+        <section class="slide content-slide">
+            <h2>Imperative vs Declarative</h2>
+            <div class="two-col" style="margin-top: 20px;">
+                <div class="compare-card">
+                    <h3>⚙️ Imperative</h3>
+                    <p>Tell the computer <strong>how</strong> to do it, step by step:</p>
+                    <div class="code-block" style="font-size: 0.85rem;"><span class="sql-keyword">function</span> getSharks() {
+  <span class="sql-keyword">var</span> sharks = [];
+  <span class="sql-keyword">for</span> (<span class="sql-keyword">var</span> i = 0; i &lt; animals.length; i++) {
+    <span class="sql-keyword">if</span> (animals[i].family === <span class="code-string">"Sharks"</span>) {
+      sharks.push(animals[i]);
+    }
+  }
+  <span class="sql-keyword">return</span> sharks;
+}</div>
+                </div>
+                <div class="compare-card accent">
+                    <h3>✨ Declarative (SQL)</h3>
+                    <p>Tell the computer <strong>what</strong> you want:</p>
+                    <div class="code-block" style="font-size: 0.85rem;"><span class="sql-keyword">SELECT</span> * <span class="sql-keyword">FROM</span> animals
+<span class="sql-keyword">WHERE</span> family = <span class="code-string">'Sharks'</span>;</div>
+                    <p style="margin-top: 15px;">The DB decides <em>how</em> to execute it.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 30. Why Declarative Wins -->
+        <section class="slide content-slide">
+            <h2>Why Declarative Wins</h2>
+            <ul>
+                <li><strong>More concise</strong> and easier to work with</li>
+                <li><strong>Hides implementation details</strong> — DB can optimize behind the scenes</li>
+                <li>Order of data doesn't matter — DB can move records around freely</li>
+                <li><strong>Parallelizable:</strong> declarative only specifies the result pattern, not the algorithm, so the DB can parallelize execution</li>
+            </ul>
+            <p style="margin-top: 25px;">CPUs get faster by adding more cores, not higher clock speeds. Imperative code specifies a <strong>strict order</strong> that's hard to parallelize.</p>
+        </section>
+
+        <!-- 31. Declarative on the Web (CSS vs JS) -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>Declarative on the Web</h2>
+                <p>The same principle applies in browsers!</p>
+                <div class="code-block" style="font-size: 0.9rem;"><span class="code-comment">/* CSS — Declarative */</span>
+li.selected > p {
+  background-color: blue;
+}</div>
+                <p style="margin-top: 15px;">vs 15+ lines of imperative JavaScript with <code>getElementsByTagName</code>, loops, and manual style setting.</p>
+                <p style="margin-top: 15px;">CSS: auto-updates when class changes. JS: stays blue until page reload. 🤦</p>
+            </div>
+            <div class="image-box fill">
+                <img src="images/web-development.jpg" alt="Web development" />
+            </div>
+        </section>
+
+        <!-- 32. MapReduce -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>MapReduce Querying</h2>
+                <p>A programming model for <strong>bulk data processing</strong> across many machines. Popularized by Google.</p>
+                <p style="margin-top: 15px;">Neither fully declarative nor imperative — <strong>somewhere in between</strong>.</p>
+                <p style="margin-top: 15px;">Logic expressed as <code>map()</code> and <code>reduce()</code> functions that must be <strong>pure</strong> (no side effects).</p>
+                <p style="margin-top: 15px;">Used by MongoDB and CouchDB for read-only queries across documents.</p>
+            </div>
+            <div class="image-box fill">
+                <img src="images/mapreduce.jpg" alt="Data analytics and processing" />
+            </div>
+        </section>
+
+        <!-- 33. MapReduce Example -->
+        <section class="slide content-slide">
+            <h2>MapReduce: Counting Sharks</h2>
+            <div class="two-col" style="margin-top: 15px;">
+                <div class="compare-card">
+                    <h3>SQL</h3>
+                    <div class="code-block" style="font-size: 0.82rem;"><span class="sql-keyword">SELECT</span>
+  date_trunc(<span class="code-string">'month'</span>, timestamp)
+    <span class="sql-keyword">AS</span> month,
+  sum(num_animals)
+    <span class="sql-keyword">AS</span> total
+<span class="sql-keyword">FROM</span> observations
+<span class="sql-keyword">WHERE</span> family = <span class="code-string">'Sharks'</span>
+<span class="sql-keyword">GROUP BY</span> month;</div>
+                </div>
+                <div class="compare-card">
+                    <h3>MongoDB MapReduce</h3>
+                    <div class="code-block" style="font-size: 0.82rem;">db.observations.mapReduce(
+  <span class="sql-keyword">function</span> map() {
+    <span class="sql-keyword">var</span> y = <span class="sql-keyword">this</span>.ts.getFullYear();
+    <span class="sql-keyword">var</span> m = <span class="sql-keyword">this</span>.ts.getMonth() + 1;
+    emit(y + <span class="code-string">"-"</span> + m, <span class="sql-keyword">this</span>.numAnimals);
+  },
+  <span class="sql-keyword">function</span> reduce(key, values) {
+    <span class="sql-keyword">return</span> Array.sum(values);
+  },
+  { query: {family: <span class="code-string">"Sharks"</span>} }
+);</div>
+                </div>
+            </div>
+            <p style="margin-top: 15px;">MongoDB later added the <strong>aggregation pipeline</strong> — a declarative alternative that "reinvents SQL in disguise." 😄</p>
+        </section>
+
+        <!-- 34. Aggregation Pipeline -->
+        <section class="slide content-slide">
+            <h2>MongoDB Aggregation Pipeline</h2>
+            <div class="code-block" style="font-size: 0.95rem;">db.observations.aggregate([
+  { <span class="sql-keyword">$match</span>: { family: <span class="code-string">"Sharks"</span> } },
+  { <span class="sql-keyword">$group</span>: {
+      _id: {
+        year:  { <span class="sql-keyword">$year</span>:  <span class="code-string">"$observationTimestamp"</span> },
+        month: { <span class="sql-keyword">$month</span>: <span class="code-string">"$observationTimestamp"</span> }
+      },
+      totalAnimals: { <span class="sql-keyword">$sum</span>: <span class="code-string">"$numAnimals"</span> }
+  } }
+]);</div>
+            <p style="margin-top: 20px;">JSON-based syntax instead of SQL's English-style — the difference is a matter of <strong>taste</strong>.</p>
+            <p style="margin-top: 10px;">The moral: NoSQL systems often end up <strong>reinventing SQL</strong>. 🔄</p>
+        </section>
+
+        <!-- ==================== GRAPH DATA MODELS ==================== -->
+
+        <!-- 35. Section: Graph Models -->
+        <section class="slide section-header">
+            <h2>Graph-Like Data Models</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">When everything is connected to everything</p>
+        </section>
+
+        <!-- 36. When to Use Graphs -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>When Graphs Shine</h2>
+                <p>If <strong>many-to-many</strong> relationships are the norm, think graphs.</p>
+                <p style="margin-top: 15px;">A graph = <strong>vertices</strong> (nodes) + <strong>edges</strong> (relationships).</p>
+                <p style="margin-top: 15px;">Classic examples:</p>
+                <ul>
+                    <li><strong>Social graphs</strong> — people who know each other</li>
+                    <li><strong>The web</strong> — pages linked by hyperlinks</li>
+                    <li><strong>Road networks</strong> — junctions and roads</li>
+                </ul>
+                <p style="margin-top: 15px;">Graphs aren't limited to homogeneous data — Facebook stores people, locations, events, comments in <strong>one graph</strong>.</p>
+            </div>
+            <div class="image-box fill">
+                <img src="images/network-graph.jpg" alt="Network connections" />
+            </div>
+        </section>
+
+        <!-- 37. Graph Example (Figure 2-5) -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>Example: Lucy &amp; Alain</h2>
+                <p>Two people with different regional structures:</p>
+                <ul>
+                    <li><strong>Lucy</strong>: born in Idaho, USA (counties → states → country)</li>
+                    <li><strong>Alain</strong>: from Beaune, France (départements → régions → country)</li>
+                    <li>Both living in <strong>London</strong></li>
+                </ul>
+                <p style="margin-top: 15px;">Different countries have different administrative hierarchies — graphs handle this <strong>naturally</strong>.</p>
+                <p style="margin-top: 15px;">Easily extensible: add allergies, food contents, etc.</p>
+            </div>
+            <div class="image-box">
+                <img src="images/ddia_0205.png" alt="Figure 2-5: Graph-structured data" />
+            </div>
+        </section>
+
+        <!-- 38. Property Graph Model -->
+        <section class="slide content-slide">
+            <h2>Property Graph Model</h2>
+            <p>Used by Neo4j, Titan, InfiniteGraph.</p>
+            <div class="two-col" style="margin-top: 20px;">
+                <div class="compare-card">
+                    <h3>Vertex</h3>
+                    <ul>
+                        <li>Unique identifier</li>
+                        <li>Set of outgoing edges</li>
+                        <li>Set of incoming edges</li>
+                        <li>Properties (key-value pairs)</li>
+                    </ul>
+                </div>
+                <div class="compare-card">
+                    <h3>Edge</h3>
+                    <ul>
+                        <li>Unique identifier</li>
+                        <li>Tail vertex (start)</li>
+                        <li>Head vertex (end)</li>
+                        <li>Label (relationship type)</li>
+                        <li>Properties (key-value pairs)</li>
+                    </ul>
+                </div>
+            </div>
+            <p style="margin-top: 20px;">Key insight: <strong>any vertex can connect to any other vertex</strong>. No schema restricts edge types.</p>
+        </section>
+
+        <!-- 39. Property Graph as SQL -->
+        <section class="slide content-slide">
+            <h2>Property Graph in SQL</h2>
+            <div class="code-block" style="font-size: 0.95rem;"><span class="sql-keyword">CREATE TABLE</span> vertices (
+    vertex_id   integer <span class="sql-keyword">PRIMARY KEY</span>,
+    properties  json
+);
+
+<span class="sql-keyword">CREATE TABLE</span> edges (
+    edge_id     integer <span class="sql-keyword">PRIMARY KEY</span>,
+    tail_vertex integer <span class="sql-keyword">REFERENCES</span> vertices (vertex_id),
+    head_vertex integer <span class="sql-keyword">REFERENCES</span> vertices (vertex_id),
+    label       text,
+    properties  json
+);
+
+<span class="sql-keyword">CREATE INDEX</span> edges_tails <span class="sql-keyword">ON</span> edges (tail_vertex);
+<span class="sql-keyword">CREATE INDEX</span> edges_heads <span class="sql-keyword">ON</span> edges (head_vertex);</div>
+            <p style="margin-top: 15px;">You <em>can</em> store graph data in a relational DB. But querying it is... verbose.</p>
+        </section>
+
+        <!-- 40. Cypher Query Language -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>Cypher: Graph Query Language</h2>
+                <p>Declarative query language created for <strong>Neo4j</strong>. Named after a Matrix character, not cryptography. 😎</p>
+                <div class="code-block" style="font-size: 0.85rem;"><span class="sql-keyword">CREATE</span>
+  (NAmerica:Location {name:<span class="code-string">'North America'</span>,
+                      type:<span class="code-string">'continent'</span>}),
+  (USA:Location      {name:<span class="code-string">'United States'</span>,
+                      type:<span class="code-string">'country'</span>}),
+  (Idaho:Location    {name:<span class="code-string">'Idaho'</span>,
+                      type:<span class="code-string">'state'</span>}),
+  (Lucy:Person       {name:<span class="code-string">'Lucy'</span>}),
+  (Idaho) -[:WITHIN]->  (USA) -[:WITHIN]-> (NAmerica),
+  (Lucy)  -[:BORN_IN]-> (Idaho)</div>
+                <p style="margin-top: 10px;">Arrow notation: <code>(A) -[:LABEL]-> (B)</code></p>
+            </div>
+            <div class="image-box fill">
+                <img src="images/graph-db.jpg" alt="Graph network visualization" />
+            </div>
+        </section>
+
+        <!-- 41. Cypher Query Example -->
+        <section class="slide content-slide">
+            <h2>Cypher: Find Emigrants</h2>
+            <p>"Find people who emigrated from the US to Europe":</p>
+            <div class="code-block" style="font-size: 1.1rem;"><span class="sql-keyword">MATCH</span>
+  (person) -[:BORN_IN]->  () -[:WITHIN*0..]-> (us:Location {name:<span class="code-string">'United States'</span>}),
+  (person) -[:LIVES_IN]-> () -[:WITHIN*0..]-> (eu:Location {name:<span class="code-string">'Europe'</span>})
+<span class="sql-keyword">RETURN</span> person.name</div>
+            <p style="margin-top: 20px;"><code>:WITHIN*0..</code> = follow WITHIN edges <strong>zero or more times</strong> (like regex <code>*</code>).</p>
+            <p style="margin-top: 10px;">The query optimizer decides whether to start from people and filter, or start from locations and work backwards.</p>
+        </section>
+
+        <!-- 42. Same Query in SQL -->
+        <section class="slide content-slide">
+            <h2>Same Query in SQL: 29 Lines 😱</h2>
+            <div class="code-block" style="font-size: 0.72rem;"><span class="sql-keyword">WITH RECURSIVE</span>
+  in_usa(vertex_id) <span class="sql-keyword">AS</span> (
+    <span class="sql-keyword">SELECT</span> vertex_id <span class="sql-keyword">FROM</span> vertices <span class="sql-keyword">WHERE</span> properties->><span class="code-string">'name'</span> = <span class="code-string">'United States'</span>
+    <span class="sql-keyword">UNION</span>
+    <span class="sql-keyword">SELECT</span> edges.tail_vertex <span class="sql-keyword">FROM</span> edges
+      <span class="sql-keyword">JOIN</span> in_usa <span class="sql-keyword">ON</span> edges.head_vertex = in_usa.vertex_id
+      <span class="sql-keyword">WHERE</span> edges.label = <span class="code-string">'within'</span>
+  ),
+  in_europe(vertex_id) <span class="sql-keyword">AS</span> (
+    <span class="sql-keyword">SELECT</span> vertex_id <span class="sql-keyword">FROM</span> vertices <span class="sql-keyword">WHERE</span> properties->><span class="code-string">'name'</span> = <span class="code-string">'Europe'</span>
+    <span class="sql-keyword">UNION</span>
+    <span class="sql-keyword">SELECT</span> edges.tail_vertex <span class="sql-keyword">FROM</span> edges
+      <span class="sql-keyword">JOIN</span> in_europe <span class="sql-keyword">ON</span> edges.head_vertex = in_europe.vertex_id
+      <span class="sql-keyword">WHERE</span> edges.label = <span class="code-string">'within'</span>
+  ),
+  born_in_usa(vertex_id) <span class="sql-keyword">AS</span> (
+    <span class="sql-keyword">SELECT</span> edges.tail_vertex <span class="sql-keyword">FROM</span> edges
+      <span class="sql-keyword">JOIN</span> in_usa <span class="sql-keyword">ON</span> edges.head_vertex = in_usa.vertex_id
+      <span class="sql-keyword">WHERE</span> edges.label = <span class="code-string">'born_in'</span>
+  ),
+  lives_in_europe(vertex_id) <span class="sql-keyword">AS</span> (
+    <span class="sql-keyword">SELECT</span> edges.tail_vertex <span class="sql-keyword">FROM</span> edges
+      <span class="sql-keyword">JOIN</span> in_europe <span class="sql-keyword">ON</span> edges.head_vertex = in_europe.vertex_id
+      <span class="sql-keyword">WHERE</span> edges.label = <span class="code-string">'lives_in'</span>
+  )
+<span class="sql-keyword">SELECT</span> vertices.properties->><span class="code-string">'name'</span> <span class="sql-keyword">FROM</span> vertices
+<span class="sql-keyword">JOIN</span> born_in_usa     <span class="sql-keyword">ON</span> vertices.vertex_id = born_in_usa.vertex_id
+<span class="sql-keyword">JOIN</span> lives_in_europe <span class="sql-keyword">ON</span> vertices.vertex_id = lives_in_europe.vertex_id;</div>
+            <p style="margin-top: 15px;"><strong>4 lines in Cypher vs 29 in SQL.</strong> Different models for different use cases.</p>
+        </section>
+
+        <!-- 43. Triple-Stores -->
+        <section class="slide content-slide">
+            <h2>Triple-Stores &amp; SPARQL</h2>
+            <p>Equivalent to property graphs, different vocabulary. All data as <strong>three-part statements</strong>:</p>
+            <div class="three-col" style="margin-top: 20px;">
+                <div class="stat-box small">
+                    <div class="number" style="font-size: 1.8rem;">Subject</div>
+                    <div class="label">(a vertex)</div>
+                </div>
+                <div class="stat-box small">
+                    <div class="number" style="font-size: 1.8rem;">Predicate</div>
+                    <div class="label">(edge or property)</div>
+                </div>
+                <div class="stat-box small">
+                    <div class="number" style="font-size: 1.8rem;">Object</div>
+                    <div class="label">(value or vertex)</div>
+                </div>
+            </div>
+            <p style="margin-top: 20px;"><strong>Example:</strong> (Jim, likes, bananas) — (Lucy, age, 33) — (Lucy, marriedTo, Alain)</p>
+            <div class="code-block" style="font-size: 0.9rem; margin-top: 15px;"><span class="code-comment">@prefix : &lt;urn:example:&gt;.</span>
+_:lucy     a :Person;   :name <span class="code-string">"Lucy"</span>;          :bornIn _:idaho.
+_:idaho    a :Location; :name <span class="code-string">"Idaho"</span>;         :type <span class="code-string">"state"</span>;   :within _:usa.
+_:usa      a :Location; :name <span class="code-string">"United States"</span>; :type <span class="code-string">"country"</span>; :within _:namerica.</div>
+        </section>
+
+        <!-- 44. SPARQL -->
+        <section class="slide content-slide">
+            <h2>SPARQL: Even More Concise</h2>
+            <p>The same "find emigrants" query:</p>
+            <div class="code-block" style="font-size: 1.1rem;"><span class="sql-keyword">PREFIX</span> : &lt;urn:example:&gt;
+
+<span class="sql-keyword">SELECT</span> ?personName <span class="sql-keyword">WHERE</span> {
+  ?person :name ?personName.
+  ?person :bornIn  / :within* / :name <span class="code-string">"United States"</span>.
+  ?person :livesIn / :within* / :name <span class="code-string">"Europe"</span>.
+}</div>
+            <p style="margin-top: 20px;">Cypher borrowed its pattern matching from SPARQL.</p>
+            <p style="margin-top: 10px;">SPARQL is a <strong>powerful tool</strong> even if the semantic web never happens.</p>
+        </section>
+
+        <!-- 45. Graph DBs vs CODASYL -->
+        <section class="slide content-slide">
+            <h2>Graph DBs ≠ CODASYL Redux</h2>
+            <p>They look similar at first glance, but differ fundamentally:</p>
+            <div class="two-col" style="margin-top: 20px;">
+                <div class="compare-card">
+                    <h3>CODASYL (1970s)</h3>
+                    <ul style="font-size: 1.1rem;">
+                        <li>Schema restricts nesting types</li>
+                        <li>Traverse access paths to find records</li>
+                        <li>Children are ordered sets</li>
+                        <li>All queries imperative</li>
+                    </ul>
+                </div>
+                <div class="compare-card accent">
+                    <h3>Graph DBs (today)</h3>
+                    <ul style="font-size: 1.1rem;">
+                        <li>Any vertex → any vertex, no restrictions</li>
+                        <li>Direct ID lookup or index search</li>
+                        <li>No ordering requirement</li>
+                        <li>Declarative languages (Cypher, SPARQL)</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- 46. Datalog (Figure 2-6) -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>The Foundation: Datalog</h2>
+                <p>Studied since the <strong>1980s</strong>. Provides the foundation later query languages build upon.</p>
+                <p style="margin-top: 15px;">Data as <strong>predicates</strong>:</p>
+                <div class="code-block" style="font-size: 0.85rem;">name(namerica, <span class="code-string">'North America'</span>).
+type(namerica, continent).
+within(usa, namerica).
+within(idaho, usa).
+born_in(lucy, idaho).</div>
+                <p style="margin-top: 15px;">Build complex queries from small <strong>reusable rules</strong>. Used by Datomic and Cascalog.</p>
+            </div>
+            <div class="image-box">
+                <img src="images/ddia_0206.png" alt="Figure 2-6: Datalog rule application" />
+            </div>
+        </section>
+
+        <!-- 47. Datalog Query -->
+        <section class="slide content-slide">
+            <h2>Datalog: Step-by-Step Rules</h2>
+            <div class="code-block" style="font-size: 0.9rem;">within_recursive(Location, Name) :- name(Location, Name).     <span class="code-comment">/* Rule 1 */</span>
+
+within_recursive(Location, Name) :- within(Location, Via),     <span class="code-comment">/* Rule 2 */</span>
+                                    within_recursive(Via, Name).
+
+migrated(Name, BornIn, LivingIn) :- name(Person, Name),        <span class="code-comment">/* Rule 3 */</span>
+                                    born_in(Person, BornLoc),
+                                    within_recursive(BornLoc, BornIn),
+                                    lives_in(Person, LivingLoc),
+                                    within_recursive(LivingLoc, LivingIn).
+
+?- migrated(Who, <span class="code-string">'United States'</span>, <span class="code-string">'Europe'</span>).   <span class="code-comment">/* Who = 'Lucy'. */</span></div>
+            <p style="margin-top: 20px;">Rules can reference other rules (like function calls). Small pieces compose into powerful queries.</p>
+            <p style="margin-top: 10px;">Less convenient for one-off queries, but <strong>excels at complex data</strong>.</p>
+        </section>
+
+        <!-- ==================== SUMMARY ==================== -->
+
+        <!-- 48. Summary Section -->
+        <section class="slide section-header">
+            <h2>Summary</h2>
+        </section>
+
+        <!-- 49. Summary Content -->
+        <section class="slide content-slide">
+            <h2>Chapter 2 Summary</h2>
+            <p>Data started as <strong>one big tree</strong> (hierarchical model), then relational solved many-to-many. Now NoSQL diverges:</p>
+            <div class="three-col" style="margin-top: 25px;">
+                <div class="compare-card">
+                    <h3>📄 Document</h3>
+                    <p>Self-contained data, rare relationships. Schema-on-read.</p>
+                </div>
+                <div class="compare-card">
+                    <h3>📊 Relational</h3>
+                    <p>Joins, normalization, many-to-many. Schema-on-write.</p>
+                </div>
+                <div class="compare-card">
+                    <h3>🔗 Graph</h3>
+                    <p>Anything related to everything. Flexible & evolvable.</p>
+                </div>
+            </div>
+            <p style="margin-top: 25px;">Each is good in its domain. One model can emulate another — but the result is often <strong>awkward</strong>.</p>
+            <p style="margin-top: 15px;">Query languages covered: <span class="tag">SQL</span> <span class="tag">MapReduce</span> <span class="tag">Aggregation Pipeline</span> <span class="tag">Cypher</span> <span class="tag">SPARQL</span> <span class="tag">Datalog</span></p>
+        </section>
+
+        <!-- 50. Questions Slide -->
+        <section class="slide title-slide">
+            <h1>Questions?</h1>
+            <p>Designing Data-Intensive Applications • Chapter 2</p>
+            <div class="image-box questions-image">
+                <img src="images/questions.jpg" alt="Q&A discussion" />
+            </div>
+        </section>
+
+    </div>
+
+    <div class="controls">
+        <button onclick="prevSlide()">PREV</button>
+        <button onclick="nextSlide()">NEXT</button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const presentation = document.getElementById('presentation');
+        const progressBar = document.getElementById('progressBar');
+        const slideNum = document.getElementById('slideNum');
+        const totalSlides = slides.length;
+
+        function update() {
+            presentation.style.transform = `translateX(-${currentSlide * 100}vw)`;
+            progressBar.style.width = `${((currentSlide + 1) / totalSlides) * 100}%`;
+            slideNum.innerText = `${currentSlide + 1} / ${totalSlides}`;
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides - 1) {
+                currentSlide++;
+                update();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                update();
+            }
+        }
+
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'ArrowDown') nextSlide();
+            if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') prevSlide();
+            if (e.key >= '0' && e.key <= '9') {
+                const targetSlide = parseInt(e.key, 10);
+                currentSlide = Math.floor(totalSlides * (targetSlide / 10));
+                update();
+            }
+        });
+
+        update();
+    </script>
+
+</body>
+
+</html>
