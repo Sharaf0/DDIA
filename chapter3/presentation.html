@@ -1,0 +1,1558 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KT: DDIA Chapter 3 - Storage and Retrieval</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #ffffff;
+            --text: #0f172a;
+            --gray: #f0f0f0;
+            --accent: #2563eb;
+            --accent-light: #dbeafe;
+            --warm: #fef3c7;
+            --dark: #0f172a;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        .presentation {
+            height: 100%;
+            width: 100%;
+            display: flex;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .slide {
+            min-width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 5% 10%;
+            position: relative;
+            text-align: center;
+        }
+
+        /* ====== Slide Types ====== */
+
+        .title-slide h1 {
+            font-size: 4.5rem;
+            font-weight: 800;
+            letter-spacing: -2px;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #0f172a 0%, #2563eb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .title-slide p {
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            opacity: 0.6;
+        }
+
+        .title-slide {
+            gap: 20px;
+        }
+
+        .title-image {
+            height: 350px;
+            max-width: 280px;
+            border: none;
+            background: transparent;
+        }
+
+        .title-image img {
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            border-radius: 4px;
+        }
+
+        .section-header {
+            background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%);
+            color: #fff;
+        }
+
+        .section-header h2 {
+            font-size: 5rem;
+        }
+
+        .section-header .image-box {
+            height: 55vh;
+            margin-top: 30px;
+            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .section-header .image-box img {
+            opacity: 0.9;
+        }
+
+        .content-slide {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+            text-align: left;
+            align-items: center;
+        }
+
+        .content-slide.with-image {
+            grid-template-columns: 1fr 1.2fr;
+            text-align: left;
+        }
+
+        h2 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 1.8rem;
+            line-height: 1.4;
+            font-weight: 300;
+        }
+
+        ul {
+            font-size: 1.5rem;
+            line-height: 1.6;
+            font-weight: 300;
+            margin-top: 15px;
+            padding-left: 25px;
+        }
+
+        ul li {
+            margin-bottom: 10px;
+        }
+
+        .highlight {
+            background: var(--warm);
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+            text-align: left;
+            overflow-x: auto;
+            margin-top: 15px;
+            white-space: pre;
+        }
+
+        .image-box {
+            width: 100%;
+            height: 500px;
+            background: #f9f9f9;
+            border: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border-radius: 12px;
+        }
+
+        .image-box img {
+            max-width: 95%;
+            max-height: 95%;
+            object-fit: contain;
+        }
+
+        .image-box.fill img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .quote {
+            font-style: italic;
+            border-left: 4px solid var(--accent);
+            padding-left: 20px;
+            margin: 20px 0;
+        }
+
+        .stat-box {
+            background: #f8f8f8;
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .stat-box .number {
+            font-size: 4rem;
+            font-weight: 800;
+            color: var(--accent);
+        }
+
+        .stat-box .label {
+            font-size: 1.2rem;
+            opacity: 0.7;
+            margin-top: 10px;
+        }
+
+        .stat-box.small .number {
+            font-size: 2.5rem;
+        }
+
+        .stat-box.small {
+            padding: 20px;
+        }
+
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            width: 100%;
+        }
+
+        .three-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 25px;
+            width: 100%;
+        }
+
+        .compare-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 25px;
+            text-align: left;
+        }
+
+        .compare-card h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--accent);
+        }
+
+        .compare-card p,
+        .compare-card ul {
+            font-size: 1.2rem;
+        }
+
+        .compare-card.accent {
+            background: var(--accent-light);
+            border-color: var(--accent);
+        }
+
+        .tag {
+            display: inline-block;
+            background: var(--accent-light);
+            color: var(--accent);
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 4px;
+        }
+
+        .emoji {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .sql-keyword {
+            color: #569cd6;
+            font-weight: 600;
+        }
+
+        .code-comment {
+            color: #6a9955;
+        }
+
+        .code-string {
+            color: #ce9178;
+        }
+
+        .side-image {
+            position: absolute;
+            right: 60px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 200px;
+            height: 200px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .side-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .questions-image {
+            height: 360px;
+            max-width: 600px;
+        }
+
+        .full-image-slide .image-box {
+            height: 70vh;
+            width: 90%;
+            max-width: 1200px;
+        }
+
+        .timeline {
+            display: flex;
+            align-items: flex-start;
+            gap: 0;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .timeline-item {
+            flex: 1;
+            text-align: center;
+            position: relative;
+            padding-top: 30px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--accent);
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            top: 4px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 16px;
+            height: 16px;
+            background: var(--accent);
+            border-radius: 50%;
+            border: 3px solid white;
+        }
+
+        .timeline-item .year {
+            font-weight: 800;
+            font-size: 1.3rem;
+            color: var(--accent);
+        }
+
+        .timeline-item .desc {
+            font-size: 1rem;
+            margin-top: 5px;
+            opacity: 0.7;
+        }
+
+        .controls {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            gap: 15px;
+            z-index: 100;
+        }
+
+        .controls button {
+            background: var(--dark);
+            color: #fff;
+            border: none;
+            padding: 15px 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            border-radius: 6px;
+        }
+
+        .controls button:hover {
+            opacity: 0.8;
+        }
+
+        .progress-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: #eee;
+            z-index: 101;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), #7c3aed);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .slide-number {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            opacity: 0.4;
+        }
+
+        @media (max-width: 768px) {
+            body { font-size: 14px; }
+            .slide { padding: 10% 5%; }
+            .title-slide h1 { font-size: 2.5rem; }
+            .title-slide p { font-size: 1rem; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+    <div class="slide-number" id="slideNum">1 / 75</div>
+
+    <div class="presentation" id="presentation">
+
+        <!-- ==================== INTRO SECTION ==================== -->
+
+        <!-- 1. Title Slide -->
+        <section class="slide title-slide">
+            <p>Designing Data-Intensive Applications</p>
+            <h1>Storage and Retrieval</h1>
+            <p>Knowledge Transfer Session • Chapter 3</p>
+            <div class="image-box title-image">
+                <img src="../chapter1/images/book_cover.jpg" alt="DDIA book cover" />
+            </div>
+        </section>
+
+        <!-- 2. Opening Quote -->
+        <section class="slide content-slide">
+            <p class="quote">"Wer Ordnung hält, ist nur zu faul zum Suchen. (If you keep things tidily ordered, you're just too lazy to go searching.)"</p>
+            <p style="margin-top: 20px; opacity: 0.6;">— German proverb</p>
+            <p style="margin-top: 40px;">On the most fundamental level, a database needs to do two things: store data, and give it back to you.</p>
+        </section>
+
+        <!-- 3. The Database's Point of View -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>The Database's Point of View</h2>
+                <p>Chapter 2 covered data models and query languages. Now we look at what happens <strong>under the hood</strong>.</p>
+                <ul>
+                    <li>How can we store the data we're given?</li>
+                    <li>How can we find it again efficiently?</li>
+                </ul>
+            </div>
+            <div class="image-box fill">
+                <img src="images/storage-engine.jpg" alt="Storage Engine" />
+            </div>
+        </section>
+
+        <!-- 4. Why Should You Care? -->
+        <section class="slide content-slide">
+            <h2>Why should you care?</h2>
+            <p>You probably won't implement a storage engine from scratch, but you <strong>must</strong> select one that fits your application.</p>
+            <div class="compare-card accent" style="margin-top: 20px;">
+                <h3>The Big Divide</h3>
+                <p>There's a big difference between engines optimized for <strong>transactional workloads</strong> and those optimized for <strong>analytics</strong>.</p>
+            </div>
+            <p style="margin-top: 20px;">Two families of storage engines: <span class="highlight">log-structured</span> and <span class="highlight">page-oriented</span> (B-trees).</p>
+        </section>
+
+        <!-- 5. What We'll Cover -->
+        <section class="slide content-slide">
+            <h2>What We'll Cover</h2>
+            <div class="three-col" style="margin-top: 20px;">
+                <div class="compare-card">
+                    <h3>🛠 Data Structures</h3>
+                    <p>Hash Indexes, SSTables, LSM-Trees, B-Trees, and how they compare.</p>
+                </div>
+                <div class="compare-card">
+                    <h3>📈 OLTP vs OLAP</h3>
+                    <p>Transaction processing vs. Analytical processing. Data warehousing and ETL.</p>
+                </div>
+                <div class="compare-card">
+                    <h3>🧱 Column Storage</h3>
+                    <p>Columnar layouts, compression, vectorized processing, and data cubes.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== DATA STRUCTURES THAT POWER YOUR DATABASE ==================== -->
+
+        <!-- 6. Section Header -->
+        <section class="slide section-header">
+            <h2>Data Structures That Power Your Database</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">From Bash scripts to B-Trees</p>
+        </section>
+
+        <!-- 7. World's Simplest Database -->
+        <section class="slide content-slide">
+            <h2>The World's Simplest Database</h2>
+            <p>Two Bash functions implementing a key-value store:</p>
+            <div class="code-block">db_set () {
+    echo "$1,$2" >> database
+}
+
+db_get () {
+    grep "^$1," database | sed -e "s/^$1,//" | tail -n 1
+}</div>
+            <p style="font-size: 1.2rem; margin-top: 10px;">It's just an <strong>append-only log</strong> — a text file where each line is a key-value pair.</p>
+        </section>
+
+        <!-- 8. Performance Analysis -->
+        <section class="slide content-slide">
+            <h2>Simple, but...</h2>
+            <div class="two-col">
+                <div class="compare-card">
+                    <h3>✅ db_set</h3>
+                    <p>Extremely fast! Appending to a file is $O(1)$ — sequential I/O.</p>
+                </div>
+                <div class="compare-card accent">
+                    <h3>❌ db_get</h3>
+                    <p>Terrible. Must scan the entire file: $O(n)$. Double the records → double the time.</p>
+                </div>
+            </div>
+            <p style="margin-top: 20px;">Many databases internally use a <strong>log</strong> — an append-only data file. Real databases add concurrency control, disk reclamation, and error handling.</p>
+        </section>
+
+        <!-- 9. What is a "Log"? -->
+        <section class="slide content-slide">
+            <h2>What is a "Log"?</h2>
+            <div class="compare-card accent" style="margin-top: 10px;">
+                <h3>📝 Book Definition</h3>
+                <p>In this book, <strong>log</strong> = an append-only sequence of records. It doesn't have to be human-readable; it might be binary and intended only for other programs to read.</p>
+            </div>
+            <p style="margin-top: 20px;">Not the same as "application logs" (stdout text). Logs are incredibly useful and appear throughout the rest of the book.</p>
+        </section>
+
+        <!-- 10. The Need for Indexes -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>The Solution: An Index</h2>
+                <p>An <strong>index</strong> is an additional structure derived from the primary data.</p>
+                <ul>
+                    <li>Acts as a "signpost" to locate data you want.</li>
+                    <li>Speeds up reads, but <strong>slows down writes</strong>.</li>
+                    <li>Databases don't index everything by default — <em>you</em> choose indexes based on query patterns.</li>
+                </ul>
+                <p style="margin-top: 15px; font-size: 1.2rem;">For writes, it's hard to beat simply appending to a file — the simplest possible write operation.</p>
+            </div>
+            <div class="image-box fill">
+                <img src="images/library-index.jpg" alt="Library Index" />
+            </div>
+        </section>
+
+        <!-- ==================== HASH INDEXES ==================== -->
+
+        <!-- 11. Section Header -->
+        <section class="slide section-header">
+            <h2>Hash Indexes</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">In-memory maps for on-disk logs</p>
+        </section>
+
+        <!-- 12. How Hash Indexes Work -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>In-Memory Hash Map</h2>
+                <p>Keep a hash map where every key maps to a <strong>byte offset</strong> in the data file.</p>
+                <ul>
+                    <li><strong>Write:</strong> Append to file, update map with new offset.</li>
+                    <li><strong>Read:</strong> Look up offset in map, seek to location, read value.</li>
+                </ul>
+                <p style="margin-top: 15px;">This is essentially what <strong>Bitcask</strong> (default storage engine in Riak) does.</p>
+            </div>
+            <div class="image-box">
+                <img src="images/ddia_0301.png" alt="Figure 3-1: Hash Index" />
+            </div>
+        </section>
+
+        <!-- 13. Bitcask Use Case -->
+        <section class="slide content-slide">
+            <h2>When Hash Indexes Shine</h2>
+            <p>Bitcask requires all keys to fit in RAM. Values can exceed memory — loaded from disk with one seek.</p>
+            <div class="compare-card" style="margin-top: 20px;">
+                <h3>🐱 Cat Video Counter</h3>
+                <p>Key = URL of a cat video, Value = play count. Lots of writes, but <strong>not too many distinct keys</strong>. Feasible to keep all keys in memory.</p>
+            </div>
+            <p style="margin-top: 15px;">If the data file is in the filesystem cache, reads require <strong>zero disk I/O</strong>.</p>
+        </section>
+
+        <!-- 14. Compaction -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>Managing Disk Space</h2>
+                <p>Append-only logs grow forever. Solution: <strong>Compaction</strong>.</p>
+                <ul>
+                    <li>Break log into <strong>segments</strong> of a certain size.</li>
+                    <li>Close a segment when full, write new data to a new segment.</li>
+                    <li><strong>Compaction</strong> = throw away duplicate keys, keep only the most recent value.</li>
+                </ul>
+            </div>
+            <div class="image-box">
+                <img src="images/ddia_0302.png" alt="Figure 3-2: Compaction" />
+            </div>
+        </section>
+
+        <!-- 15. Segment Merging -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>Segment Merging</h2>
+                <p>Compaction makes segments smaller → merge multiple segments into one.</p>
+                <ul>
+                    <li>Done in a <strong>background thread</strong>.</li>
+                    <li>Old segments serve reads during merging.</li>
+                    <li>After merge completes, switch reads to new segment, <strong>delete old files</strong>.</li>
+                </ul>
+                <p style="margin-top: 15px; font-size: 1.2rem;">Each segment has its own in-memory hash table. Lookups check most-recent segment first, then older ones.</p>
+            </div>
+            <div class="image-box">
+                <img src="images/ddia_0303.png" alt="Figure 3-3: Merging Segments" />
+            </div>
+        </section>
+
+        <!-- 16. Implementation Details -->
+        <section class="slide content-slide">
+            <h2>Real-world Implementation Details</h2>
+            <div class="three-col">
+                <div class="compare-card">
+                    <h3>Binary Format</h3>
+                    <p>Faster than CSV. Encode string length in bytes, then raw string — no escaping needed.</p>
+                </div>
+                <div class="compare-card">
+                    <h3>Tombstones</h3>
+                    <p>To delete a key, append a special deletion record. Merging discards previous values for that key.</p>
+                </div>
+                <div class="compare-card">
+                    <h3>Crash Recovery</h3>
+                    <p>Rebuild hash maps by scanning segments (slow), or load <strong>snapshots</strong> of maps from disk (Bitcask).</p>
+                </div>
+            </div>
+            <div class="two-col" style="margin-top: 20px;">
+                <div class="compare-card">
+                    <h3>Checksums</h3>
+                    <p>Detect and ignore corrupted, partially written records after a crash.</p>
+                </div>
+                <div class="compare-card">
+                    <h3>Concurrency</h3>
+                    <p>One writer thread (sequential appends). Multiple reader threads (segments are immutable).</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 17. Why Append-Only? -->
+        <section class="slide content-slide">
+            <h2>Why Append-Only?</h2>
+            <p>Why not update the file in place?</p>
+            <ul>
+                <li><strong>Sequential writes</strong> are much faster than random writes, especially on HDDs. Also preferable on SSDs.</li>
+                <li><strong>Concurrency and crash recovery</strong> are simpler — no partial overwrites to worry about.</li>
+                <li><strong>No fragmentation</strong> — merging avoids data files getting holes over time.</li>
+            </ul>
+        </section>
+
+        <!-- 18. Hash Index Limitations -->
+        <section class="slide content-slide">
+            <h2>Hash Index Limitations</h2>
+            <div class="two-col">
+                <div class="compare-card accent">
+                    <h3>❌ Memory Bound</h3>
+                    <p>The hash table must fit in RAM. On-disk hash maps perform poorly: lots of random I/O, expensive to grow, fiddly hash collision logic.</p>
+                </div>
+                <div class="compare-card accent">
+                    <h3>❌ No Range Queries</h3>
+                    <p>You can't scan keys between <code>kitty00000</code> and <code>kitty99999</code> — you'd have to look up each key individually.</p>
+                </div>
+            </div>
+            <p style="margin-top: 30px;">We need an indexing structure without these limitations...</p>
+        </section>
+
+        <!-- ==================== SSTABLES AND LSM-TREES ==================== -->
+
+        <!-- 19. Section Header -->
+        <section class="slide section-header">
+            <h2>SSTables and LSM-Trees</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">The power of sorting</p>
+        </section>
+
+        <!-- 20. What is an SSTable? -->
+        <section class="slide content-slide">
+            <h2>Sorted String Table (SSTable)</h2>
+            <p>One simple change: require key-value pairs to be <strong>sorted by key</strong> within each segment.</p>
+            <p style="margin-top: 20px;">Three big advantages over hash-indexed log segments:</p>
+            <ul>
+                <li><strong>Efficient merging</strong> — like mergesort, even for files larger than memory.</li>
+                <li><strong>Sparse indexing</strong> — no need to keep every key in memory.</li>
+                <li><strong>Block compression</strong> — group records into blocks, compress before writing.</li>
+            </ul>
+        </section>
+
+        <!-- 21. Merging SSTables -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>Efficient Merging</h2>
+                <p>Read input files side by side, copy the <strong>lowest key</strong> to output. Repeat.</p>
+                <ul>
+                    <li>Produces a new merged segment, also sorted.</li>
+                    <li>When same key appears in multiple segments, keep the value from the <strong>most recent</strong> segment.</li>
+                </ul>
+            </div>
+            <div class="image-box">
+                <img src="images/ddia_0304.png" alt="Figure 3-4: Merging SSTables" />
+            </div>
+        </section>
+
+        <!-- 22. Sparse In-Memory Index -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>Sparse In-Memory Index</h2>
+                <p>No need to index every key! Just store offsets for <strong>every few KB</strong>.</p>
+                <ul>
+                    <li>Looking for <code>handiwork</code>? You know offsets for <code>handbag</code> and <code>handsome</code> — scan between them.</li>
+                    <li>Enables <strong>block compression</strong>: group records into blocks, each index entry points to a compressed block.</li>
+                </ul>
+            </div>
+            <div class="image-box">
+                <img src="images/ddia_0305.png" alt="Figure 3-5: Sparse Index" />
+            </div>
+        </section>
+
+        <!-- 23. Constructing SSTables -->
+        <section class="slide content-slide">
+            <h2>How to Build Sorted Segments?</h2>
+            <p>Maintaining a sorted structure in memory is easy — use a <strong>balanced tree</strong> (red-black tree, AVL tree).</p>
+            <div class="timeline" style="margin-top: 30px;">
+                <div class="timeline-item">
+                    <div class="year">1. Memtable</div>
+                    <div class="desc">Write to in-memory balanced tree</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="year">2. Flush</div>
+                    <div class="desc">When memtable exceeds threshold (~MB), write to disk as SSTable</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="year">3. Read</div>
+                    <div class="desc">Check memtable first, then most-recent segment, then older</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="year">4. Merge</div>
+                    <div class="desc">Background compaction merges segments</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 24. Crash Recovery for Memtable -->
+        <section class="slide content-slide">
+            <h2>One Problem: Crashes</h2>
+            <p>If the database crashes, the memtable (in-memory) is lost — recent writes disappear.</p>
+            <div class="compare-card accent" style="margin-top: 20px;">
+                <h3>Solution: Write-Ahead Log</h3>
+                <p>Keep a separate, <strong>unsorted</strong> append-only log on disk. Every write is immediately appended. Its only purpose: restore the memtable after a crash. Discarded when memtable is flushed to SSTable.</p>
+            </div>
+        </section>
+
+        <!-- 25. LSM-Tree Origins -->
+        <section class="slide content-slide">
+            <h2>LSM-Tree Storage Engines</h2>
+            <p>This algorithm is called the <strong>Log-Structured Merge-Tree</strong> (LSM-Tree), described by Patrick O'Neil et al.</p>
+            <div class="three-col" style="margin-top: 20px;">
+                <div class="compare-card">
+                    <h3>Embedded</h3>
+                    <p>LevelDB, RocksDB — designed to be embedded into other applications.</p>
+                </div>
+                <div class="compare-card">
+                    <h3>Distributed</h3>
+                    <p>Cassandra, HBase — inspired by Google's Bigtable paper (which introduced "SSTable" and "memtable").</p>
+                </div>
+                <div class="compare-card">
+                    <h3>Search</h3>
+                    <p>Lucene (Elasticsearch/Solr) uses SSTable-like sorted files for its term dictionary.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 26. Lucene and Full-Text -->
+        <section class="slide content-slide">
+            <h2>Lucene: SSTables for Search</h2>
+            <p>A full-text index maps <strong>terms</strong> (words) to <strong>postings lists</strong> (IDs of documents containing that word).</p>
+            <ul>
+                <li>This is a key-value structure: key = term, value = list of document IDs.</li>
+                <li>Lucene keeps this mapping in SSTable-like sorted files, merged in the background.</li>
+                <li>Much more complex than a simple key-value index, but the <strong>same underlying idea</strong>.</li>
+            </ul>
+        </section>
+
+        <!-- 27. Performance Optimizations -->
+        <section class="slide content-slide">
+            <h2>LSM-Tree Performance Tweaks</h2>
+            <div class="two-col">
+                <div class="compare-card">
+                    <h3>🌸 Bloom Filters</h3>
+                    <p>Memory-efficient structure: tells you if a key does <strong>not</strong> exist in the DB. Saves many unnecessary disk reads for nonexistent keys.</p>
+                </div>
+                <div class="compare-card">
+                    <h3>📊 Compaction Strategies</h3>
+                    <ul>
+                        <li><strong>Size-tiered</strong> (HBase): Newer/smaller SSTables merged into older/larger ones.</li>
+                        <li><strong>Leveled</strong> (LevelDB/RocksDB): Key range split into levels for incremental compaction, less disk space.</li>
+                    </ul>
+                </div>
+            </div>
+            <p style="margin-top: 20px; font-size: 1.2rem;">Cassandra supports <strong>both</strong> strategies.</p>
+        </section>
+
+        <!-- 28. LSM-Tree Summary -->
+        <section class="slide content-slide">
+            <h2>LSM-Trees: The Key Idea</h2>
+            <p class="quote">"Keeping a cascade of SSTables that are merged in the background — simple and effective."</p>
+            <ul style="margin-top: 20px;">
+                <li>Works well even when dataset is <strong>much bigger than memory</strong>.</li>
+                <li>Data stored in sorted order → efficient <strong>range queries</strong>.</li>
+                <li>Sequential disk writes → remarkably <strong>high write throughput</strong>.</li>
+            </ul>
+        </section>
+
+        <!-- ==================== B-TREES ==================== -->
+
+        <!-- 29. Section Header -->
+        <section class="slide section-header">
+            <h2>B-Trees</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">The ubiquitous standard since 1970</p>
+        </section>
+
+        <!-- 30. B-Tree Design -->
+        <section class="slide content-slide">
+            <h2>A Different Philosophy</h2>
+            <div class="two-col">
+                <div class="compare-card">
+                    <h3>LSM-Trees</h3>
+                    <p>Variable-size <strong>segments</strong> (several MB+). Always written sequentially.</p>
+                </div>
+                <div class="compare-card accent">
+                    <h3>B-Trees</h3>
+                    <p>Fixed-size <strong>pages</strong> (traditionally 4 KB). Read or write one page at a time. Matches disk hardware blocks.</p>
+                </div>
+            </div>
+            <p style="margin-top: 20px;">Like SSTables, B-trees keep key-value pairs <strong>sorted by key</strong> — enabling lookups and range queries. But that's where the similarity ends.</p>
+        </section>
+
+        <!-- 31. Looking Up Keys -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>Hierarchical Search</h2>
+                <p>Start at the <strong>root page</strong>. Follow references to child pages. Boundaries between references indicate key ranges.</p>
+                <ul>
+                    <li>Looking for key 251? Follow the reference between 200 and 300.</li>
+                    <li>Continue narrowing until you reach a <strong>leaf page</strong> with individual keys/values.</li>
+                </ul>
+            </div>
+            <div class="image-box">
+                <img src="images/ddia_0306.png" alt="Figure 3-6: B-Tree Lookup" />
+            </div>
+        </section>
+
+        <!-- 32. Branching Factor -->
+        <section class="slide content-slide">
+            <h2>Branching Factor &amp; Depth</h2>
+            <p>The number of child-page references in one page is the <strong>branching factor</strong>. Typically several hundred.</p>
+            <div class="stat-box">
+                <div class="number">250 TB</div>
+                <div class="label">A 4-level tree with 4 KB pages and branching factor 500</div>
+            </div>
+            <p>Depth is always $O(\log n)$. Most databases fit in a B-tree that is <strong>3 or 4 levels deep</strong>.</p>
+        </section>
+
+        <!-- 33. Page Splitting -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>Updates &amp; Page Splitting</h2>
+                <p><strong>Update:</strong> Find leaf page → change value → write page back to disk.</p>
+                <p style="margin-top: 15px;"><strong>Insert:</strong> Find the right page. If full, <strong>split</strong> into two half-full pages, update parent.</p>
+                <p style="margin-top: 15px;">This keeps the tree <strong>balanced</strong>.</p>
+            </div>
+            <div class="image-box">
+                <img src="images/ddia_0307.png" alt="Figure 3-7: Page Split" />
+            </div>
+        </section>
+
+        <!-- 34. Making B-Trees Reliable -->
+        <section class="slide content-slide">
+            <h2>Making B-Trees Reliable</h2>
+            <p>B-trees <strong>overwrite pages in place</strong> — stark contrast to LSM-trees (append-only).</p>
+            <ul>
+                <li>On HDD: move disk head, wait for platter, overwrite sector.</li>
+                <li>On SSD: must erase and rewrite fairly large blocks.</li>
+            </ul>
+            <div class="compare-card accent" style="margin-top: 20px;">
+                <h3>The Danger of Page Splits</h3>
+                <p>A split requires writing <strong>3 pages</strong> (two children + parent). If the DB crashes mid-write → <strong>corrupted index</strong> (orphan page with no parent).</p>
+            </div>
+        </section>
+
+        <!-- 35. WAL and Concurrency -->
+        <section class="slide content-slide">
+            <h2>WAL &amp; Concurrency</h2>
+            <div class="two-col">
+                <div class="compare-card accent">
+                    <h3>Write-Ahead Log (WAL)</h3>
+                    <p>Append-only file. Every B-tree modification is written here <strong>before</strong> applying to tree pages. Used to restore consistent state after a crash.</p>
+                </div>
+                <div class="compare-card">
+                    <h3>Latches (Lightweight Locks)</h3>
+                    <p>Protect tree data structures for <strong>concurrent access</strong>. Without them, threads can see the tree in an inconsistent state.</p>
+                </div>
+            </div>
+            <p style="margin-top: 20px; font-size: 1.2rem;">LSM-trees are simpler here — background merging doesn't interfere with queries, and segments are swapped atomically.</p>
+        </section>
+
+        <!-- 36. B-Tree Optimizations -->
+        <section class="slide content-slide">
+            <h2>Modern B-Tree Techniques</h2>
+            <ul>
+                <li><strong>Copy-on-write</strong> (LMDB): Write modified page to a new location, create new parent pointing to it. Useful for concurrency and snapshot isolation.</li>
+                <li><strong>Key abbreviation</strong>: Interior pages only need boundary info — pack more keys → higher branching factor → fewer levels.</li>
+                <li><strong>Sequential layout</strong>: Try to keep leaf pages in order on disk for efficient range scans.</li>
+                <li><strong>Sibling pointers</strong>: Leaf pages link left/right for scanning without jumping back to parents.</li>
+                <li><strong>Fractal trees</strong>: Borrow log-structured ideas to reduce disk seeks.</li>
+            </ul>
+        </section>
+
+        <!-- ==================== COMPARING B-TREES AND LSM-TREES ==================== -->
+
+        <!-- 37. Section Header -->
+        <section class="slide section-header">
+            <h2>LSM-Trees vs B-Trees</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">Choosing your weapon</p>
+        </section>
+
+        <!-- 38. Rule of Thumb -->
+        <section class="slide content-slide">
+            <h2>The Rule of Thumb</h2>
+            <div class="two-col">
+                <div class="compare-card accent">
+                    <h3>✍️ LSM-Trees</h3>
+                    <p>Typically <strong>faster for writes</strong>.</p>
+                    <ul>
+                        <li>Lower write amplification.</li>
+                        <li>Better compression (smaller disk footprint).</li>
+                        <li>Sequential write patterns.</li>
+                    </ul>
+                </div>
+                <div class="compare-card accent">
+                    <h3>📖 B-Trees</h3>
+                    <p>Typically <strong>faster for reads</strong>.</p>
+                    <ul>
+                        <li>Each key in exactly one place.</li>
+                        <li>More predictable response times.</li>
+                        <li>Better for strong transactional semantics.</li>
+                    </ul>
+                </div>
+            </div>
+            <p style="margin-top: 20px; font-size: 1.2rem; opacity: 0.6;">Benchmarks are inconclusive and workload-sensitive. <strong>Test empirically.</strong></p>
+        </section>
+
+        <!-- 39. Write Amplification -->
+        <section class="slide content-slide">
+            <h2>Write Amplification</h2>
+            <p>One write to the database → <strong>multiple writes to disk</strong> over the lifetime of the data.</p>
+            <div class="two-col" style="margin-top: 20px;">
+                <div class="compare-card">
+                    <h3>B-Trees</h3>
+                    <p>Write at least <strong>twice</strong>: WAL + tree page. Write entire 4KB page even if only a few bytes changed. Some engines write the page twice to avoid partial updates.</p>
+                </div>
+                <div class="compare-card">
+                    <h3>LSM-Trees</h3>
+                    <p>Rewrite data multiple times due to repeated <strong>compaction and merging</strong>.</p>
+                </div>
+            </div>
+            <div class="stat-box small" style="margin-top: 20px;">
+                <div class="number">SSD Wear</div>
+                <div class="label">SSDs can only overwrite blocks a limited number of times — write amplification matters</div>
+            </div>
+        </section>
+
+        <!-- 40. LSM Advantages -->
+        <section class="slide content-slide">
+            <h2>Advantages of LSM-Trees</h2>
+            <ul>
+                <li><strong>Higher write throughput</strong>: Sequential writes to compact SSTable files vs. overwriting scattered pages.</li>
+                <li><strong>Better compression</strong>: LSM-trees periodically rewrite SSTables, removing fragmentation. B-trees leave unused space in split pages.</li>
+                <li><strong>Lower storage overhead</strong>: Especially with leveled compaction.</li>
+            </ul>
+            <p style="margin-top: 20px; font-size: 1.2rem;">On SSDs, firmware already turns random writes into sequential writes internally — but lower write amplification and reduced fragmentation still win.</p>
+        </section>
+
+        <!-- 41. LSM Downsides -->
+        <section class="slide content-slide">
+            <h2>Downsides of LSM-Trees</h2>
+            <ul>
+                <li><strong>Compaction interference</strong>: Background compaction can cause high p99 latency. B-trees are more predictable.</li>
+                <li><strong>Bandwidth sharing</strong>: Disk bandwidth is split between initial writes and compaction threads. As the DB grows, compaction needs more bandwidth.</li>
+                <li><strong>Compaction can't keep up</strong>: If write throughput is too high, unmerged segments pile up → disk fills up, reads slow down. Need <strong>explicit monitoring</strong>.</li>
+            </ul>
+        </section>
+
+        <!-- 42. B-Trees and Transactions -->
+        <section class="slide content-slide">
+            <h2>B-Trees &amp; Transactions</h2>
+            <p>Each key exists in <strong>exactly one place</strong> in a B-tree index. LSM-trees may have multiple copies across segments.</p>
+            <div class="compare-card accent" style="margin-top: 20px;">
+                <h3>Why This Matters</h3>
+                <p>Transaction isolation often uses <strong>locks on ranges of keys</strong>. In a B-tree, locks attach directly to the tree. This makes B-trees attractive for databases with <strong>strong transactional semantics</strong>.</p>
+            </div>
+            <p style="margin-top: 20px;">B-trees are deeply ingrained in database architecture. LSM-trees are increasingly popular in new datastores. No universal winner — test for your use case.</p>
+        </section>
+
+        <!-- ==================== OTHER INDEXING STRUCTURES ==================== -->
+
+        <!-- 43. Section Header -->
+        <section class="slide section-header">
+            <h2>Other Indexing Structures</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">Beyond primary key lookups</p>
+        </section>
+
+        <!-- 44. Secondary Indexes -->
+        <section class="slide content-slide">
+            <h2>Secondary Indexes</h2>
+            <p>A <strong>primary key</strong> uniquely identifies one row. <strong>Secondary indexes</strong> are crucial for efficient joins.</p>
+            <div class="two-col" style="margin-top: 20px;">
+                <div class="compare-card">
+                    <h3>Approach A: Postings List</h3>
+                    <p>Each index entry holds a <strong>list of matching row IDs</strong>.</p>
+                </div>
+                <div class="compare-card">
+                    <h3>Approach B: Unique Keys</h3>
+                    <p>Append a row identifier to each key to make it unique.</p>
+                </div>
+            </div>
+            <p style="margin-top: 15px; font-size: 1.2rem;">Both B-trees and LSM-trees can be used as secondary indexes.</p>
+        </section>
+
+        <!-- 45. Storing Values Within the Index -->
+        <section class="slide content-slide">
+            <h2>Where Are the Values Stored?</h2>
+            <div class="three-col">
+                <div class="compare-card">
+                    <h3>Heap File</h3>
+                    <p>Index points to a location in a separate file. Avoids duplicating data across multiple indexes. Uses <strong>forwarding pointers</strong> when records move.</p>
+                </div>
+                <div class="compare-card accent">
+                    <h3>Clustered Index</h3>
+                    <p>Row data stored <strong>directly in the index</strong>. InnoDB's primary key is always clustered. Secondary indexes reference the primary key.</p>
+                </div>
+                <div class="compare-card">
+                    <h3>Covering Index</h3>
+                    <p>Stores <strong>some</strong> columns in the index. If the index has all columns a query needs, no heap hop required.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 46. Multi-Column Indexes -->
+        <section class="slide content-slide">
+            <h2>Multi-Column Indexes</h2>
+            <p><strong>Concatenated index</strong>: Combines fields into one key (e.g., <em>lastname, firstname</em>).</p>
+            <ul>
+                <li>Like a phone book: good for "all Smiths" or "Smith, John" — useless for "all Johns".</li>
+            </ul>
+            <p style="margin-top: 25px;"><strong>Multi-dimensional indexes</strong>: Query several columns at once.</p>
+            <div class="code-block" style="font-size: 0.9rem;"><span class="sql-keyword">SELECT</span> * <span class="sql-keyword">FROM</span> restaurants
+<span class="sql-keyword">WHERE</span> latitude  > 51.4946 <span class="sql-keyword">AND</span> latitude  < 51.5079
+  <span class="sql-keyword">AND</span> longitude > -0.1162 <span class="sql-keyword">AND</span> longitude < -0.1004;</div>
+            <p style="margin-top: 15px; font-size: 1.2rem;">Standard B-tree can't do both dimensions simultaneously. Solutions: <strong>space-filling curves</strong>, <strong>R-trees</strong> (PostGIS).</p>
+        </section>
+
+        <!-- 47. Beyond Geospatial -->
+        <section class="slide content-slide">
+            <h2>Multi-Dimensional: Not Just Maps</h2>
+            <p>Multi-dimensional indexes work for any multi-attribute query:</p>
+            <div class="three-col" style="margin-top: 20px;">
+                <div class="compare-card">
+                    <h3>🎨 Color Search</h3>
+                    <p>3D index on (red, green, blue) to find products in a color range.</p>
+                </div>
+                <div class="compare-card">
+                    <h3>🌡 Weather Data</h3>
+                    <p>2D index on (date, temperature) — find observations in 2013 where temp was 25-30°C.</p>
+                </div>
+                <div class="compare-card">
+                    <h3>🔍 HyperDex</h3>
+                    <p>Uses this technique for general multi-dimensional range queries.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 48. Full-Text Search and Fuzzy Indexes -->
+        <section class="slide content-slide">
+            <h2>Full-Text &amp; Fuzzy Indexes</h2>
+            <p>Searching for <em>similar</em> keys (typos, synonyms) requires different techniques.</p>
+            <ul>
+                <li>Full-text engines expand queries with <strong>synonyms</strong>, ignore grammatical variations, search for <strong>nearby words</strong>.</li>
+                <li>Lucene uses a <strong>finite state automaton</strong> (similar to a trie) as its in-memory index over term characters.</li>
+                <li>This can be transformed into a <strong>Levenshtein automaton</strong> for efficient edit-distance search (e.g., 1 letter added/removed/replaced).</li>
+            </ul>
+        </section>
+
+        <!-- 49. In-Memory Databases -->
+        <section class="slide content-slide">
+            <h2>Keeping Everything in Memory</h2>
+            <p>As RAM gets cheaper, many datasets fit entirely in memory.</p>
+            <div class="two-col" style="margin-top: 20px;">
+                <div class="compare-card">
+                    <h3>Cache-only</h3>
+                    <p><strong>Memcached</strong>: Data lost on restart. Acceptable for caching.</p>
+                </div>
+                <div class="compare-card accent">
+                    <h3>Durable In-Memory</h3>
+                    <p><strong>VoltDB, MemSQL, Oracle TimesTen</strong>: Durability via WAL, snapshots, or replication. <strong>Redis</strong>: Weak durability (async writes).</p>
+                </div>
+            </div>
+            <div class="compare-card" style="margin-top: 20px;">
+                <h3>🤔 The Real Performance Win</h3>
+                <p>Not "no disk reads" (OS caches handle that). It's avoiding the overhead of <strong>encoding data structures</strong> for on-disk formats. Also enables data models hard to do on disk (Redis: priority queues, sets).</p>
+            </div>
+        </section>
+
+        <!-- 50. Anti-Caching & NVM -->
+        <section class="slide content-slide">
+            <h2>Beyond RAM Limits</h2>
+            <ul>
+                <li><strong>Anti-caching</strong>: Evict least-recently-used data from memory to disk. Load back when accessed. Like OS virtual memory, but at <strong>record granularity</strong> instead of page granularity — more efficient. Indexes still must fit in memory.</li>
+                <li><strong>Non-volatile memory (NVM)</strong>: Emerging technology that may change storage engine design fundamentally. Worth watching.</li>
+            </ul>
+        </section>
+
+        <!-- ==================== TRANSACTION PROCESSING OR ANALYTICS? ==================== -->
+
+        <!-- 51. Section Header -->
+        <section class="slide section-header">
+            <h2>Transaction Processing or Analytics?</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">OLTP vs. OLAP</p>
+        </section>
+
+        <!-- 52. OLTP & OLAP Definitions -->
+        <section class="slide content-slide">
+            <h2>Two Access Patterns</h2>
+            <div class="two-col">
+                <div class="compare-card">
+                    <h3>🏦 OLTP</h3>
+                    <p><strong>Online Transaction Processing</strong>. User-facing, interactive. Look up small number of records by key. Low-latency writes.</p>
+                    <p style="margin-top: 10px; font-size: 1rem; opacity: 0.7;">Note: "Transaction" here doesn't mean ACID — just low-latency reads/writes.</p>
+                </div>
+                <div class="compare-card accent">
+                    <h3>📊 OLAP</h3>
+                    <p><strong>Online Analytic Processing</strong>. Scan huge numbers of records. Aggregate (COUNT, SUM, AVG). Feed business intelligence reports.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 53. OLTP vs OLAP Comparison Table -->
+        <section class="slide content-slide">
+            <h2>OLTP vs. OLAP Compared</h2>
+            <div class="two-col">
+                <div class="compare-card">
+                    <h3>OLTP</h3>
+                    <ul>
+                        <li><strong>Reads:</strong> Small # records by key</li>
+                        <li><strong>Writes:</strong> Random-access, low-latency</li>
+                        <li><strong>Used by:</strong> End users via web apps</li>
+                        <li><strong>Data:</strong> Latest state (current point in time)</li>
+                        <li><strong>Size:</strong> GB to TB</li>
+                    </ul>
+                </div>
+                <div class="compare-card accent">
+                    <h3>OLAP</h3>
+                    <ul>
+                        <li><strong>Reads:</strong> Aggregates over millions of records</li>
+                        <li><strong>Writes:</strong> Bulk import (ETL) or event streams</li>
+                        <li><strong>Used by:</strong> Internal analysts</li>
+                        <li><strong>Data:</strong> History of events over time</li>
+                        <li><strong>Size:</strong> TB to PB</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- 54. Data Warehousing -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>The Data Warehouse</h2>
+                <p>A <strong>separate database</strong> for analysts. Don't run expensive scans on your OLTP system!</p>
+                <ul>
+                    <li>Read-only copy of data from all OLTP systems.</li>
+                    <li><strong>ETL</strong>: Extract, Transform, Load.</li>
+                    <li>Optimized for <strong>analytic access patterns</strong> — the OLTP indexes we discussed won't cut it here.</li>
+                </ul>
+            </div>
+            <div class="image-box">
+                <img src="images/ddia_0308.png" alt="Figure 3-8: ETL Process" />
+            </div>
+        </section>
+
+        <!-- 55. Divergence -->
+        <section class="slide content-slide">
+            <h2>OLTP ≠ Data Warehouse</h2>
+            <p>Both have a SQL interface, but internals are <strong>very different</strong>.</p>
+            <ul>
+                <li>Many vendors now focus on <strong>one or the other</strong>, not both.</li>
+                <li>Some (SQL Server, SAP HANA) support both, but with separate storage/query engines behind a common SQL interface.</li>
+            </ul>
+            <p style="margin-top: 20px;"><strong>Data warehouse vendors:</strong></p>
+            <div style="margin-top: 10px;">
+                <span class="tag">Teradata</span>
+                <span class="tag">Vertica</span>
+                <span class="tag">SAP HANA</span>
+                <span class="tag">Amazon Redshift</span>
+                <span class="tag">Apache Hive</span>
+                <span class="tag">Spark SQL</span>
+                <span class="tag">Presto</span>
+                <span class="tag">Apache Drill</span>
+            </div>
+        </section>
+
+        <!-- ==================== STARS AND SNOWFLAKES ==================== -->
+
+        <!-- 56. Section Header -->
+        <section class="slide section-header">
+            <h2>Stars and Snowflakes</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">Schemas for analytics</p>
+        </section>
+
+        <!-- 57. Star Schema -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>Star Schema</h2>
+                <p>The standard for data warehouses (<strong>dimensional modeling</strong>).</p>
+                <ul>
+                    <li><strong>Fact table</strong> at the center: massive, one row per event (sales, clicks, page views). Can be tens of PB.</li>
+                    <li><strong>Dimension tables</strong> surround it: the <em>who, what, where, when, how, why</em> of each event.</li>
+                </ul>
+                <p style="margin-top: 15px; font-size: 1.2rem;">Tables are often very wide: fact tables 100+ columns, dimension tables include all relevant metadata.</p>
+            </div>
+            <div class="image-box">
+                <img src="images/ddia_0309.png" alt="Figure 3-9: Star Schema" />
+            </div>
+        </section>
+
+        <!-- 58. Star vs Snowflake -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>Star vs. Snowflake</h2>
+                <div class="compare-card" style="margin-bottom: 15px;">
+                    <h3>🌟 Star Schema</h3>
+                    <p>Denormalized dimensions. Simpler to query. Preferred by most analysts.</p>
+                </div>
+                <div class="compare-card accent">
+                    <h3>❄️ Snowflake Schema</h3>
+                    <p>Dimensions broken into <strong>sub-dimensions</strong> (e.g., separate brand and category tables). More normalized, saves space, but more complex joins.</p>
+                </div>
+            </div>
+            <div class="image-box">
+                <img src="images/star_vs_snowflake.jpg" alt="Star vs Snowflake" />
+            </div>
+        </section>
+
+        <!-- ==================== COLUMN-ORIENTED STORAGE ==================== -->
+
+        <!-- 59. Section Header -->
+        <section class="slide section-header">
+            <h2>Column-Oriented Storage</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">Optimizing for broad scans</p>
+        </section>
+
+        <!-- 60. The Problem -->
+        <section class="slide content-slide">
+            <h2>The Problem: Wide Tables</h2>
+            <p>Fact tables often have <strong>100+ columns</strong>, but a typical query only accesses 4 or 5.</p>
+            <div class="compare-card accent" style="margin-top: 20px;">
+                <h3>Row-Oriented Storage</h3>
+                <p>All values from one row stored together. Even with indexes, you must load entire rows (100+ attributes) from disk, parse them, and filter.</p>
+            </div>
+            <p style="margin-top: 20px;">What if we don't load the columns we don't need?</p>
+        </section>
+
+        <!-- 61. Example Analytics Query -->
+        <section class="slide content-slide">
+            <h2>Example: Fruit vs. Candy Sales</h2>
+            <div class="code-block" style="font-size: 0.85rem;"><span class="sql-keyword">SELECT</span>
+  dim_date.weekday, dim_product.category,
+  <span class="sql-keyword">SUM</span>(fact_sales.quantity) <span class="sql-keyword">AS</span> quantity_sold
+<span class="sql-keyword">FROM</span> fact_sales
+  <span class="sql-keyword">JOIN</span> dim_date    <span class="sql-keyword">ON</span> fact_sales.date_key   = dim_date.date_key
+  <span class="sql-keyword">JOIN</span> dim_product <span class="sql-keyword">ON</span> fact_sales.product_sk = dim_product.product_sk
+<span class="sql-keyword">WHERE</span>
+  dim_date.year = 2013 <span class="sql-keyword">AND</span>
+  dim_product.category <span class="sql-keyword">IN</span> (<span class="code-string">'Fresh fruit'</span>, <span class="code-string">'Candy'</span>)
+<span class="sql-keyword">GROUP BY</span>
+  dim_date.weekday, dim_product.category;</div>
+            <p style="margin-top: 15px; font-size: 1.2rem;">Scans millions of rows, but only needs <strong>3 columns</strong>: date_key, product_sk, quantity.</p>
+        </section>
+
+        <!-- 62. Column-Oriented Storage -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>Store Columns, Not Rows</h2>
+                <p>Store all values from each <strong>column</strong> together in a separate file.</p>
+                <ul>
+                    <li>Query only reads and parses the columns it needs.</li>
+                    <li>Relies on each column file having rows in the <strong>same order</strong> — reassemble row N by taking the Nth entry from each column file.</li>
+                </ul>
+                <p style="margin-top: 15px; font-size: 1.2rem;">Applies to nonrelational data too: <strong>Parquet</strong> is a columnar format supporting document data models.</p>
+            </div>
+            <div class="image-box">
+                <img src="images/ddia_0310.png" alt="Figure 3-10: Column Storage" />
+            </div>
+        </section>
+
+        <!-- 63. Column Families ≠ Column-Oriented -->
+        <section class="slide content-slide">
+            <h2>⚠️ Column Families ≠ Column-Oriented</h2>
+            <p>Cassandra and HBase have <strong>column families</strong> (from Bigtable), but it's misleading to call them column-oriented.</p>
+            <div class="compare-card" style="margin-top: 20px;">
+                <h3>The Difference</h3>
+                <p>Within each column family, they store <strong>all columns from a row together</strong>, along with a row key. They do <strong>not</strong> use column compression. The Bigtable model is still <strong>mostly row-oriented</strong>.</p>
+            </div>
+        </section>
+
+        <!-- 64. Column Compression -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>Bitmap Encoding</h2>
+                <p>Columns often have <strong>few distinct values</strong> relative to row count (e.g., 100K products, billions of rows).</p>
+                <ul>
+                    <li>Turn column into <strong>n bitmaps</strong> (one per distinct value), one bit per row.</li>
+                    <li>If n is large → bitmaps are sparse → <strong>run-length encode</strong> them for compact storage.</li>
+                </ul>
+            </div>
+            <div class="image-box">
+                <img src="images/ddia_0311.png" alt="Figure 3-11: Bitmap Index" />
+            </div>
+        </section>
+
+        <!-- 65. Bitmap Operations -->
+        <section class="slide content-slide">
+            <h2>Fast Query Execution with Bitmaps</h2>
+            <div class="two-col">
+                <div class="compare-card accent">
+                    <h3>WHERE product_sk IN (30, 68, 69)</h3>
+                    <p>Load 3 bitmaps → <strong>bitwise OR</strong> → get all matching rows. Extremely fast.</p>
+                </div>
+                <div class="compare-card accent">
+                    <h3>WHERE product_sk = 31 AND store_sk = 3</h3>
+                    <p>Load 2 bitmaps (from different columns!) → <strong>bitwise AND</strong>. Works because columns store rows in the same order.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 66. Vectorized Processing -->
+        <section class="slide content-slide">
+            <h2>CPU Efficiency: Vectorized Processing</h2>
+            <p>For queries scanning millions of rows, getting data from disk to memory isn't the only bottleneck.</p>
+            <ul>
+                <li>Column-oriented data fits in <strong>CPU L1 cache</strong> — tight loops with no function calls.</li>
+                <li><strong>SIMD</strong> (Single Instruction, Multi-Data) instructions process compressed column chunks directly.</li>
+                <li>Avoids branch mispredictions and function call overhead.</li>
+                <li>Column compression lets <strong>more rows fit</strong> in the same cache space.</li>
+            </ul>
+        </section>
+
+        <!-- 67. Sort Order in Column Storage -->
+        <section class="slide content-slide">
+            <h2>Strategic Sort Order</h2>
+            <p>Data must be sorted <strong>by entire row</strong> (same order across all column files).</p>
+            <ul>
+                <li>Choose sort keys based on <strong>common queries</strong> (e.g., <code>date_key</code> first for date-range queries).</li>
+                <li>Second sort key (e.g., <code>product_sk</code>) groups same-product sales within each date.</li>
+                <li>Sorting enables <strong>run-length encoding</strong> on the first sort key — long repeated values compress to kilobytes even with billions of rows.</li>
+            </ul>
+            <p style="margin-top: 15px; font-size: 1.2rem;">Compression effect weakens for later sort keys — they're more jumbled.</p>
+        </section>
+
+        <!-- 68. Several Sort Orders -->
+        <section class="slide content-slide">
+            <h2>Multiple Sort Orders</h2>
+            <p><strong>C-Store / Vertica</strong>: Store the same data sorted in <strong>several different ways</strong>.</p>
+            <ul>
+                <li>Data is replicated across machines anyway — store each replica in a different sort order.</li>
+                <li>When processing a query, use the sort order that best fits the query pattern.</li>
+                <li>Similar concept to multiple secondary indexes in row stores, but without pointers — just columns of values in different orders.</li>
+            </ul>
+        </section>
+
+        <!-- 69. Writing to Column-Oriented Storage -->
+        <section class="slide content-slide">
+            <h2>Writing to Column Stores</h2>
+            <p>Column compression and sorting make reads fast, but writes harder.</p>
+            <div class="compare-card accent" style="margin-top: 20px;">
+                <h3>Solution: LSM-Trees (Again!)</h3>
+                <p>All writes go to an <strong>in-memory store</strong> (sorted structure). When enough accumulate, <strong>bulk-merge</strong> with column files on disk. This is what <strong>Vertica</strong> does.</p>
+            </div>
+            <p style="margin-top: 15px;">Queries examine both column data on disk <strong>and</strong> recent writes in memory. The query optimizer hides this — writes are immediately reflected in subsequent queries.</p>
+        </section>
+
+        <!-- 70. Data Cubes -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>Data Cubes (OLAP Cubes)</h2>
+                <p>A grid of <strong>precomputed aggregates</strong> grouped by different dimensions.</p>
+                <ul>
+                    <li>Example: SUM of net_price for each (date, product) combination.</li>
+                    <li>Can summarize along each dimension (sales by product regardless of date, or vice versa).</li>
+                    <li>5 dimensions → 5D hypercube.</li>
+                </ul>
+            </div>
+            <div class="image-box">
+                <img src="images/ddia_0312.png" alt="Figure 3-12: Data Cube" />
+            </div>
+        </section>
+
+        <!-- 71. Materialized Views -->
+        <section class="slide content-slide">
+            <h2>Materialized Views</h2>
+            <p>A table-like object whose contents are the <strong>results of a query, written to disk</strong>.</p>
+            <div class="two-col" style="margin-top: 20px;">
+                <div class="compare-card">
+                    <h3>Virtual View</h3>
+                    <p>Just a shortcut for a query. Expanded on the fly.</p>
+                </div>
+                <div class="compare-card accent">
+                    <h3>Materialized View</h3>
+                    <p>Actual copy of results on disk. Must be <strong>updated when underlying data changes</strong> — makes writes more expensive.</p>
+                </div>
+            </div>
+            <p style="margin-top: 20px;">Data cubes are a special case. <strong>Fast for standard reports, inflexible for ad hoc queries.</strong> Most warehouses keep raw data and use cubes as a performance boost.</p>
+        </section>
+
+        <!-- ==================== SUMMARY ==================== -->
+
+        <!-- 72. Section Header -->
+        <section class="slide section-header">
+            <h2>Summary</h2>
+        </section>
+
+        <!-- 73. Summary: OLTP -->
+        <section class="slide content-slide">
+            <h2>OLTP: Two Schools of Thought</h2>
+            <div class="two-col">
+                <div class="compare-card">
+                    <h3>Log-Structured</h3>
+                    <p>Append-only, never update written files. Turn random writes into sequential writes.</p>
+                    <div style="margin-top: 10px;">
+                        <span class="tag">Bitcask</span>
+                        <span class="tag">SSTables</span>
+                        <span class="tag">LSM-Trees</span>
+                        <span class="tag">LevelDB</span>
+                        <span class="tag">Cassandra</span>
+                        <span class="tag">HBase</span>
+                        <span class="tag">Lucene</span>
+                    </div>
+                </div>
+                <div class="compare-card accent">
+                    <h3>Update-in-Place</h3>
+                    <p>Disk as fixed-size pages that can be overwritten. Used in all major relational databases.</p>
+                    <div style="margin-top: 10px;">
+                        <span class="tag">B-Trees</span>
+                    </div>
+                </div>
+            </div>
+            <p style="margin-top: 20px;">Disk seek time is the bottleneck. Indexes speed up reads, slow down writes. Choose wisely.</p>
+        </section>
+
+        <!-- 74. Summary: OLAP -->
+        <section class="slide content-slide">
+            <h2>OLAP: Column Storage is King</h2>
+            <ul>
+                <li>Data warehouses handle few but massive queries — disk <strong>bandwidth</strong> is the bottleneck (not seek time).</li>
+                <li><strong>Column-oriented storage</strong>: Read only the columns you need.</li>
+                <li><strong>Compression</strong>: Bitmap encoding, run-length encoding for sorted columns.</li>
+                <li><strong>Vectorized processing</strong>: Exploit CPU caches and SIMD instructions.</li>
+                <li><strong>Materialized views &amp; data cubes</strong>: Precompute common aggregates.</li>
+            </ul>
+        </section>
+
+        <!-- 75. Questions Slide -->
+        <section class="slide title-slide">
+            <h1>Questions?</h1>
+            <p>Designing Data-Intensive Applications • Chapter 3</p>
+            <div class="image-box questions-image">
+                <img src="../chapter1/images/questions.jpg" alt="Q&A discussion" />
+            </div>
+        </section>
+
+    </div>
+
+    <div class="controls">
+        <button onclick="prevSlide()">PREV</button>
+        <button onclick="nextSlide()">NEXT</button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const presentation = document.getElementById('presentation');
+        const progressBar = document.getElementById('progressBar');
+        const slideNum = document.getElementById('slideNum');
+        const totalSlides = slides.length;
+
+        function update() {
+            presentation.style.transform = `translateX(-${currentSlide * 100}vw)`;
+            progressBar.style.width = `${((currentSlide + 1) / totalSlides) * 100}%`;
+            slideNum.innerText = `${currentSlide + 1} / ${totalSlides}`;
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides - 1) {
+                currentSlide++;
+                update();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                update();
+            }
+        }
+
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'ArrowDown') nextSlide();
+            if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') prevSlide();
+            if (e.key >= '0' && e.key <= '9') {
+                const targetSlide = parseInt(e.key, 10);
+                currentSlide = Math.floor(totalSlides * (targetSlide / 10));
+                update();
+            }
+        });
+
+        update();
+    </script>
+
+</body>
+
+</html>

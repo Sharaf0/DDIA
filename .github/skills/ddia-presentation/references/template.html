@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KT: DDIA Chapter N - Chapter Title Here</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #ffffff;
+            --text: #0f172a;
+            --gray: #f0f0f0;
+            --accent: #2563eb;
+            --accent-light: #dbeafe;
+            --warm: #fef3c7;
+            --dark: #0f172a;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        .presentation {
+            height: 100%;
+            width: 100%;
+            display: flex;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .slide {
+            min-width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 5% 10%;
+            position: relative;
+            text-align: center;
+        }
+
+        /* ====== Slide Types ====== */
+
+        /* Title Slide: opening slide with book title, chapter name, book cover */
+        .title-slide h1 {
+            font-size: 4.5rem;
+            font-weight: 800;
+            letter-spacing: -2px;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #0f172a 0%, #2563eb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .title-slide p {
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            opacity: 0.6;
+        }
+
+        .title-slide {
+            gap: 20px;
+        }
+
+        .title-image {
+            height: 350px;
+            max-width: 280px;
+            border: none;
+            background: transparent;
+        }
+
+        .title-image img {
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            border-radius: 4px;
+        }
+
+        /* Section Header: dark full-screen divider between major topics */
+        .section-header {
+            background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%);
+            color: #fff;
+        }
+
+        .section-header h2 {
+            font-size: 5rem;
+        }
+
+        .section-header .image-box {
+            height: 55vh;
+            margin-top: 30px;
+            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .section-header .image-box img {
+            opacity: 0.9;
+        }
+
+        /* Content Slide: standard text slide, optionally with side image */
+        .content-slide {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+            text-align: left;
+            align-items: center;
+        }
+
+        .content-slide.with-image {
+            grid-template-columns: 1fr 1.2fr;
+            text-align: left;
+        }
+
+        /* ====== Typography ====== */
+        h2 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 1.8rem;
+            line-height: 1.4;
+            font-weight: 300;
+        }
+
+        ul {
+            font-size: 1.5rem;
+            line-height: 1.6;
+            font-weight: 300;
+            margin-top: 15px;
+            padding-left: 25px;
+        }
+
+        ul li {
+            margin-bottom: 10px;
+        }
+
+        /* ====== Content Components ====== */
+
+        /* Highlight: inline yellow background */
+        .highlight {
+            background: var(--warm);
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+
+        /* Code Block: dark background, monospace */
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+            text-align: left;
+            overflow-x: auto;
+            margin-top: 15px;
+            white-space: pre;
+        }
+
+        /* Image Box: container for images */
+        .image-box {
+            width: 100%;
+            height: 500px;
+            background: #f9f9f9;
+            border: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border-radius: 12px;
+        }
+
+        .image-box img {
+            max-width: 95%;
+            max-height: 95%;
+            object-fit: contain;
+        }
+
+        /* Fill variant: for photos (object-fit: cover) */
+        .image-box.fill img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Quote: left-bordered italic text */
+        .quote {
+            font-style: italic;
+            border-left: 4px solid var(--accent);
+            padding-left: 20px;
+            margin: 20px 0;
+        }
+
+        /* Stat Box: big number with label */
+        .stat-box {
+            background: #f8f8f8;
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .stat-box .number {
+            font-size: 4rem;
+            font-weight: 800;
+            color: var(--accent);
+        }
+
+        .stat-box .label {
+            font-size: 1.2rem;
+            opacity: 0.7;
+            margin-top: 10px;
+        }
+
+        .stat-box.small .number {
+            font-size: 2.5rem;
+        }
+
+        .stat-box.small {
+            padding: 20px;
+        }
+
+        /* Two Column Layout */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            width: 100%;
+        }
+
+        /* Three Column Layout */
+        .three-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 25px;
+            width: 100%;
+        }
+
+        /* Compare Card: for side-by-side comparison */
+        .compare-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 25px;
+            text-align: left;
+        }
+
+        .compare-card h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--accent);
+        }
+
+        .compare-card p,
+        .compare-card ul {
+            font-size: 1.2rem;
+        }
+
+        /* Accent variant: highlight the preferred option */
+        .compare-card.accent {
+            background: var(--accent-light);
+            border-color: var(--accent);
+        }
+
+        /* Tag / Pill: inline labels */
+        .tag {
+            display: inline-block;
+            background: var(--accent-light);
+            color: var(--accent);
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 4px;
+        }
+
+        /* Emoji: large decorative emoji */
+        .emoji {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        /* Syntax highlighting spans for code blocks */
+        .sql-keyword {
+            color: #569cd6;
+            font-weight: 600;
+        }
+
+        .code-comment {
+            color: #6a9955;
+        }
+
+        .code-string {
+            color: #ce9178;
+        }
+
+        /* Side image: floating image on text-heavy slides */
+        .side-image {
+            position: absolute;
+            right: 60px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 200px;
+            height: 200px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .side-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Questions image: smaller image for Q&A slide */
+        .questions-image {
+            height: 360px;
+            max-width: 600px;
+        }
+
+        /* Full image slide: image-dominant layout */
+        .full-image-slide .image-box {
+            height: 70vh;
+            width: 90%;
+            max-width: 1200px;
+        }
+
+        /* Timeline: horizontal timeline with dots */
+        .timeline {
+            display: flex;
+            align-items: flex-start;
+            gap: 0;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .timeline-item {
+            flex: 1;
+            text-align: center;
+            position: relative;
+            padding-top: 30px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--accent);
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            top: 4px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 16px;
+            height: 16px;
+            background: var(--accent);
+            border-radius: 50%;
+            border: 3px solid white;
+        }
+
+        .timeline-item .year {
+            font-weight: 800;
+            font-size: 1.3rem;
+            color: var(--accent);
+        }
+
+        .timeline-item .desc {
+            font-size: 1rem;
+            margin-top: 5px;
+            opacity: 0.7;
+        }
+
+        /* ====== Controls ====== */
+        .controls {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            gap: 15px;
+            z-index: 100;
+        }
+
+        .controls button {
+            background: var(--dark);
+            color: #fff;
+            border: none;
+            padding: 15px 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            border-radius: 6px;
+        }
+
+        .controls button:hover {
+            opacity: 0.8;
+        }
+
+        .progress-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: #eee;
+            z-index: 101;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), #7c3aed);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .slide-number {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            opacity: 0.4;
+        }
+
+        /* ====== Responsive ====== */
+        @media (max-width: 768px) {
+            body { font-size: 14px; }
+            .slide { padding: 10% 5%; }
+            .title-slide h1 { font-size: 2.5rem; }
+            .title-slide p { font-size: 1rem; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+    <!-- UPDATE slide count below to match actual number of slides -->
+    <div class="slide-number" id="slideNum">1 / 50</div>
+
+    <div class="presentation" id="presentation">
+
+        <!-- ==================== INTRO SECTION ==================== -->
+
+        <!-- 1. Title Slide -->
+        <section class="slide title-slide">
+            <p>Designing Data-Intensive Applications</p>
+            <h1>Chapter Title Here</h1>
+            <p>Knowledge Transfer Session • Chapter N</p>
+            <div class="image-box title-image">
+                <img src="../chapter1/images/book_cover.jpg" alt="DDIA book cover" />
+            </div>
+        </section>
+
+        <!-- 2. Chapter Opening Quote (if chapter has an epigraph) -->
+        <section class="slide content-slide">
+            <h2>"Quote from the chapter epigraph."</h2>
+            <p style="margin-top: 20px; opacity: 0.6;">— Author, <em>Source</em> (Year)</p>
+            <p style="margin-top: 40px;">Introductory framing paragraph connecting the quote to the chapter's themes.</p>
+        </section>
+
+        <!-- 3. What We'll Cover -->
+        <section class="slide content-slide">
+            <h2>What We'll Cover</h2>
+            <div class="three-col" style="margin-top: 20px;">
+                <div class="compare-card">
+                    <h3>📊 Topic A</h3>
+                    <p>Brief description</p>
+                </div>
+                <div class="compare-card">
+                    <h3>📄 Topic B</h3>
+                    <p>Brief description</p>
+                </div>
+                <div class="compare-card">
+                    <h3>🔗 Topic C</h3>
+                    <p>Brief description</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== SECTION 1 ==================== -->
+
+        <!-- 4. Section Header -->
+        <section class="slide section-header">
+            <h2>First Major Section</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">Subtitle or key phrase</p>
+        </section>
+
+        <!-- 5. Content slide with image (for book figures or photos) -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>Slide Title</h2>
+                <p>Explanation of the concept.</p>
+                <ul>
+                    <li><strong>Key term</strong> — definition or explanation</li>
+                    <li><strong>Another term</strong> — definition or explanation</li>
+                </ul>
+            </div>
+            <div class="image-box">
+                <!-- Use .image-box for diagrams (contain), .image-box.fill for photos (cover) -->
+                <img src="images/ddia_0N01.png" alt="Figure N-1: Description" />
+            </div>
+        </section>
+
+        <!-- 6. Text-only content slide -->
+        <section class="slide content-slide">
+            <h2>Slide Title</h2>
+            <p>Main point here.</p>
+            <ul>
+                <li>Point one</li>
+                <li>Point two</li>
+                <li>Point three</li>
+            </ul>
+        </section>
+
+        <!-- ==================== SUMMARY ==================== -->
+
+        <!-- N-2. Summary Section Header -->
+        <section class="slide section-header">
+            <h2>Summary</h2>
+        </section>
+
+        <!-- N-1. Summary Content -->
+        <section class="slide content-slide">
+            <h2>Chapter N Summary</h2>
+            <p><strong>Topic A:</strong> Key takeaway.</p>
+            <p style="margin-top: 20px;"><strong>Topic B:</strong> Key takeaway.</p>
+            <p style="margin-top: 20px;"><strong>Topic C:</strong> Key takeaway.</p>
+        </section>
+
+        <!-- N. Questions Slide -->
+        <section class="slide title-slide">
+            <h1>Questions?</h1>
+            <p>Designing Data-Intensive Applications • Chapter N</p>
+            <div class="image-box questions-image">
+                <img src="images/questions.jpg" alt="Q&A discussion" />
+            </div>
+        </section>
+
+    </div>
+
+    <div class="controls">
+        <button onclick="prevSlide()">PREV</button>
+        <button onclick="nextSlide()">NEXT</button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const presentation = document.getElementById('presentation');
+        const progressBar = document.getElementById('progressBar');
+        const slideNum = document.getElementById('slideNum');
+        const totalSlides = slides.length;
+
+        function update() {
+            presentation.style.transform = `translateX(-${currentSlide * 100}vw)`;
+            progressBar.style.width = `${((currentSlide + 1) / totalSlides) * 100}%`;
+            slideNum.innerText = `${currentSlide + 1} / ${totalSlides}`;
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides - 1) {
+                currentSlide++;
+                update();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                update();
+            }
+        }
+
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'ArrowDown') nextSlide();
+            if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') prevSlide();
+            if (e.key >= '0' && e.key <= '9') {
+                const targetSlide = parseInt(e.key, 10);
+                currentSlide = Math.floor(totalSlides * (targetSlide / 10));
+                update();
+            }
+        });
+
+        update();
+    </script>
+
+</body>
+
+</html>
