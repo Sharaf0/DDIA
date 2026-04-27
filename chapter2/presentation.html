@@ -441,6 +441,113 @@
             .title-slide h1 { font-size: 2.5rem; }
             .title-slide p { font-size: 1rem; }
         }
+
+        /* ====== Quiz Slides ====== */
+
+        .quiz-slide {
+            text-align: left;
+            padding: 3% 8%;
+            gap: 10px;
+        }
+
+        .quiz-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 5px;
+        }
+
+        .quiz-number {
+            background: var(--accent);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 8px;
+            font-weight: 800;
+            font-size: 1.2rem;
+        }
+
+        .quiz-topic {
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            opacity: 0.5;
+            font-weight: 600;
+        }
+
+        .quiz-question {
+            font-size: 1.6rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+
+        .quiz-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .quiz-option {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 12px 18px;
+            font-size: 1.1rem;
+            font-weight: 400;
+            cursor: pointer;
+        }
+
+        .quiz-option:hover {
+            border-color: var(--accent);
+        }
+
+        .quiz-option.selected {
+            border-color: var(--accent);
+            background: var(--accent-light);
+        }
+
+        .quiz-answer {
+            width: 100%;
+            margin-top: 8px;
+        }
+
+        .reveal-btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 8px 28px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .reveal-btn:hover {
+            opacity: 0.85;
+        }
+
+        .quiz-explanation {
+            display: none;
+            background: #f0fdf4;
+            border: 2px solid #86efac;
+            border-radius: 10px;
+            padding: 12px 18px;
+            margin-top: 8px;
+            font-size: 1.05rem;
+            line-height: 1.4;
+        }
+
+        .quiz-explanation.incorrect {
+            display: block;
+            background: #fef2f2;
+            border-color: #fecaca;
+        }
+
+        .quiz-answer.revealed .quiz-explanation {
+            display: block;
+        }
     </style>
 </head>
 
@@ -1343,6 +1450,1616 @@ migrated(Name, BornIn, LivingIn) :- name(Person, Name),        <span class="code
             </div>
         </section>
 
+        <!-- ==================== MCQ QUIZ SECTION ==================== -->
+
+        <!-- Quiz Section Header -->
+        <section class="slide section-header">
+            <h2>MCQ Quiz</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">100 Questions • Test Your Knowledge</p>
+        </section>
+
+        <!-- Q1 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q1</span><span class="quiz-topic">Data Models</span></div>
+            <p class="quiz-question">According to the chapter, why are data models perhaps the most important part of developing software?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Because they define the user interface</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Because they affect not only how software is written but also how we think about the problem</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Because they determine server hardware requirements</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Because they determine the programming language</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> "Data models are perhaps the most important part of developing software, because they have such a profound effect: not only on how the software is written, but also on how we think about the problem that we are solving."</div>
+            </div>
+        </section>
+
+        <!-- Q2 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q2</span><span class="quiz-topic">Data Models</span></div>
+            <p class="quiz-question">How many layers of data models does the chapter describe in a typical application?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) One (just the database)</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Three (application, network, storage)</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Two (application and database)</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Four (application, general-purpose model, bytes/memory, hardware)</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> The chapter describes four layers: (1) application objects/data structures, (2) general-purpose data model like JSON/relational/graph, (3) bytes in memory/disk, (4) hardware representation with electrical currents, light pulses, etc.</div>
+            </div>
+        </section>
+
+        <!-- Q3 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q3</span><span class="quiz-topic">Relational Model</span></div>
+            <p class="quiz-question">Who proposed the relational model and in what year?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Tim Berners-Lee in 1989</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Michael Stonebraker in 1986</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Larry Ellison in 1977</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) E.F. Codd in 1970</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> "The best-known data model today is probably that of SQL, based on the relational model proposed by Edgar Codd in 1970."</div>
+            </div>
+        </section>
+
+        <!-- Q4 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q4</span><span class="quiz-topic">Relational Model</span></div>
+            <p class="quiz-question">What is a 'relation' called in SQL terminology?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) A column</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) A table</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) A row</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) A database</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> "Data is organized into relations (called tables in SQL), where each relation is an unordered collection of tuples (rows in SQL)."</div>
+            </div>
+        </section>
+
+        <!-- Q5 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q5</span><span class="quiz-topic">Relational Model</span></div>
+            <p class="quiz-question">What was the original use case for relational databases?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Business data processing (transaction processing and batch processing)</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Scientific computing</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Artificial intelligence</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Social networking</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> "The roots of relational databases lie in business data processing, which was performed on mainframe computers in the 1960s and '70s... typically transaction processing and batch processing."</div>
+            </div>
+        </section>
+
+        <!-- Q6 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q6</span><span class="quiz-topic">Relational Model</span></div>
+            <p class="quiz-question">What was the key goal of the relational model?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) To hide the internal representation of data behind a cleaner interface</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) To eliminate the need for indexes</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) To support graph queries</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) To maximize performance</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> "The goal of the relational model was to hide that implementation detail behind a cleaner interface."</div>
+            </div>
+        </section>
+
+        <!-- Q7 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q7</span><span class="quiz-topic">Relational Model</span></div>
+            <p class="quiz-question">How long has the dominance of relational databases lasted?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) About 50-60 years</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) About 25-30 years</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) About 5-10 years</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Less than 5 years</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> "The dominance of relational databases has lasted around 25‒30 years—an eternity in computing history."</div>
+            </div>
+        </section>
+
+        <!-- Q8 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q8</span><span class="quiz-topic">NoSQL</span></div>
+            <p class="quiz-question">What was the origin of the term 'NoSQL'?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) A catchy Twitter hashtag for a meetup on open source, distributed, nonrelational databases in 2009</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) A patent name</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) An academic paper title</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) A marketing term by Oracle</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> "The name 'NoSQL'... was originally intended simply as a catchy Twitter hashtag for a meetup on open source, distributed, nonrelational databases in 2009."</div>
+            </div>
+        </section>
+
+        <!-- Q9 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q9</span><span class="quiz-topic">NoSQL</span></div>
+            <p class="quiz-question">What does 'NoSQL' now stand for retroactively?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) No Structured Query Language</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) New Open SQL</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Not Only SQL</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Non-Object SQL</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> "It has been retroactively reinterpreted as Not Only SQL."</div>
+            </div>
+        </section>
+
+        <!-- Q10 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q10</span><span class="quiz-topic">NoSQL</span></div>
+            <p class="quiz-question">What term describes the idea that relational databases will be used alongside nonrelational datastores?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Multi-model databases</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Universal data layer</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Database sharding</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Polyglot persistence</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> "It therefore seems likely that in the foreseeable future, relational databases will continue to be used alongside a broad variety of nonrelational datastores—an idea that is sometimes called polyglot persistence."</div>
+            </div>
+        </section>
+
+        <!-- Q11 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q11</span><span class="quiz-topic">Impedance Mismatch</span></div>
+            <p class="quiz-question">What is the 'impedance mismatch' in the context of databases?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) When network latency affects query performance</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) The disconnect between object-oriented application code and the relational database model of tables, rows, and columns</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) When indexes don't match query patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) When two databases have incompatible schemas</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> "If data is stored in relational tables, an awkward translation layer is required between the objects in the application code and the database model of tables, rows, and columns. The disconnect between the models is sometimes called an impedance mismatch."</div>
+            </div>
+        </section>
+
+        <!-- Q12 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q12</span><span class="quiz-topic">ORM</span></div>
+            <p class="quiz-question">What do ORM frameworks like ActiveRecord and Hibernate do?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Automatically generate database schemas</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Replace SQL entirely</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Reduce the amount of boilerplate code for the translation layer, but can't completely hide the differences</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Eliminate the impedance mismatch completely</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> "Object-relational mapping (ORM) frameworks like ActiveRecord and Hibernate reduce the amount of boilerplate code required for this translation layer, but they can't completely hide the differences between the two models."</div>
+            </div>
+        </section>
+
+        <!-- Q13 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q13</span><span class="quiz-topic">Document Model</span></div>
+            <p class="quiz-question">What example does the chapter use to illustrate the object-relational mismatch?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) A bank transaction</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) A LinkedIn profile (résumé)</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) A shopping cart</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) A social media post</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> "For example, Figure 2-1 illustrates how a résumé (a LinkedIn profile) could be expressed in a relational schema."</div>
+            </div>
+        </section>
+
+        <!-- Q14 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q14</span><span class="quiz-topic">JSON Model</span></div>
+            <p class="quiz-question">What advantage does a JSON representation have over a multi-table relational schema?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) It uses less disk space</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) It supports more data types</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Better locality—all relevant information is in one place, requiring only one query</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) It's always faster</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> "The JSON representation has better locality than the multi-table schema in Figure 2-1. If you want to fetch a profile in the relational example, you need to either perform multiple queries or perform a messy multi-way join."</div>
+            </div>
+        </section>
+
+        <!-- Q15 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q15</span><span class="quiz-topic">JSON Model</span></div>
+            <p class="quiz-question">What structure do one-to-many relationships imply in a document?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) A flat list</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) A tree structure</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) A matrix</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) A circular graph</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> "The one-to-many relationships from the user profile to the user's positions, educational history, and contact information imply a tree structure in the data, and the JSON representation makes this tree structure explicit."</div>
+            </div>
+        </section>
+
+        <!-- Q16 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q16</span><span class="quiz-topic">Normalization</span></div>
+            <p class="quiz-question">Why does the chapter recommend using IDs instead of plain-text strings like 'Greater Seattle Area'?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) IDs work better with caches</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) IDs are shorter</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) IDs are more secure</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Because IDs have no meaning to humans, they never need to change; removing text duplication is the key idea behind normalization</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> "The advantage of using an ID is that because it has no meaning to humans, it never needs to change... Removing such duplication is the key idea behind normalization in databases."</div>
+            </div>
+        </section>
+
+        <!-- Q17 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q17</span><span class="quiz-topic">Many-to-Many</span></div>
+            <p class="quiz-question">Why don't many-to-one relationships fit nicely into the document model?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Because document databases have weak support for joins, which are needed for normalization</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Because IDs don't work in JSON</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Because documents are too large</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Documents can't store IDs</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> "Normalizing this data requires many-to-one relationships, which don't fit nicely into the document model. In relational databases, it's normal to refer to rows in other tables by ID, because joins are easy. In document databases... support for joins is often weak."</div>
+            </div>
+        </section>
+
+        <!-- Q18 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q18</span><span class="quiz-topic">Many-to-Many</span></div>
+            <p class="quiz-question">What happens when a document model application needs joins but the database doesn't support them?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) The application code must emulate joins by making multiple requests to the database</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Nothing, joins aren't needed</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) The data can't be queried</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) The database automatically normalizes</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> "If the database itself does not support joins, you have to emulate a join in application code by making multiple queries to the database."</div>
+            </div>
+        </section>
+
+        <!-- Q19 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q19</span><span class="quiz-topic">Data Evolution</span></div>
+            <p class="quiz-question">Why does data tend to become more interconnected over time?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Because schemas get simpler</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Because hardware improves</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Because features are added to applications, creating more relationships between data items</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Because databases add more indexes</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> "Even if the initial version of an application fits well in a join-free document model, data has a tendency of becoming more interconnected as features are added to applications."</div>
+            </div>
+        </section>
+
+        <!-- Q20 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q20</span><span class="quiz-topic">Data Model History</span></div>
+            <p class="quiz-question">What is the recommendation example that illustrates growing many-to-many relationships?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Users following each other</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) A user writes a recommendation for another user, requiring a reference to the author's profile for photo updates</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Tagging products in a catalog</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Sharing files between accounts</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> "Say you want to add a new feature: one user can write a recommendation for another user... If the recommender updates their photo, any recommendations they have written need to reflect the new photo. Therefore, the recommendation should have a reference to the author's profile."</div>
+            </div>
+        </section>
+
+        <!-- Q21 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q21</span><span class="quiz-topic">IMS</span></div>
+            <p class="quiz-question">What was IBM's IMS, and when was it first commercially released?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) A NoSQL database from 2009</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) A relational database from 1985</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) A graph database from 1995</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) A hierarchical database from 1968, originally developed for the Apollo space program</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> "The most popular database for business data processing in the 1970s was IBM's Information Management System (IMS), originally developed for stock-keeping in the Apollo space program and first commercially released in 1968."</div>
+            </div>
+        </section>
+
+        <!-- Q22 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q22</span><span class="quiz-topic">Hierarchical Model</span></div>
+            <p class="quiz-question">How is the hierarchical model similar to the JSON model used by document databases?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Both use SQL</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Both use schemas</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Both support many-to-many relationships easily</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Both represent all data as a tree of records nested within records</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> "The design of IMS used a fairly simple data model called the hierarchical model, which has some remarkable similarities to the JSON model used by document databases. It represented all data as a tree of records nested within records."</div>
+            </div>
+        </section>
+
+        <!-- Q23 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q23</span><span class="quiz-topic">Hierarchical Model</span></div>
+            <p class="quiz-question">What problem did the hierarchical model share with modern document databases?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) It made many-to-many relationships difficult and didn't support joins</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) It couldn't handle large datasets</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) It used too much memory</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Poor read performance</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> "Like document databases, IMS worked well for one-to-many relationships, but it made many-to-many relationships difficult, and it didn't support joins."</div>
+            </div>
+        </section>
+
+        <!-- Q24 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q24</span><span class="quiz-topic">CODASYL</span></div>
+            <p class="quiz-question">What was the CODASYL model also known as?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) The relational model</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) The document model</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) The hierarchical model</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) The network model</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> "The network model was standardized by a committee called the Conference on Data Systems Languages (CODASYL)... it is also known as the CODASYL model."</div>
+            </div>
+        </section>
+
+        <!-- Q25 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q25</span><span class="quiz-topic">CODASYL</span></div>
+            <p class="quiz-question">How did records link to each other in the CODASYL model?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Using JSON references</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Using foreign keys like in SQL</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Using pointers (like a programming language), traversed via access paths</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Using hash tables</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> "The links between records in the network model were not foreign keys, but more like pointers in a programming language. The only way of accessing a record was to follow a path from a root record along these chains of links. This was called an access path."</div>
+            </div>
+        </section>
+
+        <!-- Q26 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q26</span><span class="quiz-topic">CODASYL</span></div>
+            <p class="quiz-question">What was the main problem with the CODASYL model?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Navigating access paths was like navigating an n-dimensional data space, making query code complicated and inflexible</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) It used too much disk space</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) It was too slow</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) It didn't support any relationships</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> "Even CODASYL committee members admitted that this was like navigating around an n-dimensional data space... the code for querying and updating the database complicated and inflexible."</div>
+            </div>
+        </section>
+
+        <!-- Q27 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q27</span><span class="quiz-topic">Relational Model</span></div>
+            <p class="quiz-question">What key insight made the relational model superior to the network model?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) It supported more data types</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) It used less memory</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) The query optimizer automatically decides execution order and indexes, freeing developers from access path management</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Tables were faster</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> "In a relational database, the query optimizer automatically decides which parts of the query to execute in which order, and which indexes to use... the big difference is that they are made automatically by the query optimizer, not by the application developer."</div>
+            </div>
+        </section>
+
+        <!-- Q28 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q28</span><span class="quiz-topic">Query Optimizer</span></div>
+            <p class="quiz-question">According to the chapter, what is the key insight about building a query optimizer?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) You only need to build a query optimizer once, and all applications that use the database benefit from it</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Optimizers are only needed for large databases</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Each application needs its own optimizer</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Query optimizers are simple to build</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> "A key insight of the relational model was this: you only need to build a query optimizer once, and then all applications that use the database can benefit from it."</div>
+            </div>
+        </section>
+
+        <!-- Q29 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q29</span><span class="quiz-topic">Document vs Relational</span></div>
+            <p class="quiz-question">How do modern document databases handle many-to-one/many-to-many relationships compared to relational databases?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) They use stored procedures</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Both use unique identifiers (foreign keys or document references) resolved at read time</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) They use CODASYL-style access paths</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Document databases don't support any references</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> "When it comes to representing many-to-one and many-to-many relationships, relational and document databases are not fundamentally different: in both cases, the related item is referenced by a unique identifier, which is called a foreign key in the relational model and a document reference in the document model."</div>
+            </div>
+        </section>
+
+        <!-- Q30 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q30</span><span class="quiz-topic">Document Databases</span></div>
+            <p class="quiz-question">How does the hierarchical model compare to document databases for nested records?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) They are completely different</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Document databases reverted back to the hierarchical model—storing nested records within their parent record rather than in a separate table</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) The hierarchical model is more advanced</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Document databases use separate tables like relational</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> "Document databases reverted back to the hierarchical model in one aspect: storing nested records (one-to-many relationships) within their parent record rather than in a separate table."</div>
+            </div>
+        </section>
+
+        <!-- Q31 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q31</span><span class="quiz-topic">Simpler Code</span></div>
+            <p class="quiz-question">When does the document model lead to simpler application code?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Only for small datasets</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Always</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) When using NoSQL databases</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) When the data has a document-like structure (tree of one-to-many relationships loaded at once)</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> "If the data in your application has a document-like structure (i.e., a tree of one-to-many relationships, where typically the entire tree is loaded at once), then it's probably a good idea to use a document model."</div>
+            </div>
+        </section>
+
+        <!-- Q32 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q32</span><span class="quiz-topic">Shredding</span></div>
+            <p class="quiz-question">What is 'shredding' in the context of relational databases?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Deleting old data</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Encrypting sensitive fields</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Compressing data for storage</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Splitting a document-like structure into multiple tables</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> "The relational technique of shredding—splitting a document-like structure into multiple tables... can lead to cumbersome schemas and unnecessarily complicated application code."</div>
+            </div>
+        </section>
+
+        <!-- Q33 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q33</span><span class="quiz-topic">Document Limitations</span></div>
+            <p class="quiz-question">What limitation does the document model have for referencing nested items?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) It can't store nested items</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) You cannot refer directly to a nested item; you must describe its path (like 'second item in the list of positions for user 251')</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Nested items are automatically deleted</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Nested items can't have properties</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> "The document model has limitations: for example, you cannot refer directly to a nested item within a document, but instead you need to say something like 'the second item in the list of positions for user 251.'"</div>
+            </div>
+        </section>
+
+        <!-- Q34 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q34</span><span class="quiz-topic">Schema-on-Read</span></div>
+            <p class="quiz-question">What is 'schema-on-read'?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) The structure of data is implicit and only interpreted when the data is read</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) There is no schema at all</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) The database enforces the schema when data is written</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) The schema is defined in the application code</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> "A more accurate term is schema-on-read (the structure of the data is implicit, and only interpreted when the data is read), in contrast with schema-on-write (the traditional approach of relational databases, where the schema is explicit and the database ensures all written data conforms to it)."</div>
+            </div>
+        </section>
+
+        <!-- Q35 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q35</span><span class="quiz-topic">Schema-on-Write</span></div>
+            <p class="quiz-question">What is schema-on-read compared to in programming languages?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Dynamic (runtime) type checking</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Assembly language</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Compiled languages</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Functional programming</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> "Schema-on-read is similar to dynamic (runtime) type checking in programming languages, whereas schema-on-write is similar to static (compile-time) type checking."</div>
+            </div>
+        </section>
+
+        <!-- Q36 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q36</span><span class="quiz-topic">Schema Migration</span></div>
+            <p class="quiz-question">What notable problem does MySQL have with ALTER TABLE?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) It copies the entire table on ALTER TABLE, which can mean minutes or hours of downtime</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) It drops indexes automatically</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) It changes column types randomly</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) It doesn't support ALTER TABLE</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> "MySQL is a notable exception—it copies the entire table on ALTER TABLE, which can mean minutes or even hours of downtime when altering a large table."</div>
+            </div>
+        </section>
+
+        <!-- Q37 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q37</span><span class="quiz-topic">Schema-on-Read</span></div>
+            <p class="quiz-question">When is schema-on-read particularly advantageous?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) When data is heterogeneous (many types of objects, or structure determined by external systems)</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) When all records have the same structure</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) When performance is critical</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) When the schema never changes</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> "The schema-on-read approach is advantageous if the items in the collection don't all have the same structure for some reason (i.e., the data is heterogeneous)."</div>
+            </div>
+        </section>
+
+        <!-- Q38 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q38</span><span class="quiz-topic">Data Locality</span></div>
+            <p class="quiz-question">Why does data locality in document databases improve performance?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Because documents are always small</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Because documents are compressed</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Because the entire document is stored as a single continuous string, so one query can retrieve all data without multiple index lookups</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Because documents are cached in memory</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> "A document is usually stored as a single continuous string, encoded as JSON, XML, or a binary variant thereof. If your application often needs to access the entire document, there is a performance advantage to this storage locality."</div>
+            </div>
+        </section>
+
+        <!-- Q39 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q39</span><span class="quiz-topic">Data Locality</span></div>
+            <p class="quiz-question">What is the downside of data locality in document databases?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) The database must load the entire document even if you access only a small portion, and updates require rewriting the whole document</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Documents can't be indexed</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Documents have a size limit of 1 KB</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Documents can't be replicated</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> "The database typically needs to load the entire document, even if you access only a small portion of it, which can be wasteful on large documents. On updates to a document, the entire document usually needs to be rewritten."</div>
+            </div>
+        </section>
+
+        <!-- Q40 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q40</span><span class="quiz-topic">Convergence</span></div>
+            <p class="quiz-question">What does the chapter say about the future of relational and document databases?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) They will remain completely separate</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) They are becoming more similar over time—a hybrid of the two models is a good route for databases to take</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Document databases will replace relational ones</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Relational databases will disappear</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> "It seems that relational and document databases are becoming more similar over time, and that is a good thing... A hybrid of the relational and document models is a good route for databases to take in the future."</div>
+            </div>
+        </section>
+
+        <!-- Q41 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q41</span><span class="quiz-topic">Query Languages</span></div>
+            <p class="quiz-question">What type of query language is SQL?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Object-oriented</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Declarative</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Imperative</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Procedural</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> "SQL is a declarative query language, whereas IMS and CODASYL queried the database using imperative code."</div>
+            </div>
+        </section>
+
+        <!-- Q42 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q42</span><span class="quiz-topic">Declarative vs Imperative</span></div>
+            <p class="quiz-question">What is the key difference between declarative and imperative query languages?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Imperative hides more details</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) In declarative, you specify what data you want, not how to get it; the database decides the execution strategy</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Declarative is slower</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) There is no real difference</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> "In a declarative query language, you just specify the pattern of the data you want... but not how to achieve that goal. It is up to the database system's query optimizer to decide."</div>
+            </div>
+        </section>
+
+        <!-- Q43 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q43</span><span class="quiz-topic">Declarative Advantage</span></div>
+            <p class="quiz-question">Why does limiting SQL's functionality give the database more room for automatic optimizations?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Because SQL doesn't support complex data types</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Because SQL doesn't guarantee ordering, so the database can freely rearrange data without breaking queries</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Because SQL uses less memory</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Because SQL is simpler to parse</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> "The SQL example doesn't guarantee any particular ordering, and so it doesn't mind if the order changes. But if the query is written as imperative code, the database can never be sure whether the code is relying on the ordering or not."</div>
+            </div>
+        </section>
+
+        <!-- Q44 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q44</span><span class="quiz-topic">Declarative Languages</span></div>
+            <p class="quiz-question">What advantage do declarative languages have for parallel execution?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) They can only run on GPUs</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) They are always parallel</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) They use special parallel syntax</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) They specify only the pattern of results, not the algorithm, so the database is free to use parallel implementations</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> "Declarative languages have a better chance of getting faster in parallel execution because they specify only the pattern of the results, not the algorithm that is used to determine the results."</div>
+            </div>
+        </section>
+
+        <!-- Q45 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q45</span><span class="quiz-topic">CSS Parallel</span></div>
+            <p class="quiz-question">What web technology does the chapter compare to declarative database queries?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) CSS selectors (which declare styling patterns rather than imperatively manipulating DOM elements)</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) JavaScript event handlers</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) AJAX calls</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) HTML forms</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> The chapter compares CSS selectors to SQL: both are declarative languages that specify what you want (styling/data) without specifying how to achieve it, contrasted with imperative JavaScript DOM manipulation.</div>
+            </div>
+        </section>
+
+        <!-- Q46 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q46</span><span class="quiz-topic">CSS vs JavaScript</span></div>
+            <p class="quiz-question">What problem does the imperative JavaScript styling approach have that CSS doesn't?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) It uses more bandwidth</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) It's faster but less readable</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) It doesn't support colors</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) If the selected class is removed, the imperative blue color won't be removed until the page reloads; CSS automatically handles this</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> "If the selected class is removed... the blue color won't be removed, even if the code is rerun—and so the item will remain highlighted until the entire page is reloaded. With CSS, the browser automatically detects when the rule no longer applies."</div>
+            </div>
+        </section>
+
+        <!-- Q47 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q47</span><span class="quiz-topic">MapReduce</span></div>
+            <p class="quiz-question">What is MapReduce?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) A caching strategy</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) A programming model for processing large amounts of data in bulk across many machines, based on map and reduce functions</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) A type of database index</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) A SQL extension</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> "MapReduce is a programming model for processing large amounts of data in bulk across many machines, popularized by Google."</div>
+            </div>
+        </section>
+
+        <!-- Q48 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q48</span><span class="quiz-topic">MapReduce</span></div>
+            <p class="quiz-question">What constraint do MapReduce map and reduce functions have?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) They must be pure functions—using only input data, no additional queries, and no side effects</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) They must return exactly one value</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) They must be written in Java</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) They must process data alphabetically</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> "The map and reduce functions are somewhat restricted in what they are allowed to do. They must be pure functions, which means they only use the data that is passed to them as input, they cannot perform additional database queries, and they must not have any side effects."</div>
+            </div>
+        </section>
+
+        <!-- Q49 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q49</span><span class="quiz-topic">MapReduce</span></div>
+            <p class="quiz-question">What usability problem does the chapter identify with MapReduce?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) It can't filter data</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) It's too fast</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) You have to write two carefully coordinated functions, which is often harder than writing a single query</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) It only works with numbers</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> "A usability problem with MapReduce is that you have to write two carefully coordinated JavaScript functions, which is often harder than writing a single query."</div>
+            </div>
+        </section>
+
+        <!-- Q50 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q50</span><span class="quiz-topic">Aggregation Pipeline</span></div>
+            <p class="quiz-question">What does the chapter say MongoDB's aggregation pipeline 'reinvents'?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) SQL, albeit in JSON-based syntax</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) The hierarchical model</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) MapReduce</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) The network model</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> "The moral of the story is that a NoSQL system may find itself accidentally reinventing SQL, albeit in disguise."</div>
+            </div>
+        </section>
+
+        <!-- Q51 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q51</span><span class="quiz-topic">Graph Models</span></div>
+            <p class="quiz-question">When is a graph data model most natural?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) When data fits in a single table</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) When many-to-many relationships are very common and connections become complex</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) When data is completely unstructured</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) When data has mostly one-to-many relationships</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> "If many-to-many relationships are very common in your data... it becomes more natural to start modeling your data as a graph."</div>
+            </div>
+        </section>
+
+        <!-- Q52 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q52</span><span class="quiz-topic">Graph Models</span></div>
+            <p class="quiz-question">What two kinds of objects make up a graph?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Vertices (nodes) and edges (relationships)</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Keys and values</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Documents and collections</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Tables and rows</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> "A graph consists of two kinds of objects: vertices (also known as nodes or entities) and edges (also known as relationships or arcs)."</div>
+            </div>
+        </section>
+
+        <!-- Q53 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q53</span><span class="quiz-topic">Graph Flexibility</span></div>
+            <p class="quiz-question">What makes graphs particularly powerful compared to homogeneous data stores?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) They are faster</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) They don't need schemas</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) They use less disk space</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) They can store completely different types of objects in a single datastore with edges connecting them</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> "An equally powerful use of graphs is to provide a consistent way of storing completely different types of objects in a single datastore."</div>
+            </div>
+        </section>
+
+        <!-- Q54 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q54</span><span class="quiz-topic">Facebook Graph</span></div>
+            <p class="quiz-question">What example does the chapter give of a heterogeneous graph?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) A road network</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) A file system</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) A DNS hierarchy</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Facebook's single graph with vertices for people, locations, events, checkins, and comments, connected by various edge types</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> "Facebook maintains a single graph with many different types of vertices and edges: vertices represent people, locations, events, checkins, and comments made by users; edges indicate which people are friends with each other, which checkin happened in which location, who commented on which post..."</div>
+            </div>
+        </section>
+
+        <!-- Q55 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q55</span><span class="quiz-topic">Property Graph</span></div>
+            <p class="quiz-question">In the property graph model, what does each vertex consist of?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) A table and columns</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Just an ID</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) A name and a type</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) A unique identifier, outgoing edges, incoming edges, and a collection of properties (key-value pairs)</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> "In the property graph model, each vertex consists of: A unique identifier, A set of outgoing edges, A set of incoming edges, A collection of properties (key-value pairs)."</div>
+            </div>
+        </section>
+
+        <!-- Q56 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q56</span><span class="quiz-topic">Property Graph</span></div>
+            <p class="quiz-question">What does each edge in a property graph contain?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Just a source and destination</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) A weight and direction</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) A unique ID, tail vertex, head vertex, a label describing the relationship, and properties</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Only a relationship name</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> "Each edge consists of: A unique identifier, The vertex at which the edge starts (the tail vertex), The vertex at which the edge ends (the head vertex), A label to describe the kind of relationship, A collection of properties (key-value pairs)."</div>
+            </div>
+        </section>
+
+        <!-- Q57 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q57</span><span class="quiz-topic">Property Graph</span></div>
+            <p class="quiz-question">What important aspect allows great flexibility in the property graph model?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Vertices are typed</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Any vertex can have an edge to any other vertex—there is no schema restricting which things can be associated</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Edges must be bidirectional</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Properties are required</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> "Any vertex can have an edge connecting it with any other vertex. There is no schema that restricts which kinds of things can or cannot be associated."</div>
+            </div>
+        </section>
+
+        <!-- Q58 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q58</span><span class="quiz-topic">Graph Evolvability</span></div>
+            <p class="quiz-question">Why are graphs good for evolvability?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) As you add features, a graph can easily be extended to accommodate changes in your application's data structures</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) They are always backward compatible</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) They don't need migrations</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) They have fixed schemas</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> "Graphs are good for evolvability: as you add features to your application, a graph can easily be extended to accommodate changes in your application's data structures."</div>
+            </div>
+        </section>
+
+        <!-- Q59 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q59</span><span class="quiz-topic">Cypher</span></div>
+            <p class="quiz-question">What is Cypher?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) A data compression format</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) A network protocol</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) A declarative query language for property graphs, created for the Neo4j graph database</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) An encryption algorithm</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> "Cypher is a declarative query language for property graphs, created for the Neo4j graph database. (It is named after a character in the movie The Matrix and is not related to ciphers in cryptography.)"</div>
+            </div>
+        </section>
+
+        <!-- Q60 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q60</span><span class="quiz-topic">Cypher</span></div>
+            <p class="quiz-question">What does the notation (Idaho) -[:WITHIN]-> (USA) mean in Cypher?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) A bidirectional link between Idaho and USA</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Idaho contains USA</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) USA is within Idaho</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) An edge labeled WITHIN from Idaho (tail) to USA (head)</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> "(Idaho) -[:WITHIN]-> (USA) creates an edge labeled WITHIN, with Idaho as the tail node and USA as the head node."</div>
+            </div>
+        </section>
+
+        <!-- Q61 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q61</span><span class="quiz-topic">Cypher</span></div>
+            <p class="quiz-question">What does :WITHIN*0.. mean in a Cypher query?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Follow a WITHIN edge zero or more times (like * in a regular expression)</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) At most one WITHIN edge</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Exactly two WITHIN edges</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Exactly zero WITHIN edges</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> "In Cypher, :WITHIN*0.. expresses that fact very concisely: it means 'follow a WITHIN edge, zero or more times.' It is like the * operator in a regular expression."</div>
+            </div>
+        </section>
+
+        <!-- Q62 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q62</span><span class="quiz-topic">Graph Queries in SQL</span></div>
+            <p class="quiz-question">How many lines does the SQL recursive CTE version of the emigration query take vs Cypher?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Both take 29 lines</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) SQL: 4 lines, Cypher: 29 lines</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Both take 4 lines</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Cypher: 4 lines, SQL: 29 lines</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> "If the same query can be written in 4 lines in one query language but requires 29 lines in another, that just shows that different data models are designed to satisfy different use cases."</div>
+            </div>
+        </section>
+
+        <!-- Q63 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q63</span><span class="quiz-topic">SQL Graphs</span></div>
+            <p class="quiz-question">What SQL feature enables variable-length traversal paths for graph queries?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Recursive common table expressions (WITH RECURSIVE)</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Window functions</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) OUTER JOIN</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) GROUP BY with HAVING</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> "Since SQL:1999, this idea of variable-length traversal paths in a query can be expressed using something called recursive common table expressions (the WITH RECURSIVE syntax)."</div>
+            </div>
+        </section>
+
+        <!-- Q64 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q64</span><span class="quiz-topic">Triple-Stores</span></div>
+            <p class="quiz-question">How is information stored in a triple-store?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) In tables with rows and columns</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) As three-part statements: (subject, predicate, object)</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) As nested documents</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) As key-value pairs</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> "In a triple-store, all information is stored in the form of very simple three-part statements: (subject, predicate, object)."</div>
+            </div>
+        </section>
+
+        <!-- Q65 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q65</span><span class="quiz-topic">Triple-Stores</span></div>
+            <p class="quiz-question">What is the subject of a triple equivalent to in a graph?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) A label</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) An edge</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) A property</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) A vertex</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> "The subject of a triple is equivalent to a vertex in a graph."</div>
+            </div>
+        </section>
+
+        <!-- Q66 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q66</span><span class="quiz-topic">Triple-Stores</span></div>
+            <p class="quiz-question">When the object of a triple is a primitive value (like a string or number), what does it represent?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Another vertex</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) A property on the subject vertex (predicate is the key, object is the value)</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) An edge in the graph</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) A relationship label</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> "A value in a primitive datatype, such as a string or a number. In that case, the predicate and object of the triple are equivalent to the key and value of a property on the subject vertex."</div>
+            </div>
+        </section>
+
+        <!-- Q67 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q67</span><span class="quiz-topic">Turtle Format</span></div>
+            <p class="quiz-question">What is the Turtle format?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) A human-readable format for RDF data (a subset of Notation3)</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) A query language</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) A database engine</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) A binary storage format</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> The chapter describes Turtle as a human-readable format for RDF data: "Example 2-6 shows the same data... written as triples in a format called Turtle, a subset of Notation3 (N3)."</div>
+            </div>
+        </section>
+
+        <!-- Q68 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q68</span><span class="quiz-topic">Semantic Web</span></div>
+            <p class="quiz-question">What was the main problem with the semantic web?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) It was patented</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) It was overhyped in the early 2000s but hasn't been realized in practice, with too many complex standards and acronyms</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) It was too expensive</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) It was never proposed</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> "The semantic web was overhyped in the early 2000s but so far hasn't shown any sign of being realized in practice, which has made many people cynical about it. It has also suffered from a dizzying plethora of acronyms, overly complex standards proposals, and hubris."</div>
+            </div>
+        </section>
+
+        <!-- Q69 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q69</span><span class="quiz-topic">SPARQL</span></div>
+            <p class="quiz-question">What does SPARQL stand for?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Simple Protocol And RDF Query Language</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Standard Protocol for Accessing Relational Query Lists</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) SPARQL Protocol and RDF Query Language</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Structured Parallel And Relational Query Logic</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> "SPARQL is a query language for triple-stores using the RDF data model. (It is an acronym for SPARQL Protocol and RDF Query Language, pronounced 'sparkle.')"</div>
+            </div>
+        </section>
+
+        <!-- Q70 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q70</span><span class="quiz-topic">SPARQL</span></div>
+            <p class="quiz-question">How does SPARQL relate to Cypher historically?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) SPARQL predates Cypher, and Cypher's pattern matching is borrowed from SPARQL</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Cypher came first</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) They were developed simultaneously</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) They are unrelated</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> "It predates Cypher, and since Cypher's pattern matching is borrowed from SPARQL, they look quite similar."</div>
+            </div>
+        </section>
+
+        <!-- Q71 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q71</span><span class="quiz-topic">Datalog</span></div>
+            <p class="quiz-question">How old is Datalog, and where is it used?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) It was invented in 2000 for the web</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) It was studied extensively by academics in the 1980s; used in Datomic and Cascalog</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) It's only theoretical, never implemented</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) It's new, only from 2010</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> "Datalog is a much older language than SPARQL or Cypher, having been studied extensively by academics in the 1980s... it is the query language of Datomic, and Cascalog is a Datalog implementation for querying large datasets in Hadoop."</div>
+            </div>
+        </section>
+
+        <!-- Q72 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q72</span><span class="quiz-topic">Datalog</span></div>
+            <p class="quiz-question">How does Datalog's data model differ from triple-stores?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Instead of writing (subject, predicate, object), you write predicate(subject, object)</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) It doesn't support predicates</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) It uses tables</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) It uses vertices and edges</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> "Datalog's data model is similar to the triple-store model, generalized a bit. Instead of writing a triple as (subject, predicate, object), we write it as predicate(subject, object)."</div>
+            </div>
+        </section>
+
+        <!-- Q73 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q73</span><span class="quiz-topic">Datalog</span></div>
+            <p class="quiz-question">How does Datalog build complex queries?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Using stored procedures</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) By writing imperative code</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Using nested SELECT statements</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) By defining rules that derive new predicates from data or other rules, building up queries a small piece at a time</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> "We define rules that tell the database about new predicates... These predicates aren't triples stored in the database, but instead they are derived from data or from other rules. Rules can refer to other rules, just like functions can call other functions."</div>
+            </div>
+        </section>
+
+        <!-- Q74 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q74</span><span class="quiz-topic">Graph vs CODASYL</span></div>
+            <p class="quiz-question">How do graph databases differ from the CODASYL network model?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Graph databases require access paths</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) They are essentially the same thing</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) CODASYL is more flexible than graph databases</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Graph databases have no schema restrictions on edges, support direct vertex access by ID, and offer declarative query languages</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> The chapter lists four key differences: no schema restriction on edges (any vertex can connect to any), direct vertex access by ID or index (not just access paths), no ordering requirement, and declarative query languages (Cypher, SPARQL) vs CODASYL's imperative queries.</div>
+            </div>
+        </section>
+
+        <!-- Q75 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q75</span><span class="quiz-topic">Graph vs CODASYL</span></div>
+            <p class="quiz-question">In CODASYL, how were queries performed?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) By scanning all records</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Using declarative SQL</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) By moving a cursor through the database, iterating over lists and following access paths</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Using pattern matching</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> "A query in CODASYL was performed by moving a cursor through the database by iterating over lists of records and following access paths."</div>
+            </div>
+        </section>
+
+        <!-- Q76 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q76</span><span class="quiz-topic">NoSQL Drivers</span></div>
+            <p class="quiz-question">Which is NOT listed as a driving force behind NoSQL adoption?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Desire for better ACID transaction support</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Frustration with restrictive relational schemas</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Preference for open source software</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Need for greater scalability</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> The chapter lists: greater scalability, preference for open source, specialized query operations not well supported by relational, and desire for more dynamic/expressive data model. Better ACID support is not listed.</div>
+            </div>
+        </section>
+
+        <!-- Q77 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q77</span><span class="quiz-topic">Interconnected Data</span></div>
+            <p class="quiz-question">For highly interconnected data, which model does the chapter say is most natural?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Relational model</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Key-value model</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Graph model</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Document model</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> "For highly interconnected data, the document model is awkward, the relational model is acceptable, and graph models are the most natural."</div>
+            </div>
+        </section>
+
+        <!-- Q78 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q78</span><span class="quiz-topic">RDF</span></div>
+            <p class="quiz-question">Why do RDF triples use URIs as identifiers?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) So that you can combine data from different sources without naming conflicts</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Because URLs are shorter</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Because web browsers require them</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) For security</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> "The reasoning behind this design is that you should be able to combine your data with someone else's data, and if they attach a different meaning to the word within or lives_in, you won't get a conflict because their predicates are actually different URIs."</div>
+            </div>
+        </section>
+
+        <!-- Q79 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q79</span><span class="quiz-topic">Document Databases</span></div>
+            <p class="quiz-question">What does the term 'schemaless' for document databases actually mean?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) There is truly no schema</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) All data is unstructured text</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) The code that reads data assumes a structure (implicit schema), but it's not enforced by the database</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) The schema is defined by the network</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> "Document databases are sometimes called schemaless, but that's misleading, as the code that reads the data usually assumes some kind of structure—i.e., there is an implicit schema, but it is not enforced by the database."</div>
+            </div>
+        </section>
+
+        <!-- Q80 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q80</span><span class="quiz-topic">Data Locality</span></div>
+            <p class="quiz-question">Which relational database offers locality similar to document databases by interleaving table rows?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) SQLite</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) MySQL</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) PostgreSQL</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Google's Spanner</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> "Google's Spanner database offers the same locality properties in a relational data model, by allowing the schema to declare that a table's rows should be interleaved (nested) within a parent table."</div>
+            </div>
+        </section>
+
+        <!-- Q81 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q81</span><span class="quiz-topic">Relational Model</span></div>
+            <p class="quiz-question">What analogy does the chapter use for the hierarchical model's access paths?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) A tree with branches</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) A highway system</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) A web of URLs</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Following a chain of pointers like navigating an n-dimensional data space</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> "Even CODASYL committee members admitted that this was like navigating around an n-dimensional data space."</div>
+            </div>
+        </section>
+
+        <!-- Q82 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q82</span><span class="quiz-topic">Convergence</span></div>
+            <p class="quiz-question">Which relational databases support JSON documents?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Only Oracle</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) None of them</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) PostgreSQL (since 9.3), MySQL (since 5.7), and IBM DB2 (since 10.5)</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Only MySQL</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> "PostgreSQL since version 9.3, MySQL since version 5.7, and IBM DB2 since version 10.5 also have a similar level of support for JSON documents."</div>
+            </div>
+        </section>
+
+        <!-- Q83 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q83</span><span class="quiz-topic">Convergence</span></div>
+            <p class="quiz-question">What join capability did RethinkDB add to the document database world?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Full SQL support</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Cross-database joins</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Relational-like joins in its query language</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Only map-side joins</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> "On the document database side, RethinkDB supports relational-like joins in its query language."</div>
+            </div>
+        </section>
+
+        <!-- Q84 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q84</span><span class="quiz-topic">MapReduce</span></div>
+            <p class="quiz-question">In the marine biologist MapReduce example, what does the map function emit?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) A SQL query</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) A filtered dataset</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) The entire document</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) A key (year-month string like '2013-12') and a value (number of animals)</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> "The map function emits a key (a string consisting of year and month, such as '2013-12') and a value (the number of animals in that observation)."</div>
+            </div>
+        </section>
+
+        <!-- Q85 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q85</span><span class="quiz-topic">MapReduce</span></div>
+            <p class="quiz-question">Is MapReduce declarative or imperative?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) It depends on the database</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Purely imperative</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Purely declarative</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Neither fully declarative nor fully imperative—it's somewhere in between</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> "MapReduce is neither a declarative query language nor a fully imperative query API, but somewhere in between."</div>
+            </div>
+        </section>
+
+        <!-- Q86 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q86</span><span class="quiz-topic">Cypher Example</span></div>
+            <p class="quiz-question">In the Lucy and Alain example, what query does the chapter demonstrate?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Find the names of all people who emigrated from the United States to Europe</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Count all edges in the graph</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Find all friends of Lucy</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Find all locations in France</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> "For example, find the names of all the people who emigrated from the United States to Europe."</div>
+            </div>
+        </section>
+
+        <!-- Q87 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q87</span><span class="quiz-topic">Property Graph SQL</span></div>
+            <p class="quiz-question">How can a property graph be represented in a relational database?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Using two tables: one for vertices (with properties as JSON) and one for edges (with tail/head vertex references and a label)</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) It can't be represented</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Using a single table with self-joins</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Using XML columns only</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> "You can think of a graph store as consisting of two relational tables, one for vertices and one for edges." The chapter shows a schema with vertex_id, properties (json), edge_id, tail_vertex, head_vertex, label, and properties.</div>
+            </div>
+        </section>
+
+        <!-- Q88 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q88</span><span class="quiz-topic">Summary</span></div>
+            <p class="quiz-question">According to the chapter summary, what are the two main directions of NoSQL?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Document databases (self-contained documents, rare relationships) and graph databases (anything potentially related to everything)</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) In-memory stores and disk-based stores</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Time-series databases and search engines</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Key-value stores and column stores</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> "Document databases target use cases where data comes in self-contained documents and relationships between one document and another are rare. Graph databases go in the opposite direction, targeting use cases where anything is potentially related to everything."</div>
+            </div>
+        </section>
+
+        <!-- Q89 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q89</span><span class="quiz-topic">Summary</span></div>
+            <p class="quiz-question">What do document and graph databases have in common?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) They both require access paths</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) They both use SQL</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) They both enforce schemas</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) They typically don't enforce a schema for the data they store</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> "One thing that document and graph databases have in common is that they typically don't enforce a schema for the data they store, which can make it easier to adapt applications to changing requirements."</div>
+            </div>
+        </section>
+
+        <!-- Q90 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q90</span><span class="quiz-topic">Summary</span></div>
+            <p class="quiz-question">What query languages does the chapter cover?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Only Cypher and SPARQL</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Only SQL</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) SQL and GraphQL</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) SQL, MapReduce, MongoDB's aggregation pipeline, Cypher, SPARQL, and Datalog</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> "Each data model comes with its own query language or framework, and we discussed several examples: SQL, MapReduce, MongoDB's aggregation pipeline, Cypher, SPARQL, and Datalog."</div>
+            </div>
+        </section>
+
+        <!-- Q91 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q91</span><span class="quiz-topic">Normalization</span></div>
+            <p class="quiz-question">What happens when human-meaningful information is duplicated without normalization?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) The database automatically normalizes it</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Nothing</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) The data becomes faster to query</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) All redundant copies need to be updated when changes occur, risking inconsistencies</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> "If that information is duplicated, all the redundant copies need to be updated. That incurs write overheads, and risks inconsistencies (where some copies of the information are updated but others aren't)."</div>
+            </div>
+        </section>
+
+        <!-- Q92 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q92</span><span class="quiz-topic">Declarative Languages</span></div>
+            <p class="quiz-question">What example does the chapter give of CSS being better than imperative JavaScript for styling?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) CSS files are smaller</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) CSS supports more colors</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) If a user clicks a different page, CSS automatically removes the blue background when the selected class changes, but imperative JS does not</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) CSS is faster to load</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> "If the selected class is removed (e.g., because the user clicks a different page), the blue color won't be removed, even if the code is rerun... With CSS, the browser automatically detects when the li.selected > p rule no longer applies."</div>
+            </div>
+        </section>
+
+        <!-- Q93 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q93</span><span class="quiz-topic">MapReduce</span></div>
+            <p class="quiz-question">What did MongoDB 2.2 add as an alternative to MapReduce?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Full-text search</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) The aggregation pipeline, a declarative query language</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) A SQL parser</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) A graph query engine</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> "For these reasons, MongoDB 2.2 added support for a declarative query language called the aggregation pipeline."</div>
+            </div>
+        </section>
+
+        <!-- Q94 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q94</span><span class="quiz-topic">Graph Models</span></div>
+            <p class="quiz-question">What are three examples of data that can be modeled as graphs given in the chapter?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Files, folders, permissions</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Tables, views, indexes</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Logs, metrics, traces</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Social graphs (people knowing each other), web graphs (page links), road/rail networks (junctions and routes)</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> "Typical examples include: Social graphs (Vertices are people, edges indicate which people know each other), The web graph (Vertices are web pages, edges indicate HTML links), Road or rail networks (Vertices are junctions, edges represent roads or railway lines)."</div>
+            </div>
+        </section>
+
+        <!-- Q95 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q95</span><span class="quiz-topic">Cypher</span></div>
+            <p class="quiz-question">What movie character is Cypher named after?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Neo from The Matrix</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Alan Turing</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) James Bond</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) A character from The Matrix (not related to cryptography)</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> "It is named after a character in the movie The Matrix and is not related to ciphers in cryptography."</div>
+            </div>
+        </section>
+
+        <!-- Q96 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q96</span><span class="quiz-topic">Data Models</span></div>
+            <p class="quiz-question">What does each layer in the data model stack do for the layers above?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Exposes all implementation details</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Adds complexity</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Hides the complexity of the layers below it by providing a clean data model</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Removes functionality</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> "Each layer hides the complexity of the layers below it by providing a clean data model. These abstractions allow different groups of people... to work together effectively."</div>
+            </div>
+        </section>
+
+        <!-- Q97 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q97</span><span class="quiz-topic">Relational Model</span></div>
+            <p class="quiz-question">What did the query optimizer replace in the relational model?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) The need for indexes</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) The need for tables</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Manual access path selection that developers had to do in CODASYL/IMS</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) The database administrator</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> "Those choices are effectively the 'access path,' but the big difference is that they are made automatically by the query optimizer, not by the application developer, so we rarely need to think about them."</div>
+            </div>
+        </section>
+
+        <!-- Q98 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q98</span><span class="quiz-topic">Document Model</span></div>
+            <p class="quiz-question">When does denormalization in a document model become problematic?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) When the application code needs to do additional work to keep the denormalized data consistent, which is slower than database joins</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) When there are too few users</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) When documents are too small</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Never</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> "It's possible to reduce the need for joins by denormalizing, but then the application code needs to do additional work to keep the denormalized data consistent. Joins can be emulated in application code... but that also moves complexity into the application and is usually slower."</div>
+            </div>
+        </section>
+
+        <!-- Q99 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q99</span><span class="quiz-topic">Datalog</span></div>
+            <p class="quiz-question">What is Datalog a subset of?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) SPARQL</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Prolog</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) SQL</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Cypher</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> "Datalog is a subset of Prolog, which you might have seen before if you've studied computer science."</div>
+            </div>
+        </section>
+
+        <!-- Q100 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q100</span><span class="quiz-topic">Summary</span></div>
+            <p class="quiz-question">What does the chapter say about choosing between data models?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Graph databases are always the best choice</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) One model can emulate another, but the result is often awkward—that's why we have different systems for different purposes</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Use the newest technology</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Always use relational</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> "All three models (document, relational, and graph) are widely used today, and each is good in its respective domain. One model can be emulated in terms of another model... but the result is often awkward. That's why we have different systems for different purposes, not a single one-size-fits-all solution."</div>
+            </div>
+        </section>
+
+
+
     </div>
 
     <div class="controls">
@@ -1375,6 +3092,33 @@ migrated(Name, BornIn, LivingIn) :- name(Person, Name),        <span class="code
             if (currentSlide > 0) {
                 currentSlide--;
                 update();
+            }
+        }
+
+        function selectOption(e) {
+            e.classList.toggle('selected');
+        }
+
+        function checkAnswer(e, correctOptions) {
+            if (!e.parentElement.classList.contains('revealed')) {
+                e.parentElement.classList.add('revealed');
+            }
+            if (!Array.isArray(correctOptions)) {
+                console.error('correctOptions should be an array of letters (e.g., ["B", "D"])');
+                return;
+            }
+            if (!correctOptions.every(opt => /^[A-Z]$/.test(opt))) {
+                console.error('correctOptions should only contain uppercase letters (e.g., ["B", "D"])');
+                return;
+            }
+            const selectedOptionsTags = e.parentElement.parentElement.querySelectorAll('.quiz-option.selected');
+            const selectedOptions = new Set(Array.from(selectedOptionsTags).map(tag => tag.innerText.trim().charAt(0)));
+            const isCorrect = correctOptions.every(opt => selectedOptions.has(opt)) && selectedOptions.size === correctOptions.length;
+            const explanation = e.parentElement.querySelector('.quiz-explanation');
+            if (!isCorrect) {
+                explanation.classList.add('incorrect');
+            } else {
+                explanation.classList.remove('incorrect');
             }
         }
 

@@ -377,6 +377,113 @@
                 font-size: 1rem;
             }
         }
+
+        /* ====== Quiz Slides ====== */
+
+        .quiz-slide {
+            text-align: left;
+            padding: 3% 8%;
+            gap: 10px;
+        }
+
+        .quiz-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 5px;
+        }
+
+        .quiz-number {
+            background: #2563eb;
+            color: white;
+            padding: 6px 16px;
+            border-radius: 8px;
+            font-weight: 800;
+            font-size: 1.2rem;
+        }
+
+        .quiz-topic {
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            opacity: 0.5;
+            font-weight: 600;
+        }
+
+        .quiz-question {
+            font-size: 1.6rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+
+        .quiz-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .quiz-option {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 12px 18px;
+            font-size: 1.1rem;
+            font-weight: 400;
+            cursor: pointer;
+        }
+
+        .quiz-option:hover {
+            border-color: #2563eb;
+        }
+
+        .quiz-option.selected {
+            border-color: #2563eb;
+            background: #dbeafe;
+        }
+
+        .quiz-answer {
+            width: 100%;
+            margin-top: 8px;
+        }
+
+        .reveal-btn {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 8px 28px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .reveal-btn:hover {
+            opacity: 0.85;
+        }
+
+        .quiz-explanation {
+            display: none;
+            background: #f0fdf4;
+            border: 2px solid #86efac;
+            border-radius: 10px;
+            padding: 12px 18px;
+            margin-top: 8px;
+            font-size: 1.05rem;
+            line-height: 1.4;
+        }
+
+        .quiz-explanation.incorrect {
+            display: block;
+            background: #fef2f2;
+            border-color: #fecaca;
+        }
+
+        .quiz-answer.revealed .quiz-explanation {
+            display: block;
+        }
     </style>
 </head>
 
@@ -1249,6 +1356,1616 @@
             </div>
         </section>
 
+        <!-- ==================== MCQ QUIZ SECTION ==================== -->
+
+        <!-- Quiz Section Header -->
+        <section class="slide section-header">
+            <h2>MCQ Quiz</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">100 Questions • Test Your Knowledge</p>
+        </section>
+
+        <!-- Q1 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q1</span><span class="quiz-topic">Data-Intensive Apps</span></div>
+            <p class="quiz-question">What is usually the limiting factor for data-intensive applications?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Network bandwidth alone</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Raw CPU power</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Number of programming languages used</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) The amount, complexity, and speed of change of data</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> The chapter states: "Raw CPU power is rarely a limiting factor for these applications—bigger problems are usually the amount of data, the complexity of data, and the speed at which it is changing."</div>
+            </div>
+        </section>
+
+        <!-- Q2 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q2</span><span class="quiz-topic">Building Blocks</span></div>
+            <p class="quiz-question">Which of the following is NOT listed as a standard building block of data-intensive applications?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Batch processing</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Load balancers</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Databases</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Caches</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> The five listed building blocks are: databases, caches, search indexes, stream processing, and batch processing. Load balancers are not in the list.</div>
+            </div>
+        </section>
+
+        <!-- Q3 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q3</span><span class="quiz-topic">Blurring Boundaries</span></div>
+            <p class="quiz-question">Which datastore is mentioned as being used as a message queue?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) PostgreSQL</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Elasticsearch</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Redis</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) MongoDB</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> "There are datastores that are also used as message queues (Redis), and there are message queues with database-like durability guarantees (Apache Kafka)."</div>
+            </div>
+        </section>
+
+        <!-- Q4 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q4</span><span class="quiz-topic">Blurring Boundaries</span></div>
+            <p class="quiz-question">Apache Kafka is described as a message queue with what special property?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Database-like durability guarantees</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Built-in machine learning</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) In-memory caching</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Automatic schema validation</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> "There are message queues with database-like durability guarantees (Apache Kafka). The boundaries between the categories are becoming blurred."</div>
+            </div>
+        </section>
+
+        <!-- Q5 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q5</span><span class="quiz-topic">Composite Data Systems</span></div>
+            <p class="quiz-question">When combining several tools to provide a service, the developer becomes not just an application developer but also a what?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Network engineer</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Data system designer</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Security specialist</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Database administrator</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> "You have essentially created a new, special-purpose data system from smaller, general-purpose components... You are now not only an application developer, but also a data system designer."</div>
+            </div>
+        </section>
+
+        <!-- Q6 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q6</span><span class="quiz-topic">Three Concerns</span></div>
+            <p class="quiz-question">What are the three main concerns for most software systems discussed in Chapter 1?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Reliability, Scalability, Maintainability</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Speed, Storage, Simplicity</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Availability, Consistency, Partition tolerance</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Security, Performance, Usability</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> "In this book, we focus on three concerns that are important in most software systems: Reliability, Scalability, and Maintainability."</div>
+            </div>
+        </section>
+
+        <!-- Q7 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q7</span><span class="quiz-topic">Composite Data Systems</span></div>
+            <p class="quiz-question">What is the role of the API in a composite data system?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) To replace the database entirely</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) To hide implementation details from clients</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) To expose all implementation details to clients</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) To provide direct access to each internal tool</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> "The service's interface or application programming interface (API) usually hides those implementation details from clients."</div>
+            </div>
+        </section>
+
+        <!-- Q8 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q8</span><span class="quiz-topic">Data-Intensive Apps</span></div>
+            <p class="quiz-question">Why do many applications need to combine multiple specialized tools?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Because a single tool can no longer meet all data processing and storage needs</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) To use more programming languages</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) To increase complexity</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) To satisfy regulatory requirements</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> "Increasingly many applications now have such demanding or wide-ranging requirements that a single tool can no longer meet all of its data processing and storage needs."</div>
+            </div>
+        </section>
+
+        <!-- Q9 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q9</span><span class="quiz-topic">Building Blocks</span></div>
+            <p class="quiz-question">What is the purpose of a cache in a data-intensive application?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) To permanently store data</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) To send messages between processes</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) To remember the result of an expensive operation and speed up reads</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) To filter data by keyword</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> The chapter lists caches as: "Remember the result of an expensive operation, to speed up reads."</div>
+            </div>
+        </section>
+
+        <!-- Q10 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q10</span><span class="quiz-topic">Building Blocks</span></div>
+            <p class="quiz-question">Stream processing in data-intensive applications is used to:</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Send messages to another process for asynchronous handling</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Build search indexes</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Store data permanently</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Crunch large accumulated datasets</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> The chapter lists stream processing as: "Send a message to another process, to be handled asynchronously."</div>
+            </div>
+        </section>
+
+        <!-- Q11 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q11</span><span class="quiz-topic">Reliability</span></div>
+            <p class="quiz-question">What does reliability mean in the context of software systems?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) The system runs on expensive hardware</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Continuing to work correctly, even when things go wrong</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) The system is always the fastest possible</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) The system never has any bugs</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> "If all those things together mean 'working correctly,' then we can understand reliability as meaning, roughly, 'continuing to work correctly, even when things go wrong.'"</div>
+            </div>
+        </section>
+
+        <!-- Q12 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q12</span><span class="quiz-topic">Faults vs Failures</span></div>
+            <p class="quiz-question">What is the difference between a fault and a failure?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) A fault only applies to hardware</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) A failure is less severe than a fault</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) A fault is one component deviating from spec; a failure is the whole system stopping service</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) They are the same thing</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> "A fault is usually defined as one component of the system deviating from its spec, whereas a failure is when the system as a whole stops providing the required service to the user."</div>
+            </div>
+        </section>
+
+        <!-- Q13 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q13</span><span class="quiz-topic">Fault Tolerance</span></div>
+            <p class="quiz-question">What is the goal of fault-tolerant systems?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) To increase system complexity</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) To make systems cheaper</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) To eliminate all faults completely</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) To prevent faults from causing failures</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> "It is impossible to reduce the probability of a fault to zero; therefore it is usually best to design fault-tolerance mechanisms that prevent faults from causing failures."</div>
+            </div>
+        </section>
+
+        <!-- Q14 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q14</span><span class="quiz-topic">Chaos Monkey</span></div>
+            <p class="quiz-question">What is Netflix's Chaos Monkey?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) A database replication tool</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) A load balancer</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) A monitoring dashboard</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) A tool that randomly kills processes in production to test fault tolerance</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> "By deliberately inducing faults, you ensure that the fault-tolerance machinery is continually exercised and tested. The Netflix Chaos Monkey is an example of this approach."</div>
+            </div>
+        </section>
+
+        <!-- Q15 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q15</span><span class="quiz-topic">Chaos Monkey</span></div>
+            <p class="quiz-question">Why do many critical bugs come from poor error handling?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Because error handling code is never tested in normal operation</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Because developers don't use try-catch blocks</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Because compilers don't check error handling</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Because error handling is optional</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> "Many critical bugs are actually due to poor error handling; by deliberately inducing faults, you ensure that the fault-tolerance machinery is continually exercised and tested."</div>
+            </div>
+        </section>
+
+        <!-- Q16 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q16</span><span class="quiz-topic">Hardware Faults</span></div>
+            <p class="quiz-question">What is the reported MTTF (mean time to failure) for hard disks?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) About 1 year</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) 1 to 5 years</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) About 100 years</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) About 10 to 50 years</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> "Hard disks are reported as having a mean time to failure (MTTF) of about 10 to 50 years."</div>
+            </div>
+        </section>
+
+        <!-- Q17 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q17</span><span class="quiz-topic">Hardware Faults</span></div>
+            <p class="quiz-question">With 10,000 disks in a storage cluster, how often should you expect a disk to die?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) About one per month</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) About one per hour</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) About one per day</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) About one per week</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> "On a storage cluster with 10,000 disks, we should expect on average one disk to die per day."</div>
+            </div>
+        </section>
+
+        <!-- Q18 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q18</span><span class="quiz-topic">Hardware Redundancy</span></div>
+            <p class="quiz-question">Which of the following is NOT mentioned as a hardware redundancy technique?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Dual power supplies</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Redundant application code</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) RAID configuration</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Hot-swappable CPUs</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> The chapter mentions RAID, dual power supplies, hot-swappable CPUs, and batteries/diesel generators. Redundant application code is a software technique, not hardware.</div>
+            </div>
+        </section>
+
+        <!-- Q19 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q19</span><span class="quiz-topic">Software Fault Tolerance</span></div>
+            <p class="quiz-question">Why has there been a shift toward software fault-tolerance techniques?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Regulations require it</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Software is cheaper to write</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Cloud platforms prioritize flexibility over single-machine reliability, and more machines means more hardware faults</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Hardware became more reliable</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> "In some cloud platforms such as AWS it is fairly common for virtual machine instances to become unavailable without warning, as the platforms are designed to prioritize flexibility and elasticity over single-machine reliability."</div>
+            </div>
+        </section>
+
+        <!-- Q20 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q20</span><span class="quiz-topic">Rolling Upgrades</span></div>
+            <p class="quiz-question">What operational advantage do systems tolerant of machine failure provide?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Faster query processing</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Can be patched one node at a time without downtime (rolling upgrade)</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Lower hardware costs</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Automatic schema migration</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> "A system that can tolerate machine failure can be patched one node at a time, without downtime of the entire system (a rolling upgrade)."</div>
+            </div>
+        </section>
+
+        <!-- Q21 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q21</span><span class="quiz-topic">Software Errors</span></div>
+            <p class="quiz-question">How do software faults differ from hardware faults?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Software faults are random and independent</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Software faults are less dangerous</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Software faults only affect memory</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Software faults are systematic, correlated across nodes, and harder to anticipate</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> "Such faults are harder to anticipate, and because they are correlated across nodes, they tend to cause many more system failures than uncorrelated hardware faults."</div>
+            </div>
+        </section>
+
+        <!-- Q22 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q22</span><span class="quiz-topic">Software Errors</span></div>
+            <p class="quiz-question">What happened on June 30, 2012 that caused many applications to hang simultaneously?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) A major power outage</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) An internet cable was cut</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) A DNS server failure</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) A leap second triggered a bug in the Linux kernel</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> "Consider the leap second on June 30, 2012, that caused many applications to hang simultaneously due to a bug in the Linux kernel."</div>
+            </div>
+        </section>
+
+        <!-- Q23 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q23</span><span class="quiz-topic">Software Errors</span></div>
+            <p class="quiz-question">What is a cascading failure?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) A small fault in one component triggers faults in others, which trigger more</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) A hardware failure that corrupts data</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) A planned maintenance event</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) A failure that only affects one component</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> "Cascading failures, where a small fault in one component triggers a fault in another component, which in turn triggers further faults."</div>
+            </div>
+        </section>
+
+        <!-- Q24 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q24</span><span class="quiz-topic">Software Errors</span></div>
+            <p class="quiz-question">What characteristic do bugs causing software faults often have?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) They only affect new code</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) They are always caught by unit tests</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) They are immediately visible</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) They lie dormant until triggered by unusual circumstances</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> "The bugs that cause these kinds of software faults often lie dormant for a long time until they are triggered by an unusual set of circumstances."</div>
+            </div>
+        </section>
+
+        <!-- Q25 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q25</span><span class="quiz-topic">Human Errors</span></div>
+            <p class="quiz-question">According to a study cited in the chapter, what is the leading cause of outages in large internet services?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Configuration errors by operators</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Hardware faults</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Network failures</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Software bugs</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> "One study of large internet services found that configuration errors by operators were the leading cause of outages, whereas hardware faults (servers or network) played a role in only 10–25% of outages."</div>
+            </div>
+        </section>
+
+        <!-- Q26 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q26</span><span class="quiz-topic">Human Errors</span></div>
+            <p class="quiz-question">What percentage of outages are caused by hardware faults according to the study?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) 10-25%</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Over 90%</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) 50-75%</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Less than 5%</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> "Hardware faults (servers or network) played a role in only 10–25% of outages."</div>
+            </div>
+        </section>
+
+        <!-- Q27 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q27</span><span class="quiz-topic">Human Errors</span></div>
+            <p class="quiz-question">Which of the following is NOT mentioned as a way to mitigate human errors?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Quick recovery mechanisms like fast rollbacks</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Replacing all humans with AI</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Sandbox environments for safe experimentation</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Well-designed APIs that make the right thing easy</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> The chapter lists: design for safety, sandbox environments, thorough testing, quick recovery, monitoring/telemetry, and training. Replacing humans with AI is not mentioned.</div>
+            </div>
+        </section>
+
+        <!-- Q28 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q28</span><span class="quiz-topic">Human Errors</span></div>
+            <p class="quiz-question">What are canary releases used for?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Rolling out new code gradually so bugs affect only a small subset of users</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Encrypting data at rest</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Testing hardware redundancy</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Monitoring network traffic</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> "Make it fast to roll back configuration changes, roll out new code gradually (so that any unexpected bugs affect only a small subset of users)."</div>
+            </div>
+        </section>
+
+        <!-- Q29 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q29</span><span class="quiz-topic">Reliability Importance</span></div>
+            <p class="quiz-question">The chapter uses the example of a parent storing photos of their children to illustrate what point?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) That photos should be stored in the cloud</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) That even noncritical applications have a responsibility to users for reliability</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) That photo apps need special databases</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) That backups are unnecessary</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> "Consider a parent who stores all their pictures and videos of their children in your photo application. How would they feel if that database was suddenly corrupted?"</div>
+            </div>
+        </section>
+
+        <!-- Q30 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q30</span><span class="quiz-topic">Reliability Importance</span></div>
+            <p class="quiz-question">When is it acceptable to sacrifice reliability according to the chapter?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Never</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) When developing a prototype for an unproven market or for narrow profit margin services, but be conscious of it</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Whenever it saves money</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Only for internal tools</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> "There are situations in which we may choose to sacrifice reliability in order to reduce development cost... but we should be very conscious of when we are cutting corners."</div>
+            </div>
+        </section>
+
+        <!-- Q31 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q31</span><span class="quiz-topic">Scalability</span></div>
+            <p class="quiz-question">Why is it meaningless to say 'X is scalable' or 'Y doesn't scale'?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Because scalability only matters for large companies</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Because all systems scale equally</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Because scalability is subjective</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Because scalability is not a one-dimensional label; it's about specific growth questions</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> "It is not a one-dimensional label that we can attach to a system: it is meaningless to say 'X is scalable' or 'Y doesn't scale.' Rather, discussing scalability means considering questions like 'If the system grows in a particular way, what are our options for coping with the growth?'"</div>
+            </div>
+        </section>
+
+        <!-- Q32 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q32</span><span class="quiz-topic">Load Parameters</span></div>
+            <p class="quiz-question">What are load parameters?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Hardware specifications of the server</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Configuration settings for caching</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) The maximum capacity of a database</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Numbers that describe the current load on the system (e.g., RPS, read/write ratio)</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> "Load can be described with a few numbers which we call load parameters. The best choice of parameters depends on the architecture of your system."</div>
+            </div>
+        </section>
+
+        <!-- Q33 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q33</span><span class="quiz-topic">Twitter Case Study</span></div>
+            <p class="quiz-question">What was Twitter's peak rate for posting tweets (as of 2012)?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) 4,600 requests/sec</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Over 12,000 requests/sec</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) 300,000 requests/sec</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) 1,000 requests/sec</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> "A user can publish a new message to their followers (4.6k requests/sec on average, over 12k requests/sec at peak)."</div>
+            </div>
+        </section>
+
+        <!-- Q34 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q34</span><span class="quiz-topic">Twitter Case Study</span></div>
+            <p class="quiz-question">What was the rate of home timeline reads at Twitter?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) 4,600 per second</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) 1 million per second</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) 12,000 per second</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) 300,000 per second</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> "A user can view tweets posted by the people they follow (300k requests/sec)."</div>
+            </div>
+        </section>
+
+        <!-- Q35 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q35</span><span class="quiz-topic">Fan-out</span></div>
+            <p class="quiz-question">What is fan-out in the context of Twitter's architecture?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) The number of requests to other services needed to serve one incoming request</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) The total number of users</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) The number of tweets a user posts</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) The database replication factor</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> "Fan-out: The number of requests to other services needed to serve one incoming request."</div>
+            </div>
+        </section>
+
+        <!-- Q36 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q36</span><span class="quiz-topic">Twitter Approach 1</span></div>
+            <p class="quiz-question">What was the problem with Twitter's first approach (query on read)?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) With 300k timeline reads/sec, the database couldn't keep up with the expensive join queries</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) It used too much memory</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) It didn't support hashtags</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Writes were too slow</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> The first approach inserted tweets into a global collection and used a SQL JOIN to build timelines on read, but the read load was too heavy.</div>
+            </div>
+        </section>
+
+        <!-- Q37 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q37</span><span class="quiz-topic">Twitter Approach 2</span></div>
+            <p class="quiz-question">In Twitter's second approach, what happens when a user posts a tweet?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) The tweet is inserted into all followers' home timeline caches</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) The tweet is stored only in a global table</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) The tweet is discarded after 24 hours</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) The tweet is compressed and archived</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> "Maintain a cache for each user's home timeline—like a mailbox... When a user posts a tweet, look up all the people who follow that user, and insert the new tweet into each of their home timeline caches."</div>
+            </div>
+        </section>
+
+        <!-- Q38 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q38</span><span class="quiz-topic">Twitter Approach 2</span></div>
+            <p class="quiz-question">On average, how many writes to home timeline caches does a single tweet generate?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) 75 writes</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) 30 million writes</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) 345,000 writes per second across all tweets (75 followers × 4.6k tweets/sec)</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) 1,000 writes</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> "On average, a tweet is delivered to about 75 followers, so 4.6k tweets per second become 345k writes per second to the home timeline caches."</div>
+            </div>
+        </section>
+
+        <!-- Q39 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q39</span><span class="quiz-topic">Twitter Celebrities</span></div>
+            <p class="quiz-question">Why did celebrities with 30M+ followers cause problems for Twitter's second approach?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) A single tweet could require over 30 million writes to home timeline caches</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Their tweets were too long</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Their accounts used too much storage</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) They posted too frequently</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> "Some users have over 30 million followers. This means that a single tweet may result in over 30 million writes to home timelines!"</div>
+            </div>
+        </section>
+
+        <!-- Q40 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q40</span><span class="quiz-topic">Twitter Hybrid</span></div>
+            <p class="quiz-question">What hybrid solution did Twitter ultimately adopt?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Use a completely different database</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Only query on read</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Only pre-compute timelines</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Fan-out for most users, but fetch-on-read for celebrities with many followers</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> "Most users' tweets continue to be fanned out to home timelines at the time when they are posted, but a small number of users with a very large number of followers (i.e., celebrities) are excepted from this fan-out."</div>
+            </div>
+        </section>
+
+        <!-- Q41 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q41</span><span class="quiz-topic">Describing Performance</span></div>
+            <p class="quiz-question">In a batch processing system like Hadoop, what metric is usually most important?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Availability</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Throughput</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Response time</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Latency</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> "In a batch processing system such as Hadoop, we usually care about throughput—the number of records we can process per second, or the total time it takes to run a job on a dataset of a certain size."</div>
+            </div>
+        </section>
+
+        <!-- Q42 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q42</span><span class="quiz-topic">Latency vs Response Time</span></div>
+            <p class="quiz-question">What is the difference between latency and response time?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Latency includes network delays; response time does not</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Response time is what the client sees (includes network + queueing); latency is the time a request waits to be handled</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) They are the same thing</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Response time is always lower than latency</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> "The response time is what the client sees: besides the actual time to process the request (the service time), it includes network delays and queueing delays. Latency is the duration that a request is waiting to be handled—during which it is latent, awaiting service."</div>
+            </div>
+        </section>
+
+        <!-- Q43 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q43</span><span class="quiz-topic">Response Time Distribution</span></div>
+            <p class="quiz-question">Why should response time be thought of as a distribution rather than a single number?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Because only averages matter</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Because even the same request gives different response times due to context switches, GC pauses, retransmissions, etc.</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Because response times are always constant</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Because databases round response times</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> "Even if you only make the same request over and over again, you'll get a slightly different response time on every try... random additional latency could be introduced by a context switch, the loss of a network packet and TCP retransmission, a garbage collection pause, a page fault..."</div>
+            </div>
+        </section>
+
+        <!-- Q44 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q44</span><span class="quiz-topic">Percentiles</span></div>
+            <p class="quiz-question">What does the median (p50) response time tell you?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) The minimum response time</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) The worst-case response time</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) The average of all response times</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Half of requests are faster and half are slower than this value</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> "The median is the halfway point: for example, if your median response time is 200 ms, that means half your requests return in less than 200 ms, and half your requests take longer than that."</div>
+            </div>
+        </section>
+
+        <!-- Q45 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q45</span><span class="quiz-topic">Percentiles</span></div>
+            <p class="quiz-question">Why is the arithmetic mean not a good metric for response times?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) It doesn't tell you how many users actually experienced that delay</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) It's too difficult to calculate</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) It requires too much data</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) It's always too low</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> "The mean is not a very good metric if you want to know your 'typical' response time, because it doesn't tell you how many users actually experienced that delay."</div>
+            </div>
+        </section>
+
+        <!-- Q46 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q46</span><span class="quiz-topic">Tail Latencies</span></div>
+            <p class="quiz-question">Why does Amazon measure response time requirements at the 99.9th percentile?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) It's cheaper to optimize</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) It's an industry standard</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) 99.9% is a marketing number</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Customers with the slowest requests often have the most data—they're the most valuable customers</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> "The customers with the slowest requests are often those who have the most data on their accounts because they have made many purchases—that is, they're the most valuable customers."</div>
+            </div>
+        </section>
+
+        <!-- Q47 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q47</span><span class="quiz-topic">Tail Latencies</span></div>
+            <p class="quiz-question">According to Amazon, a 100ms increase in response time results in what?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) A 1-second slowdown</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) A 10% drop in sales</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) No measurable impact</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) A 1% drop in sales</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> "Amazon has also observed that a 100 ms increase in response time reduces sales by 1%."</div>
+            </div>
+        </section>
+
+        <!-- Q48 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q48</span><span class="quiz-topic">SLOs and SLAs</span></div>
+            <p class="quiz-question">What can happen if an SLA is not met?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) The service is automatically shut down</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Customers may demand a refund</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Nothing</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) The system scales automatically</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> "These metrics set expectations for clients of the service and allow customers to demand a refund if the SLA is not met."</div>
+            </div>
+        </section>
+
+        <!-- Q49 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q49</span><span class="quiz-topic">Head-of-Line Blocking</span></div>
+            <p class="quiz-question">What is head-of-line blocking?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) When a database index is missing</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) When the first server in a cluster fails</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) When a few slow requests hold up processing of subsequent requests in the queue</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) When DNS resolution is slow</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> "It only takes a small number of slow requests to hold up the processing of subsequent requests—an effect sometimes known as head-of-line blocking."</div>
+            </div>
+        </section>
+
+        <!-- Q50 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q50</span><span class="quiz-topic">Tail Latency Amplification</span></div>
+            <p class="quiz-question">What is tail latency amplification?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) When tail latencies decrease over time</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) When the fastest calls determine overall performance</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) When backend services run out of memory</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) When a single slow backend call makes the entire end-user request slow, and the probability increases with multiple parallel calls</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> "It takes just one slow call to make the entire end-user request slow... Even if only a small percentage of backend calls are slow, the chance of getting a slow call increases if an end-user request requires multiple backend calls."</div>
+            </div>
+        </section>
+
+        <!-- Q51 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q51</span><span class="quiz-topic">Percentiles in Practice</span></div>
+            <p class="quiz-question">Why is averaging percentiles mathematically meaningless?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Because percentiles only work for small datasets</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Because the right way to aggregate response time data is to add the histograms, not average the percentiles</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Because averages are always better</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Because percentiles can't be added</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> "Averaging percentiles, e.g., to reduce the time resolution or to combine data from several machines, is mathematically meaningless—the right way of aggregating response time data is to add the histograms."</div>
+            </div>
+        </section>
+
+        <!-- Q52 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q52</span><span class="quiz-topic">Percentiles in Practice</span></div>
+            <p class="quiz-question">Which algorithms are mentioned for efficiently calculating percentiles?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Forward decay, t-digest, and HdrHistogram</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) MapReduce and Spark</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Binary search and hash tables</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Quicksort and mergesort</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> "There are algorithms that can calculate a good approximation of percentiles at minimal CPU and memory cost, such as forward decay, t-digest, or HdrHistogram."</div>
+            </div>
+        </section>
+
+        <!-- Q53 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q53</span><span class="quiz-topic">Percentiles in Practice</span></div>
+            <p class="quiz-question">Why should response times be measured on the client side?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Because servers don't track time</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Because it's simpler to implement</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Because client clocks are more accurate</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Because queueing delays (head-of-line blocking) are only visible from the client's perspective</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> "Due to this effect, it is important to measure response times on the client side."</div>
+            </div>
+        </section>
+
+        <!-- Q54 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q54</span><span class="quiz-topic">Scaling Up vs Out</span></div>
+            <p class="quiz-question">What is vertical scaling?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Distributing load across multiple smaller machines</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Adding more network switches</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Using a content delivery network</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Moving to a more powerful single machine</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> "People often talk of a dichotomy between scaling up (vertical scaling, moving to a more powerful machine) and scaling out (horizontal scaling, distributing the load across multiple smaller machines)."</div>
+            </div>
+        </section>
+
+        <!-- Q55 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q55</span><span class="quiz-topic">Scaling Out</span></div>
+            <p class="quiz-question">What is another name for horizontal scaling?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Monolithic architecture</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Shared-everything architecture</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Microservices architecture</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Shared-nothing architecture</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> "Distributing load across multiple machines is also known as a shared-nothing architecture."</div>
+            </div>
+        </section>
+
+        <!-- Q56 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q56</span><span class="quiz-topic">Scaling</span></div>
+            <p class="quiz-question">What do good architectures usually involve in practice?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Only scaling up</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Neither scaling up nor out</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Only scaling out</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) A pragmatic mixture of scaling up and scaling out</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> "In reality, good architectures usually involve a pragmatic mixture of approaches: for example, using several fairly powerful machines can still be simpler and cheaper than a large number of small virtual machines."</div>
+            </div>
+        </section>
+
+        <!-- Q57 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q57</span><span class="quiz-topic">Elastic Systems</span></div>
+            <p class="quiz-question">What is an elastic system?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) A system that automatically adds computing resources when load increases</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) A system built with stretchy cables</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) A system that only runs on cloud</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) A system with no fixed schema</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> "Some systems are elastic, meaning that they can automatically add computing resources when they detect a load increase."</div>
+            </div>
+        </section>
+
+        <!-- Q58 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q58</span><span class="quiz-topic">Stateful vs Stateless</span></div>
+            <p class="quiz-question">Why is distributing stateful data systems complex?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Because taking stateful data from a single node to a distributed setup introduces a lot of additional complexity</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Because stateful means no persistence</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Because they can't be replicated</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Because they require special programming languages</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> "While distributing stateless services across multiple machines is fairly straightforward, taking stateful data systems from a single node to a distributed setup can introduce a lot of additional complexity."</div>
+            </div>
+        </section>
+
+        <!-- Q59 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q59</span><span class="quiz-topic">Magic Scaling Sauce</span></div>
+            <p class="quiz-question">Why is there no 'magic scaling sauce' according to the chapter?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Because scaling is just about adding more hardware</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Because all applications have the same load patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Because the architecture of large-scale systems is highly specific to the application</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Because every system is equally scalable</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> "The architecture of systems that operate at large scale is usually highly specific to the application—there is no such thing as a generic, one-size-fits-all scalable architecture (informally known as magic scaling sauce)."</div>
+            </div>
+        </section>
+
+        <!-- Q60 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q60</span><span class="quiz-topic">Scaling</span></div>
+            <p class="quiz-question">A system designed for 100k requests/sec (1kB each) looks very different from a system for 3 requests/min (2GB each). What does this illustrate?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) That request size doesn't matter</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) That all systems need the same architecture</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) That larger requests are always faster</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) That even with the same data throughput, different access patterns require different architectures</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> "A system that is designed to handle 100,000 requests per second, each 1 kB in size, looks very different from a system that is designed for 3 requests per minute, each 2 GB in size—even though the two systems have the same data throughput."</div>
+            </div>
+        </section>
+
+        <!-- Q61 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q61</span><span class="quiz-topic">Maintainability</span></div>
+            <p class="quiz-question">Where is the majority of the cost of software, according to the chapter?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) In its ongoing maintenance</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) In hardware procurement</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) In marketing</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) In its initial development</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> "It is well known that the majority of the cost of software is not in its initial development, but in its ongoing maintenance."</div>
+            </div>
+        </section>
+
+        <!-- Q62 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q62</span><span class="quiz-topic">Maintainability</span></div>
+            <p class="quiz-question">What are the three design principles for maintainability?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Speed, Correctness, Efficiency</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Reliability, Scalability, Availability</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Security, Performance, Usability</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Operability, Simplicity, Evolvability</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> The chapter defines: "Operability: Make it easy for operations teams... Simplicity: Make it easy for new engineers to understand... Evolvability: Make it easy for engineers to make changes."</div>
+            </div>
+        </section>
+
+        <!-- Q63 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q63</span><span class="quiz-topic">Operability</span></div>
+            <p class="quiz-question">What quote does the chapter use about the relationship between operations and software?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Good operations can often work around the limitations of bad software, but good software cannot run reliably with bad operations</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Bad operations always lead to system failure</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Good software makes operations unnecessary</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Operations and software are independent</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> "Good operations can often work around the limitations of bad (or incomplete) software, but good software cannot run reliably with bad operations."</div>
+            </div>
+        </section>
+
+        <!-- Q64 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q64</span><span class="quiz-topic">Operability</span></div>
+            <p class="quiz-question">Which of the following is NOT listed as a responsibility of a good operations team?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Monitoring system health</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Tracking down causes of problems</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Keeping software up to date with security patches</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Writing all the application code</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> Operations responsibilities include monitoring, tracking problems, keeping software updated, capacity planning, etc. Writing application code is the responsibility of developers.</div>
+            </div>
+        </section>
+
+        <!-- Q65 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q65</span><span class="quiz-topic">Simplicity</span></div>
+            <p class="quiz-question">What is 'accidental complexity' as defined in the chapter?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Complexity from user requirements</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Complexity inherent in the problem being solved</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Complexity caused by hardware limitations</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Complexity that arises only from the implementation, not from the problem itself</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> "Moseley and Marks define complexity as accidental if it is not inherent in the problem that the software solves (as seen by the users) but arises only from the implementation."</div>
+            </div>
+        </section>
+
+        <!-- Q66 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q66</span><span class="quiz-topic">Simplicity</span></div>
+            <p class="quiz-question">What is the best tool for removing accidental complexity according to the chapter?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Better hardware</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Abstraction</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) More engineers</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Rewriting from scratch</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> "One of the best tools we have for removing accidental complexity is abstraction. A good abstraction can hide a great deal of implementation detail behind a clean, simple-to-understand façade."</div>
+            </div>
+        </section>
+
+        <!-- Q67 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q67</span><span class="quiz-topic">Simplicity</span></div>
+            <p class="quiz-question">Which of the following is mentioned as an example of a good abstraction?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) SQL (hides disk structures, concurrent requests, crash inconsistencies)</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Assembly language</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Machine code</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Raw network sockets</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> "SQL is an abstraction that hides complex on-disk and in-memory data structures, concurrent requests from other clients, and inconsistencies after crashes."</div>
+            </div>
+        </section>
+
+        <!-- Q68 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q68</span><span class="quiz-topic">Simplicity</span></div>
+            <p class="quiz-question">What is a 'big ball of mud' in software?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) A deployment strategy</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) A software project mired in complexity</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) A type of database</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) A well-structured monolith</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> "A software project mired in complexity is sometimes described as a big ball of mud."</div>
+            </div>
+        </section>
+
+        <!-- Q69 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q69</span><span class="quiz-topic">Evolvability</span></div>
+            <p class="quiz-question">What is evolvability closely linked to?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Hardware specifications</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Database choice</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Simplicity and its abstractions</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Network bandwidth</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> "The ease with which you can modify a data system, and adapt it to changing requirements, is closely linked to its simplicity and its abstractions."</div>
+            </div>
+        </section>
+
+        <!-- Q70 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q70</span><span class="quiz-topic">Evolvability</span></div>
+            <p class="quiz-question">What other names are used for evolvability?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Extensibility, modifiability, or plasticity</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Reliability and scalability</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Flexibility and agility only</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Portability and compatibility</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> "Also known as extensibility, modifiability, or plasticity."</div>
+            </div>
+        </section>
+
+        <!-- Q71 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q71</span><span class="quiz-topic">Software Errors</span></div>
+            <p class="quiz-question">What is the chapter's advice for dealing with systematic faults in software?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Only testing is needed</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Many small things help: careful thinking, testing, process isolation, crash-and-restart, monitoring</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Avoid using software altogether</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) There is a single quick solution</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> "There is no quick solution to the problem of systematic faults in software. Lots of small things can help: carefully thinking about assumptions and interactions; thorough testing; process isolation; allowing processes to crash and restart; measuring, monitoring, and analyzing system behavior in production."</div>
+            </div>
+        </section>
+
+        <!-- Q72 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q72</span><span class="quiz-topic">Human Errors</span></div>
+            <p class="quiz-question">Why should interfaces not be too restrictive when designing for safety?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) If interfaces are too restrictive, people will work around them, negating their benefit</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Because users prefer no interfaces</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Because restrictive interfaces are more expensive</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Because all restrictions are bad</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> "However, if the interfaces are too restrictive people will work around them, negating their benefit, so this is a tricky balance to get right."</div>
+            </div>
+        </section>
+
+        <!-- Q73 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q73</span><span class="quiz-topic">Reliability</span></div>
+            <p class="quiz-question">What analogy does the chapter use for faults vs failures?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) A broken window vs a collapsed building</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) No analogy is used</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) A car crash vs a traffic jam</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) A flat tire (fault) doesn't have to cause the car stopping (failure) if you have fault tolerance (spare tire)</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> The chapter uses the flat tire analogy: a puncture (fault) doesn't have to cause the car to stop (failure) if you have a spare tire (fault tolerance).</div>
+            </div>
+        </section>
+
+        <!-- Q74 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q74</span><span class="quiz-topic">Monitoring</span></div>
+            <p class="quiz-question">What engineering discipline uses the term 'telemetry' for monitoring?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Only aerospace engineering</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Software engineering exclusively</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Database administration</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Other engineering disciplines; once a rocket has left the ground, telemetry is essential</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> "In other engineering disciplines this is referred to as telemetry. (Once a rocket has left the ground, telemetry is essential for tracking what is happening, and for understanding failures.)"</div>
+            </div>
+        </section>
+
+        <!-- Q75 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q75</span><span class="quiz-topic">Scalability</span></div>
+            <p class="quiz-question">What is the key load parameter for Twitter's scalability?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Number of retweets</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Number of hashtags used</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Distribution of followers per user (it determines the fan-out load)</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Total tweet character count</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> "The distribution of followers per user (maybe weighted by how often those users tweet) is a key load parameter for discussing scalability, since it determines the fan-out load."</div>
+            </div>
+        </section>
+
+        <!-- Q76 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q76</span><span class="quiz-topic">Performance</span></div>
+            <p class="quiz-question">In online systems, what metric is usually most important?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) CPU utilization</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Memory usage</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Response time (time between client request and response)</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Throughput</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> "In online systems, what's usually more important is the service's response time—that is, the time between a client sending a request and receiving a response."</div>
+            </div>
+        </section>
+
+        <!-- Q77 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q77</span><span class="quiz-topic">SLOs and SLAs</span></div>
+            <p class="quiz-question">What is a typical SLA example given in the chapter?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Median response time under 200ms, p99 under 1s, service up 99.9% of the time</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Response time under 10ms</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Zero downtime forever</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) 99.999% uptime guaranteed</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> "An SLA may state that the service is considered to be up if it has a median response time of less than 200 ms and a 99th percentile under 1 s... and the service may be required to be up at least 99.9% of the time."</div>
+            </div>
+        </section>
+
+        <!-- Q78 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q78</span><span class="quiz-topic">Percentiles</span></div>
+            <p class="quiz-question">What does the 99th percentile (p99) response time of 1.5 seconds mean?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) 99 out of 100 requests take less than 1.5 seconds</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Only 1 out of 100 requests is fast</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) The average response time is 1.5 seconds</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) All requests take 1.5 seconds</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> "If the 95th percentile response time is 1.5 seconds, that means 95 out of 100 requests take less than 1.5 seconds, and 5 out of 100 requests take 1.5 seconds or more." (The same logic applies to p99.)</div>
+            </div>
+        </section>
+
+        <!-- Q79 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q79</span><span class="quiz-topic">Scaling</span></div>
+            <p class="quiz-question">What was the common wisdom about databases and distributed systems?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Always distribute from the start</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Never use single-node databases</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Keep your database on a single node until scaling cost or high-availability forces you to distribute</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Always use NoSQL for distribution</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> "Common wisdom until recently was to keep your database on a single node (scale up) until scaling cost or high-availability requirements forced you to make it distributed."</div>
+            </div>
+        </section>
+
+        <!-- Q80 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q80</span><span class="quiz-topic">Scaling</span></div>
+            <p class="quiz-question">For early-stage startups, what does the chapter recommend prioritizing over scaling?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Hardware redundancy</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Security</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Microservices architecture</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Iterating quickly on product features</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> "In an early-stage startup or an unproven product it's usually more important to be able to iterate quickly on product features than it is to scale to some hypothetical future load."</div>
+            </div>
+        </section>
+
+        <!-- Q81 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q81</span><span class="quiz-topic">Operability</span></div>
+            <p class="quiz-question">What does 'providing visibility into the runtime behavior' mean for operability?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Showing users the database schema</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Making source code public</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Publishing performance benchmarks</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Good monitoring of the system's internals and behavior</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> "Providing visibility into the runtime behavior and internals of the system, with good monitoring" is listed as a way to make routine tasks easy for ops.</div>
+            </div>
+        </section>
+
+        <!-- Q82 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q82</span><span class="quiz-topic">Operability</span></div>
+            <p class="quiz-question">Why should systems avoid dependency on individual machines?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Individual machines are too expensive</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Because individual machines are always faulty</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) So machines can be taken down for maintenance while the system continues running</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) To reduce software licenses</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> "Avoiding dependency on individual machines (allowing machines to be taken down for maintenance while the system as a whole continues running uninterrupted)."</div>
+            </div>
+        </section>
+
+        <!-- Q83 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q83</span><span class="quiz-topic">Simplicity</span></div>
+            <p class="quiz-question">What are symptoms of complexity mentioned in the chapter?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Clean code and good documentation</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Using only one programming language</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Explosion of state space, tight coupling, tangled dependencies, inconsistent naming, hacks</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Small codebase and few features</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> "There are various possible symptoms of complexity: explosion of the state space, tight coupling of modules, tangled dependencies, inconsistent naming and terminology, hacks aimed at solving performance problems, special-casing to work around issues elsewhere, and many more."</div>
+            </div>
+        </section>
+
+        <!-- Q84 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q84</span><span class="quiz-topic">Simplicity</span></div>
+            <p class="quiz-question">Why does complexity increase the risk of introducing bugs?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Because complex systems don't have tests</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Because compilers work differently with complex code</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Because complex code runs slower</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Because when the system is harder to understand, hidden assumptions and unexpected interactions are more easily overlooked</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> "When the system is harder for developers to understand and reason about, hidden assumptions, unintended consequences, and unexpected interactions are more easily overlooked."</div>
+            </div>
+        </section>
+
+        <!-- Q85 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q85</span><span class="quiz-topic">Evolvability</span></div>
+            <p class="quiz-question">What Agile techniques are mentioned as helpful for adapting to change?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Kanban only</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Six Sigma</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Waterfall methodology</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Test-driven development (TDD) and refactoring</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> "The Agile community has also developed technical tools and patterns that are helpful when developing software in a frequently changing environment, such as test-driven development (TDD) and refactoring."</div>
+            </div>
+        </section>
+
+        <!-- Q86 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q86</span><span class="quiz-topic">Evolvability</span></div>
+            <p class="quiz-question">What example does the chapter give of refactoring at the data system level?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Refactoring Twitter's architecture from approach 1 to approach 2 for home timelines</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Rewriting a REST API</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Changing a variable name</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Updating a CSS stylesheet</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> "For example, how would you 'refactor' Twitter's architecture for assembling home timelines from approach 1 to approach 2?"</div>
+            </div>
+        </section>
+
+        <!-- Q87 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q87</span><span class="quiz-topic">Summary</span></div>
+            <p class="quiz-question">According to the chapter summary, what can fault-tolerance techniques do?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Hide certain types of faults from the end user</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Eliminate all faults</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Replace the need for testing</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Make hardware last forever</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> "Fault-tolerance techniques can hide certain types of faults from the end user."</div>
+            </div>
+        </section>
+
+        <!-- Q88 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q88</span><span class="quiz-topic">Summary</span></div>
+            <p class="quiz-question">What is the chapter's stance on nonfunctional requirements?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Reliability, scalability, and maintainability are nonfunctional requirements that are explored in detail</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) They only matter for enterprise software</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) They can be ignored for prototypes</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) They are less important than functional requirements</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> "There are functional requirements... and some nonfunctional requirements (general properties like security, reliability, compliance, scalability, compatibility, and maintainability). In this chapter we discussed reliability, scalability, and maintainability in detail."</div>
+            </div>
+        </section>
+
+        <!-- Q89 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q89</span><span class="quiz-topic">Fault Tolerance</span></div>
+            <p class="quiz-question">When is prevention better than cure for faults?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Only for hardware faults</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Never, because cure is always possible</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Always</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) For security matters—if an attacker gains access to sensitive data, that event cannot be undone</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> "Although we generally prefer tolerating faults over preventing faults, there are cases where prevention is better than cure (e.g., because no cure exists). This is the case with security matters."</div>
+            </div>
+        </section>
+
+        <!-- Q90 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q90</span><span class="quiz-topic">Twitter Case Study</span></div>
+            <p class="quiz-question">How quickly did Twitter try to deliver tweets to followers?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Within one hour</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Within one minute</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Within 100 milliseconds</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Within five seconds</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> "Twitter tries to deliver tweets to followers within five seconds."</div>
+            </div>
+        </section>
+
+        <!-- Q91 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q91</span><span class="quiz-topic">Load Parameters</span></div>
+            <p class="quiz-question">Which of these is NOT mentioned as an example of a load parameter?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Hit rate on a cache</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Requests per second to a web server</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Number of CPU cores in the server</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Ratio of reads to writes in a database</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> Load parameters mentioned include: requests per second, ratio of reads to writes, simultaneously active users, and hit rate on a cache. Number of CPU cores is a resource, not a load parameter.</div>
+            </div>
+        </section>
+
+        <!-- Q92 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q92</span><span class="quiz-topic">Performance Testing</span></div>
+            <p class="quiz-question">When generating artificial load for testing, why should the client send requests independently of the response time?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) To avoid rate limiting</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Because responses don't matter</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Because waiting for prior requests artificially keeps queues shorter, skewing measurements</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) To save bandwidth</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> "If the client waits for the previous request to complete before sending the next one, that behavior has the effect of artificially keeping the queues shorter in the test than they would be in reality, which skews the measurements."</div>
+            </div>
+        </section>
+
+        <!-- Q93 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q93</span><span class="quiz-topic">Elastic Scaling</span></div>
+            <p class="quiz-question">What is a potential downside of elastic (automatic) scaling compared to manual scaling?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Manual scaling is always faster</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Manually scaled systems are simpler and may have fewer operational surprises</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) It costs nothing</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Elastic scaling doesn't work</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> "Manually scaled systems are simpler and may have fewer operational surprises."</div>
+            </div>
+        </section>
+
+        <!-- Q94 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q94</span><span class="quiz-topic">Reliability</span></div>
+            <p class="quiz-question">What four expectations does the chapter list for reliable software?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Fast, cheap, simple, scalable</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Never crashes, always fast, uses little memory, runs everywhere</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Well-documented, well-tested, well-monitored, well-maintained</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Performs expected function, tolerates user mistakes, good performance under expected load, prevents unauthorized access</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> "Typical expectations include: The application performs the function that the user expected. It can tolerate the user making mistakes... Its performance is good enough for the required use case... The system prevents any unauthorized access and abuse."</div>
+            </div>
+        </section>
+
+        <!-- Q95 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q95</span><span class="quiz-topic">Operability</span></div>
+            <p class="quiz-question">What should systems exhibit to help operations teams?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Unpredictable behavior for testing</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Hidden documentation</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Maximum complexity</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Predictable behavior, minimizing surprises</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> "Exhibiting predictable behavior, minimizing surprises" is listed as one of the ways data systems can make routine tasks easy for ops.</div>
+            </div>
+        </section>
+
+        <!-- Q96 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q96</span><span class="quiz-topic">Maintainability</span></div>
+            <p class="quiz-question">Why does the chapter say every legacy system is 'unpleasant in its own way'?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Because legacy systems use old programming languages</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Because legacy systems are always slow</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Because it may involve fixing others' mistakes, working with outdated platforms, or systems forced beyond their intended purpose</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Because they lack databases</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> "Many people working on software systems dislike maintenance of so-called legacy systems—perhaps it involves fixing other people's mistakes, or working with platforms that are now outdated, or systems that were forced to do things they were never intended for."</div>
+            </div>
+        </section>
+
+        <!-- Q97 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q97</span><span class="quiz-topic">Simplicity</span></div>
+            <p class="quiz-question">What does the chapter say about finding good abstractions?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) It's only important for databases</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Machine learning can do it automatically</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) It's very hard, especially in distributed systems</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) It's trivial</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> "Finding good abstractions is very hard. In the field of distributed systems, although there are many good algorithms, it is much less clear how we should be packaging them into abstractions."</div>
+            </div>
+        </section>
+
+        <!-- Q98 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q98</span><span class="quiz-topic">Percentiles</span></div>
+            <p class="quiz-question">What is the p999 (99.9th percentile) also known as?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) A tail latency</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) The standard deviation</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) The mode</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) The average</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> "High percentiles of response times, also known as tail latencies, are important because they directly affect users' experience of the service."</div>
+            </div>
+        </section>
+
+        <!-- Q99 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q99</span><span class="quiz-topic">Twitter Approach 2</span></div>
+            <p class="quiz-question">Why did Twitter switch from approach 1 to approach 2?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Because approach 2 was cheaper</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Because reads are almost two orders of magnitude more frequent than writes, so it's better to do more work at write time</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Approach 1 was insecure</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Because approach 1 used too much disk space</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> "The average rate of published tweets is almost two orders of magnitude lower than the rate of home timeline reads, and so in this case it's preferable to do more work at write time and less at read time."</div>
+            </div>
+        </section>
+
+        <!-- Q100 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q100</span><span class="quiz-topic">Summary</span></div>
+            <p class="quiz-question">What does the chapter say about patterns and techniques for data systems?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Only large companies need patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Certain patterns and techniques keep reappearing in different kinds of applications</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Patterns are outdated concepts</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Every system is completely unique</div>
+                </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> "There is unfortunately no easy fix for making applications reliable, scalable, or maintainable. However, there are certain patterns and techniques that keep reappearing in different kinds of applications."</div>
+            </div>
+        </section>
+
+
+
     </div>
 
     <div class="controls">
@@ -1281,6 +2998,33 @@
             if (currentSlide > 0) {
                 currentSlide--;
                 update();
+            }
+        }
+
+        function selectOption(e) {
+            e.classList.toggle('selected');
+        }
+
+        function checkAnswer(e, correctOptions) {
+            if (!e.parentElement.classList.contains('revealed')) {
+                e.parentElement.classList.add('revealed');
+            }
+            if (!Array.isArray(correctOptions)) {
+                console.error('correctOptions should be an array of letters (e.g., ["B", "D"])');
+                return;
+            }
+            if (!correctOptions.every(opt => /^[A-Z]$/.test(opt))) {
+                console.error('correctOptions should only contain uppercase letters (e.g., ["B", "D"])');
+                return;
+            }
+            const selectedOptionsTags = e.parentElement.parentElement.querySelectorAll('.quiz-option.selected');
+            const selectedOptions = new Set(Array.from(selectedOptionsTags).map(tag => tag.innerText.trim().charAt(0)));
+            const isCorrect = correctOptions.every(opt => selectedOptions.has(opt)) && selectedOptions.size === correctOptions.length;
+            const explanation = e.parentElement.querySelector('.quiz-explanation');
+            if (!isCorrect) {
+                explanation.classList.add('incorrect');
+            } else {
+                explanation.classList.remove('incorrect');
             }
         }
 
