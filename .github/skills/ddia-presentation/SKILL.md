@@ -467,3 +467,53 @@ function checkAnswer(btn, correctLetters) {
 
 ### Slide Count
 When quiz is added, update the static slide count in `<div class="slide-number">` to reflect the new total: original slides + 1 (quiz section header) + 100 (questions). The JS dynamically recalculates using `slides.length`, so it auto-corrects at runtime, but the static text should also be updated for consistency.
+
+### Implementation Strategy: Batching
+
+Due to response length limits, inserting all 100 questions in a single edit is not feasible. Use this batching approach:
+
+1. **First batch**: Add quiz CSS + JS + quiz section header + Q1-Q10 in one edit
+2. **Subsequent batches**: Insert Q11-Q20, Q21-Q30, ..., Q91-Q100 in groups of 10
+3. **Anchor each batch**: Replace the closing `</section>` tag of the last question in the previous batch, appending new questions after it. Use a unique string from the last question's explanation as the anchor text (include 3-5 lines of context)
+4. **Final step**: Update the static slide count after all questions are inserted
+
+### Post-Generation: Answer Randomization Script
+
+After generating all questions, the answer distribution will almost certainly be skewed (typically ~90% B). **Always run the shuffle script** after generating questions.
+
+A reusable Python shuffle script is provided at [./references/shuffle_quiz.py](./references/shuffle_quiz.py). Usage:
+
+```bash
+python3 .github/skills/ddia-presentation/references/shuffle_quiz.py chapterN/presentation.html
+```
+
+The script:
+- Parses all quiz questions using regex
+- Randomly shuffles option positions within each question
+- Updates the `checkAnswer()` call and `Answer: X)` text to match the new correct letter
+- Fixes indentation after shuffle
+- Prints the resulting distribution (target: ~25% each for A/B/C/D)
+- Uses a fixed random seed for reproducibility (change the seed for different distributions)
+
+**After running the script**, verify with:
+```bash
+grep -o 'Answer: [A-D])' chapterN/presentation.html | sort | uniq -c | sort -rn
+```
+
+### Adapting Quiz CSS for Chapter 1's Design System
+
+Chapter 1 uses a different CSS design system than chapters 2+:
+- `--accent: #000000` (black) instead of `--accent: #2563eb` (blue)
+- No `--accent-light` or `--dark` CSS variables defined
+- Section headers use solid `background: #000` instead of gradients
+
+When adding quiz styles to Chapter 1, hardcode the accent colors instead of using CSS variables:
+```css
+.quiz-number { background: #2563eb; }       /* Use blue directly */
+.quiz-topic { background: #dbeafe; color: #2563eb; }
+.reveal-btn { background: #2563eb; }
+.reveal-btn:hover { background: #1d4ed8; }
+.quiz-option.selected { border-color: #2563eb; background: #dbeafe; }
+.quiz-option:hover { border-color: #2563eb; }
+```
+Or add the missing CSS variables to Chapter 1's `:root` block.
