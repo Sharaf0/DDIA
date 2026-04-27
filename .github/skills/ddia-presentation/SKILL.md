@@ -254,3 +254,216 @@ chapterN/
     ├── questions.jpg          # For Q&A slide
     └── ...
 ```
+
+## MCQ Quiz Section
+
+After the main presentation content (after the Questions slide), add a 100-question multiple-choice quiz covering every topic in the chapter. The quiz is placed between the Questions slide and the closing `</div>` of the presentation div.
+
+### Quiz Structure
+```
+Questions slide (always last content slide)
+Quiz Section Header (section-header style)
+Q1 through Q100
+```
+
+### Quiz Slide Template
+```html
+<!-- Quiz Section Header -->
+<section class="slide section-header">
+    <h2>MCQ Quiz</h2>
+    <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">100 Questions • Test Your Knowledge</p>
+</section>
+
+<!-- QN -->
+<section class="slide quiz-slide">
+    <div class="quiz-header"><span class="quiz-number">QN</span><span class="quiz-topic">Topic Name</span></div>
+    <p class="quiz-question">Question text here?</p>
+    <div class="quiz-options">
+        <div class="quiz-option" onclick="selectOption(this)">A) First option</div>
+        <div class="quiz-option" onclick="selectOption(this)">B) Second option</div>
+        <div class="quiz-option" onclick="selectOption(this)">C) Third option</div>
+        <div class="quiz-option" onclick="selectOption(this)">D) Fourth option</div>
+    </div>
+    <div class="quiz-answer">
+        <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+        <div class="quiz-explanation"><strong>Answer: C)</strong> Explanation with a direct quote from the chapter.</div>
+    </div>
+</section>
+```
+
+### Quiz Content Rules
+
+1. **Source material** — ALL questions must come exclusively from the chapter markdown. Do not invent questions about topics the chapter doesn't cover
+2. **100 questions** — Cover every single topic in the chapter. Organize questions in the same order as the chapter's flow
+3. **At least 4 options** per question (A through D minimum). Each question has one correct answer
+4. **Include explanations** — Every answer must include an explanation, preferably with a direct quote from the chapter
+5. **Topic tags** — Each question gets a `quiz-topic` span with the relevant section/concept name
+6. **Sequential numbering** — Q1 through Q100, matching the quiz-number span
+
+### CRITICAL: Answer Distribution
+
+**DO NOT make all correct answers the same letter.** This is the most common mistake when generating quiz questions. When writing questions naturally, there's a strong tendency to always put the correct answer as option B.
+
+**Target distribution**: Roughly 25% each for A, B, C, D (±5%). For 100 questions, aim for 20-30 of each letter.
+
+**How to achieve this**: As you write each question, consciously rotate where you place the correct answer. Track your running count. For example:
+- Q1: correct = A
+- Q2: correct = C
+- Q3: correct = D
+- Q4: correct = B
+- Q5: correct = A
+- ... and so on
+
+**After generating all questions**, verify the distribution by counting answers. If any letter appears more than 30 times or fewer than 15 times, shuffle options to rebalance. When shuffling, update BOTH:
+1. The option text position (which letter prefix it gets)
+2. The `checkAnswer(this, ['X'])` call and `<strong>Answer: X)</strong>` in the explanation
+
+### Quiz CSS
+
+Add these styles inside the `<style>` block:
+```css
+/* ====== Quiz Slides ====== */
+.quiz-slide {
+    text-align: left;
+    align-items: flex-start;
+    padding: 5% 12%;
+}
+
+.quiz-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.quiz-number {
+    background: var(--accent);
+    color: white;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+.quiz-topic {
+    background: var(--accent-light);
+    color: var(--accent);
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+.quiz-question {
+    font-size: 1.6rem;
+    font-weight: 400;
+    line-height: 1.5;
+}
+
+.quiz-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 25px;
+    width: 100%;
+}
+
+.quiz-option {
+    background: #f8fafc;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 14px 20px;
+    font-size: 1.25rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.quiz-option:hover {
+    border-color: var(--accent);
+}
+
+.quiz-option.selected {
+    border-color: var(--accent);
+    background: var(--accent-light);
+}
+
+.quiz-answer {
+    margin-top: 20px;
+    width: 100%;
+}
+
+.reveal-btn {
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 10px 28px;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+.reveal-btn:hover {
+    background: #1d4ed8;
+}
+
+.quiz-explanation {
+    margin-top: 15px;
+    padding: 18px;
+    background: #f0fdf4;
+    border: 1px solid #86efac;
+    border-radius: 10px;
+    font-size: 1.15rem;
+    line-height: 1.5;
+    display: none;
+}
+
+.quiz-answer.revealed .quiz-explanation {
+    display: block;
+}
+
+.quiz-answer.revealed .reveal-btn {
+    background: #6b7280;
+}
+```
+
+### Quiz JavaScript
+
+Add interactive quiz logic (option selection + answer checking) in the `<script>` block:
+```javascript
+function selectOption(el) {
+    const options = el.parentElement.querySelectorAll('.quiz-option');
+    options.forEach(opt => opt.classList.remove('selected'));
+    el.classList.add('selected');
+}
+
+function checkAnswer(btn, correctLetters) {
+    const answerDiv = btn.parentElement;
+    const slide = btn.closest('.quiz-slide');
+    const selected = slide.querySelector('.quiz-option.selected');
+    if (selected) {
+        const selectedLetter = selected.textContent.trim().charAt(0);
+        if (correctLetters.includes(selectedLetter)) {
+            selected.style.borderColor = '#22c55e';
+            selected.style.background = '#f0fdf4';
+        } else {
+            selected.style.borderColor = '#ef4444';
+            selected.style.background = '#fef2f2';
+            // Highlight correct answer
+            const options = slide.querySelectorAll('.quiz-option');
+            options.forEach(opt => {
+                const letter = opt.textContent.trim().charAt(0);
+                if (correctLetters.includes(letter)) {
+                    opt.style.borderColor = '#22c55e';
+                    opt.style.background = '#f0fdf4';
+                }
+            });
+        }
+    }
+    answerDiv.classList.toggle('revealed');
+}
+```
+
+### Slide Count
+When quiz is added, update the static slide count in `<div class="slide-number">` to reflect the new total: original slides + 1 (quiz section header) + 100 (questions). The JS dynamically recalculates using `slides.length`, so it auto-corrects at runtime, but the static text should also be updated for consistency.
