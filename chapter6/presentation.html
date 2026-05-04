@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KT: DDIA Chapter 6 - Partitioning</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #ffffff;
+            --text: #0f172a;
+            --gray: #f0f0f0;
+            --accent: #2563eb;
+            --accent-light: #dbeafe;
+            --warm: #fef3c7;
+            --dark: #0f172a;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        .presentation {
+            height: 100%;
+            width: 100%;
+            display: flex;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .slide {
+            min-width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 5% 10%;
+            position: relative;
+            text-align: center;
+        }
+
+        /* ====== Slide Types ====== */
+
+        /* Title Slide: opening slide with book title, chapter name, book cover */
+        .title-slide h1 {
+            font-size: 4.5rem;
+            font-weight: 800;
+            letter-spacing: -2px;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #0f172a 0%, #2563eb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .title-slide p {
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            opacity: 0.6;
+        }
+
+        .title-slide {
+            gap: 20px;
+        }
+
+        .title-image {
+            height: 350px;
+            max-width: 280px;
+            border: none;
+            background: transparent;
+        }
+
+        .title-image img {
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            border-radius: 4px;
+        }
+
+        /* Section Header: dark full-screen divider between major topics */
+        .section-header {
+            background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%);
+            color: #fff;
+        }
+
+        .section-header h2 {
+            font-size: 5rem;
+        }
+
+        .section-header .image-box {
+            height: 55vh;
+            margin-top: 30px;
+            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .section-header .image-box img {
+            opacity: 0.9;
+        }
+
+        /* Content Slide: standard text slide, optionally with side image */
+        .content-slide {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+            text-align: left;
+            align-items: center;
+        }
+
+        .content-slide.with-image {
+            grid-template-columns: 1fr 1.2fr;
+            text-align: left;
+        }
+
+        /* ====== Typography ====== */
+        h2 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 1.8rem;
+            line-height: 1.4;
+            font-weight: 300;
+        }
+
+        ul {
+            font-size: 1.5rem;
+            line-height: 1.6;
+            font-weight: 300;
+            margin-top: 15px;
+            padding-left: 25px;
+        }
+
+        ul li {
+            margin-bottom: 10px;
+        }
+
+        /* ====== Content Components ====== */
+
+        /* Highlight: inline yellow background */
+        .highlight {
+            background: var(--warm);
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+
+        /* Code Block: dark background, monospace */
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+            text-align: left;
+            overflow-x: auto;
+            margin-top: 15px;
+            white-space: pre;
+        }
+
+        /* Image Box: container for images */
+        .image-box {
+            width: 100%;
+            height: 500px;
+            background: #f9f9f9;
+            border: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border-radius: 12px;
+        }
+
+        .image-box img {
+            max-width: 95%;
+            max-height: 95%;
+            object-fit: contain;
+        }
+
+        /* Fill variant: for photos (object-fit: cover) */
+        .image-box.fill img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Quote: left-bordered italic text */
+        .quote {
+            font-style: italic;
+            border-left: 4px solid var(--accent);
+            padding-left: 20px;
+            margin: 20px 0;
+        }
+
+        /* Stat Box: big number with label */
+        .stat-box {
+            background: #f8f8f8;
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .stat-box .number {
+            font-size: 4rem;
+            font-weight: 800;
+            color: var(--accent);
+        }
+
+        .stat-box .label {
+            font-size: 1.2rem;
+            opacity: 0.7;
+            margin-top: 10px;
+        }
+
+        .stat-box.small .number {
+            font-size: 2.5rem;
+        }
+
+        .stat-box.small {
+            padding: 20px;
+        }
+
+        /* Two Column Layout */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            width: 100%;
+        }
+
+        /* Three Column Layout */
+        .three-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 25px;
+            width: 100%;
+        }
+
+        /* Compare Card: for side-by-side comparison */
+        .compare-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 25px;
+            text-align: left;
+        }
+
+        .compare-card h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--accent);
+        }
+
+        .compare-card p,
+        .compare-card ul {
+            font-size: 1.2rem;
+        }
+
+        /* Accent variant: highlight the preferred option */
+        .compare-card.accent {
+            background: var(--accent-light);
+            border-color: var(--accent);
+        }
+
+        /* Tag / Pill: inline labels */
+        .tag {
+            display: inline-block;
+            background: var(--accent-light);
+            color: var(--accent);
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 4px;
+        }
+
+        /* Emoji: large decorative emoji */
+        .emoji {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        /* Syntax highlighting spans for code blocks */
+        .sql-keyword {
+            color: #569cd6;
+            font-weight: 600;
+        }
+
+        .code-comment {
+            color: #6a9955;
+        }
+
+        .code-string {
+            color: #ce9178;
+        }
+
+        /* Side image: floating image on text-heavy slides */
+        .side-image {
+            position: absolute;
+            right: 60px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 200px;
+            height: 200px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .side-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Questions image: smaller image for Q&A slide */
+        .questions-image {
+            height: 360px;
+            max-width: 600px;
+        }
+
+        /* Full image slide: image-dominant layout */
+        .full-image-slide .image-box {
+            height: 70vh;
+            width: 90%;
+            max-width: 1200px;
+        }
+
+        /* Timeline: horizontal timeline with dots */
+        .timeline {
+            display: flex;
+            align-items: flex-start;
+            gap: 0;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .timeline-item {
+            flex: 1;
+            text-align: center;
+            position: relative;
+            padding-top: 30px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--accent);
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            top: 4px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 16px;
+            height: 16px;
+            background: var(--accent);
+            border-radius: 50%;
+            border: 3px solid white;
+        }
+
+        .timeline-item .year {
+            font-weight: 800;
+            font-size: 1.3rem;
+            color: var(--accent);
+        }
+
+        .timeline-item .desc {
+            font-size: 1rem;
+            margin-top: 5px;
+            opacity: 0.7;
+        }
+
+        /* ====== Controls ====== */
+        .controls {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            gap: 15px;
+            z-index: 100;
+        }
+
+        .controls button {
+            background: var(--dark);
+            color: #fff;
+            border: none;
+            padding: 15px 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            border-radius: 6px;
+        }
+
+        .controls button:hover {
+            opacity: 0.8;
+        }
+
+        .progress-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: #eee;
+            z-index: 101;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), #7c3aed);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .slide-number {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            opacity: 0.4;
+        }
+
+        /* ====== Responsive ====== */
+        @media (max-width: 768px) {
+            body { font-size: 14px; }
+            .slide { padding: 10% 5%; }
+            .title-slide h1 { font-size: 2.5rem; }
+            .title-slide p { font-size: 1rem; }
+        }
+    
+    </style>
+</head>
+
+<body>
+
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+    <div class="slide-number" id="slideNum">1 / 26</div>
+
+    <div class="presentation" id="presentation">
+
+        <!-- 1. Title Slide -->
+        <section class="slide title-slide">
+            <p>Designing Data-Intensive Applications</p>
+            <h1>Partitioning</h1>
+            <p>Knowledge Transfer Session • Chapter 6</p>
+            <div class="image-box title-image">
+                <img src="../chapter1/images/book_cover.jpg" alt="DDIA book cover" />
+            </div>
+        </section>
+        <!-- 2. Opening Quote -->
+        <section class="slide content-slide">
+            <h2>"We must break away from the sequential and not limit the computers."</h2>
+            <p style="margin-top: 20px; opacity: 0.6;">— Grace Murray Hopper, <em>Management and the Computer of the Future</em> (1962)</p>
+            <p style="margin-top: 30px;">For very large datasets or very high throughput, replication alone isn't enough. We need to <strong>break data into partitions</strong> (a.k.a. shards, regions, tablets, vnodes).</p>
+        </section>
+        <!-- 3. Why Partition -->
+        <section class="slide content-slide">
+            <h2>Why Partition?</h2>
+            <div class="stat-box" style="margin-bottom: 20px;">
+                <div class="number">Scalability</div>
+                <div class="label">Spread data and query load across many nodes</div>
+            </div>
+            <div class="two-col">
+                <div class="compare-card">
+                    <h3>The Goal</h3>
+                    <p>10 nodes should handle <strong>10×</strong> the data and <strong>10×</strong> the throughput of a single node.</p>
+                </div>
+                <div class="compare-card accent">
+                    <h3>The Enemy: Hot Spots 🔥</h3>
+                    <p><strong>Skewed</strong> partitioning → disproportionate load on one partition → 9 idle nodes, 1 bottleneck.</p>
+                </div>
+            </div>
+        </section>
+        <!-- 4. Section: Strategies -->
+        <section class="slide section-header">
+            <h2>Partitioning Strategies</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">Key range vs hash — and their trade-offs</p>
+        </section>
+        <!-- 5. Partitioning + Replication (Fig 6-1) -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>Partitioning + Replication</h2>
+                <p>Usually combined: each partition is <strong>replicated</strong> on multiple nodes for fault tolerance.</p>
+                <ul style="margin-top: 15px;">
+                    <li>Each node may store <strong>multiple partitions</strong></li>
+                    <li>A node can be <strong>leader</strong> for some partitions, <strong>follower</strong> for others</li>
+                    <li>Partitioning scheme is <strong>independent</strong> of replication scheme</li>
+                </ul>
+            </div>
+            <div class="image-box">
+                <img src="images/ddia_0601.png" alt="Partitioning and replication combined" />
+            </div>
+        </section>
+        <!-- 6. Key Range (Fig 6-2) -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>Partitioning by Key Range</h2>
+                <p>Assign continuous ranges of keys to each partition — like volumes of an encyclopedia.</p>
+                <ul style="margin-top: 15px;">
+                    <li>Ranges <strong>adapt to data distribution</strong> (not evenly spaced)</li>
+                    <li>Within each partition, keys are <strong>sorted</strong> → range scans are efficient</li>
+                    <li>Great for <strong>time-series data</strong>: fetch all readings from a month</li>
+                </ul>
+                <p style="margin-top: 10px;">Used by: <span class="tag">HBase</span> <span class="tag">Bigtable</span> <span class="tag">RethinkDB</span></p>
+            </div>
+            <div class="image-box">
+                <img src="images/ddia_0602.png" alt="Key range partitioning" />
+            </div>
+        </section>
+        <!-- 7. Key Range Hot Spots -->
+        <section class="slide content-slide">
+            <h2>Key Range: The Hot Spot Problem</h2>
+            <p>If key is a <strong>timestamp</strong>, all writes go to the partition for today → hot spot!</p>
+            <div class="two-col" style="margin-top: 20px;">
+                <div class="compare-card accent">
+                    <h3>❌ Problem</h3>
+                    <div class="code-block" style="font-size: 0.9rem;">
+Key: 2024-01-15-14:30:05
+     ← all writes hit today's partition</div>
+                </div>
+                <div class="compare-card">
+                    <h3>✅ Solution</h3>
+                    <div class="code-block" style="font-size: 0.9rem;">
+Key: sensor_42/2024-01-15-14:30:05
+     ← partition first by sensor, then time</div>
+                    <p style="margin-top: 8px;">Spread writes across sensors, but now range queries need per-sensor requests.</p>
+                </div>
+            </div>
+        </section>
+        <!-- 8. Hash Partitioning (Fig 6-3) -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>Partitioning by Hash of Key</h2>
+                <p>Apply a hash function to each key → assign <strong>ranges of hashes</strong> to partitions.</p>
+                <ul style="margin-top: 15px;">
+                    <li>Even similar keys → different hashes → <strong>evenly distributed</strong></li>
+                    <li>Hash functions: <span class="tag">MD5 (MongoDB)</span> <span class="tag">Murmur3 (Cassandra)</span> <span class="tag">FNV (Voldemort)</span></li>
+                    <li>⚠️ Language built-in hashes (Java hashCode) may differ across processes!</li>
+                </ul>
+                <div class="stat-box small" style="margin-top: 15px;">
+                    <div class="number">Trade-off</div>
+                    <div class="label">Lose the ability to do efficient range queries</div>
+                </div>
+            </div>
+            <div class="image-box">
+                <img src="images/ddia_0603.png" alt="Hash partitioning" />
+            </div>
+        </section>
+        <!-- 9. Compound Key -->
+        <section class="slide content-slide">
+            <h2>Cassandra's Compound Key Compromise</h2>
+            <p>Best of both worlds: <strong>hash the first part, sort by the rest</strong>.</p>
+            <div class="code-block" style="font-size: 1rem; margin-top: 15px;">
+PRIMARY KEY (user_id, update_timestamp)
+             ↑ hashed for partition    ↑ sorted within partition</div>
+            <ul style="margin-top: 20px;">
+                <li>Can't range-scan across <code>user_id</code> (it's hashed)</li>
+                <li><strong>Can</strong> efficiently range-scan timestamps <em>within a single user</em></li>
+                <li>Elegant model for <strong>one-to-many</strong> relationships (user → posts, user → events)</li>
+            </ul>
+        </section>
+        <!-- 10. Celebrity Problem -->
+        <section class="slide content-slide">
+            <h2>Skewed Workloads: The Celebrity Problem</h2>
+            <p>Hashing distributes keys but can't help when <strong>all requests target the same key</strong>.</p>
+            <p class="quote" style="margin-top: 15px;">A celebrity with millions of followers posts → massive writes to one key (their user ID or post ID).</p>
+            <p style="margin-top: 15px;">Workaround: add a <strong>random number</strong> to the key:</p>
+            <div class="code-block" style="font-size: 0.95rem; margin-top: 10px;">
+key = "celebrity_post_123" + random(0, 99)
+→ splits writes across 100 keys on different partitions</div>
+            <p style="margin-top: 15px;">⚠️ Now reads must query all 100 keys and combine results. Only worth it for the small number of truly hot keys.</p>
+            <p style="margin-top: 10px;">Today: most systems require <strong>application-level</strong> handling. Future: automatic detection.</p>
+        </section>
+        <!-- 11. Section: Secondary Indexes -->
+        <section class="slide section-header">
+            <h2>Partitioning &amp; Secondary Indexes</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">The bread and butter of relational databases meets partitioning</p>
+        </section>
+        <!-- 12. Document-Partitioned (Fig 6-4) -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>Document-Partitioned Indexes</h2>
+                <p>Each partition maintains its own <strong>local index</strong>.</p>
+                <ul style="margin-top: 10px;">
+                    <li>✅ Writes: only update <strong>one partition</strong></li>
+                    <li>❌ Reads: must <strong>scatter/gather</strong> across all partitions</li>
+                    <li>Prone to <strong>tail latency amplification</strong></li>
+                </ul>
+                <p style="margin-top: 10px;">Example: searching for red cars → query every partition, combine results.</p>
+                <p style="margin-top: 10px;">Used by: <span class="tag">MongoDB</span> <span class="tag">Cassandra</span> <span class="tag">Elasticsearch</span> <span class="tag">Riak</span></p>
+            </div>
+            <div class="image-box">
+                <img src="images/ddia_0604.png" alt="Document-partitioned secondary index" />
+            </div>
+        </section>
+        <!-- 13. Term-Partitioned (Fig 6-5) -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>Term-Partitioned Indexes</h2>
+                <p>A <strong>global index</strong> covering all partitions, itself partitioned by term.</p>
+                <ul style="margin-top: 10px;">
+                    <li>✅ Reads: query <strong>one partition</strong> of the index</li>
+                    <li>❌ Writes: may affect <strong>multiple partitions</strong> (distributed transaction)</li>
+                    <li>In practice: updates are often <strong>async</strong></li>
+                </ul>
+                <p style="margin-top: 10px;">Example: <code>color:red</code> entries from ALL data partitions live in one index partition.</p>
+                <p style="margin-top: 10px;">Used by: <span class="tag">DynamoDB</span> <span class="tag">Riak Search</span> <span class="tag">Oracle DW</span></p>
+            </div>
+            <div class="image-box">
+                <img src="images/ddia_0605.png" alt="Term-partitioned secondary index" />
+            </div>
+        </section>
+        <!-- 14. Local vs Global Comparison -->
+        <section class="slide content-slide">
+            <h2>Local vs Global Indexes</h2>
+            <div style="overflow-x: auto;">
+                <table style="width: 100%; border-collapse: collapse; font-size: 1.1rem; margin-top: 15px;">
+                    <tr style="background: var(--accent-light);">
+                        <th style="padding: 10px; text-align: left;"></th>
+                        <th style="padding: 10px; text-align: center;">Document-Partitioned (Local)</th>
+                        <th style="padding: 10px; text-align: center;">Term-Partitioned (Global)</th>
+                    </tr>
+                    <tr><td style="padding: 8px;"><strong>Writes</strong></td><td style="text-align: center;">✅ One partition</td><td style="text-align: center;">❌ Multiple partitions</td></tr>
+                    <tr style="background: #f8fafc;"><td style="padding: 8px;"><strong>Reads</strong></td><td style="text-align: center;">❌ Scatter/gather</td><td style="text-align: center;">✅ One partition</td></tr>
+                    <tr><td style="padding: 8px;"><strong>Consistency</strong></td><td style="text-align: center;">Immediate</td><td style="text-align: center;">Often async</td></tr>
+                    <tr style="background: #f8fafc;"><td style="padding: 8px;"><strong>Complexity</strong></td><td style="text-align: center;">Simpler</td><td style="text-align: center;">Distributed txn needed</td></tr>
+                </table>
+            </div>
+            <p style="margin-top: 15px;">Choose based on your read/write ratio and consistency requirements.</p>
+        </section>
+        <!-- 15. Section: Rebalancing -->
+        <section class="slide section-header">
+            <h2>Rebalancing Partitions</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">Moving data when nodes join or leave the cluster</p>
+        </section>
+        <!-- 16. Why Rebalance -->
+        <section class="slide content-slide">
+            <h2>Why Rebalance?</h2>
+            <ul style="margin-top: 15px;">
+                <li>📈 Query throughput increases → add more CPUs</li>
+                <li>💾 Dataset grows → add more disks and RAM</li>
+                <li>💥 Machine fails → other nodes take over</li>
+            </ul>
+            <p style="margin-top: 20px;">Requirements for rebalancing:</p>
+            <div class="three-col" style="margin-top: 15px;">
+                <div class="compare-card">
+                    <h3>⚖️ Fair</h3>
+                    <p>Load evenly shared after rebalancing</p>
+                </div>
+                <div class="compare-card">
+                    <h3>🔄 Available</h3>
+                    <p>DB continues serving reads/writes during rebalancing</p>
+                </div>
+                <div class="compare-card">
+                    <h3>📦 Minimal</h3>
+                    <p>Move only what's necessary (minimize network I/O)</p>
+                </div>
+            </div>
+        </section>
+        <!-- 17. Don't Use Mod N -->
+        <section class="slide content-slide">
+            <h2>❌ Don't: hash mod N</h2>
+            <div class="code-block" style="font-size: 1rem; margin-top: 15px;">
+hash(key) mod N → partition number</div>
+            <p style="margin-top: 15px;">Seems simple, but when N changes, <strong>most keys move</strong>:</p>
+            <div class="code-block" style="font-size: 0.95rem; margin-top: 10px;">
+hash(key) = 123456
+  mod 10 = 6  → node 6
+  mod 11 = 3  → node 3  ← moved!
+  mod 12 = 0  → node 0  ← moved again!</div>
+            <p style="margin-top: 15px;">Adding one node causes a <strong>massive data shuffle</strong>. Excessively expensive. Need better approaches.</p>
+        </section>
+        <!-- 18. Fixed Partitions (Fig 6-6) -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>Fixed Number of Partitions</h2>
+                <p>Create <strong>many more partitions than nodes</strong> upfront.</p>
+                <ul style="margin-top: 10px;">
+                    <li>10 nodes, 1,000 partitions → ~100 per node</li>
+                    <li>New node <strong>steals</strong> some partitions from existing nodes</li>
+                    <li>Only entire partitions move — keys stay in their partition</li>
+                </ul>
+                <p style="margin-top: 10px;">Used by: <span class="tag">Riak</span> <span class="tag">Elasticsearch</span> <span class="tag">Couchbase</span> <span class="tag">Voldemort</span></p>
+                <p style="margin-top: 10px; color: var(--accent);">⚠️ Must choose partition count wisely — it's fixed forever. Too many = overhead, too few = limits growth.</p>
+            </div>
+            <div class="image-box">
+                <img src="images/ddia_0606.png" alt="Fixed number of partitions" />
+            </div>
+        </section>
+        <!-- 19. Dynamic & Proportional -->
+        <section class="slide content-slide">
+            <h2>Dynamic &amp; Proportional Partitioning</h2>
+            <div class="two-col" style="margin-top: 15px;">
+                <div class="compare-card">
+                    <h3>🔀 Dynamic Partitioning</h3>
+                    <p>Partition grows too large → <strong>split in half</strong>. Shrinks → <strong>merge</strong> with neighbor.</p>
+                    <ul style="font-size: 0.95rem; margin-top: 10px;">
+                        <li>Adapts to data volume automatically</li>
+                        <li>⚠️ Empty DB starts with 1 partition (need <strong>pre-splitting</strong>)</li>
+                        <li>HBase default: split at 10 GB</li>
+                    </ul>
+                    <p style="margin-top: 8px;">Used by: <span class="tag">HBase</span> <span class="tag">MongoDB</span> <span class="tag">RethinkDB</span></p>
+                </div>
+                <div class="compare-card">
+                    <h3>📏 Proportional to Nodes</h3>
+                    <p>Fixed number of partitions <strong>per node</strong>.</p>
+                    <ul style="font-size: 0.95rem; margin-top: 10px;">
+                        <li>More nodes → partitions split → each gets smaller</li>
+                        <li>New node randomly splits existing partitions</li>
+                        <li>Cassandra: 256 partitions per node</li>
+                    </ul>
+                    <p style="margin-top: 8px;">Used by: <span class="tag">Cassandra</span> <span class="tag">Ketama</span></p>
+                </div>
+            </div>
+        </section>
+        <!-- 20. Auto vs Manual -->
+        <section class="slide content-slide">
+            <h2>Automatic vs Manual Rebalancing</h2>
+            <div class="two-col" style="margin-top: 15px;">
+                <div class="compare-card">
+                    <h3>🤖 Automatic</h3>
+                    <p>System decides when and where to move partitions.</p>
+                    <p style="margin-top: 10px;">✅ Less operational work</p>
+                    <p>❌ Can be unpredictable</p>
+                    <p>❌ <strong>Dangerous with auto failure detection</strong>: overloaded node declared dead → rebalancing adds more load → cascading failure! 💀</p>
+                </div>
+                <div class="compare-card accent">
+                    <h3>👤 Manual (with suggestions)</h3>
+                    <p>System proposes a plan, admin approves.</p>
+                    <p style="margin-top: 10px;">✅ Human in the loop prevents surprises</p>
+                    <p>❌ Slower</p>
+                    <p style="margin-top: 10px;">Used by: <span class="tag">Couchbase</span> <span class="tag">Riak</span> <span class="tag">Voldemort</span></p>
+                </div>
+            </div>
+        </section>
+        <!-- 21. Section: Request Routing -->
+        <section class="slide section-header">
+            <h2>Request Routing</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">How clients find the right node: service discovery for databases</p>
+        </section>
+        <!-- 22. Three Approaches (Fig 6-7) -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>Three Routing Approaches</h2>
+                <ol>
+                    <li><strong>Contact any node</strong> — node handles or forwards</li>
+                    <li><strong>Routing tier</strong> — partition-aware load balancer</li>
+                    <li><strong>Smart client</strong> — client knows partition→node mapping</li>
+                </ol>
+                <p style="margin-top: 15px;">Key challenge: how does the routing component learn about partition reassignments?</p>
+            </div>
+            <div class="image-box">
+                <img src="images/ddia_0607.png" alt="Three routing approaches" />
+            </div>
+        </section>
+        <!-- 23. ZooKeeper (Fig 6-8) -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>ZooKeeper for Coordination</h2>
+                <p>Separate <strong>coordination service</strong> maintains the authoritative partition→node mapping.</p>
+                <ul style="margin-top: 15px;">
+                    <li>Nodes register in ZooKeeper</li>
+                    <li>Routing tier / clients <strong>subscribe</strong> to changes</li>
+                    <li>Partition changes → ZooKeeper notifies subscribers</li>
+                </ul>
+                <p style="margin-top: 15px;">Used by: <span class="tag">Espresso (LinkedIn)</span> <span class="tag">HBase</span> <span class="tag">Kafka</span> <span class="tag">SolrCloud</span></p>
+                <p style="margin-top: 10px;">Alternative: <strong>Gossip protocol</strong> (Cassandra, Riak) — no external dependency, but more complexity in DB nodes.</p>
+            </div>
+            <div class="image-box">
+                <img src="images/ddia_0608.png" alt="ZooKeeper coordination" />
+            </div>
+        </section>
+        <!-- 24. Section: Summary -->
+        <section class="slide section-header">
+            <h2>Summary</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">Partitioning approaches, indexes, rebalancing, and routing</p>
+        </section>
+        <!-- 25. Summary -->
+        <section class="slide content-slide">
+            <h2>Chapter 6 Summary</h2>
+            <div class="two-col" style="margin-top: 15px;">
+                <div>
+                    <h3 style="margin-bottom: 10px;">Partitioning Strategies</h3>
+                    <ul>
+                        <li><strong>Key range</strong> — sorted, range queries, but hot spot risk</li>
+                        <li><strong>Hash</strong> — even distribution, but no range queries</li>
+                        <li><strong>Compound key</strong> — hash + sort (Cassandra)</li>
+                    </ul>
+                    <h3 style="margin-top: 20px; margin-bottom: 10px;">Secondary Indexes</h3>
+                    <ul>
+                        <li><strong>Local (document)</strong> — fast writes, scatter/gather reads</li>
+                        <li><strong>Global (term)</strong> — fast reads, complex writes</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 style="margin-bottom: 10px;">Rebalancing</h3>
+                    <ul>
+                        <li>Fixed partitions, dynamic splitting, or per-node</li>
+                        <li>Never use <code>hash mod N</code>!</li>
+                        <li>Human-in-the-loop is safer</li>
+                    </ul>
+                    <h3 style="margin-top: 20px; margin-bottom: 10px;">Request Routing</h3>
+                    <ul>
+                        <li>Any-node, routing tier, or smart client</li>
+                        <li>ZooKeeper or gossip protocol</li>
+                    </ul>
+                </div>
+            </div>
+            <p style="margin-top: 15px;">Next: what happens when writes to <strong>multiple partitions</strong> need to succeed or fail together? → <strong>Transactions (Ch 7)</strong></p>
+        </section>
+        <!-- 26. Questions -->
+        <section class="slide title-slide">
+            <h1>Questions?</h1>
+            <p>Designing Data-Intensive Applications • Chapter 6</p>
+            <div class="image-box questions-image">
+                <img src="images/questions.jpg" alt="Q&A discussion" />
+            </div>
+        </section>
+
+    </div>
+
+    <div class="controls">
+        <button onclick="prevSlide()">PREV</button>
+        <button onclick="nextSlide()">NEXT</button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const presentation = document.getElementById('presentation');
+        const progressBar = document.getElementById('progressBar');
+        const slideNum = document.getElementById('slideNum');
+        const totalSlides = slides.length;
+
+        function update() {
+            presentation.style.transform = `translateX(-${currentSlide * 100}vw)`;
+            progressBar.style.width = `${((currentSlide + 1) / totalSlides) * 100}%`;
+            slideNum.innerText = `${currentSlide + 1} / ${totalSlides}`;
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides - 1) {
+                currentSlide++;
+                update();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                update();
+            }
+        }
+
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'ArrowDown') nextSlide();
+            if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') prevSlide();
+            if (e.key >= '0' && e.key <= '9') {
+                const targetSlide = parseInt(e.key, 10);
+                currentSlide = Math.floor(totalSlides * (targetSlide / 10));
+                update();
+            }
+        });
+
+        update();
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KT: DDIA Chapter 4 - Encoding and Evolution</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #ffffff;
+            --text: #0f172a;
+            --gray: #f0f0f0;
+            --accent: #2563eb;
+            --accent-light: #dbeafe;
+            --warm: #fef3c7;
+            --dark: #0f172a;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        .presentation {
+            height: 100%;
+            width: 100%;
+            display: flex;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .slide {
+            min-width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 5% 10%;
+            position: relative;
+            text-align: center;
+        }
+
+        /* ====== Slide Types ====== */
+
+        /* Title Slide: opening slide with book title, chapter name, book cover */
+        .title-slide h1 {
+            font-size: 4.5rem;
+            font-weight: 800;
+            letter-spacing: -2px;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #0f172a 0%, #2563eb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .title-slide p {
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            opacity: 0.6;
+        }
+
+        .title-slide {
+            gap: 20px;
+        }
+
+        .title-image {
+            height: 350px;
+            max-width: 280px;
+            border: none;
+            background: transparent;
+        }
+
+        .title-image img {
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            border-radius: 4px;
+        }
+
+        /* Section Header: dark full-screen divider between major topics */
+        .section-header {
+            background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%);
+            color: #fff;
+        }
+
+        .section-header h2 {
+            font-size: 5rem;
+        }
+
+        .section-header .image-box {
+            height: 55vh;
+            margin-top: 30px;
+            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .section-header .image-box img {
+            opacity: 0.9;
+        }
+
+        /* Content Slide: standard text slide, optionally with side image */
+        .content-slide {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+            text-align: left;
+            align-items: center;
+        }
+
+        .content-slide.with-image {
+            grid-template-columns: 1fr 1.2fr;
+            text-align: left;
+        }
+
+        /* ====== Typography ====== */
+        h2 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 1.8rem;
+            line-height: 1.4;
+            font-weight: 300;
+        }
+
+        ul {
+            font-size: 1.5rem;
+            line-height: 1.6;
+            font-weight: 300;
+            margin-top: 15px;
+            padding-left: 25px;
+        }
+
+        ul li {
+            margin-bottom: 10px;
+        }
+
+        /* ====== Content Components ====== */
+
+        /* Highlight: inline yellow background */
+        .highlight {
+            background: var(--warm);
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+
+        /* Code Block: dark background, monospace */
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+            text-align: left;
+            overflow-x: auto;
+            margin-top: 15px;
+            white-space: pre;
+        }
+
+        /* Image Box: container for images */
+        .image-box {
+            width: 100%;
+            height: 500px;
+            background: #f9f9f9;
+            border: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border-radius: 12px;
+        }
+
+        .image-box img {
+            max-width: 95%;
+            max-height: 95%;
+            object-fit: contain;
+        }
+
+        /* Fill variant: for photos (object-fit: cover) */
+        .image-box.fill img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Quote: left-bordered italic text */
+        .quote {
+            font-style: italic;
+            border-left: 4px solid var(--accent);
+            padding-left: 20px;
+            margin: 20px 0;
+        }
+
+        /* Stat Box: big number with label */
+        .stat-box {
+            background: #f8f8f8;
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .stat-box .number {
+            font-size: 4rem;
+            font-weight: 800;
+            color: var(--accent);
+        }
+
+        .stat-box .label {
+            font-size: 1.2rem;
+            opacity: 0.7;
+            margin-top: 10px;
+        }
+
+        .stat-box.small .number {
+            font-size: 2.5rem;
+        }
+
+        .stat-box.small {
+            padding: 20px;
+        }
+
+        /* Two Column Layout */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            width: 100%;
+        }
+
+        /* Three Column Layout */
+        .three-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 25px;
+            width: 100%;
+        }
+
+        /* Compare Card: for side-by-side comparison */
+        .compare-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 25px;
+            text-align: left;
+        }
+
+        .compare-card h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--accent);
+        }
+
+        .compare-card p,
+        .compare-card ul {
+            font-size: 1.2rem;
+        }
+
+        /* Accent variant: highlight the preferred option */
+        .compare-card.accent {
+            background: var(--accent-light);
+            border-color: var(--accent);
+        }
+
+        /* Tag / Pill: inline labels */
+        .tag {
+            display: inline-block;
+            background: var(--accent-light);
+            color: var(--accent);
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 4px;
+        }
+
+        /* Emoji: large decorative emoji */
+        .emoji {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        /* Syntax highlighting spans for code blocks */
+        .sql-keyword {
+            color: #569cd6;
+            font-weight: 600;
+        }
+
+        .code-comment {
+            color: #6a9955;
+        }
+
+        .code-string {
+            color: #ce9178;
+        }
+
+        /* Side image: floating image on text-heavy slides */
+        .side-image {
+            position: absolute;
+            right: 60px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 200px;
+            height: 200px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .side-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Questions image: smaller image for Q&A slide */
+        .questions-image {
+            height: 360px;
+            max-width: 600px;
+        }
+
+        /* Full image slide: image-dominant layout */
+        .full-image-slide .image-box {
+            height: 70vh;
+            width: 90%;
+            max-width: 1200px;
+        }
+
+        /* Timeline: horizontal timeline with dots */
+        .timeline {
+            display: flex;
+            align-items: flex-start;
+            gap: 0;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .timeline-item {
+            flex: 1;
+            text-align: center;
+            position: relative;
+            padding-top: 30px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--accent);
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            top: 4px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 16px;
+            height: 16px;
+            background: var(--accent);
+            border-radius: 50%;
+            border: 3px solid white;
+        }
+
+        .timeline-item .year {
+            font-weight: 800;
+            font-size: 1.3rem;
+            color: var(--accent);
+        }
+
+        .timeline-item .desc {
+            font-size: 1rem;
+            margin-top: 5px;
+            opacity: 0.7;
+        }
+
+        /* ====== Controls ====== */
+        .controls {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            gap: 15px;
+            z-index: 100;
+        }
+
+        .controls button {
+            background: var(--dark);
+            color: #fff;
+            border: none;
+            padding: 15px 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            border-radius: 6px;
+        }
+
+        .controls button:hover {
+            opacity: 0.8;
+        }
+
+        .progress-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: #eee;
+            z-index: 101;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), #7c3aed);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .slide-number {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            opacity: 0.4;
+        }
+
+        /* ====== Responsive ====== */
+        @media (max-width: 768px) {
+            body { font-size: 14px; }
+            .slide { padding: 10% 5%; }
+            .title-slide h1 { font-size: 2.5rem; }
+            .title-slide p { font-size: 1rem; }
+        }
+    
+    </style>
+</head>
+
+<body>
+
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+    <div class="slide-number" id="slideNum">1 / 41</div>
+
+    <div class="presentation" id="presentation">
+
+        <!-- 1. Title Slide -->
+        <section class="slide title-slide">
+            <p>Designing Data-Intensive Applications</p>
+            <h1>Encoding and Evolution</h1>
+            <p>Knowledge Transfer Session • Chapter 4</p>
+            <div class="image-box title-image">
+                <img src="../chapter1/images/book_cover.jpg" alt="DDIA book cover" />
+            </div>
+        </section>
+        <!-- 2. Opening Quote -->
+        <section class="slide content-slide">
+            <h2>"Everything changes and nothing stands still."</h2>
+            <p style="margin-top: 20px; opacity: 0.6;">— Heraclitus of Ephesus, as quoted by Plato in <em>Cratylus</em> (360 BCE)</p>
+            <p style="margin-top: 40px;">Applications inevitably change over time. This chapter explores how to encode data so that old and new code can coexist — enabling <strong>rolling upgrades</strong> and <strong>evolvability</strong>.</p>
+        </section>
+        <!-- 3. What We'll Cover -->
+        <section class="slide content-slide">
+            <h2>What We'll Cover</h2>
+            <div class="three-col" style="margin-top: 20px;">
+                <div class="compare-card">
+                    <h3>📦 Encoding Formats</h3>
+                    <p>JSON, XML, Thrift, Protocol Buffers, Avro — and their trade-offs</p>
+                </div>
+                <div class="compare-card">
+                    <h3>🔄 Schema Evolution</h3>
+                    <p>Backward &amp; forward compatibility — how each format handles change</p>
+                </div>
+                <div class="compare-card">
+                    <h3>🌊 Modes of Dataflow</h3>
+                    <p>Databases, REST/RPC, and message-passing — where encoding matters</p>
+                </div>
+            </div>
+        </section>
+        <!-- 4. Section: Encoding Formats -->
+        <section class="slide section-header">
+            <h2>Formats for Encoding Data</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">From in-memory objects to bytes on the wire</p>
+        </section>
+        <!-- 5. Two Representations -->
+        <section class="slide content-slide">
+            <h2>Two Representations of Data</h2>
+            <div class="two-col">
+                <div class="compare-card">
+                    <h3>🧠 In Memory</h3>
+                    <p>Objects, structs, lists, hash tables, trees...</p>
+                    <p style="margin-top: 10px;">Optimized for CPU access via <strong>pointers</strong></p>
+                </div>
+                <div class="compare-card accent">
+                    <h3>📡 On the Wire / Disk</h3>
+                    <p>Self-contained sequence of <strong>bytes</strong></p>
+                    <p style="margin-top: 10px;">Pointers are meaningless to other processes</p>
+                </div>
+            </div>
+            <p style="margin-top: 25px;">Translation: <strong>Encoding</strong> (serialization/marshalling) ↔ <strong>Decoding</strong> (parsing/deserialization/unmarshalling)</p>
+        </section>
+        <!-- 6. Language-Specific Formats -->
+        <section class="slide content-slide">
+            <h2>Language-Specific Formats ❌</h2>
+            <p>Java's <code>Serializable</code>, Ruby's <code>Marshal</code>, Python's <code>pickle</code>, Kryo...</p>
+            <ul>
+                <li><strong>Tied to one language</strong> — can't read the data from another language</li>
+                <li><strong>Security risk</strong> — decoding can instantiate arbitrary classes → remote code execution 💀</li>
+                <li><strong>Versioning is an afterthought</strong> — poor forward/backward compatibility</li>
+                <li><strong>Poor efficiency</strong> — Java serialization is notorious for bloated encoding</li>
+            </ul>
+            <p class="quote" style="margin-top: 15px;">"It's generally a bad idea to use your language's built-in encoding for anything other than very transient purposes."</p>
+        </section>
+        <!-- 7. JSON, XML, CSV -->
+        <section class="slide content-slide">
+            <h2>JSON, XML, and CSV</h2>
+            <p>Widely known, widely supported, and <em>almost as widely disliked</em>. 😅</p>
+            <ul>
+                <li><strong>Number ambiguity</strong> — JSON can't distinguish integers from floats; integers &gt; 2⁵³ break in JavaScript (Twitter includes tweet IDs twice!)</li>
+                <li><strong>No binary strings</strong> — must Base64 encode → 33% size increase</li>
+                <li><strong>Schema support</strong> — optional for XML/JSON, nonexistent for CSV</li>
+                <li><strong>CSV quirks</strong> — commas in values? Newlines? Escaping rules aren't always followed</li>
+            </ul>
+            <p style="margin-top: 15px;">Despite flaws, they're <strong>good enough for data interchange</strong> between organizations. Getting people to agree on <em>anything</em> outweighs most concerns.</p>
+        </section>
+        <!-- 8. MessagePack (Fig 4-1) -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>Binary Encoding: MessagePack</h2>
+                <p>JSON/XML are verbose → binary variants exist: <span class="tag">MessagePack</span> <span class="tag">BSON</span> <span class="tag">BJSON</span> <span class="tag">Smile</span></p>
+                <p style="margin-top: 15px;">Example record:</p>
+                <div class="code-block" style="font-size: 0.85rem;">
+{
+  "userName": "Martin",
+  "favoriteNumber": 1337,
+  "interests": ["daydreaming", "hacking"]
+}</div>
+                <p style="margin-top: 15px;">MessagePack: <strong>66 bytes</strong> vs JSON text: <strong>81 bytes</strong></p>
+                <p>Only ~18% saving. Still includes field names. We can do <em>much</em> better...</p>
+            </div>
+            <div class="image-box">
+                <img src="images/ddia_0401.png" alt="MessagePack encoding" />
+            </div>
+        </section>
+        <!-- 9. Section: Thrift & Protobuf -->
+        <section class="slide section-header">
+            <h2>Thrift &amp; Protocol Buffers</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">Schema-driven binary encoding from Facebook &amp; Google</p>
+        </section>
+        <!-- 10. Schema Definitions -->
+        <section class="slide content-slide">
+            <h2>Schema Definitions</h2>
+            <div class="two-col">
+                <div class="compare-card">
+                    <h3>Thrift IDL</h3>
+                    <div class="code-block" style="font-size: 0.85rem;">
+<span class="sql-keyword">struct</span> Person {
+  1: <span class="sql-keyword">required string</span>       userName,
+  2: <span class="sql-keyword">optional</span> i64          favoriteNumber,
+  3: <span class="sql-keyword">optional list</span>&lt;string&gt; interests
+}</div>
+                </div>
+                <div class="compare-card">
+                    <h3>Protocol Buffers</h3>
+                    <div class="code-block" style="font-size: 0.85rem;">
+<span class="sql-keyword">message</span> Person {
+    <span class="sql-keyword">required string</span> user_name       = 1;
+    <span class="sql-keyword">optional</span> int64  favorite_number = 2;
+    <span class="sql-keyword">repeated string</span> interests       = 3;
+}</div>
+                </div>
+            </div>
+            <p style="margin-top: 20px;">Both use <strong>numbered field tags</strong> instead of field names → much more compact encoding</p>
+        </section>
+        <!-- 11. Thrift BinaryProtocol (Fig 4-2) -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>Thrift BinaryProtocol</h2>
+                <p>Each field encoded with:</p>
+                <ul>
+                    <li><strong>Type annotation</strong> (string, integer, list...)</li>
+                    <li><strong>Field tag number</strong> (1, 2, 3) instead of names</li>
+                    <li>Length indication where needed</li>
+                </ul>
+                <div class="stat-box small" style="margin-top: 15px;">
+                    <div class="number">59 bytes</div>
+                    <div class="label">vs 66 for MessagePack, 81 for JSON text</div>
+                </div>
+            </div>
+            <div class="image-box">
+                <img src="images/ddia_0402.png" alt="Thrift BinaryProtocol encoding" />
+            </div>
+        </section>
+        <!-- 12. Thrift CompactProtocol (Fig 4-3) -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>Thrift CompactProtocol</h2>
+                <p>Packs field type + tag into a <strong>single byte</strong></p>
+                <p style="margin-top: 10px;">Uses <strong>variable-length integers</strong>: numbers -64 to 63 fit in 1 byte, -8192 to 8191 in 2 bytes</p>
+                <div class="stat-box small" style="margin-top: 15px;">
+                    <div class="number">34 bytes</div>
+                    <div class="label">Same data, ~half the size of BinaryProtocol</div>
+                </div>
+            </div>
+            <div class="image-box">
+                <img src="images/ddia_0403.png" alt="Thrift CompactProtocol encoding" />
+            </div>
+        </section>
+        <!-- 13. Protocol Buffers (Fig 4-4) -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>Protocol Buffers Encoding</h2>
+                <p>Similar bit packing to Thrift CompactProtocol</p>
+                <div class="stat-box small" style="margin-top: 15px;">
+                    <div class="number">33 bytes</div>
+                    <div class="label">Most compact of Thrift/Protobuf encodings</div>
+                </div>
+                <p style="margin-top: 15px;"><code>required</code> vs <code>optional</code> makes no difference in encoding — it's only a runtime validation check</p>
+            </div>
+            <div class="image-box">
+                <img src="images/ddia_0404.png" alt="Protocol Buffers encoding" />
+            </div>
+        </section>
+        <!-- 14. Field Tags & Schema Evolution -->
+        <section class="slide content-slide">
+            <h2>Field Tags &amp; Schema Evolution</h2>
+            <p>Field tags are <strong>critical</strong> — they're how encoded data identifies fields.</p>
+            <div class="two-col" style="margin-top: 20px;">
+                <div class="compare-card">
+                    <h3>✅ You CAN</h3>
+                    <ul>
+                        <li>Change field <strong>names</strong> (tags stay the same)</li>
+                        <li>Add new fields with <strong>new tag numbers</strong></li>
+                        <li>Remove <strong>optional</strong> fields</li>
+                    </ul>
+                </div>
+                <div class="compare-card accent">
+                    <h3>❌ You CANNOT</h3>
+                    <ul>
+                        <li>Change a field's <strong>tag number</strong></li>
+                        <li>Make a new field <strong>required</strong></li>
+                        <li>Remove a <strong>required</strong> field</li>
+                        <li>Reuse a deleted field's <strong>tag number</strong></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        <!-- 15. How Compatibility Works -->
+        <section class="slide content-slide">
+            <h2>How Compatibility Works</h2>
+            <div class="two-col">
+                <div class="compare-card">
+                    <h3>→ Forward Compatibility</h3>
+                    <p><strong>Old code reads new data</strong></p>
+                    <p style="margin-top: 10px;">Old code sees unknown tag numbers → skips them (datatype annotation tells how many bytes to skip)</p>
+                </div>
+                <div class="compare-card">
+                    <h3>← Backward Compatibility</h3>
+                    <p><strong>New code reads old data</strong></p>
+                    <p style="margin-top: 10px;">New code knows tag meanings. New fields must have <strong>default values</strong> since old data won't have them.</p>
+                </div>
+            </div>
+            <p style="margin-top: 20px;">Protobuf special: <code>optional</code> → <code>repeated</code> is allowed. Old code sees only the last element.</p>
+        </section>
+        <!-- 16. Section: Avro -->
+        <section class="slide section-header">
+            <h2>Apache Avro</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">Born from Hadoop, designed for dynamically generated schemas</p>
+        </section>
+        <!-- 17. Avro Schema -->
+        <section class="slide content-slide">
+            <h2>Avro Schema — No Tag Numbers!</h2>
+            <div class="two-col">
+                <div class="compare-card">
+                    <h3>Avro IDL</h3>
+                    <div class="code-block" style="font-size: 0.85rem;">
+<span class="sql-keyword">record</span> Person {
+    string               userName;
+    <span class="sql-keyword">union</span> { null, long } favoriteNumber = null;
+    array&lt;string&gt;        interests;
+}</div>
+                </div>
+                <div class="compare-card">
+                    <h3>JSON Representation</h3>
+                    <div class="code-block" style="font-size: 0.75rem;">
+{
+  "type": "record",
+  "name": "Person",
+  "fields": [
+    {"name": "userName", "type": "string"},
+    {"name": "favoriteNumber",
+     "type": ["null","long"], "default": null},
+    {"name": "interests",
+     "type": {"type":"array","items":"string"}}
+  ]
+}</div>
+                </div>
+            </div>
+        </section>
+        <!-- 18. Avro Encoding (Fig 4-5) -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>Avro Encoding</h2>
+                <div class="stat-box small">
+                    <div class="number">32 bytes</div>
+                    <div class="label">Most compact encoding we've seen!</div>
+                </div>
+                <p style="margin-top: 15px;">No field identifiers or type annotations in the data. Just <strong>values concatenated together</strong>.</p>
+                <p style="margin-top: 10px;">Decoded by walking through fields <strong>in schema order</strong>. Reader MUST use the <em>exact same schema</em>... or must they? 🤔</p>
+            </div>
+            <div class="image-box">
+                <img src="images/ddia_0405.png" alt="Avro encoding" />
+            </div>
+        </section>
+        <!-- 19. Writer vs Reader Schema -->
+        <section class="slide content-slide">
+            <h2>Writer's Schema vs Reader's Schema</h2>
+            <p>The key idea: they <strong>don't have to be the same</strong> — just compatible!</p>
+            <div class="two-col" style="margin-top: 20px;">
+                <div class="compare-card">
+                    <h3>✍️ Writer's Schema</h3>
+                    <p>The schema used when the data was <strong>encoded</strong>. Compiled into the writing application.</p>
+                </div>
+                <div class="compare-card accent">
+                    <h3>📖 Reader's Schema</h3>
+                    <p>The schema the reading application <strong>expects</strong>. May be a different version!</p>
+                </div>
+            </div>
+            <p style="margin-top: 20px;">Avro resolves differences by matching fields <strong>by name</strong>, filling in defaults for missing fields, and ignoring unknown ones.</p>
+        </section>
+        <!-- 20. Schema Resolution (Fig 4-6) -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>Schema Resolution in Action</h2>
+                <ul>
+                    <li>Fields matched <strong>by name</strong> (not position)</li>
+                    <li>Different field order? No problem</li>
+                    <li>Writer has field reader doesn't? <strong>Ignored</strong></li>
+                    <li>Reader expects field writer doesn't have? <strong>Filled with default</strong></li>
+                </ul>
+                <p style="margin-top: 15px;">To maintain compatibility: only add/remove fields that have <strong>default values</strong></p>
+                <p style="margin-top: 10px;">Avro uses <strong>union types</strong> for nullability — no <code>optional</code>/<code>required</code> markers</p>
+            </div>
+            <div class="image-box">
+                <img src="images/ddia_0406.png" alt="Avro schema resolution" />
+            </div>
+        </section>
+        <!-- 21. Finding the Writer's Schema -->
+        <section class="slide content-slide">
+            <h2>How Does the Reader Find the Writer's Schema?</h2>
+            <div class="three-col" style="margin-top: 20px;">
+                <div class="compare-card">
+                    <h3>📁 Large Files</h3>
+                    <p>Hadoop-style: millions of records, same schema. Include schema <strong>once at file beginning</strong>.</p>
+                    <p style="margin-top: 8px; font-size: 1rem;">→ Avro object container files</p>
+                </div>
+                <div class="compare-card">
+                    <h3>🗄️ Database Records</h3>
+                    <p>Different records may use different schemas. Include a <strong>version number</strong> per record.</p>
+                    <p style="margin-top: 8px; font-size: 1rem;">→ Look up schema from version DB (e.g., Espresso)</p>
+                </div>
+                <div class="compare-card">
+                    <h3>🌐 Network</h3>
+                    <p>Two processes negotiate schema version on <strong>connection setup</strong>.</p>
+                    <p style="margin-top: 8px; font-size: 1rem;">→ Avro RPC protocol</p>
+                </div>
+            </div>
+        </section>
+        <!-- 22. Dynamically Generated Schemas -->
+        <section class="slide content-slide">
+            <h2>Avro's Superpower: Dynamically Generated Schemas</h2>
+            <p>Want to dump a relational database to a binary file?</p>
+            <ul>
+                <li>Generate an Avro schema <strong>from the database schema</strong> automatically</li>
+                <li>Each table → a record, each column → a field</li>
+                <li>Column name = field name (no manual tag assignment needed!)</li>
+                <li>Database schema changes? Just regenerate the Avro schema. <strong>No manual intervention.</strong></li>
+            </ul>
+            <p style="margin-top: 15px;">With Thrift/Protobuf, you'd need to manually maintain tag-to-column mappings — <em>"this kind of dynamically generated schema simply wasn't a design goal."</em></p>
+        </section>
+        <!-- 23. Format Comparison Table -->
+        <section class="slide content-slide">
+            <h2>Encoding Format Comparison</h2>
+            <div style="overflow-x: auto; width: 100%;">
+                <table style="width: 100%; border-collapse: collapse; font-size: 1.1rem; margin-top: 15px;">
+                    <tr style="background: var(--accent-light);">
+                        <th style="padding: 10px; text-align: left;">Format</th>
+                        <th style="padding: 10px; text-align: center;">Size</th>
+                        <th style="padding: 10px; text-align: center;">Schema</th>
+                        <th style="padding: 10px; text-align: center;">Human-Readable</th>
+                        <th style="padding: 10px; text-align: center;">Evolution</th>
+                    </tr>
+                    <tr><td style="padding: 8px;">JSON (text)</td><td style="text-align: center;">81 B</td><td style="text-align: center;">Optional</td><td style="text-align: center;">✅</td><td style="text-align: center;">⚠️</td></tr>
+                    <tr style="background: #f8fafc;"><td style="padding: 8px;">MessagePack</td><td style="text-align: center;">66 B</td><td style="text-align: center;">No</td><td style="text-align: center;">❌</td><td style="text-align: center;">⚠️</td></tr>
+                    <tr><td style="padding: 8px;">Thrift Binary</td><td style="text-align: center;">59 B</td><td style="text-align: center;">Required</td><td style="text-align: center;">❌</td><td style="text-align: center;">✅</td></tr>
+                    <tr style="background: #f8fafc;"><td style="padding: 8px;">Thrift Compact</td><td style="text-align: center;">34 B</td><td style="text-align: center;">Required</td><td style="text-align: center;">❌</td><td style="text-align: center;">✅</td></tr>
+                    <tr><td style="padding: 8px;">Protocol Buffers</td><td style="text-align: center;">33 B</td><td style="text-align: center;">Required</td><td style="text-align: center;">❌</td><td style="text-align: center;">✅</td></tr>
+                    <tr style="background: var(--accent-light);"><td style="padding: 8px;"><strong>Avro</strong></td><td style="text-align: center;"><strong>32 B</strong></td><td style="text-align: center;">Required</td><td style="text-align: center;">❌</td><td style="text-align: center;">✅</td></tr>
+                </table>
+            </div>
+        </section>
+        <!-- 24. Merits of Schemas -->
+        <section class="slide content-slide">
+            <h2>The Merits of Schemas</h2>
+            <p>Schema-driven binary encodings win on multiple fronts:</p>
+            <ul>
+                <li>📦 <strong>More compact</strong> — omit field names from encoded data</li>
+                <li>📝 <strong>Living documentation</strong> — schema is required for decoding, so it's always up to date</li>
+                <li>✅ <strong>Compatibility checking</strong> — database of schemas lets you verify compatibility before deployment</li>
+                <li>🔧 <strong>Code generation</strong> — for statically typed languages: type checking at compile time</li>
+            </ul>
+            <p class="quote" style="margin-top: 15px;">"Schema evolution allows the same kind of flexibility as schemaless/schema-on-read JSON databases provide, while also providing better guarantees about your data and better tooling."</p>
+        </section>
+        <!-- 25. Section: Modes of Dataflow -->
+        <section class="slide section-header">
+            <h2>Modes of Dataflow</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">Where and how encoded data travels between processes</p>
+        </section>
+        <!-- 26. Three Ways Data Flows -->
+        <section class="slide content-slide">
+            <h2>Three Ways Data Flows</h2>
+            <div class="three-col" style="margin-top: 20px;">
+                <div class="compare-card">
+                    <h3>🗄️ Through Databases</h3>
+                    <p>Writer encodes, reader decodes. "Sending a message to your future self."</p>
+                </div>
+                <div class="compare-card">
+                    <h3>🌐 Through Services</h3>
+                    <p>REST, RPC — client encodes request, server decodes and responds.</p>
+                </div>
+                <div class="compare-card">
+                    <h3>📨 Through Messages</h3>
+                    <p>Async message passing via brokers — sender encodes, consumer decodes.</p>
+                </div>
+            </div>
+        </section>
+        <!-- 27. Database Dataflow (Fig 4-7) -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>Dataflow Through Databases</h2>
+                <p><strong>Backward compatibility</strong> is clearly needed — your future self must decode what you wrote.</p>
+                <p style="margin-top: 15px;"><strong>Forward compatibility</strong> is also needed — during rolling upgrades, older code may read data written by newer code.</p>
+                <p style="margin-top: 15px;">⚠️ <strong>Danger:</strong> Old code reads a record with a new field, updates it, and writes it back — <em>the new field might be lost!</em></p>
+                <p style="margin-top: 10px;">Encoding formats handle this, but watch out at the application level.</p>
+            </div>
+            <div class="image-box">
+                <img src="images/ddia_0407.png" alt="Data loss during field preservation" />
+            </div>
+        </section>
+        <!-- 28. Data Outlives Code -->
+        <section class="slide content-slide">
+            <h2>Data Outlives Code</h2>
+            <p class="quote">"Within a single database you may have some values that were written five milliseconds ago, and some values that were written five years ago."</p>
+            <p style="margin-top: 20px;">You deploy new code in minutes. But <strong>old data stays forever</strong> in its original encoding.</p>
+            <ul>
+                <li>Rewriting (migrating) all data is expensive for large datasets</li>
+                <li>Most relational DBs: <code>ALTER TABLE ADD COLUMN</code> with <code>NULL</code> default — no rewrite needed</li>
+                <li>LinkedIn's Espresso uses <strong>Avro</strong> for storage → Avro schema evolution handles it</li>
+            </ul>
+            <p style="margin-top: 15px;">Schema evolution lets the DB <strong>appear</strong> as if all data uses one schema, even if it contains records from many eras.</p>
+        </section>
+        <!-- 29. Archival Storage -->
+        <section class="slide content-slide">
+            <h2>Archival Storage</h2>
+            <p>Database snapshots for backup or data warehousing:</p>
+            <ul>
+                <li>Dump is encoded with the <strong>latest schema</strong> — a consistent snapshot</li>
+                <li>Written once, <strong>immutable</strong> — perfect for Avro object container files</li>
+                <li>Good opportunity to encode in an <strong>analytics-friendly format</strong> like Parquet (column-oriented)</li>
+            </ul>
+        </section>
+        <!-- 30. Section: Services -->
+        <section class="slide section-header">
+            <h2>Dataflow Through Services</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">REST, SOAP, RPC — and the pitfalls of location transparency</p>
+        </section>
+        <!-- 31. Services & Microservices -->
+        <section class="slide content-slide">
+            <h2>Services and Microservices</h2>
+            <p>Servers expose an API (<strong>service</strong>); clients connect and make requests.</p>
+            <ul>
+                <li>A server can be a <strong>client to another service</strong> — this is the foundation of microservices</li>
+                <li>Key goal: services are <strong>independently deployable and evolvable</strong></li>
+                <li>Services provide <strong>encapsulation</strong> — restrict what clients can do via the API</li>
+            </ul>
+            <p style="margin-top: 15px;">Old and new versions of servers and clients run simultaneously → data encoding must be <strong>compatible across versions</strong>.</p>
+        </section>
+        <!-- 32. REST vs SOAP -->
+        <section class="slide content-slide">
+            <h2>REST vs SOAP</h2>
+            <div class="two-col" style="margin-top: 10px;">
+                <div class="compare-card accent">
+                    <h3>REST ✅</h3>
+                    <ul>
+                        <li>Design philosophy built on HTTP principles</li>
+                        <li>Simple data formats (JSON), URLs for resources</li>
+                        <li>Uses HTTP features: caching, auth, content negotiation</li>
+                        <li>API described with OpenAPI/Swagger</li>
+                        <li>Predominant for <strong>public APIs</strong></li>
+                    </ul>
+                </div>
+                <div class="compare-card">
+                    <h3>SOAP ⚠️</h3>
+                    <ul>
+                        <li>XML-based protocol, avoids HTTP features</li>
+                        <li>Complex standards: WS-* framework</li>
+                        <li>WSDL for API description → code generation</li>
+                        <li>Vendor interoperability problems</li>
+                        <li>Still used in <strong>large enterprises</strong></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        <!-- 33. Problems with RPC -->
+        <section class="slide content-slide">
+            <h2>The Problems with RPC</h2>
+            <p>RPC tries to make a network call look like a local function call (<strong>location transparency</strong>). But it's <em>fundamentally flawed</em>:</p>
+            <ul>
+                <li>🎲 <strong>Unpredictable</strong> — network requests can be lost, slow, or timeout</li>
+                <li>⏱️ <strong>Timeouts</strong> — no response ≠ failure. You just <em>don't know</em> what happened</li>
+                <li>🔄 <strong>Retries need idempotence</strong> — the request may have succeeded; only the response was lost</li>
+                <li>🐌 <strong>Wildly variable latency</strong> — sub-millisecond to multi-second for the same call</li>
+                <li>📦 <strong>No pointer passing</strong> — all parameters must be serialized to bytes</li>
+                <li>🌐 <strong>Cross-language type mismatches</strong> — e.g., JS can't handle integers &gt; 2⁵³</li>
+            </ul>
+        </section>
+        <!-- 34. Modern RPC -->
+        <section class="slide content-slide">
+            <h2>Modern RPC Frameworks</h2>
+            <p>RPC isn't going away — but new frameworks are more honest about network realities:</p>
+            <ul>
+                <li><span class="tag">gRPC</span> Protocol Buffers, supports <strong>streams</strong> (request/response over time)</li>
+                <li><span class="tag">Thrift</span> <span class="tag">Finagle</span> Use <strong>futures/promises</strong> for async + parallel requests</li>
+                <li><span class="tag">Rest.li</span> JSON over HTTP with futures</li>
+                <li><span class="tag">Avro RPC</span> Schema negotiation on connection setup</li>
+            </ul>
+            <p style="margin-top: 15px;"><strong>REST wins for public APIs</strong> (easy debugging, broad ecosystem). <strong>RPC wins for internal services</strong> (performance, efficiency).</p>
+        </section>
+        <!-- 35. RPC Evolution -->
+        <section class="slide content-slide">
+            <h2>Evolution for RPC</h2>
+            <p>Simplifying assumption: <strong>servers updated first, clients second</strong>.</p>
+            <ul>
+                <li>Need <strong>backward compatibility on requests</strong> (new server reads old client's data)</li>
+                <li>Need <strong>forward compatibility on responses</strong> (old client reads new server's data)</li>
+            </ul>
+            <p style="margin-top: 15px;">Compatibility rules depend on the encoding format used (Thrift, Protobuf, JSON, etc.)</p>
+            <p style="margin-top: 10px;">Cross-organization APIs often require <strong>indefinite compatibility</strong> — the provider can't force clients to upgrade. Common to maintain <strong>multiple API versions</strong> side by side.</p>
+        </section>
+        <!-- 36. Section: Message Passing -->
+        <section class="slide section-header">
+            <h2>Message-Passing Dataflow</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">Async communication via message brokers and actors</p>
+        </section>
+        <!-- 37. Message Brokers -->
+        <section class="slide content-slide">
+            <h2>Message Brokers</h2>
+            <p>Between RPC (low-latency, synchronous) and databases (persistent, async). Best of both:</p>
+            <ul>
+                <li>📦 <strong>Buffer</strong> — absorbs load when recipients are unavailable</li>
+                <li>🔄 <strong>Auto-redeliver</strong> — prevents message loss on crashes</li>
+                <li>🔍 <strong>No address needed</strong> — sender doesn't need recipient's IP/port</li>
+                <li>📣 <strong>Fan-out</strong> — one message to many recipients</li>
+                <li>🔓 <strong>Decoupling</strong> — sender doesn't care who consumes</li>
+            </ul>
+            <p style="margin-top: 15px;">One-way: sender doesn't wait for reply. Responses go on a separate channel.</p>
+            <p style="margin-top: 10px;">Examples: <span class="tag">RabbitMQ</span> <span class="tag">ActiveMQ</span> <span class="tag">NATS</span> <span class="tag">Apache Kafka</span></p>
+        </section>
+        <!-- 38. Distributed Actors -->
+        <section class="slide content-slide">
+            <h2>Distributed Actor Frameworks</h2>
+            <p>The <strong>actor model</strong>: concurrency via message-passing instead of threads/locks.</p>
+            <ul>
+                <li>Each actor has <strong>local state</strong> (not shared), processes one message at a time</li>
+                <li>In <strong>distributed</strong> actor frameworks, messages cross nodes transparently</li>
+                <li>Location transparency works <em>better</em> here than RPC — actors already assume messages can be lost</li>
+            </ul>
+            <p style="margin-top: 15px;">Still need forward/backward compatibility for rolling upgrades!</p>
+            <div class="three-col" style="margin-top: 15px;">
+                <div class="compare-card">
+                    <h3>Akka</h3>
+                    <p style="font-size: 1rem;">Java default serialization (bad!) — replace with Protobuf</p>
+                </div>
+                <div class="compare-card">
+                    <h3>Orleans</h3>
+                    <p style="font-size: 1rem;">Own versioning — new methods OK, don't change existing ones</p>
+                </div>
+                <div class="compare-card">
+                    <h3>Erlang OTP</h3>
+                    <p style="font-size: 1rem;">Record schema changes are surprisingly hard 😬</p>
+                </div>
+            </div>
+        </section>
+        <!-- 39. Section: Summary -->
+        <section class="slide section-header">
+            <h2>Summary</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">Encoding, evolution, and the art of compatibility</p>
+        </section>
+        <!-- 40. Summary Content -->
+        <section class="slide content-slide">
+            <h2>Chapter 4 Summary</h2>
+            <p><strong>Encoding formats and their compatibility:</strong></p>
+            <ul>
+                <li>❌ Language-specific encodings — tied to one language, insecure, no evolution</li>
+                <li>⚠️ JSON/XML/CSV — widespread but vague about datatypes, optional schemas</li>
+                <li>✅ Thrift/Protobuf/Avro — compact, schema-driven, clear evolution semantics</li>
+            </ul>
+            <p style="margin-top: 20px;"><strong>Modes of dataflow:</strong></p>
+            <ul>
+                <li>🗄️ <strong>Databases</strong> — writer encodes, reader decodes; data outlives code</li>
+                <li>🌐 <strong>REST/RPC</strong> — client ↔ server; servers updated first, clients second</li>
+                <li>📨 <strong>Message passing</strong> — async via brokers or actors; one-way communication</li>
+            </ul>
+            <p class="quote" style="margin-top: 15px;">"May your application's evolution be rapid and your deployments be frequent."</p>
+        </section>
+        <!-- 41. Questions Slide -->
+        <section class="slide title-slide">
+            <h1>Questions?</h1>
+            <p>Designing Data-Intensive Applications • Chapter 4</p>
+            <div class="image-box questions-image">
+                <img src="images/questions.jpg" alt="Q&A discussion" />
+            </div>
+        </section>
+
+    </div>
+
+    <div class="controls">
+        <button onclick="prevSlide()">PREV</button>
+        <button onclick="nextSlide()">NEXT</button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const presentation = document.getElementById('presentation');
+        const progressBar = document.getElementById('progressBar');
+        const slideNum = document.getElementById('slideNum');
+        const totalSlides = slides.length;
+
+        function update() {
+            presentation.style.transform = `translateX(-${currentSlide * 100}vw)`;
+            progressBar.style.width = `${((currentSlide + 1) / totalSlides) * 100}%`;
+            slideNum.innerText = `${currentSlide + 1} / ${totalSlides}`;
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides - 1) {
+                currentSlide++;
+                update();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                update();
+            }
+        }
+
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'ArrowDown') nextSlide();
+            if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') prevSlide();
+            if (e.key >= '0' && e.key <= '9') {
+                const targetSlide = parseInt(e.key, 10);
+                currentSlide = Math.floor(totalSlides * (targetSlide / 10));
+                update();
+            }
+        });
+
+        update();
+    </script>
+
+</body>
+
+</html>

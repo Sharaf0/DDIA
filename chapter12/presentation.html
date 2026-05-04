@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KT: DDIA Chapter 12 - The Future of Data Systems</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #ffffff;
+            --text: #0f172a;
+            --gray: #f0f0f0;
+            --accent: #2563eb;
+            --accent-light: #dbeafe;
+            --warm: #fef3c7;
+            --dark: #0f172a;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        .presentation {
+            height: 100%;
+            width: 100%;
+            display: flex;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .slide {
+            min-width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 5% 10%;
+            position: relative;
+            text-align: center;
+        }
+
+        /* ====== Slide Types ====== */
+
+        /* Title Slide: opening slide with book title, chapter name, book cover */
+        .title-slide h1 {
+            font-size: 4.5rem;
+            font-weight: 800;
+            letter-spacing: -2px;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #0f172a 0%, #2563eb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .title-slide p {
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            opacity: 0.6;
+        }
+
+        .title-slide {
+            gap: 20px;
+        }
+
+        .title-image {
+            height: 350px;
+            max-width: 280px;
+            border: none;
+            background: transparent;
+        }
+
+        .title-image img {
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            border-radius: 4px;
+        }
+
+        /* Section Header: dark full-screen divider between major topics */
+        .section-header {
+            background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%);
+            color: #fff;
+        }
+
+        .section-header h2 {
+            font-size: 5rem;
+        }
+
+        .section-header .image-box {
+            height: 55vh;
+            margin-top: 30px;
+            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .section-header .image-box img {
+            opacity: 0.9;
+        }
+
+        /* Content Slide: standard text slide, optionally with side image */
+        .content-slide {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+            text-align: left;
+            align-items: center;
+        }
+
+        .content-slide.with-image {
+            grid-template-columns: 1fr 1.2fr;
+            text-align: left;
+        }
+
+        /* ====== Typography ====== */
+        h2 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 1.8rem;
+            line-height: 1.4;
+            font-weight: 300;
+        }
+
+        ul {
+            font-size: 1.5rem;
+            line-height: 1.6;
+            font-weight: 300;
+            margin-top: 15px;
+            padding-left: 25px;
+        }
+
+        ul li {
+            margin-bottom: 10px;
+        }
+
+        /* ====== Content Components ====== */
+
+        /* Highlight: inline yellow background */
+        .highlight {
+            background: var(--warm);
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+
+        /* Code Block: dark background, monospace */
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+            text-align: left;
+            overflow-x: auto;
+            margin-top: 15px;
+            white-space: pre;
+        }
+
+        /* Image Box: container for images */
+        .image-box {
+            width: 100%;
+            height: 500px;
+            background: #f9f9f9;
+            border: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border-radius: 12px;
+        }
+
+        .image-box img {
+            max-width: 95%;
+            max-height: 95%;
+            object-fit: contain;
+        }
+
+        /* Fill variant: for photos (object-fit: cover) */
+        .image-box.fill img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Quote: left-bordered italic text */
+        .quote {
+            font-style: italic;
+            border-left: 4px solid var(--accent);
+            padding-left: 20px;
+            margin: 20px 0;
+        }
+
+        /* Stat Box: big number with label */
+        .stat-box {
+            background: #f8f8f8;
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .stat-box .number {
+            font-size: 4rem;
+            font-weight: 800;
+            color: var(--accent);
+        }
+
+        .stat-box .label {
+            font-size: 1.2rem;
+            opacity: 0.7;
+            margin-top: 10px;
+        }
+
+        .stat-box.small .number {
+            font-size: 2.5rem;
+        }
+
+        .stat-box.small {
+            padding: 20px;
+        }
+
+        /* Two Column Layout */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            width: 100%;
+        }
+
+        /* Three Column Layout */
+        .three-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 25px;
+            width: 100%;
+        }
+
+        /* Compare Card: for side-by-side comparison */
+        .compare-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 25px;
+            text-align: left;
+        }
+
+        .compare-card h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--accent);
+        }
+
+        .compare-card p,
+        .compare-card ul {
+            font-size: 1.2rem;
+        }
+
+        /* Accent variant: highlight the preferred option */
+        .compare-card.accent {
+            background: var(--accent-light);
+            border-color: var(--accent);
+        }
+
+        /* Tag / Pill: inline labels */
+        .tag {
+            display: inline-block;
+            background: var(--accent-light);
+            color: var(--accent);
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 4px;
+        }
+
+        /* Emoji: large decorative emoji */
+        .emoji {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        /* Syntax highlighting spans for code blocks */
+        .sql-keyword {
+            color: #569cd6;
+            font-weight: 600;
+        }
+
+        .code-comment {
+            color: #6a9955;
+        }
+
+        .code-string {
+            color: #ce9178;
+        }
+
+        /* Side image: floating image on text-heavy slides */
+        .side-image {
+            position: absolute;
+            right: 60px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 200px;
+            height: 200px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .side-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Questions image: smaller image for Q&A slide */
+        .questions-image {
+            height: 360px;
+            max-width: 600px;
+        }
+
+        /* Full image slide: image-dominant layout */
+        .full-image-slide .image-box {
+            height: 70vh;
+            width: 90%;
+            max-width: 1200px;
+        }
+
+        /* Timeline: horizontal timeline with dots */
+        .timeline {
+            display: flex;
+            align-items: flex-start;
+            gap: 0;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .timeline-item {
+            flex: 1;
+            text-align: center;
+            position: relative;
+            padding-top: 30px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--accent);
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            top: 4px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 16px;
+            height: 16px;
+            background: var(--accent);
+            border-radius: 50%;
+            border: 3px solid white;
+        }
+
+        .timeline-item .year {
+            font-weight: 800;
+            font-size: 1.3rem;
+            color: var(--accent);
+        }
+
+        .timeline-item .desc {
+            font-size: 1rem;
+            margin-top: 5px;
+            opacity: 0.7;
+        }
+
+        /* ====== Controls ====== */
+        .controls {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            gap: 15px;
+            z-index: 100;
+        }
+
+        .controls button {
+            background: var(--dark);
+            color: #fff;
+            border: none;
+            padding: 15px 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            border-radius: 6px;
+        }
+
+        .controls button:hover {
+            opacity: 0.8;
+        }
+
+        .progress-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: #eee;
+            z-index: 101;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), #7c3aed);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .slide-number {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            opacity: 0.4;
+        }
+
+        /* ====== Responsive ====== */
+        @media (max-width: 768px) {
+            body { font-size: 14px; }
+            .slide { padding: 10% 5%; }
+            .title-slide h1 { font-size: 2.5rem; }
+            .title-slide p { font-size: 1rem; }
+        }
+    
+    </style>
+</head>
+<body>
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+    <div class="slide-number" id="slideNum">1 / 44</div>
+    <div class="presentation" id="presentation">
+        <!-- 1. Title -->
+        <section class="slide title-slide">
+            <p>Designing Data-Intensive Applications</p>
+            <h1>The Future of Data Systems</h1>
+            <p>Knowledge Transfer Session &bull; Chapter 12</p>
+            <div class="image-box title-image">
+                <img src="../chapter1/images/book_cover.jpg" alt="DDIA book cover" />
+            </div>
+        </section>
+        <!-- 2. Roadmap -->
+        <section class="slide content-slide">
+            <h2>Chapter Roadmap</h2>
+            <div class="timeline" style="margin-top: 20px;">
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <p><strong>Data Integration</strong> &mdash; combining specialized tools, deriving data</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <p><strong>Unbundling Databases</strong> &mdash; composing storage technologies, federated vs unbundled</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <p><strong>Designing Around Dataflow</strong> &mdash; application code as derivation, write &amp; read paths</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <p><strong>Aiming for Correctness</strong> &mdash; end-to-end argument, exactly-once, constraints</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <p><strong>Doing the Right Thing</strong> &mdash; ethics, privacy, surveillance, accountability</p>
+                </div>
+            </div>
+        </section>
+        <!-- 3. The Journey -->
+        <section class="slide content-slide">
+            <h2>The Book&rsquo;s Journey</h2>
+            <p>Chapter 1 set the goal: build applications that are <strong>reliable</strong>, <strong>scalable</strong>, and <strong>maintainable</strong>.</p>
+            <p style="margin-top: 10px;">We covered:</p>
+            <ul>
+                <li>Part I: Foundations &mdash; data models, storage engines, encoding</li>
+                <li>Part II: Distributed Data &mdash; replication, partitioning, transactions, consistency</li>
+                <li>Part III: Derived Data &mdash; batch processing, stream processing</li>
+            </ul>
+            <p style="margin-top: 15px;">Now: how to <strong>bring it all together</strong> and build systems that are robust, correct, evolvable, and ultimately beneficial to humanity.</p>
+        </section>
+        <!-- 4. Section: Data Integration -->
+        <section class="slide section-header">
+            <h2>Data Integration</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">Making sure data ends up in the right form in all the right places</p>
+        </section>
+        <!-- 5. No One Tool -->
+        <section class="slide content-slide">
+            <h2>No One Tool Fits All</h2>
+            <p>A recurring theme in this book: for any given problem, there are <strong>several solutions</strong> with different trade-offs.</p>
+            <ul style="margin-top: 15px;">
+                <li>Storage engines: log-structured, B-trees, column-oriented</li>
+                <li>Replication: single-leader, multi-leader, leaderless</li>
+                <li>Partitioning: by key range, by hash</li>
+            </ul>
+            <p style="margin-top: 15px;">Complex applications use data in <strong>several different ways</strong>. You inevitably need to cobble together <em>multiple</em> pieces of software.</p>
+            <div class="quote" style="margin-top: 15px;">
+                <blockquote>"It&rsquo;s hard enough to get one code path robust and performing well &mdash; trying to do everything in one piece of software almost guarantees the implementation will be poor."</blockquote>
+            </div>
+        </section>
+        <!-- 6. Combining Tools -->
+        <section class="slide content-slide">
+            <h2>Combining Specialized Tools</h2>
+            <p>Common pattern: OLTP database + full-text search index + analytics warehouse + cache + ML models.</p>
+            <p style="margin-top: 15px;">How to keep them all in sync?</p>
+            <div class="timeline" style="margin-top: 15px;">
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <p><strong>System of record</strong> &mdash; data is first written here (source of truth)</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <p><strong>CDC / Event log</strong> &mdash; capture changes in order</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <p><strong>Derived systems</strong> &mdash; search index, cache, warehouse follow the log</p>
+                </div>
+            </div>
+            <p style="margin-top: 15px;">Key: funnel all writes through <strong>one system</strong> that decides ordering. Total order broadcast &rarr; consistent derived views.</p>
+        </section>
+        <!-- 7. Derived vs Distributed Tx -->
+        <section class="slide content-slide">
+            <h2>Derived Data vs Distributed Transactions</h2>
+            <div class="two-col" style="margin-top: 15px;">
+                <div class="compare-card">
+                    <h3>Distributed Transactions</h3>
+                    <ul>
+                        <li>Ordering via <strong>locks</strong> (2PL)</li>
+                        <li><strong>Atomic commit</strong> ensures exactly-once</li>
+                        <li>Provides <strong>linearizability</strong></li>
+                        <li>Poor fault tolerance (XA)</li>
+                        <li>Limited scalability</li>
+                    </ul>
+                </div>
+                <div class="compare-card accent">
+                    <h3>Log-Based Derived Data</h3>
+                    <ul>
+                        <li>Ordering via <strong>log</strong></li>
+                        <li><strong>Deterministic retry + idempotence</strong></li>
+                        <li>Asynchronous (eventual consistency)</li>
+                        <li>Better fault tolerance</li>
+                        <li>Better scalability</li>
+                    </ul>
+                </div>
+            </div>
+            <p style="margin-top: 15px;">Log-based derived data is the most promising approach for integrating different data systems &mdash; but we need ways to get stronger guarantees on top.</p>
+        </section>
+        <!-- 8. Limits of Total Ordering -->
+        <section class="slide content-slide">
+            <h2>Limits of Total Ordering</h2>
+            <p>Constructing a totally ordered event log is feasible for <strong>small systems</strong> (single-leader replication). But at scale:</p>
+            <ul style="margin-top: 15px;">
+                <li>📊 <strong>Throughput</strong>: single leader can&rsquo;t handle all events &rarr; partition the log &rarr; order between partitions is ambiguous</li>
+                <li>🌍 <strong>Geo-distribution</strong>: separate leader per datacenter &rarr; undefined ordering across datacenters</li>
+                <li>🔧 <strong>Microservices</strong>: each service has independent state &rarr; no global order across services</li>
+                <li>📱 <strong>Offline clients</strong>: client-side state updated locally &rarr; diverges from server order</li>
+            </ul>
+            <p style="margin-top: 15px;">Total order broadcast = consensus. Scaling consensus beyond one node is an <strong>open research problem</strong>.</p>
+        </section>
+        <!-- 9. Capturing Causality -->
+        <section class="slide content-slide">
+            <h2>Capturing Causality</h2>
+            <p><strong>Example:</strong> Alice unfriends Bob, then posts a rude message about him.</p>
+            <ul style="margin-top: 10px;">
+                <li>Friendship stored in one system, messages in another</li>
+                <li>If the unfriend event is processed <em>after</em> the message event &rarr; notification sent to Bob!</li>
+                <li>The causal dependency between unfriend and message is <strong>lost</strong></li>
+            </ul>
+            <p style="margin-top: 15px;">Possible approaches:</p>
+            <ul>
+                <li><strong>Logical timestamps</strong> for ordering without coordination</li>
+                <li><strong>Log the state the user saw</strong> before making a decision (provenance)</li>
+                <li><strong>Conflict resolution</strong> algorithms for out-of-order events</li>
+            </ul>
+            <p style="margin-top: 10px;">An open problem &mdash; patterns for capturing causal dependencies efficiently are still emerging.</p>
+        </section>
+        <!-- 10. Batch & Stream -->
+        <section class="slide content-slide">
+            <h2>Batch &amp; Stream: Two Sides of the Same Coin</h2>
+            <p>Both produce derived datasets: search indexes, materialized views, recommendations, aggregate metrics.</p>
+            <div class="two-col" style="margin-top: 15px;">
+                <div class="compare-card">
+                    <h3>📦 Batch</h3>
+                    <ul>
+                        <li>Bounded input (known, finite)</li>
+                        <li>Reprocess entire historical dataset</li>
+                        <li>Deterministic, pure functions</li>
+                    </ul>
+                </div>
+                <div class="compare-card accent">
+                    <h3>🔄 Stream</h3>
+                    <ul>
+                        <li>Unbounded input (never ends)</li>
+                        <li>Process events as they arrive</li>
+                        <li>Managed, fault-tolerant state</li>
+                    </ul>
+                </div>
+            </div>
+            <p style="margin-top: 15px;">Spark emulates streams on batch (microbatching). Flink emulates batch on streams. The distinction is <strong>blurring</strong>.</p>
+        </section>
+        <!-- 11. Reprocessing for Evolution -->
+        <section class="slide content-slide">
+            <h2>Reprocessing for Evolution</h2>
+            <p>Derived views allow <strong>gradual evolution</strong>:</p>
+            <ul style="margin-top: 10px;">
+                <li>Maintain old schema and new schema <strong>side by side</strong></li>
+                <li>Start with a small number of users on the new view</li>
+                <li>Gradually increase &rarr; eventually drop the old view</li>
+            </ul>
+            <div class="compare-card" style="margin-top: 15px;">
+                <h3>🚂 Railway Analogy</h3>
+                <p>19th-century England had competing rail gauges. To convert, they added a <strong>third rail</strong> (dual gauge), allowing both train types to run simultaneously. Gradual migration &mdash; no shutdown needed!</p>
+            </div>
+            <p style="margin-top: 15px;">Every stage is <strong>reversible</strong>. Reduce risk &rarr; move faster.</p>
+        </section>
+        <!-- 12. Lambda & Beyond -->
+        <section class="slide content-slide">
+            <h2>The Lambda Architecture &amp; Beyond</h2>
+            <div class="compare-card" style="margin-top: 15px;">
+                <h3>Lambda Architecture</h3>
+                <p>Run <strong>batch</strong> (accurate but slow) and <strong>stream</strong> (fast but approximate) in parallel. Merge results.</p>
+                <p style="margin-top: 8px;">Problems: duplicate logic, complex merging, expensive reprocessing.</p>
+            </div>
+            <div class="compare-card accent" style="margin-top: 15px;">
+                <h3>Unified Batch + Stream</h3>
+                <p>Same processing engine for both historical reprocessing and live events.</p>
+                <ul style="font-size: 0.9rem; margin-top: 8px;">
+                    <li>Replay historical events through the same engine</li>
+                    <li>Exactly-once semantics</li>
+                    <li>Windowing by <strong>event time</strong>, not processing time</li>
+                </ul>
+                <p style="margin-top: 8px;"><span class="tag">Apache Flink</span> <span class="tag">Apache Beam</span> <span class="tag">Google Dataflow</span></p>
+            </div>
+        </section>
+        <!-- 13. Section: Unbundling -->
+        <section class="slide section-header">
+            <h2>Unbundling Databases</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">Composing specialized systems like database internals, but at a larger scale</p>
+        </section>
+        <!-- 14. Databases as Info Mgmt -->
+        <section class="slide content-slide">
+            <h2>Databases Are Information Management Systems</h2>
+            <p>Databases, Hadoop, and operating systems all perform the same core function: <strong>store data, process it, query it</strong>.</p>
+            <div class="two-col" style="margin-top: 15px;">
+                <div class="compare-card">
+                    <h3>🖥️ Unix Philosophy</h3>
+                    <p>Low-level abstractions. Pipes and files (byte sequences). Compose small tools.</p>
+                    <p style="margin-top: 8px;">"Simpler" = thin wrapper around hardware.</p>
+                </div>
+                <div class="compare-card accent">
+                    <h3>🗃️ Relational Databases</h3>
+                    <p>High-level abstractions. SQL and transactions hide complexity (concurrency, recovery, indexes).</p>
+                    <p style="margin-top: 8px;">"Simpler" = powerful declarative interface.</p>
+                </div>
+            </div>
+            <p style="margin-top: 15px;">This tension has lasted 50+ years (both emerged in the early 1970s) and is still unresolved. NoSQL &asymp; Unix-esque approach for distributed OLTP.</p>
+        </section>
+        <!-- 15. Composing Storage -->
+        <section class="slide content-slide">
+            <h2>Composing Data Storage Technologies</h2>
+            <p>Databases already do internally what we&rsquo;re building externally:</p>
+            <ul style="margin-top: 15px;">
+                <li>📇 <strong>Secondary indexes</strong> &mdash; efficient lookup by field value</li>
+                <li>📊 <strong>Materialized views</strong> &mdash; precomputed query results</li>
+                <li>📋 <strong>Replication logs</strong> &mdash; keep copies on other nodes in sync</li>
+                <li>🔍 <strong>Full-text search indexes</strong> &mdash; keyword search</li>
+            </ul>
+            <p style="margin-top: 15px;"><code>CREATE INDEX</code> is essentially <strong>reprocessing</strong> the existing dataset to derive a new view &mdash; just like CDC bootstrapping or setting up a new follower replica!</p>
+        </section>
+        <!-- 16. Federated vs Unbundled -->
+        <section class="slide content-slide">
+            <h2>Federated vs Unbundled</h2>
+            <div class="two-col" style="margin-top: 20px;">
+                <div class="compare-card">
+                    <h3>🔗 Federated (Polystore)</h3>
+                    <p><strong>Unifying reads</strong>: unified query interface across many storage engines.</p>
+                    <p style="margin-top: 8px;">Example: PostgreSQL foreign data wrappers.</p>
+                    <p style="margin-top: 8px;">Follows the <em>relational tradition</em> &mdash; elegant semantics, complex implementation.</p>
+                </div>
+                <div class="compare-card accent">
+                    <h3>🔓 Unbundled</h3>
+                    <p><strong>Unifying writes</strong>: ensure data changes reach all the right places via CDC and event logs.</p>
+                    <p style="margin-top: 8px;">Like unbundling a DB&rsquo;s index-maintenance features.</p>
+                    <p style="margin-top: 8px;">Follows the <em>Unix tradition</em> &mdash; small tools, low-level API (pipes), composable.</p>
+                </div>
+            </div>
+        </section>
+        <!-- 17. Meta-Database -->
+        <section class="slide content-slide">
+            <h2>The Meta-Database of Everything</h2>
+            <p>The dataflow across an entire organization looks like <strong>one huge database</strong>:</p>
+            <ul style="margin-top: 15px;">
+                <li>Batch/stream/ETL processes = <strong>triggers &amp; stored procedures</strong></li>
+                <li>Derived data systems = <strong>different index types</strong></li>
+                <li>Instead of one integrated DB product &rarr; various software on different machines, different teams</li>
+            </ul>
+            <p style="margin-top: 15px;">Advantages of loose coupling:</p>
+            <ul>
+                <li>🛡️ <strong>System level</strong>: async event streams buffer failures &mdash; faulty consumer catches up later</li>
+                <li>👥 <strong>Human level</strong>: teams develop independently with well-defined interfaces</li>
+            </ul>
+            <p style="margin-top: 10px;">What&rsquo;s missing: the unbundled-database equivalent of the <strong>Unix shell</strong> &mdash; a high-level language for composing storage and processing. Imagine: <code>mysql | elasticsearch</code></p>
+        </section>
+        <!-- 18. Section: Dataflow Design -->
+        <section class="slide section-header">
+            <h2>Designing Around Dataflow</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">From passive databases to reactive data pipelines</p>
+        </section>
+        <!-- 19. Derivation Functions -->
+        <section class="slide content-slide">
+            <h2>Application Code as a Derivation Function</h2>
+            <p>Every derived dataset is created by a <strong>transformation function</strong>:</p>
+            <ul style="margin-top: 15px;">
+                <li>Secondary index: pick indexed fields, sort by value &mdash; <strong>cookie-cutter</strong> (built into DBs)</li>
+                <li>Full-text search: language detection, stemming, synonym identification, inverted index</li>
+                <li>ML model: feature extraction + statistical analysis on training data</li>
+                <li>Cache: aggregate data in the form displayed in the UI</li>
+            </ul>
+            <p style="margin-top: 15px;">Most interesting derivations require <strong>custom application code</strong>. Databases struggle here &mdash; triggers and stored procedures are afterthoughts.</p>
+            <p style="margin-top: 10px;">Solution: <strong>separation of code and state</strong>. App code in containers (K8s, Mesos). State in databases. They interact but remain independent.</p>
+        </section>
+        <!-- 20. Spreadsheets -->
+        <section class="slide content-slide">
+            <h2>Spreadsheets Already Got It Right</h2>
+            <div class="quote" style="margin-top: 15px;">
+                <blockquote>"Even spreadsheets have dataflow programming capabilities that are miles ahead of most mainstream programming languages."</blockquote>
+            </div>
+            <p style="margin-top: 15px;">In a spreadsheet: change a cell &rarr; all dependent formulas <strong>automatically recalculate</strong>.</p>
+            <p>This is exactly what we want at a data systems level:</p>
+            <ul style="margin-top: 10px;">
+                <li>Record changes &rarr; indexes auto-update</li>
+                <li>Source data changes &rarr; cached views auto-refresh</li>
+                <li>Training data changes &rarr; model auto-retrain</li>
+            </ul>
+            <p style="margin-top: 15px;">Most databases are <strong>passive</strong> (you poll for changes). We need <strong>subscriptions</strong> &mdash; reactive dataflow.</p>
+            <p style="margin-top: 10px;">VisiCalc had this in <strong>1979</strong>. We&rsquo;re still catching up.</p>
+        </section>
+        <!-- 21. Streams vs Services -->
+        <section class="slide content-slide">
+            <h2>Stream Processors vs Services</h2>
+            <div class="two-col" style="margin-top: 15px;">
+                <div class="compare-card">
+                    <h3>🌐 Microservices (REST/RPC)</h3>
+                    <p>Synchronous request/response. Query exchange rate service on each purchase.</p>
+                    <p style="margin-top: 8px;">Network latency + failure risk on every call.</p>
+                </div>
+                <div class="compare-card accent">
+                    <h3>🔄 Dataflow (Streams)</h3>
+                    <p>Subscribe to exchange rate updates. Store current rate <strong>locally</strong>. Query local DB on purchase.</p>
+                    <p style="margin-top: 8px;">Faster + more robust. No network request at all!</p>
+                </div>
+            </div>
+            <div class="quote" style="margin-top: 15px;">
+                <blockquote>"The fastest and most reliable network request is no network request at all!"</blockquote>
+            </div>
+            <p style="margin-top: 10px;">This is a <strong>stream-table join</strong> between purchases and exchange rate updates.</p>
+        </section>
+        <!-- 22. Write & Read Path (Fig 12-1) -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>Write Path &amp; Read Path</h2>
+                <p>Two journeys of data:</p>
+                <div class="compare-card" style="margin-top: 10px;">
+                    <h3>✍️ Write Path (Eager)</h3>
+                    <p>Data comes in &rarr; batch/stream processing &rarr; derived datasets updated. Precomputed, regardless of queries.</p>
+                </div>
+                <div class="compare-card accent" style="margin-top: 10px;">
+                    <h3>📖 Read Path (Lazy)</h3>
+                    <p>User requests data &rarr; read from derived dataset &rarr; maybe more processing &rarr; response.</p>
+                </div>
+                <p style="margin-top: 10px;">Derived dataset = <strong>meeting point</strong>. Trade-off: how much work at write time vs read time?</p>
+            </div>
+            <div class="image-box">
+                <img src="images/ddia_1201.png" alt="Write path and read path" />
+            </div>
+        </section>
+        <!-- 23. Shifting Boundary -->
+        <section class="slide content-slide">
+            <h2>Shifting the Boundary</h2>
+            <p>Indexes, caches, and materialized views <strong>shift work</strong> from read path to write path:</p>
+            <div class="timeline" style="margin-top: 15px;">
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <p><strong>No index</strong>: zero write-time work, expensive reads (full scan, like <code>grep</code>)</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <p><strong>Index</strong>: moderate write-time work (update index), faster reads</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <p><strong>Cache common queries</strong>: more write-time work (precompute results), instant reads</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <p><strong>Precompute all queries</strong>: impossible (infinite queries!) &mdash; the extreme</p>
+                </div>
+            </div>
+            <p style="margin-top: 15px;">The Twitter home timeline (Chapter 1) was exactly this trade-off! After 500 pages, we&rsquo;ve come <strong>full circle</strong>.</p>
+        </section>
+        <!-- 24. Offline-Capable Clients -->
+        <section class="slide content-slide">
+            <h2>Stateful, Offline-Capable Clients</h2>
+            <p>Traditional web: stateless clients, servers have authority over data.</p>
+            <p style="margin-top: 10px;">Modern reality: mobile apps and SPAs maintain <strong>significant client-side state</strong>.</p>
+            <ul style="margin-top: 15px;">
+                <li>📱 <strong>Offline-first</strong>: use local DB on device, sync with server in background</li>
+                <li>On-device state = <strong>cache of server state</strong></li>
+                <li>Pixels on screen = materialized view of model objects</li>
+                <li>Model objects = local replica of remote datacenter state</li>
+            </ul>
+            <p style="margin-top: 15px;">Push state changes all the way to client devices = <strong>extending the write path to the end user</strong>.</p>
+            <p style="margin-top: 10px;"><span class="tag">React</span> <span class="tag">Redux</span> <span class="tag">Elm</span> use event streams internally &mdash; same pattern as event sourcing!</p>
+        </section>
+        <!-- 25. End-to-End Events -->
+        <section class="slide content-slide">
+            <h2>End-to-End Event Streams</h2>
+            <p>State changes flowing through the <strong>entire pipeline</strong>:</p>
+            <div class="timeline" style="margin-top: 15px;">
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <p>User interaction on Device A triggers state change</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <p>Event log &rarr; stream processors &rarr; derived data systems</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <p>Push notification to Device B displaying the new state</p>
+                </div>
+            </div>
+            <p style="margin-top: 15px;">End-to-end latency: under <strong>one second</strong>. Instant messaging and online games already work this way.</p>
+            <p style="margin-top: 10px;"><strong>Why don&rsquo;t we build all applications this way?</strong></p>
+            <p>Because request/response is deeply ingrained in our databases, libraries, frameworks, and protocols. We need to shift from <strong>request/response</strong> to <strong>publish/subscribe</strong> dataflow.</p>
+        </section>
+        <!-- 26. Section: Correctness -->
+        <section class="slide section-header">
+            <h2>Aiming for Correctness</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">End-to-end integrity in the face of faults</p>
+        </section>
+        <!-- 27. End-to-End Argument -->
+        <section class="slide content-slide">
+            <h2>The End-to-End Argument</h2>
+            <p>TCP suppresses duplicate packets. Databases provide transactions. Stream processors offer exactly-once.</p>
+            <p style="margin-top: 10px;">But <strong>none of these alone</strong> can prevent a user from submitting a duplicate request when their first one times out!</p>
+            <div class="quote" style="margin-top: 15px;">
+                <blockquote>"The function in question can completely and correctly be implemented only with the knowledge and help of the application standing at the endpoints of the communication system."</blockquote>
+                <p style="text-align: right; font-style: italic; opacity: 0.7;">&mdash; Saltzer, Reed, Clark (1984)</p>
+            </div>
+            <p style="margin-top: 15px;">Solution: pass a <strong>unique request ID</strong> (UUID) from the end-user client all the way to the database. Deduplicate end-to-end.</p>
+        </section>
+        <!-- 28. Duplicate Suppression -->
+        <section class="slide content-slide">
+            <h2>Duplicate Suppression</h2>
+            <p>The classic bank transfer example:</p>
+            <div class="code-block" style="margin-top: 15px;">
+                <pre>BEGIN TRANSACTION;
+UPDATE accounts SET balance = balance + 11.00 WHERE account_id = 1234;
+UPDATE accounts SET balance = balance - 11.00 WHERE account_id = 4321;
+COMMIT;</pre>
+            </div>
+            <p style="margin-top: 15px;">If client loses connection after COMMIT but before receiving response &rarr; retries &rarr; <strong>$22 transferred instead of $11!</strong></p>
+            <p style="margin-top: 10px;">TCP dedup doesn&rsquo;t help (new connection). 2PC doesn&rsquo;t help. Need <strong>application-level</strong> dedup with a request ID:</p>
+            <div class="code-block" style="margin-top: 10px;">
+                <pre>INSERT INTO requests (request_id, from_account, to_account, amount)
+  VALUES('0286FDB8-...', 4321, 1234, 11.00);
+-- UNIQUE constraint on request_id prevents double execution</pre>
+            </div>
+        </section>
+        <!-- 29. Enforcing Constraints -->
+        <section class="slide content-slide">
+            <h2>Enforcing Constraints</h2>
+            <p>Uniqueness constraints require <strong>consensus</strong>: which of several concurrent requests is accepted?</p>
+            <ul style="margin-top: 15px;">
+                <li>Most common: <strong>single leader</strong> decides (single point of coordination)</li>
+                <li>Scale out: <strong>partition by the unique value</strong> (e.g., hash of username)</li>
+                <li>Async multi-master &rarr; <strong>ruled out</strong> (conflicting writes accepted simultaneously)</li>
+            </ul>
+            <p style="margin-top: 15px;">With log-based messaging:</p>
+            <ol style="font-size: 0.9rem;">
+                <li>Append username request to log partition (by hash of username)</li>
+                <li>Stream processor reads sequentially &rarr; first request wins, others rejected</li>
+                <li>Client watches output stream for success/rejection</li>
+            </ol>
+            <p style="margin-top: 10px;">Same as implementing linearizable storage using total order broadcast (Chapter 9)!</p>
+        </section>
+        <!-- 30. Multi-Partition Processing -->
+        <section class="slide content-slide">
+            <h2>Multi-Partition Request Processing</h2>
+            <p>Bank transfer touches 3 partitions: request ID, payer account, payee account.</p>
+            <p style="margin-top: 10px;">Traditional approach: atomic commit across all 3 partitions. Expensive!</p>
+            <p style="margin-top: 15px;"><strong>Alternative without distributed transactions:</strong></p>
+            <div class="timeline" style="margin-top: 10px;">
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <p>1. Client appends transfer request (with unique ID) to log partition</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <p>2. Stream processor reads request &rarr; emits debit + credit instructions to separate partitions</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <p>3. Processors consume debit/credit streams, deduplicate by request ID, apply changes</p>
+                </div>
+            </div>
+            <p style="margin-top: 15px;">Same correctness (exactly-once per request), no atomic commit protocol! Deterministic processing + end-to-end request ID = safe retries.</p>
+        </section>
+        <!-- 31. Timeliness vs Integrity -->
+        <section class="slide content-slide">
+            <h2>Timeliness vs Integrity</h2>
+            <p>&ldquo;Consistency&rdquo; conflates two different requirements:</p>
+            <div class="two-col" style="margin-top: 20px;">
+                <div class="compare-card">
+                    <h3>⏱️ Timeliness</h3>
+                    <p>Users see <strong>up-to-date</strong> state. Stale reads are annoying but <strong>temporary</strong> &mdash; wait and retry.</p>
+                    <p style="margin-top: 8px;">Violations = <strong>eventual consistency</strong></p>
+                    <p style="margin-top: 8px;">Strong form: linearizability</p>
+                </div>
+                <div class="compare-card accent">
+                    <h3>🔒 Integrity</h3>
+                    <p>No corruption, no data loss, no contradictions. Violations are <strong>permanent</strong> &mdash; explicit repair needed.</p>
+                    <p style="margin-top: 8px;">Violations = <strong>perpetual inconsistency</strong></p>
+                    <p style="margin-top: 8px;">Strong form: atomicity, durability</p>
+                </div>
+            </div>
+            <p style="margin-top: 15px;"><strong>Integrity is far more important.</strong> Credit card: 24-hour lag on transactions is fine. Missing money is not!</p>
+        </section>
+        <!-- 32. Correctness Without Dist. Tx -->
+        <section class="slide content-slide">
+            <h2>Correctness Without Distributed Transactions</h2>
+            <p>Event-based dataflow systems <strong>decouple</strong> timeliness and integrity.</p>
+            <p style="margin-top: 10px;">They can preserve integrity through:</p>
+            <ul style="margin-top: 10px;">
+                <li>✅ Single message per write operation (atomic, fits event sourcing)</li>
+                <li>✅ Deterministic derivation functions (like stored procedures)</li>
+                <li>✅ End-to-end request IDs for duplicate suppression</li>
+                <li>✅ Immutable messages + ability to reprocess (recover from bugs)</li>
+            </ul>
+            <p style="margin-top: 15px;"><strong>Loosely interpreted constraints:</strong> many apps don&rsquo;t need strict uniqueness!</p>
+            <ul style="font-size: 0.9rem;">
+                <li>Two people claim same username? Apologize, ask one to pick another (compensating transaction)</li>
+                <li>Oversold items? Order more stock, offer discount (airlines already overbook!)</li>
+                <li>Overdrawn account? Charge overdraft fee</li>
+            </ul>
+            <p style="margin-top: 10px;">Cost of apology is often low. <strong>Coordination-avoiding systems</strong> can run multi-datacenter with strong integrity but weak timeliness.</p>
+        </section>
+        <!-- 33. Trust but Verify -->
+        <section class="slide content-slide">
+            <h2>Trust, but Verify</h2>
+            <p>We assume: processes crash, networks fail. But we also assume: disk writes are durable, CPU multiplication is correct.</p>
+            <p style="margin-top: 10px;">In reality, it&rsquo;s all <strong>probabilities</strong>:</p>
+            <ul style="margin-top: 10px;">
+                <li>Silent disk corruption happens (even with fsync)</li>
+                <li>Network corruption can evade TCP checksums</li>
+                <li>Random bit-flips in memory (hardware faults, <strong>rowhammer</strong> attacks)</li>
+                <li>Software bugs &mdash; even MySQL and PostgreSQL have had integrity bugs</li>
+            </ul>
+            <p style="margin-top: 15px;">Systems like HDFS/S3 <strong>don&rsquo;t blindly trust disks</strong>: background processes read back files, compare replicas, move data between disks.</p>
+            <div class="stat-box" style="margin-top: 15px;">
+                <div class="stat-number">Auditing</div>
+                <div>Continuously check data integrity end-to-end. Self-validating systems &gt; blind trust.</div>
+            </div>
+        </section>
+        <!-- 34. Designing for Auditability -->
+        <section class="slide content-slide">
+            <h2>Designing for Auditability</h2>
+            <p><strong>Transactions</strong>: after the fact, hard to tell <em>why</em> mutations were performed. Logic is transient.</p>
+            <p style="margin-top: 10px;"><strong>Event sourcing</strong>: user input = single immutable event. All state updates derived from it. Derivation is deterministic and repeatable.</p>
+            <ul style="margin-top: 15px;">
+                <li>Event log: verify with <strong>hashes</strong> (no corruption)</li>
+                <li>Derived state: <strong>rerun</strong> batch/stream processors to verify same result</li>
+                <li>Provenance: trace exactly <em>why</em> a particular state exists</li>
+            </ul>
+            <p style="margin-top: 15px;">Cryptographic tools: <span class="tag">Merkle Trees</span> <span class="tag">Certificate Transparency</span> <span class="tag">Blockchain</span></p>
+            <p style="margin-top: 10px;">End-to-end integrity checking gives <strong>confidence to move faster</strong>. Like automated testing: find bugs early, reduce risk of changes.</p>
+        </section>
+        <!-- 35. Section: Ethics -->
+        <section class="slide section-header">
+            <h2>Doing the Right Thing</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">Ethics, privacy, and our responsibility as engineers</p>
+        </section>
+        <!-- 36. Predictive Analytics & Bias -->
+        <section class="slide content-slide">
+            <h2>Predictive Analytics &amp; Bias</h2>
+            <p>Data analysis to predict weather or disease spread is one thing. Predicting whether someone gets a <strong>loan, job, or insurance</strong> is another.</p>
+            <ul style="margin-top: 15px;">
+                <li>Algorithms that say &ldquo;no&rdquo; can systematically exclude people from society &mdash; <strong>&ldquo;algorithmic prison&rdquo;</strong></li>
+                <li>ML models learn and <strong>amplify biases</strong> in training data</li>
+                <li>Correlated features can be proxies for protected traits (zip code &asymp; race)</li>
+                <li>&ldquo;Machine learning is like <strong>money laundering for bias</strong>&rdquo;</li>
+            </ul>
+            <p style="margin-top: 15px;">Predictive analytics extrapolate from the past. If the past is discriminatory, they <strong>codify discrimination</strong>.</p>
+            <p style="margin-top: 10px;">Data and models should be our <strong>tools, not our masters</strong>.</p>
+        </section>
+        <!-- 37. Responsibility & Feedback Loops -->
+        <section class="slide content-slide">
+            <h2>Responsibility &amp; Accountability</h2>
+            <p>When humans make mistakes, they can be held accountable. When algorithms make mistakes, <strong>who is responsible?</strong></p>
+            <ul style="margin-top: 15px;">
+                <li>Self-driving car causes accident &mdash; who?</li>
+                <li>Credit scoring discriminates by race &mdash; any recourse?</li>
+                <li>ML decision under judicial review &mdash; can you <strong>explain</strong> how it decided?</li>
+            </ul>
+            <p style="margin-top: 15px;"><strong>Feedback loops</strong> make things worse:</p>
+            <div class="compare-card" style="margin-top: 10px;">
+                <p>Bad credit score &rarr; can&rsquo;t find work &rarr; poverty &rarr; worse credit score &rarr; harder to find work &rarr; &hellip;</p>
+                <p style="margin-top: 8px;">A downward spiral driven by poisonous assumptions hidden behind mathematical rigor.</p>
+            </div>
+        </section>
+        <!-- 38. Privacy & Surveillance -->
+        <section class="slide content-slide">
+            <h2>Privacy and Surveillance</h2>
+            <div class="quote" style="margin-top: 15px;">
+                <blockquote>"Try replacing the word <em>data</em> with <em>surveillance</em>. How about this: &lsquo;In our surveillance-driven organization we collect real-time surveillance streams and store them in our surveillance warehouse.&rsquo;"</blockquote>
+            </div>
+            <p style="margin-top: 15px;">We have built the <strong>greatest mass surveillance infrastructure</strong> the world has ever seen:</p>
+            <ul>
+                <li>Smartphones tracking location 24/7</li>
+                <li>Smart TVs, voice assistants, baby monitors with microphones</li>
+                <li>IoT devices with terrible security records</li>
+            </ul>
+            <p style="margin-top: 15px;"><strong>Privacy</strong> &ne; keeping everything secret. It means the <strong>freedom to choose</strong> what to reveal to whom.</p>
+            <p>When companies collect data, privacy rights are <strong>transferred</strong> from individual to corporation.</p>
+        </section>
+        <!-- 39. Data as Asset/Toxic Waste -->
+        <section class="slide content-slide">
+            <h2>Data: Asset or Toxic Waste?</h2>
+            <div class="two-col" style="margin-top: 15px;">
+                <div class="compare-card">
+                    <h3>💰 Data as Asset</h3>
+                    <p>Startups valued by &ldquo;eyeballs.&rdquo; Data brokers buy and sell personal info. Behavioral data is the core product.</p>
+                </div>
+                <div class="compare-card accent">
+                    <h3>☠️ Data as Toxic Asset</h3>
+                    <p>Breaches happen constantly. Governments want it. Bankrupt companies sell it. Hard to secure.</p>
+                </div>
+            </div>
+            <p style="margin-top: 15px;">Balance the benefits of data with the risk of it <strong>falling into the wrong hands</strong>.</p>
+            <div class="quote" style="margin-top: 15px;">
+                <blockquote>"It is poor civic hygiene to install technologies that could someday facilitate a police state."</blockquote>
+            </div>
+        </section>
+        <!-- 40. Industrial Revolution -->
+        <section class="slide content-slide">
+            <h2>The Industrial Revolution Parallel</h2>
+            <div class="quote" style="margin-top: 15px;">
+                <blockquote>"Data is the pollution problem of the information age, and protecting privacy is the environmental challenge. &hellip; Just as we look back today at the early decades of the industrial age and wonder how our ancestors could have ignored pollution &hellip; our grandchildren will look back at us during these early decades of the information age and judge us on how we addressed the challenge of data collection and misuse."</blockquote>
+                <p style="text-align: right; font-style: italic; opacity: 0.7;">&mdash; Bruce Schneier</p>
+            </div>
+            <p style="margin-top: 15px;">It took decades for environmental regulations, workplace safety, and child labor laws. We need the <strong>equivalent safeguards</strong> for the information age.</p>
+        </section>
+        <!-- 41. Section: Summary -->
+        <section class="slide section-header">
+            <h2>Summary</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">Bringing it all together &mdash; the future of data systems</p>
+        </section>
+        <!-- 42. Key Takeaways -->
+        <section class="slide content-slide">
+            <h2>Key Takeaways</h2>
+            <ul>
+                <li>🔧 <strong>No single tool</strong> serves all use cases &mdash; compose specialized systems with batch/stream processing</li>
+                <li>📋 <strong>Derived data</strong>: one system of record, others follow via CDC or event logs</li>
+                <li>🏗️ <strong>Unbundling databases</strong>: build your own &ldquo;database&rdquo; from composable components</li>
+                <li>🔄 <strong>Dataflow</strong>: reactive systems where state changes propagate automatically (like spreadsheets)</li>
+                <li>✍️📖 <strong>Write path + read path</strong>: every index/cache/view shifts work between the two</li>
+                <li>🔒 <strong>End-to-end correctness</strong>: request IDs, idempotence, deterministic derivation</li>
+                <li>⏱️🔒 <strong>Timeliness vs integrity</strong>: integrity is what truly matters; coordination-avoiding systems can provide it</li>
+                <li>🔍 <strong>Trust, but verify</strong>: audit continuously, don&rsquo;t blindly trust any component</li>
+                <li>⚖️ <strong>Ethics matter</strong>: bias, accountability, privacy, surveillance &mdash; our responsibility as engineers</li>
+            </ul>
+        </section>
+        <!-- 43. Final Message -->
+        <section class="slide content-slide">
+            <h2>The Book&rsquo;s Final Message</h2>
+            <div class="quote" style="margin-top: 20px;">
+                <blockquote>"We, the engineers building these systems, have a responsibility to carefully consider the consequences and to consciously decide what kind of world we want to live in."</blockquote>
+            </div>
+            <p style="margin-top: 20px;">Build systems that are:</p>
+            <div class="three-col" style="margin-top: 15px;">
+                <div class="compare-card">
+                    <h3>🛡️ Reliable</h3>
+                    <p>Fault-tolerant, correct, auditable</p>
+                </div>
+                <div class="compare-card">
+                    <h3>📈 Scalable</h3>
+                    <p>Composable, loosely coupled, evolvable</p>
+                </div>
+                <div class="compare-card accent">
+                    <h3>🤝 Humane</h3>
+                    <p>Ethical, privacy-respecting, accountable</p>
+                </div>
+            </div>
+            <p style="margin-top: 20px; text-align: center; font-weight: 600;">Thank you for joining this Knowledge Transfer series!</p>
+        </section>
+        <!-- 44. Questions -->
+        <section class="slide title-slide">
+            <h1>Questions?</h1>
+            <p>Designing Data-Intensive Applications &bull; Chapter 12</p>
+            <div class="image-box questions-image">
+                <img src="images/questions.jpg" alt="Q&A discussion" />
+            </div>
+        </section>
+
+    </div>
+    <div class="controls">
+        <button onclick="prevSlide()">PREV</button>
+        <button onclick="nextSlide()">NEXT</button>
+    </div>
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const presentation = document.getElementById('presentation');
+        const progressBar = document.getElementById('progressBar');
+        const slideNum = document.getElementById('slideNum');
+        const totalSlides = slides.length;
+        function update() {
+            presentation.style.transform = `translateX(-${currentSlide * 100}vw)`;
+            progressBar.style.width = `${((currentSlide + 1) / totalSlides) * 100}%`;
+            slideNum.innerText = `${currentSlide + 1} / ${totalSlides}`;
+        }
+        function nextSlide() { if (currentSlide < totalSlides - 1) { currentSlide++; update(); } }
+        function prevSlide() { if (currentSlide > 0) { currentSlide--; update(); } }
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'ArrowDown') nextSlide();
+            if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') prevSlide();
+            if (e.key >= '0' && e.key <= '9') { currentSlide = Math.floor(totalSlides * (parseInt(e.key) / 10)); update(); }
+        });
+        update();
+    </script>
+</body>
+</html>

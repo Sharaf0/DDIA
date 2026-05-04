@@ -1,0 +1,1177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KT: DDIA Chapter 10 - Batch Processing</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #ffffff;
+            --text: #0f172a;
+            --gray: #f0f0f0;
+            --accent: #2563eb;
+            --accent-light: #dbeafe;
+            --warm: #fef3c7;
+            --dark: #0f172a;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        .presentation {
+            height: 100%;
+            width: 100%;
+            display: flex;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .slide {
+            min-width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 5% 10%;
+            position: relative;
+            text-align: center;
+        }
+
+        /* ====== Slide Types ====== */
+
+        /* Title Slide: opening slide with book title, chapter name, book cover */
+        .title-slide h1 {
+            font-size: 4.5rem;
+            font-weight: 800;
+            letter-spacing: -2px;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #0f172a 0%, #2563eb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .title-slide p {
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            opacity: 0.6;
+        }
+
+        .title-slide {
+            gap: 20px;
+        }
+
+        .title-image {
+            height: 350px;
+            max-width: 280px;
+            border: none;
+            background: transparent;
+        }
+
+        .title-image img {
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            border-radius: 4px;
+        }
+
+        /* Section Header: dark full-screen divider between major topics */
+        .section-header {
+            background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%);
+            color: #fff;
+        }
+
+        .section-header h2 {
+            font-size: 5rem;
+        }
+
+        .section-header .image-box {
+            height: 55vh;
+            margin-top: 30px;
+            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .section-header .image-box img {
+            opacity: 0.9;
+        }
+
+        /* Content Slide: standard text slide, optionally with side image */
+        .content-slide {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+            text-align: left;
+            align-items: center;
+        }
+
+        .content-slide.with-image {
+            grid-template-columns: 1fr 1.2fr;
+            text-align: left;
+        }
+
+        /* ====== Typography ====== */
+        h2 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 1.8rem;
+            line-height: 1.4;
+            font-weight: 300;
+        }
+
+        ul {
+            font-size: 1.5rem;
+            line-height: 1.6;
+            font-weight: 300;
+            margin-top: 15px;
+            padding-left: 25px;
+        }
+
+        ul li {
+            margin-bottom: 10px;
+        }
+
+        /* ====== Content Components ====== */
+
+        /* Highlight: inline yellow background */
+        .highlight {
+            background: var(--warm);
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+
+        /* Code Block: dark background, monospace */
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+            text-align: left;
+            overflow-x: auto;
+            margin-top: 15px;
+            white-space: pre;
+        }
+
+        /* Image Box: container for images */
+        .image-box {
+            width: 100%;
+            height: 500px;
+            background: #f9f9f9;
+            border: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border-radius: 12px;
+        }
+
+        .image-box img {
+            max-width: 95%;
+            max-height: 95%;
+            object-fit: contain;
+        }
+
+        /* Fill variant: for photos (object-fit: cover) */
+        .image-box.fill img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Quote: left-bordered italic text */
+        .quote {
+            font-style: italic;
+            border-left: 4px solid var(--accent);
+            padding-left: 20px;
+            margin: 20px 0;
+        }
+
+        /* Stat Box: big number with label */
+        .stat-box {
+            background: #f8f8f8;
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .stat-box .number {
+            font-size: 4rem;
+            font-weight: 800;
+            color: var(--accent);
+        }
+
+        .stat-box .label {
+            font-size: 1.2rem;
+            opacity: 0.7;
+            margin-top: 10px;
+        }
+
+        .stat-box.small .number {
+            font-size: 2.5rem;
+        }
+
+        .stat-box.small {
+            padding: 20px;
+        }
+
+        /* Two Column Layout */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            width: 100%;
+        }
+
+        /* Three Column Layout */
+        .three-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 25px;
+            width: 100%;
+        }
+
+        /* Compare Card: for side-by-side comparison */
+        .compare-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 25px;
+            text-align: left;
+        }
+
+        .compare-card h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--accent);
+        }
+
+        .compare-card p,
+        .compare-card ul {
+            font-size: 1.2rem;
+        }
+
+        /* Accent variant: highlight the preferred option */
+        .compare-card.accent {
+            background: var(--accent-light);
+            border-color: var(--accent);
+        }
+
+        /* Tag / Pill: inline labels */
+        .tag {
+            display: inline-block;
+            background: var(--accent-light);
+            color: var(--accent);
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 4px;
+        }
+
+        /* Emoji: large decorative emoji */
+        .emoji {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        /* Syntax highlighting spans for code blocks */
+        .sql-keyword {
+            color: #569cd6;
+            font-weight: 600;
+        }
+
+        .code-comment {
+            color: #6a9955;
+        }
+
+        .code-string {
+            color: #ce9178;
+        }
+
+        /* Side image: floating image on text-heavy slides */
+        .side-image {
+            position: absolute;
+            right: 60px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 200px;
+            height: 200px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .side-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Questions image: smaller image for Q&A slide */
+        .questions-image {
+            height: 360px;
+            max-width: 600px;
+        }
+
+        /* Full image slide: image-dominant layout */
+        .full-image-slide .image-box {
+            height: 70vh;
+            width: 90%;
+            max-width: 1200px;
+        }
+
+        /* Timeline: horizontal timeline with dots */
+        .timeline {
+            display: flex;
+            align-items: flex-start;
+            gap: 0;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .timeline-item {
+            flex: 1;
+            text-align: center;
+            position: relative;
+            padding-top: 30px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--accent);
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            top: 4px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 16px;
+            height: 16px;
+            background: var(--accent);
+            border-radius: 50%;
+            border: 3px solid white;
+        }
+
+        .timeline-item .year {
+            font-weight: 800;
+            font-size: 1.3rem;
+            color: var(--accent);
+        }
+
+        .timeline-item .desc {
+            font-size: 1rem;
+            margin-top: 5px;
+            opacity: 0.7;
+        }
+
+        /* ====== Controls ====== */
+        .controls {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            gap: 15px;
+            z-index: 100;
+        }
+
+        .controls button {
+            background: var(--dark);
+            color: #fff;
+            border: none;
+            padding: 15px 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            border-radius: 6px;
+        }
+
+        .controls button:hover {
+            opacity: 0.8;
+        }
+
+        .progress-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: #eee;
+            z-index: 101;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), #7c3aed);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .slide-number {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            opacity: 0.4;
+        }
+
+        /* ====== Responsive ====== */
+        @media (max-width: 768px) {
+            body { font-size: 14px; }
+            .slide { padding: 10% 5%; }
+            .title-slide h1 { font-size: 2.5rem; }
+            .title-slide p { font-size: 1rem; }
+        }
+    
+    </style>
+</head>
+<body>
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+    <div class="slide-number" id="slideNum">1 / 41</div>
+    <div class="presentation" id="presentation">
+        <!-- 1. Title -->
+        <section class="slide title-slide">
+            <p>Designing Data-Intensive Applications</p>
+            <h1>Batch Processing</h1>
+            <p>Knowledge Transfer Session • Chapter 10</p>
+            <div class="image-box title-image">
+                <img src="../chapter1/images/book_cover.jpg" alt="DDIA book cover" />
+            </div>
+        </section>
+        <!-- 2. Roadmap -->
+        <section class="slide content-slide">
+            <h2>Chapter Roadmap</h2>
+            <div class="timeline" style="margin-top: 20px;">
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <p><strong>Unix Tools</strong> — log analysis, composable pipelines, the philosophy</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <p><strong>MapReduce &amp; HDFS</strong> — distributed Unix at scale</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <p><strong>Joins</strong> — reduce-side, map-side, handling skew</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <p><strong>Output</strong> — search indexes, key-value stores, philosophy</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <p><strong>Beyond MapReduce</strong> — dataflow engines, graphs, high-level APIs</p>
+                </div>
+            </div>
+        </section>
+        <!-- 3. Three Types -->
+        <section class="slide content-slide">
+            <h2>Three Types of Systems</h2>
+            <div class="three-col" style="margin-top: 20px;">
+                <div class="compare-card">
+                    <h3>🌐 Services (Online)</h3>
+                    <p>Request → response. User waiting.</p>
+                    <p style="margin-top: 8px;"><strong>Metric:</strong> response time</p>
+                    <p>Web servers, APIs, databases</p>
+                </div>
+                <div class="compare-card accent">
+                    <h3>📦 Batch (Offline)</h3>
+                    <p>Large input → job → output. No user waiting.</p>
+                    <p style="margin-top: 8px;"><strong>Metric:</strong> throughput</p>
+                    <p>MapReduce, ETL, analytics</p>
+                </div>
+                <div class="compare-card">
+                    <h3>🔄 Stream (Near-RT)</h3>
+                    <p>Events → process shortly after they happen.</p>
+                    <p style="margin-top: 8px;"><strong>Metric:</strong> latency</p>
+                    <p>→ Chapter 11</p>
+                </div>
+            </div>
+            <p style="margin-top: 15px;">Batch processing is ancient: punch card tabulating machines (1890 US Census), IBM card-sorting machines (1940s). MapReduce bears an uncanny resemblance!</p>
+        </section>
+        <!-- 4. Section: Unix -->
+        <section class="slide section-header">
+            <h2>Batch Processing with Unix Tools</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">The philosophy that inspired MapReduce</p>
+        </section>
+        <!-- 5. Log Analysis Pipeline -->
+        <section class="slide content-slide">
+            <h2>Log Analysis: One Pipeline</h2>
+            <div class="code-block" style="font-size: 1rem; margin-top: 15px;">
+cat /var/log/nginx/access.log |
+  awk '{print $7}' |    # Extract URL (7th field)
+  sort             |    # Alphabetical sort
+  uniq -c          |    # Count adjacent duplicates
+  sort -r -n       |    # Sort by count descending
+  head -n 5             # Top 5 results</div>
+            <p style="margin-top: 12px;">Output:</p>
+            <div class="code-block" style="font-size: 0.95rem;">
+4189 /favicon.ico
+3631 /2013/05/24/improving-security-of-ssh-private-keys.html
+2124 /2012/12/05/schema-evolution-in-avro-protocol-buffers-thrift.html
+1369 /
+ 915 /css/typography.css</div>
+            <p style="margin-top: 12px;">Processes <strong>gigabytes in seconds</strong>. Easily modified for different analyses.</p>
+        </section>
+        <!-- 6. Sort vs Hash -->
+        <section class="slide content-slide">
+            <h2>Sorting vs In-Memory Aggregation</h2>
+            <div class="two-col" style="margin-top: 15px;">
+                <div class="compare-card">
+                    <h3>Hash Table (Ruby/Python)</h3>
+                    <div class="code-block" style="font-size: 0.85rem;">
+counts = Hash.new(0)
+File.open(log) do |file|
+  file.each do |line|
+    url = line.split[6]
+    counts[url] += 1
+  end
+end</div>
+                    <p style="margin-top: 8px;">✅ Works if distinct URLs fit in memory</p>
+                    <p>❌ Fails for large working sets</p>
+                </div>
+                <div class="compare-card accent">
+                    <h3>Sort-Based (Unix)</h3>
+                    <p>GNU <code>sort</code> automatically:</p>
+                    <ul>
+                        <li>Spills to disk when > memory</li>
+                        <li>Parallelizes across CPU cores</li>
+                        <li>Sequential I/O (fast on disk!)</li>
+                    </ul>
+                    <p style="margin-top: 8px;">Same principle as <strong>SSTables &amp; LSM-Trees</strong> (Ch. 3)</p>
+                </div>
+            </div>
+        </section>
+        <!-- 7. Unix Philosophy -->
+        <section class="slide content-slide">
+            <h2>The Unix Philosophy (1978)</h2>
+            <div class="quote" style="margin-top: 15px;">
+                <blockquote>"We should have some ways of connecting programs like a garden hose—screw in another segment when it becomes necessary to massage data in another way."</blockquote>
+                <p style="text-align: right; font-style: italic; opacity: 0.7;">— Doug McIlroy (1964), inventor of Unix pipes</p>
+            </div>
+            <ol style="font-size: 1rem; margin-top: 15px;">
+                <li><strong>Make each program do one thing well.</strong></li>
+                <li><strong>Expect output to become input</strong> to another, unknown program.</li>
+                <li><strong>Design to be tried early</strong> — prototype in weeks, throw away clumsy parts.</li>
+                <li><strong>Use tools over unskilled help</strong> — even if you detour to build them.</li>
+            </ol>
+            <p style="margin-top: 10px;">💡 Sounds like Agile &amp; DevOps — surprisingly little has changed in four decades!</p>
+        </section>
+        <!-- 8. Uniform Interface -->
+        <section class="slide content-slide">
+            <h2>A Uniform Interface</h2>
+            <p>Why can Unix programs compose so well?</p>
+            <ul style="margin-top: 15px;">
+                <li>📄 <strong>Everything is a file</strong> (file descriptor): actual files, pipes, sockets, devices</li>
+                <li>📝 Convention: <strong>newline-separated ASCII text</strong> records</li>
+                <li>🔌 <code>stdin</code> / <code>stdout</code> = the universal connector</li>
+            </ul>
+            <p style="margin-top: 15px;">Contrast with today's world:</p>
+            <p>You <em>can't</em> easily pipe email, shopping history, and social media through a custom tool into a spreadsheet. Unix tools compose better than almost any modern software!</p>
+            <p style="margin-top: 10px;">Similar idea: <strong>URLs &amp; HTTP</strong> — a uniform interface that made the web successful.</p>
+        </section>
+        <!-- 9. Wiring & Experimentation -->
+        <section class="slide content-slide">
+            <h2>Separation of Logic &amp; Wiring</h2>
+            <ul>
+                <li><code>stdin</code>/<code>stdout</code>: program doesn't know or care where input comes from or output goes</li>
+                <li>Shell user decides the wiring — <strong>loose coupling</strong>, <strong>inversion of control</strong></li>
+                <li>Write your own tool: just read <code>stdin</code>, write <code>stdout</code> → instantly composable</li>
+            </ul>
+            <h2 style="margin-top: 25px;">Transparency &amp; Experimentation</h2>
+            <ul>
+                <li>📖 <strong>Immutable inputs</strong> — run commands as many times as you want</li>
+                <li>🔍 <strong>Inspect anywhere</strong> — pipe to <code>less</code> at any stage</li>
+                <li>💾 <strong>Save intermediate output</strong> to a file, restart later stages</li>
+            </ul>
+            <p style="margin-top: 15px;"><strong>Biggest limitation:</strong> Unix tools run on a <em>single machine</em>. Enter Hadoop…</p>
+        </section>
+        <!-- 10. Section: MapReduce -->
+        <section class="slide section-header">
+            <h2>MapReduce and Distributed Filesystems</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">Unix tools, distributed across thousands of machines</p>
+        </section>
+        <!-- 11. HDFS -->
+        <section class="slide content-slide">
+            <h2>HDFS: The Foundation</h2>
+            <p><strong>Hadoop Distributed File System</strong> — open source reimplementation of Google File System (GFS).</p>
+            <ul style="margin-top: 15px;">
+                <li><strong>Shared-nothing</strong>: commodity hardware, no special storage appliance</li>
+                <li>Daemon on each machine exposes local disk over network</li>
+                <li><strong>NameNode</strong> tracks which file blocks are on which machine</li>
+                <li>Blocks <strong>replicated</strong> on multiple machines (or erasure coded)</li>
+            </ul>
+            <div class="stat-box" style="margin-top: 20px;">
+                <div class="stat-number">100s PB</div>
+                <div>Storage on tens of thousands of machines — much cheaper than NAS/SAN</div>
+            </div>
+            <p style="margin-top: 10px;">Also: <span class="tag">GlusterFS</span> <span class="tag">S3</span> <span class="tag">Azure Blob</span> <span class="tag">GCS</span></p>
+        </section>
+        <!-- 12. Four Steps -->
+        <section class="slide content-slide">
+            <h2>MapReduce: Four Steps</h2>
+            <p>Like the Unix log analysis pipeline, but distributed:</p>
+            <div class="timeline" style="margin-top: 15px;">
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <p><strong>1. Split</strong> — break input files into records (like lines in a log)</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <p><strong>2. Map</strong> — extract key-value pairs from each record (like <code>awk '{print $7}'</code>)</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <p><strong>3. Sort</strong> — sort all key-value pairs by key (implicit, like <code>sort</code>)</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <p><strong>4. Reduce</strong> — iterate over sorted pairs, combine values (like <code>uniq -c</code>)</p>
+                </div>
+            </div>
+            <p style="margin-top: 15px;">You write the <strong>mapper</strong> and <strong>reducer</strong>; the framework handles everything else.</p>
+        </section>
+        <!-- 13. Distributed Execution (Fig 10-1) -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>Distributed Execution</h2>
+                <p><strong>Parallelized by partitioning:</strong></p>
+                <ul style="font-size: 0.9rem;">
+                    <li>Each HDFS file block → separate map task</li>
+                    <li>Mapper runs on the machine storing the data (<em>computation near data</em>)</li>
+                    <li>Mapper output partitioned by key hash → sent to reducers</li>
+                    <li>This partition + sort + copy = the <strong>shuffle</strong></li>
+                </ul>
+                <p style="margin-top: 10px;">Reducer merges sorted files from all mappers, processes each key's values sequentially.</p>
+            </div>
+            <div class="image-box">
+                <img src="images/ddia_1001.png" alt="MapReduce job with 3 mappers and 3 reducers" />
+            </div>
+        </section>
+        <!-- 14. Workflows -->
+        <section class="slide content-slide">
+            <h2>MapReduce Workflows</h2>
+            <p>A single MapReduce job is limited. Real work requires <strong>chaining jobs</strong>:</p>
+            <ul>
+                <li>Output of job 1 → HDFS directory → input of job 2</li>
+                <li>More like a sequence of commands writing temp files than Unix pipes</li>
+                <li>Job 2 can only start after job 1 <strong>fully completes</strong></li>
+            </ul>
+            <p style="margin-top: 15px;">Workflow schedulers manage dependencies between jobs:</p>
+            <p><span class="tag">Oozie</span> <span class="tag">Azkaban</span> <span class="tag">Luigi</span> <span class="tag">Airflow</span> <span class="tag">Pinball</span></p>
+            <p style="margin-top: 10px;">Higher-level tools auto-wire multi-stage workflows:</p>
+            <p><span class="tag">Pig</span> <span class="tag">Hive</span> <span class="tag">Cascading</span> <span class="tag">Crunch</span> <span class="tag">FlumeJava</span></p>
+            <div class="stat-box" style="margin-top: 15px;">
+                <div class="stat-number">50–100</div>
+                <div>MapReduce jobs in a typical recommendation system workflow</div>
+            </div>
+        </section>
+        <!-- 15. Section: Joins -->
+        <section class="slide section-header">
+            <h2>Joins in Batch Processing</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">Bringing related data to the same place</p>
+        </section>
+        <!-- 16. Why Joins Matter -->
+        <section class="slide content-slide">
+            <h2>Why Joins Matter in Batch</h2>
+            <ul>
+                <li>MapReduce has <strong>no indexes</strong> — it does full table scans</li>
+                <li>Fine for analytics (scanning large datasets), terrible for point lookups</li>
+                <li>We need to <strong>resolve associations</strong> across entire datasets simultaneously</li>
+            </ul>
+            <p style="margin-top: 20px;"><strong>⚠️ Naive approach fails:</strong></p>
+            <ul>
+                <li>Don't query a remote database for each record!</li>
+                <li>Network round trips → orders of magnitude slower</li>
+                <li>Batch job becomes nondeterministic (remote data may change)</li>
+                <li>Parallel queries can overwhelm the database</li>
+            </ul>
+            <p style="margin-top: 10px;">✅ Instead: put <strong>both datasets on HDFS</strong> and join locally.</p>
+        </section>
+        <!-- 17. User Activity Example (Fig 10-2) -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>Example: User Activity</h2>
+                <p>Join activity events (fact table) with user profiles (dimension):</p>
+                <ul style="font-size: 0.9rem;">
+                    <li>Activity log has user_id but no profile info</li>
+                    <li>User DB has age, name, etc.</li>
+                    <li>Goal: "which pages are popular with which age groups?"</li>
+                </ul>
+                <p style="margin-top: 10px;">Take a <strong>copy</strong> of the user DB (ETL extract) and put it on HDFS alongside the event logs.</p>
+            </div>
+            <div class="image-box">
+                <img src="images/ddia_1002.png" alt="Join between activity events and user profiles" />
+            </div>
+        </section>
+        <!-- 18. Sort-Merge Join (Fig 10-3) -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>Sort-Merge Join</h2>
+                <ol style="font-size: 0.9rem;">
+                    <li>Mapper 1: activity events → <code>(user_id, event)</code></li>
+                    <li>Mapper 2: user DB → <code>(user_id, DOB)</code></li>
+                    <li>Framework sorts &amp; groups by <code>user_id</code></li>
+                    <li>Reducer sees user record first (<strong>secondary sort</strong>), then all events</li>
+                </ol>
+                <p style="margin-top: 10px;">Reducer logic is trivial:</p>
+                <ul style="font-size: 0.9rem;">
+                    <li>Store DOB in local variable</li>
+                    <li>Iterate events, output <code>(url, age)</code> pairs</li>
+                    <li>No network requests, low memory</li>
+                </ul>
+            </div>
+            <div class="image-box">
+                <img src="images/ddia_1003.png" alt="Reduce-side sort-merge join" />
+            </div>
+        </section>
+        <!-- 19. Bringing Data Together -->
+        <section class="slide content-slide">
+            <h2>Bringing Data Together</h2>
+            <p>The key insight of MapReduce joins:</p>
+            <div class="quote" style="margin-top: 15px;">
+                <blockquote>Mappers "send messages" to reducers. The key acts like a <strong>destination address</strong>. All key-value pairs with the same key are delivered to the same reducer call.</blockquote>
+            </div>
+            <p style="margin-top: 15px;">This pattern also applies to <strong>GROUP BY</strong>:</p>
+            <ul>
+                <li><code>COUNT(*)</code>, <code>SUM(field)</code>, top-k ranking</li>
+                <li><strong>Sessionization</strong>: group all activity events for a user session</li>
+                <li>A/B testing: compare user behavior across website versions</li>
+            </ul>
+            <p style="margin-top: 10px;">MapReduce separates <em>physical network communication</em> from <em>application logic</em> — framework handles retries, partial failures transparently.</p>
+        </section>
+        <!-- 20. Handling Skew -->
+        <section class="slide content-slide">
+            <h2>Handling Skew (Hot Keys)</h2>
+            <p>A celebrity with millions of followers → one reducer gets <strong>all</strong> their data → bottleneck!</p>
+            <div class="two-col" style="margin-top: 15px;">
+                <div class="compare-card">
+                    <h3>🎲 Pig: Skewed Join</h3>
+                    <ol style="font-size: 0.9rem;">
+                        <li>Sampling job detects hot keys</li>
+                        <li>Hot key records → <strong>random</strong> reducers</li>
+                        <li>Other join input replicated to all those reducers</li>
+                    </ol>
+                </div>
+                <div class="compare-card">
+                    <h3>📋 Hive: Skewed Join</h3>
+                    <ul style="font-size: 0.9rem;">
+                        <li>Hot keys specified in table metadata</li>
+                        <li>Stored in separate files</li>
+                        <li>Uses <strong>map-side join</strong> for hot keys</li>
+                    </ul>
+                </div>
+            </div>
+            <p style="margin-top: 15px;">For <strong>GROUP BY</strong> with hot keys: two-stage aggregation — random partial aggregation → final merge. Same idea as Ch. 6 (relieving hot spots).</p>
+        </section>
+        <!-- 21. Map-Side Joins -->
+        <section class="slide content-slide">
+            <h2>Map-Side Joins</h2>
+            <p>Skip the expensive reduce phase — when you <em>can</em> make assumptions about the data:</p>
+            <div class="three-col" style="margin-top: 15px;">
+                <div class="compare-card">
+                    <h3>📡 Broadcast Hash Join</h3>
+                    <p>Small dataset fits in memory → each mapper loads it into a <strong>hash table</strong>.</p>
+                    <p style="margin-top: 8px;">Pig: "replicated join"<br>Hive: "MapJoin"</p>
+                </div>
+                <div class="compare-card">
+                    <h3>🗂️ Partitioned Hash Join</h3>
+                    <p>Both inputs partitioned the <strong>same way</strong> → mapper loads only its partition.</p>
+                    <p style="margin-top: 8px;">Hive: "bucketed map join"</p>
+                </div>
+                <div class="compare-card accent">
+                    <h3>🔀 Map-Side Merge</h3>
+                    <p>Both inputs partitioned <strong>and sorted</strong> by same key → sequential merge, like a reduce step.</p>
+                </div>
+            </div>
+            <p style="margin-top: 15px;">No reducers, no sorting, no shuffle — just read input blocks and write output files.</p>
+        </section>
+        <!-- 22. Map vs Reduce Side -->
+        <section class="slide content-slide">
+            <h2>Map-Side vs Reduce-Side Joins</h2>
+            <div class="two-col" style="margin-top: 15px;">
+                <div class="compare-card">
+                    <h3>Reduce-Side</h3>
+                    <ul>
+                        <li>✅ No assumptions about input</li>
+                        <li>✅ Works for any data layout</li>
+                        <li>❌ Expensive: sort, shuffle, merge</li>
+                        <li>❌ Data written to disk multiple times</li>
+                        <li>Output: partitioned by join key</li>
+                    </ul>
+                </div>
+                <div class="compare-card accent">
+                    <h3>Map-Side</h3>
+                    <ul>
+                        <li>✅ No shuffle overhead</li>
+                        <li>✅ Much faster when applicable</li>
+                        <li>❌ Requires specific data layout</li>
+                        <li>❌ Must know partitioning scheme</li>
+                        <li>Output: partitioned like large input</li>
+                    </ul>
+                </div>
+            </div>
+            <p style="margin-top: 15px;">Metadata about dataset partitioning: <span class="tag">HCatalog</span> <span class="tag">Hive Metastore</span></p>
+        </section>
+        <!-- 23. Section: Output -->
+        <section class="slide section-header">
+            <h2>Output of Batch Workflows</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">What do we do with all this processing?</p>
+        </section>
+        <!-- 24. Search Indexes -->
+        <section class="slide content-slide">
+            <h2>Building Search Indexes</h2>
+            <p>Google's <em>original</em> use of MapReduce — a workflow of 5–10 jobs.</p>
+            <ul style="margin-top: 15px;">
+                <li>Mappers partition the document set</li>
+                <li>Each reducer builds the index for its partition</li>
+                <li>Index files are <strong>immutable</strong> once written</li>
+                <li>Read-only → simple data structures, no WAL needed</li>
+            </ul>
+            <p style="margin-top: 15px;">Two strategies for updates:</p>
+            <div class="two-col">
+                <div class="compare-card">
+                    <h3>Full Rebuild</h3>
+                    <p>Rerun entire workflow, replace old index files wholesale.</p>
+                </div>
+                <div class="compare-card">
+                    <h3>Incremental</h3>
+                    <p>Lucene-style: new segments + background merge. (→ Ch. 11)</p>
+                </div>
+            </div>
+        </section>
+        <!-- 25. KV Stores -->
+        <section class="slide content-slide">
+            <h2>Key-Value Stores as Batch Output</h2>
+            <p>Build ML models, recommendation DBs, classifier outputs:</p>
+            <ul style="margin-top: 15px;">
+                <li>Build brand-new DB files <strong>inside</strong> the batch job</li>
+                <li>Write as immutable files to HDFS</li>
+                <li>Load in bulk into read-only serving servers</li>
+            </ul>
+            <p style="margin-top: 15px;"><span class="tag">Voldemort</span> <span class="tag">Terrapin</span> <span class="tag">ElephantDB</span> <span class="tag">HBase bulk loading</span></p>
+            <p style="margin-top: 15px;">⚠️ <strong>Never write directly to a production DB</strong> from mappers/reducers:</p>
+            <ul>
+                <li>Network requests per record → too slow</li>
+                <li>Concurrent writes → overwhelm the DB</li>
+                <li>Breaks MapReduce's <strong>all-or-nothing</strong> output guarantee</li>
+            </ul>
+        </section>
+        <!-- 26. Philosophy -->
+        <section class="slide content-slide">
+            <h2>Philosophy of Batch Outputs</h2>
+            <p>Unix principles carried to distributed scale:</p>
+            <ul style="margin-top: 15px;">
+                <li>📖 <strong>Immutable inputs</strong>: never modify source data</li>
+                <li>🔄 <strong>Complete output replacement</strong>: no partial updates</li>
+                <li>🐛 <strong>Human fault tolerance</strong>: bug in code? Roll back code, rerun. Output is correct!</li>
+                <li>⚡ <strong>Minimizing irreversibility</strong>: faster feature development, safer experiments</li>
+                <li>🔁 <strong>Automatic retry</strong>: safe because inputs are immutable, partial outputs discarded</li>
+                <li>📐 <strong>Separation of concerns</strong>: one team writes the job, another decides when to run it</li>
+            </ul>
+            <p style="margin-top: 15px;">Structured formats (<span class="tag">Avro</span> <span class="tag">Parquet</span>) replace awkward text parsing (<code>{print $7}</code>).</p>
+        </section>
+        <!-- 27. Section: Hadoop vs MPP -->
+        <section class="slide section-header">
+            <h2>Comparing Hadoop to Distributed Databases</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">Why not just use an MPP database?</p>
+        </section>
+        <!-- 28. Diversity of Storage -->
+        <section class="slide content-slide">
+            <h2>Diversity of Storage</h2>
+            <div class="two-col" style="margin-top: 15px;">
+                <div class="compare-card">
+                    <h3>🗃️ MPP Databases</h3>
+                    <ul>
+                        <li>Structured data required upfront</li>
+                        <li>Careful schema design before import</li>
+                        <li>Proprietary storage format</li>
+                        <li>Slows down data collection</li>
+                    </ul>
+                </div>
+                <div class="compare-card accent">
+                    <h3>🐘 Hadoop / HDFS</h3>
+                    <ul>
+                        <li>Any byte sequences — any format</li>
+                        <li>Dump now, structure later</li>
+                        <li><strong>Schema-on-read</strong></li>
+                        <li>"Data lake" / "enterprise data hub"</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="quote" style="margin-top: 15px;">
+                <blockquote><strong>The Sushi Principle:</strong> "Raw data is better." Making data available quickly — even in messy format — is more valuable than perfecting the schema first.</blockquote>
+            </div>
+        </section>
+        <!-- 29. Processing Models -->
+        <section class="slide content-slide">
+            <h2>Diversity of Processing Models</h2>
+            <ul>
+                <li><strong>MPP databases</strong>: monolithic, SQL-focused, highly optimized for analytics</li>
+                <li><strong>Hadoop</strong>: general-purpose — run <em>arbitrary code</em>, not just SQL</li>
+            </ul>
+            <p style="margin-top: 15px;">Many tasks don't fit SQL:</p>
+            <ul>
+                <li>Machine learning &amp; recommendation systems</li>
+                <li>Full-text search index building</li>
+                <li>Image analysis, NLP, fraud detection</li>
+            </ul>
+            <p style="margin-top: 15px;">Hadoop ecosystem runs <strong>diverse workloads on one cluster</strong>:</p>
+            <p><span class="tag">MapReduce</span> <span class="tag">Hive (SQL)</span> <span class="tag">HBase (OLTP)</span> <span class="tag">Impala (MPP analytics)</span> <span class="tag">Spark</span></p>
+            <p style="margin-top: 10px;">All sharing the same HDFS storage — no need to move data between systems!</p>
+        </section>
+        <!-- 30. Frequent Faults -->
+        <section class="slide content-slide">
+            <h2>Designing for Frequent Faults</h2>
+            <div class="two-col" style="margin-top: 15px;">
+                <div class="compare-card">
+                    <h3>MPP Databases</h3>
+                    <ul>
+                        <li>Query fails → abort entire query, retry</li>
+                        <li>Prefer keeping data <strong>in memory</strong></li>
+                        <li>Queries run seconds to minutes</li>
+                        <li>Cost of retry is acceptable</li>
+                    </ul>
+                </div>
+                <div class="compare-card accent">
+                    <h3>MapReduce</h3>
+                    <ul>
+                        <li>Task fails → retry <strong>just that task</strong></li>
+                        <li>Eager to <strong>write to disk</strong></li>
+                        <li>Jobs run minutes to days</li>
+                        <li>Full retry would be wasteful</li>
+                    </ul>
+                </div>
+            </div>
+            <p style="margin-top: 15px;">Why so fault-tolerant? At Google, batch jobs run at <strong>low priority</strong>. Higher-priority processes can <strong>preempt</strong> them at any time.</p>
+            <div class="stat-box" style="margin-top: 10px;">
+                <div class="stat-number">~5%</div>
+                <div>Risk of a 1-hour MapReduce task being terminated (preempted) at Google</div>
+            </div>
+        </section>
+        <!-- 31. Section: Beyond MR -->
+        <section class="slide section-header">
+            <h2>Beyond MapReduce</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">Dataflow engines, graphs, and high-level APIs</p>
+        </section>
+        <!-- 32. Materialization Problem -->
+        <section class="slide content-slide">
+            <h2>The Problem with Materialization</h2>
+            <p>Every intermediate result in MapReduce is written to HDFS (materialized):</p>
+            <ul style="margin-top: 15px;">
+                <li>❌ Job 2 can't start until <strong>all tasks</strong> in job 1 finish (stragglers!)</li>
+                <li>❌ Mappers often <strong>redundant</strong> — just re-read what a reducer wrote</li>
+                <li>❌ Intermediate files are <strong>replicated</strong> across nodes (overkill for temp data)</li>
+            </ul>
+            <div class="two-col" style="margin-top: 20px;">
+                <div class="compare-card">
+                    <h3>MapReduce</h3>
+                    <p>Like writing each command's output to a <strong>temporary file</strong></p>
+                </div>
+                <div class="compare-card accent">
+                    <h3>Dataflow Engines</h3>
+                    <p>Like <strong>Unix pipes</strong> — stream output incrementally to next operator</p>
+                </div>
+            </div>
+        </section>
+        <!-- 33. Dataflow Engines -->
+        <section class="slide content-slide">
+            <h2>Dataflow Engines: Spark, Tez, Flink</h2>
+            <p>Handle entire workflow as <strong>one job</strong> with flexible <strong>operators</strong>:</p>
+            <ul style="margin-top: 15px;">
+                <li>🔀 <strong>Repartition + sort</strong> (like MapReduce shuffle) — only when needed</li>
+                <li>#️⃣ <strong>Repartition only</strong> (no sort) — for partitioned hash joins</li>
+                <li>📡 <strong>Broadcast</strong> — send one operator's output to all partitions</li>
+            </ul>
+            <p style="margin-top: 15px;">Advantages over MapReduce:</p>
+            <ul>
+                <li>Sort only where required, not by default</li>
+                <li>No unnecessary map tasks</li>
+                <li>Scheduler optimizes data locality (shared memory buffers)</li>
+                <li>Intermediate state: <strong>memory or local disk</strong> (not HDFS)</li>
+                <li>Operators start as soon as input is ready (pipelining)</li>
+                <li>Reuse JVM processes (no startup overhead per task)</li>
+            </ul>
+        </section>
+        <!-- 34. Fault Tolerance -->
+        <section class="slide content-slide">
+            <h2>Fault Tolerance in Dataflow Engines</h2>
+            <p>Without HDFS-materialized intermediates, how do you recover from failures?</p>
+            <ul style="margin-top: 15px;">
+                <li>🔄 <strong>Recompute from available data</strong>: prior intermediate stage, or original HDFS input</li>
+                <li>Spark: <strong>RDD</strong> (Resilient Distributed Dataset) tracks data lineage</li>
+                <li>Flink: <strong>checkpoints</strong> operator state periodically</li>
+            </ul>
+            <p style="margin-top: 15px;">⚠️ Requires <strong>deterministic</strong> operators — same input always produces same output.</p>
+            <p>Watch out for: hash table iteration order, random numbers, system clock, external data.</p>
+            <p style="margin-top: 15px;">💡 Trade-off: if intermediate data is much smaller than input, or computation is CPU-intensive, sometimes <strong>materializing is cheaper</strong> than recomputing.</p>
+        </section>
+        <!-- 35. Pregel Model -->
+        <section class="slide content-slide">
+            <h2>Graph Processing: The Pregel Model</h2>
+            <p>Graph algorithms (PageRank, transitive closure) need <strong>iterative</strong> processing — MapReduce only does single passes.</p>
+            <div class="compare-card accent" style="margin-top: 15px;">
+                <h3>Bulk Synchronous Parallel (BSP) / Pregel</h3>
+                <ul>
+                    <li>Each vertex can <strong>send messages</strong> to other vertices (along edges)</li>
+                    <li>In each iteration, a function processes incoming messages for each vertex</li>
+                    <li>Vertex <strong>remembers state</strong> between iterations (unlike MapReduce)</li>
+                    <li>If no messages → no work needed for that part of the graph</li>
+                </ul>
+            </div>
+            <p style="margin-top: 15px;"><span class="tag">Apache Giraph</span> <span class="tag">Spark GraphX</span> <span class="tag">Flink Gelly</span></p>
+            <p style="margin-top: 8px;">⚠️ Cross-machine communication overhead is high. If your graph fits on <strong>one machine</strong>, single-threaded may actually be faster!</p>
+        </section>
+        <!-- 36. High-Level APIs -->
+        <section class="slide content-slide">
+            <h2>High-Level APIs &amp; Declarative Queries</h2>
+            <p>Programming MapReduce by hand is laborious. Higher-level APIs emerged:</p>
+            <ul style="margin-top: 15px;">
+                <li>Relational-style building blocks: <code>join()</code>, <code>groupBy()</code>, <code>filter()</code>, <code>aggregate()</code></li>
+                <li>Interactive exploration — write analysis incrementally in a shell</li>
+                <li><strong>Query optimizer</strong> picks the best join strategy automatically</li>
+            </ul>
+            <p style="margin-top: 15px;">The convergence:</p>
+            <div class="two-col" style="margin-top: 10px;">
+                <div class="compare-card">
+                    <h3>Batch → MPP</h3>
+                    <p>Cost-based optimizers, column-oriented storage, vectorized execution, JIT compilation</p>
+                </div>
+                <div class="compare-card accent">
+                    <h3>MPP → Batch</h3>
+                    <p>Extensibility: custom code, diverse formats, ML integration</p>
+                </div>
+            </div>
+            <p style="margin-top: 10px;">In the end, they're all just systems for <strong>storing and processing data</strong>.</p>
+        </section>
+        <!-- 37. Section: Summary -->
+        <section class="slide section-header">
+            <h2>Summary</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">From Unix pipes to distributed dataflows</p>
+        </section>
+        <!-- 38. Two Core Problems -->
+        <section class="slide content-slide">
+            <h2>Two Core Problems in Batch Processing</h2>
+            <div class="two-col" style="margin-top: 20px;">
+                <div class="compare-card accent">
+                    <h3>📦 Partitioning</h3>
+                    <ul>
+                        <li>Mappers partitioned by input file blocks</li>
+                        <li>Output repartitioned, sorted, merged into reducer partitions</li>
+                        <li>Goal: bring all related data to the same place</li>
+                        <li>Dataflow engines: similar but skip unnecessary sorting</li>
+                    </ul>
+                </div>
+                <div class="compare-card">
+                    <h3>🛡️ Fault Tolerance</h3>
+                    <ul>
+                        <li>MapReduce: frequent disk writes → easy task-level recovery, slower</li>
+                        <li>Dataflow: less materialization, more in memory → must recompute on failure</li>
+                        <li>Deterministic operators reduce recomputation scope</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        <!-- 39. Join Summary -->
+        <section class="slide content-slide">
+            <h2>Join Algorithms Summary</h2>
+            <div class="three-col" style="margin-top: 15px;">
+                <div class="compare-card">
+                    <h3>Sort-Merge Join</h3>
+                    <p>Both inputs through mappers extracting join key. Partition, sort, merge. All records with same key → one reducer call.</p>
+                </div>
+                <div class="compare-card">
+                    <h3>Broadcast Hash Join</h3>
+                    <p>Small input loaded entirely into hash table in each mapper. Scan large input, look up each record.</p>
+                </div>
+                <div class="compare-card accent">
+                    <h3>Partitioned Hash Join</h3>
+                    <p>Both inputs partitioned identically. Each mapper loads only its partition of the small input into hash table.</p>
+                </div>
+            </div>
+            <p style="margin-top: 15px;"><strong>Restricted programming model:</strong> callbacks are stateless, no side effects. Framework guarantees output = exactly-once execution, even with retries.</p>
+        </section>
+        <!-- 40. Key Takeaways -->
+        <section class="slide content-slide">
+            <h2>Key Takeaways</h2>
+            <ul>
+                <li>📋 <strong>Unix philosophy scales</strong>: immutable inputs, composable programs, separation of logic and wiring</li>
+                <li>🗺️ <strong>MapReduce</strong>: distributed sort + group-by with fault tolerance via task-level retry</li>
+                <li>🤝 <strong>Joins</strong>: bring data to the same place — reduce-side (general) or map-side (optimized)</li>
+                <li>📦 <strong>Output</strong>: build immutable files, not direct DB writes. Human fault tolerance!</li>
+                <li>⚡ <strong>Dataflow engines</strong> (Spark, Flink) supersede MapReduce: flexible operators, pipelining, query optimization</li>
+                <li>📈 <strong>Convergence</strong>: batch engines gain declarative features; MPP databases gain extensibility</li>
+            </ul>
+            <p style="margin-top: 15px;">Input is <strong>bounded</strong> (fixed size) → job eventually completes.</p>
+            <p>Next: <strong>Stream Processing</strong> (Ch. 11) — what if input is <em>unbounded</em>?</p>
+        </section>
+        <!-- 41. Questions -->
+        <section class="slide title-slide">
+            <h1>Questions?</h1>
+            <p>Designing Data-Intensive Applications • Chapter 10</p>
+            <div class="image-box questions-image">
+                <img src="images/questions.jpg" alt="Q&A discussion" />
+            </div>
+        </section>
+
+    </div>
+    <div class="controls">
+        <button onclick="prevSlide()">PREV</button>
+        <button onclick="nextSlide()">NEXT</button>
+    </div>
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const presentation = document.getElementById('presentation');
+        const progressBar = document.getElementById('progressBar');
+        const slideNum = document.getElementById('slideNum');
+        const totalSlides = slides.length;
+        function update() {
+            presentation.style.transform = `translateX(-${currentSlide * 100}vw)`;
+            progressBar.style.width = `${((currentSlide + 1) / totalSlides) * 100}%`;
+            slideNum.innerText = `${currentSlide + 1} / ${totalSlides}`;
+        }
+        function nextSlide() { if (currentSlide < totalSlides - 1) { currentSlide++; update(); } }
+        function prevSlide() { if (currentSlide > 0) { currentSlide--; update(); } }
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'ArrowDown') nextSlide();
+            if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') prevSlide();
+            if (e.key >= '0' && e.key <= '9') { currentSlide = Math.floor(totalSlides * (parseInt(e.key) / 10)); update(); }
+        });
+        update();
+    </script>
+</body>
+</html>

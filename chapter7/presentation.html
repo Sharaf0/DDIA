@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KT: DDIA Chapter 7 - Transactions</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #ffffff;
+            --text: #0f172a;
+            --gray: #f0f0f0;
+            --accent: #2563eb;
+            --accent-light: #dbeafe;
+            --warm: #fef3c7;
+            --dark: #0f172a;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        .presentation {
+            height: 100%;
+            width: 100%;
+            display: flex;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .slide {
+            min-width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 5% 10%;
+            position: relative;
+            text-align: center;
+        }
+
+        /* ====== Slide Types ====== */
+
+        /* Title Slide: opening slide with book title, chapter name, book cover */
+        .title-slide h1 {
+            font-size: 4.5rem;
+            font-weight: 800;
+            letter-spacing: -2px;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #0f172a 0%, #2563eb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .title-slide p {
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            opacity: 0.6;
+        }
+
+        .title-slide {
+            gap: 20px;
+        }
+
+        .title-image {
+            height: 350px;
+            max-width: 280px;
+            border: none;
+            background: transparent;
+        }
+
+        .title-image img {
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            border-radius: 4px;
+        }
+
+        /* Section Header: dark full-screen divider between major topics */
+        .section-header {
+            background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%);
+            color: #fff;
+        }
+
+        .section-header h2 {
+            font-size: 5rem;
+        }
+
+        .section-header .image-box {
+            height: 55vh;
+            margin-top: 30px;
+            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .section-header .image-box img {
+            opacity: 0.9;
+        }
+
+        /* Content Slide: standard text slide, optionally with side image */
+        .content-slide {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+            text-align: left;
+            align-items: center;
+        }
+
+        .content-slide.with-image {
+            grid-template-columns: 1fr 1.2fr;
+            text-align: left;
+        }
+
+        /* ====== Typography ====== */
+        h2 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 1.8rem;
+            line-height: 1.4;
+            font-weight: 300;
+        }
+
+        ul {
+            font-size: 1.5rem;
+            line-height: 1.6;
+            font-weight: 300;
+            margin-top: 15px;
+            padding-left: 25px;
+        }
+
+        ul li {
+            margin-bottom: 10px;
+        }
+
+        /* ====== Content Components ====== */
+
+        /* Highlight: inline yellow background */
+        .highlight {
+            background: var(--warm);
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+
+        /* Code Block: dark background, monospace */
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+            text-align: left;
+            overflow-x: auto;
+            margin-top: 15px;
+            white-space: pre;
+        }
+
+        /* Image Box: container for images */
+        .image-box {
+            width: 100%;
+            height: 500px;
+            background: #f9f9f9;
+            border: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border-radius: 12px;
+        }
+
+        .image-box img {
+            max-width: 95%;
+            max-height: 95%;
+            object-fit: contain;
+        }
+
+        /* Fill variant: for photos (object-fit: cover) */
+        .image-box.fill img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Quote: left-bordered italic text */
+        .quote {
+            font-style: italic;
+            border-left: 4px solid var(--accent);
+            padding-left: 20px;
+            margin: 20px 0;
+        }
+
+        /* Stat Box: big number with label */
+        .stat-box {
+            background: #f8f8f8;
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .stat-box .number {
+            font-size: 4rem;
+            font-weight: 800;
+            color: var(--accent);
+        }
+
+        .stat-box .label {
+            font-size: 1.2rem;
+            opacity: 0.7;
+            margin-top: 10px;
+        }
+
+        .stat-box.small .number {
+            font-size: 2.5rem;
+        }
+
+        .stat-box.small {
+            padding: 20px;
+        }
+
+        /* Two Column Layout */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            width: 100%;
+        }
+
+        /* Three Column Layout */
+        .three-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 25px;
+            width: 100%;
+        }
+
+        /* Compare Card: for side-by-side comparison */
+        .compare-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 25px;
+            text-align: left;
+        }
+
+        .compare-card h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--accent);
+        }
+
+        .compare-card p,
+        .compare-card ul {
+            font-size: 1.2rem;
+        }
+
+        /* Accent variant: highlight the preferred option */
+        .compare-card.accent {
+            background: var(--accent-light);
+            border-color: var(--accent);
+        }
+
+        /* Tag / Pill: inline labels */
+        .tag {
+            display: inline-block;
+            background: var(--accent-light);
+            color: var(--accent);
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 4px;
+        }
+
+        /* Emoji: large decorative emoji */
+        .emoji {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        /* Syntax highlighting spans for code blocks */
+        .sql-keyword {
+            color: #569cd6;
+            font-weight: 600;
+        }
+
+        .code-comment {
+            color: #6a9955;
+        }
+
+        .code-string {
+            color: #ce9178;
+        }
+
+        /* Side image: floating image on text-heavy slides */
+        .side-image {
+            position: absolute;
+            right: 60px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 200px;
+            height: 200px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .side-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Questions image: smaller image for Q&A slide */
+        .questions-image {
+            height: 360px;
+            max-width: 600px;
+        }
+
+        /* Full image slide: image-dominant layout */
+        .full-image-slide .image-box {
+            height: 70vh;
+            width: 90%;
+            max-width: 1200px;
+        }
+
+        /* Timeline: horizontal timeline with dots */
+        .timeline {
+            display: flex;
+            align-items: flex-start;
+            gap: 0;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .timeline-item {
+            flex: 1;
+            text-align: center;
+            position: relative;
+            padding-top: 30px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--accent);
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            top: 4px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 16px;
+            height: 16px;
+            background: var(--accent);
+            border-radius: 50%;
+            border: 3px solid white;
+        }
+
+        .timeline-item .year {
+            font-weight: 800;
+            font-size: 1.3rem;
+            color: var(--accent);
+        }
+
+        .timeline-item .desc {
+            font-size: 1rem;
+            margin-top: 5px;
+            opacity: 0.7;
+        }
+
+        /* ====== Controls ====== */
+        .controls {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            gap: 15px;
+            z-index: 100;
+        }
+
+        .controls button {
+            background: var(--dark);
+            color: #fff;
+            border: none;
+            padding: 15px 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            border-radius: 6px;
+        }
+
+        .controls button:hover {
+            opacity: 0.8;
+        }
+
+        .progress-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: #eee;
+            z-index: 101;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), #7c3aed);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .slide-number {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            opacity: 0.4;
+        }
+
+        /* ====== Responsive ====== */
+        @media (max-width: 768px) {
+            body { font-size: 14px; }
+            .slide { padding: 10% 5%; }
+            .title-slide h1 { font-size: 2.5rem; }
+            .title-slide p { font-size: 1rem; }
+        }
+    
+    </style>
+</head>
+<body>
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+    <div class="slide-number" id="slideNum">1 / 40</div>
+    <div class="presentation" id="presentation">
+        <!-- 1. Title -->
+        <section class="slide title-slide">
+            <p>Designing Data-Intensive Applications</p>
+            <h1>Transactions</h1>
+            <p>Knowledge Transfer Session • Chapter 7</p>
+            <div class="image-box title-image">
+                <img src="../chapter1/images/book_cover.jpg" alt="DDIA book cover" />
+            </div>
+        </section>
+        <!-- 2. Quote -->
+        <section class="slide content-slide">
+            <h2>"We believe it is better to have application programmers deal with performance problems due to overuse of transactions as bottlenecks arise, rather than always coding around the lack of transactions."</h2>
+            <p style="margin-top: 20px; opacity: 0.6;">— James Corbett et al., <em>Spanner: Google's Globally-Distributed Database</em> (2012)</p>
+        </section>
+        <!-- 3. Why Transactions -->
+        <section class="slide content-slide">
+            <h2>Why Transactions?</h2>
+            <p>Many things can go wrong: crashes, network failures, concurrent writes, partial updates...</p>
+            <p style="margin-top: 15px;">Transactions group reads and writes into a logical unit: <strong>all-or-nothing</strong>.</p>
+            <div class="three-col" style="margin-top: 20px;">
+                <div class="compare-card">
+                    <h3>🛡️ ACID</h3>
+                    <p>Safety guarantees: Atomicity, Consistency, Isolation, Durability</p>
+                </div>
+                <div class="compare-card">
+                    <h3>🏎️ Isolation Levels</h3>
+                    <p>Read committed, snapshot isolation, serializability</p>
+                </div>
+                <div class="compare-card">
+                    <h3>🔒 Serializability</h3>
+                    <p>Serial execution, 2PL, SSI — three approaches</p>
+                </div>
+            </div>
+        </section>
+        <!-- 4. Section: ACID -->
+        <section class="slide section-header">
+            <h2>The Slippery Concept of ACID</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">One database's ACID ≠ another's ACID</p>
+        </section>
+        <!-- 5. ACID Explained -->
+        <section class="slide content-slide">
+            <h2>ACID: What Each Letter Really Means</h2>
+            <div class="two-col" style="margin-top: 15px;">
+                <div class="compare-card">
+                    <h3>A — Atomicity</h3>
+                    <p>NOT about concurrency! If a fault occurs mid-transaction → <strong>abort and undo</strong> all writes. All-or-nothing.</p>
+                    <p style="margin-top: 8px; font-size: 0.9rem;">Better name: <em>abortability</em></p>
+                </div>
+                <div class="compare-card">
+                    <h3>C — Consistency</h3>
+                    <p>Application invariants must hold (e.g., credits = debits). But this is the <strong>application's job</strong>, not the database's!</p>
+                    <p style="margin-top: 8px; font-size: 0.9rem;">The C was "tossed in to make the acronym work" 😅</p>
+                </div>
+            </div>
+            <div class="two-col" style="margin-top: 15px;">
+                <div class="compare-card accent">
+                    <h3>I — Isolation</h3>
+                    <p>Concurrent transactions don't step on each other's toes. Ideally: <strong>serializability</strong> — result is as if they ran one-at-a-time.</p>
+                </div>
+                <div class="compare-card">
+                    <h3>D — Durability</h3>
+                    <p>Once committed, data survives crashes. But <em>perfect durability doesn't exist</em> — use multiple techniques together.</p>
+                </div>
+            </div>
+        </section>
+        <!-- 6. BASE vs ACID -->
+        <section class="slide content-slide">
+            <h2>Aside: BASE vs ACID</h2>
+            <p>Systems that don't meet ACID are sometimes called <strong>BASE</strong>:</p>
+            <ul>
+                <li><strong>B</strong>asically <strong>A</strong>vailable</li>
+                <li><strong>S</strong>oft state</li>
+                <li><strong>E</strong>ventual consistency</li>
+            </ul>
+            <p class="quote" style="margin-top: 15px;">"The only sensible definition of BASE is 'not ACID' — i.e., it can mean almost anything you want."</p>
+            <p style="margin-top: 15px;">Many "ACID-compliant" databases actually provide <strong>weak isolation</strong> — ACID has become mostly a marketing term. Details matter!</p>
+        </section>
+        <!-- 7. Section: Objects -->
+        <section class="slide section-header">
+            <h2>Single-Object &amp; Multi-Object Operations</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">What atomicity and isolation protect against</p>
+        </section>
+        <!-- 8. Race Condition (Fig 7-1) -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>Race Condition: Lost Update</h2>
+                <p>Two clients increment a counter concurrently:</p>
+                <ul>
+                    <li>Both read 42</li>
+                    <li>Both write 43</li>
+                    <li>Counter should be 44! 💀</li>
+                </ul>
+                <p style="margin-top: 15px;"><strong>Isolation</strong> should prevent this, but many DBs use weak isolation levels that allow it.</p>
+            </div>
+            <div class="image-box">
+                <img src="images/ddia_0701.png" alt="Race condition" />
+            </div>
+        </section>
+        <!-- 9. Dirty Reads (Fig 7-2) -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>Dirty Reads: Seeing Partial Updates</h2>
+                <p>Email app: new message arrives → insert email + update unread counter.</p>
+                <p style="margin-top: 10px;">User sees the new email but counter still shows 0 — because the counter update hasn't committed yet.</p>
+                <p style="margin-top: 15px;"><strong>Isolation</strong> ensures the user sees either <em>both</em> changes or <em>neither</em>.</p>
+            </div>
+            <div class="image-box">
+                <img src="images/ddia_0702.png" alt="Dirty read" />
+            </div>
+        </section>
+        <!-- 10. Atomicity (Fig 7-3) -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>Atomicity: All or Nothing</h2>
+                <p>If the counter update fails after the email was inserted:</p>
+                <ul>
+                    <li>Without atomicity → email exists, counter is wrong</li>
+                    <li>With atomicity → <strong>entire transaction rolls back</strong>, email is removed too</li>
+                </ul>
+                <p style="margin-top: 15px;">App can safely retry the whole operation.</p>
+            </div>
+            <div class="image-box">
+                <img src="images/ddia_0703.png" alt="Atomicity" />
+            </div>
+        </section>
+        <!-- 11. Error Handling -->
+        <section class="slide content-slide">
+            <h2>Error Handling &amp; Retries</h2>
+            <p>Transactions can be aborted and retried — but retries aren't perfect:</p>
+            <ul>
+                <li>⚡ Transaction succeeded but ACK was lost → <strong>retry = duplicate execution</strong>. Need deduplication!</li>
+                <li>📈 Error is overload → retry makes it <strong>worse</strong>. Use exponential backoff.</li>
+                <li>🔄 Only retry <strong>transient</strong> errors (deadlock, network). Don't retry permanent errors (constraint violation).</li>
+                <li>📧 Side effects (sending email) may happen even if transaction aborts. Need two-phase commit for multi-system.</li>
+                <li>💥 Client crashes during retry → data is lost.</li>
+            </ul>
+        </section>
+        <!-- 12. Section: Weak Isolation -->
+        <section class="slide section-header">
+            <h2>Weak Isolation Levels</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">Concurrency bugs that hide in the gaps between theory and practice</p>
+        </section>
+        <!-- 13. Read Committed (Fig 7-4) -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>Read Committed</h2>
+                <p>The most basic isolation level. Two guarantees:</p>
+                <ol>
+                    <li><strong>No dirty reads</strong> — only see committed data</li>
+                    <li><strong>No dirty writes</strong> — only overwrite committed data</li>
+                </ol>
+                <p style="margin-top: 15px;">Implementation: row-level <strong>write locks</strong> + remember old value for reads (no read locks needed).</p>
+                <p style="margin-top: 10px;">Default in: <span class="tag">PostgreSQL</span> <span class="tag">Oracle</span> <span class="tag">SQL Server</span></p>
+            </div>
+            <div class="image-box">
+                <img src="images/ddia_0704.png" alt="No dirty reads" />
+            </div>
+        </section>
+        <!-- 14. Dirty Writes (Fig 7-5) -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>No Dirty Writes</h2>
+                <p>Two people buying the same car:</p>
+                <ul>
+                    <li>Alice updates listing → her name</li>
+                    <li>Bob updates listing → his name (wins)</li>
+                    <li>Alice updates invoice → her name (wins)</li>
+                </ul>
+                <p style="margin-top: 10px;">Without dirty write protection: Bob gets the car but Alice gets the invoice! 😱</p>
+                <p style="margin-top: 10px;">Read committed prevents this by making the second writer <strong>wait for the first to commit</strong>.</p>
+            </div>
+            <div class="image-box">
+                <img src="images/ddia_0705.png" alt="Dirty writes" />
+            </div>
+        </section>
+        <!-- 15. Section: Snapshot Isolation -->
+        <section class="slide section-header">
+            <h2>Snapshot Isolation</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">Each transaction sees a consistent snapshot of the database</p>
+        </section>
+        <!-- 16. Read Skew (Fig 7-6) -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>Read Skew (Non-Repeatable Read)</h2>
+                <p>Alice has $1,000 split across two accounts ($500 each).</p>
+                <p style="margin-top: 10px;">A transfer moves $100 between them. Alice reads one account before and one after the transfer:</p>
+                <ul style="margin-top: 10px;">
+                    <li>Account 1: $500 (before transfer)</li>
+                    <li>Account 2: $400 (after transfer)</li>
+                    <li>Total appears: <strong>$900</strong> 😨</li>
+                </ul>
+                <p style="margin-top: 10px;">Temporary, but problematic for <strong>backups</strong> and <strong>analytics queries</strong>!</p>
+            </div>
+            <div class="image-box">
+                <img src="images/ddia_0706.png" alt="Read skew" />
+            </div>
+        </section>
+        <!-- 17. MVCC (Fig 7-7) -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>MVCC: Multi-Version Concurrency Control</h2>
+                <p>Keep <strong>multiple versions</strong> of each row. Each has:</p>
+                <ul>
+                    <li><code>created_by</code> — transaction ID that inserted it</li>
+                    <li><code>deleted_by</code> — transaction ID that deleted it (if any)</li>
+                </ul>
+                <p style="margin-top: 10px;">Updates = delete old + create new (with different txid).</p>
+                <p style="margin-top: 10px;">Key principle: <strong>readers never block writers, writers never block readers</strong>.</p>
+            </div>
+            <div class="image-box">
+                <img src="images/ddia_0707.png" alt="MVCC" />
+            </div>
+        </section>
+        <!-- 18. Visibility Rules -->
+        <section class="slide content-slide">
+            <h2>MVCC Visibility Rules</h2>
+            <p>A row is visible to transaction T if:</p>
+            <div class="code-block" style="font-size: 0.95rem; margin-top: 15px;">
+1. The creating transaction had committed BEFORE T started
+2. The row is NOT marked for deletion,
+   OR the deleting transaction had NOT committed when T started</div>
+            <p style="margin-top: 20px;">What's <strong>invisible</strong>:</p>
+            <ul>
+                <li>Writes by transactions that were <strong>in progress</strong> when T started</li>
+                <li>Writes by <strong>aborted</strong> transactions</li>
+                <li>Writes by transactions with a <strong>later ID</strong> than T</li>
+            </ul>
+            <p style="margin-top: 15px;">Supported by: <span class="tag">PostgreSQL</span> <span class="tag">MySQL/InnoDB</span> <span class="tag">Oracle</span> <span class="tag">SQL Server</span></p>
+        </section>
+        <!-- 19. Naming Confusion -->
+        <section class="slide content-slide">
+            <h2>Naming Confusion ⚠️</h2>
+            <p>Snapshot isolation is called different things in different databases:</p>
+            <div style="overflow-x: auto;">
+                <table style="width: 100%; border-collapse: collapse; font-size: 1.1rem; margin-top: 15px;">
+                    <tr style="background: var(--accent-light);"><th style="padding: 10px;">Database</th><th style="padding: 10px;">Calls Snapshot Isolation...</th></tr>
+                    <tr><td style="padding: 8px;">Oracle</td><td style="padding: 8px;">"Serializable" (but it's NOT true serializability!)</td></tr>
+                    <tr style="background: #f8fafc;"><td style="padding: 8px;">PostgreSQL, MySQL</td><td style="padding: 8px;">"Repeatable Read"</td></tr>
+                    <tr><td style="padding: 8px;">IBM DB2</td><td style="padding: 8px;">"Repeatable Read" (but means serializability!)</td></tr>
+                </table>
+            </div>
+            <p class="quote" style="margin-top: 15px;">"Nobody really knows what repeatable read means."</p>
+        </section>
+        <!-- 20. Section: Lost Updates -->
+        <section class="slide section-header">
+            <h2>Preventing Lost Updates</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">When read-modify-write cycles go wrong</p>
+        </section>
+        <!-- 21. Lost Update Solutions -->
+        <section class="slide content-slide">
+            <h2>Solutions for Lost Updates</h2>
+            <div class="two-col" style="margin-top: 15px;">
+                <div class="compare-card">
+                    <h3>1. Atomic Operations ✅</h3>
+                    <div class="code-block" style="font-size: 0.9rem; margin-top: 10px;">
+UPDATE counters
+SET value = value + 1
+WHERE key = 'foo';</div>
+                    <p style="margin-top: 8px;">DB handles concurrency (lock or single-thread). Best option when applicable.</p>
+                </div>
+                <div class="compare-card">
+                    <h3>2. Explicit Locking</h3>
+                    <div class="code-block" style="font-size: 0.9rem; margin-top: 10px;">
+SELECT * FROM figures
+WHERE name = 'robot'
+<span class="sql-keyword">FOR UPDATE</span>;</div>
+                    <p style="margin-top: 8px;">Lock rows during read-modify-write. Easy to forget!</p>
+                </div>
+            </div>
+            <div class="two-col" style="margin-top: 15px;">
+                <div class="compare-card">
+                    <h3>3. Auto-Detection</h3>
+                    <p>DB detects lost update, aborts offending txn. Works in PostgreSQL, Oracle, SQL Server.</p>
+                    <p style="margin-top: 8px; color: var(--accent);">⚠️ MySQL/InnoDB does NOT detect lost updates!</p>
+                </div>
+                <div class="compare-card">
+                    <h3>4. Compare-and-Set</h3>
+                    <div class="code-block" style="font-size: 0.9rem; margin-top: 10px;">
+UPDATE wiki SET content='new'
+WHERE id=1234
+AND content='old';</div>
+                    <p style="margin-top: 8px;">Check value hasn't changed. But beware stale snapshots!</p>
+                </div>
+            </div>
+        </section>
+        <!-- 22. Section: Write Skew -->
+        <section class="slide section-header">
+            <h2>Write Skew &amp; Phantoms</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">The subtlest concurrency bugs</p>
+        </section>
+        <!-- 23. Write Skew (Fig 7-8) -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>Write Skew</h2>
+                <p>Hospital: need ≥ 1 doctor on call. Alice and Bob are both on call. Both feel sick, both click "go off call" simultaneously.</p>
+                <ol style="font-size: 0.95rem;">
+                    <li>Both read: 2 doctors on call ✅</li>
+                    <li>Both decide: safe to go off call</li>
+                    <li>Both update <em>their own</em> record</li>
+                    <li>Result: <strong>0 doctors on call!</strong> 💀</li>
+                </ol>
+                <p style="margin-top: 10px;">Not a dirty write (different objects) nor a lost update. A <strong>new category</strong> of race condition.</p>
+            </div>
+            <div class="image-box">
+                <img src="images/ddia_0708.png" alt="Write skew" />
+            </div>
+        </section>
+        <!-- 24. More Write Skew -->
+        <section class="slide content-slide">
+            <h2>More Write Skew Examples</h2>
+            <div class="two-col" style="margin-top: 15px;">
+                <div class="compare-card">
+                    <h3>🏠 Meeting Room Booking</h3>
+                    <p>Two users book the same room at the same time. Both check: no conflicts → both insert.</p>
+                </div>
+                <div class="compare-card">
+                    <h3>👤 Claiming Usernames</h3>
+                    <p>Two users register the same username simultaneously. Both check: available → both create.</p>
+                </div>
+            </div>
+            <div class="two-col" style="margin-top: 15px;">
+                <div class="compare-card">
+                    <h3>💰 Double Spending</h3>
+                    <p>Two spending operations check balance simultaneously. Both see enough → both proceed.</p>
+                </div>
+                <div class="compare-card accent">
+                    <h3>🔮 The Pattern</h3>
+                    <p>1. SELECT checks a condition<br>2. App decides to proceed<br>3. INSERT/UPDATE changes the condition<br>→ <strong>Phantom!</strong></p>
+                </div>
+            </div>
+            <p style="margin-top: 15px;">Only <strong>serializable isolation</strong> prevents all write skew. Weaker levels require manual <code>SELECT FOR UPDATE</code> or materializing conflicts.</p>
+        </section>
+        <!-- 25. Section: Serializability -->
+        <section class="slide section-header">
+            <h2>Serializability</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">Three approaches to the strongest isolation level</p>
+        </section>
+        <!-- 26. Three Approaches -->
+        <section class="slide content-slide">
+            <h2>Three Approaches to Serializability</h2>
+            <div class="three-col" style="margin-top: 20px;">
+                <div class="compare-card">
+                    <h3>1. Actual Serial Execution</h3>
+                    <p>Remove concurrency entirely. Single-threaded.</p>
+                    <p style="margin-top: 8px;"><span class="tag">VoltDB</span> <span class="tag">Redis</span> <span class="tag">Datomic</span></p>
+                </div>
+                <div class="compare-card">
+                    <h3>2. Two-Phase Locking (2PL)</h3>
+                    <p>Decades-old standard. Writers block readers AND vice versa.</p>
+                    <p style="margin-top: 8px;"><span class="tag">MySQL</span> <span class="tag">SQL Server</span> <span class="tag">DB2</span></p>
+                </div>
+                <div class="compare-card accent">
+                    <h3>3. SSI</h3>
+                    <p>Optimistic: proceed, check at commit. Abort if not serializable.</p>
+                    <p style="margin-top: 8px;"><span class="tag">PostgreSQL 9.1+</span> <span class="tag">FoundationDB</span></p>
+                </div>
+            </div>
+        </section>
+        <!-- 27. Serial Execution (Fig 7-9) -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>Actual Serial Execution</h2>
+                <p>Execute one transaction at a time on a <strong>single thread</strong>. No concurrency = no conflicts!</p>
+                <p style="margin-top: 10px;">Why only recently viable?</p>
+                <ul style="font-size: 0.95rem;">
+                    <li>💾 <strong>RAM is cheap</strong> — keep active dataset in memory</li>
+                    <li>⚡ <strong>OLTP is short</strong> — small reads/writes, fast to execute</li>
+                    <li>📊 Analytics runs on snapshot (separate)</li>
+                </ul>
+                <p style="margin-top: 10px;">Requires: <strong>stored procedures</strong> — submit entire transaction as code, not interactive statements.</p>
+            </div>
+            <div class="image-box">
+                <img src="images/ddia_0709.png" alt="Stored procedure vs interactive" />
+            </div>
+        </section>
+        <!-- 28. Serial Constraints -->
+        <section class="slide content-slide">
+            <h2>Serial Execution: Constraints</h2>
+            <ul>
+                <li>⏱️ Every transaction must be <strong>small and fast</strong> — one slow txn stalls everything</li>
+                <li>💾 Active dataset must <strong>fit in memory</strong></li>
+                <li>📈 Write throughput limited to <strong>one CPU core</strong></li>
+                <li>🔀 Can partition data to scale — but cross-partition txns are <strong>~1,000/sec</strong> (VoltDB)</li>
+            </ul>
+            <p style="margin-top: 20px;">Stored procedure downsides:</p>
+            <ul>
+                <li>Each DB has its own language (PL/SQL, T-SQL, PL/pgSQL) — ugly, no ecosystem</li>
+                <li>Hard to debug, test, monitor</li>
+                <li>Modern fix: use <strong>Java, Groovy, Clojure, Lua</strong> instead</li>
+            </ul>
+        </section>
+        <!-- 29. Section: 2PL -->
+        <section class="slide section-header">
+            <h2>Two-Phase Locking (2PL)</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">The 30-year standard for serializability (not to be confused with 2PC!)</p>
+        </section>
+        <!-- 30. How 2PL Works -->
+        <section class="slide content-slide">
+            <h2>How 2PL Works</h2>
+            <div class="two-col" style="margin-top: 15px;">
+                <div class="compare-card">
+                    <h3>Snapshot Isolation</h3>
+                    <p>Readers never block writers.<br>Writers never block readers.</p>
+                </div>
+                <div class="compare-card accent">
+                    <h3>Two-Phase Locking</h3>
+                    <p>Writers <strong>block</strong> readers.<br>Readers <strong>block</strong> writers.</p>
+                </div>
+            </div>
+            <p style="margin-top: 20px;"><strong>Two phases:</strong></p>
+            <ol>
+                <li><strong>Growing phase</strong> — acquire locks (shared for reads, exclusive for writes)</li>
+                <li><strong>Shrinking phase</strong> — release all locks at commit/abort</li>
+            </ol>
+            <p style="margin-top: 15px;">If A reads and B wants to write → B waits. If A writes and B wants to read → B waits. Deadlocks are detected and one txn is aborted.</p>
+        </section>
+        <!-- 31. 2PL Performance -->
+        <section class="slide content-slide">
+            <h2>2PL: Performance &amp; Predicate Locks</h2>
+            <div class="two-col" style="margin-top: 15px;">
+                <div class="compare-card">
+                    <h3>⚠️ Performance Problems</h3>
+                    <ul style="font-size: 0.95rem;">
+                        <li>Reduced concurrency → <strong>unstable latencies</strong></li>
+                        <li>One slow txn → everything waits</li>
+                        <li>Deadlocks → aborted txns = wasted work</li>
+                        <li>High-percentile latency can be <strong>very bad</strong></li>
+                    </ul>
+                </div>
+                <div class="compare-card">
+                    <h3>🔒 Predicate &amp; Index-Range Locks</h3>
+                    <p>Predicate locks: lock all rows matching a <strong>WHERE condition</strong> (even future rows!). Prevents phantoms.</p>
+                    <p style="margin-top: 8px;">Too slow → approximated with <strong>index-range locks</strong> (next-key locking). Lock a broader range on the index. Less precise but much faster.</p>
+                </div>
+            </div>
+        </section>
+        <!-- 32. Section: SSI -->
+        <section class="slide section-header">
+            <h2>Serializable Snapshot Isolation (SSI)</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">Optimistic concurrency control — the best of both worlds?</p>
+        </section>
+        <!-- 33. Pessimistic vs Optimistic -->
+        <section class="slide content-slide">
+            <h2>Pessimistic vs Optimistic</h2>
+            <div class="two-col" style="margin-top: 15px;">
+                <div class="compare-card">
+                    <h3>😟 Pessimistic (2PL, Serial)</h3>
+                    <p>"If anything <em>might</em> go wrong, wait."</p>
+                    <ul style="margin-top: 8px; font-size: 0.95rem;">
+                        <li>Safe but slow</li>
+                        <li>Blocks on potential conflicts</li>
+                        <li>Like mutual exclusion</li>
+                    </ul>
+                </div>
+                <div class="compare-card accent">
+                    <h3>😊 Optimistic (SSI)</h3>
+                    <p>"Proceed and hope for the best. Check at commit."</p>
+                    <ul style="margin-top: 8px; font-size: 0.95rem;">
+                        <li>Fast when contention is low</li>
+                        <li>Abort + retry if conflict detected</li>
+                        <li>Based on snapshot isolation</li>
+                    </ul>
+                </div>
+            </div>
+            <p style="margin-top: 15px;">SSI (2008) is fairly new. Used in PostgreSQL 9.1+ and FoundationDB.</p>
+        </section>
+        <!-- 34. SSI Stale Reads (Fig 7-10) -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>SSI: Detecting Stale MVCC Reads</h2>
+                <p>Transaction 43 reads Alice as <code>on_call = true</code>.</p>
+                <p style="margin-top: 10px;">But transaction 42 (which modified Alice's status) was still uncommitted at read time.</p>
+                <p style="margin-top: 10px;">By the time 43 commits, 42 has committed → <strong>43's premise is stale!</strong></p>
+                <p style="margin-top: 15px;">DB tracks ignored MVCC writes. At commit: check if any are now committed → if so, <strong>abort</strong>.</p>
+            </div>
+            <div class="image-box">
+                <img src="images/ddia_0710.png" alt="SSI stale MVCC read" />
+            </div>
+        </section>
+        <!-- 35. SSI Write Detection (Fig 7-11) -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>SSI: Detecting Writes Affecting Prior Reads</h2>
+                <p>Both transactions 42 and 43 read on-call doctors for shift 1234.</p>
+                <p style="margin-top: 10px;">When 42 writes, it notifies 43 that its read may be outdated (and vice versa) — like a <strong>tripwire</strong>.</p>
+                <p style="margin-top: 15px;">Transaction 42 commits first → OK.</p>
+                <p>Transaction 43 tries to commit → conflicting write from 42 is committed → <strong>43 must abort.</strong></p>
+            </div>
+            <div class="image-box">
+                <img src="images/ddia_0711.png" alt="SSI write detection" />
+            </div>
+        </section>
+        <!-- 36. SSI Performance -->
+        <section class="slide content-slide">
+            <h2>SSI Performance</h2>
+            <div class="two-col" style="margin-top: 15px;">
+                <div class="compare-card">
+                    <h3>✅ Advantages over 2PL</h3>
+                    <ul>
+                        <li>No blocking — readers never block writers</li>
+                        <li>Predictable, low-variance latency</li>
+                        <li>Read-only queries run on snapshot without locks</li>
+                    </ul>
+                </div>
+                <div class="compare-card">
+                    <h3>✅ Advantages over Serial</h3>
+                    <ul>
+                        <li>Not limited to single CPU core</li>
+                        <li>FoundationDB: distributes conflict detection across machines</li>
+                        <li>Cross-partition transactions work</li>
+                    </ul>
+                </div>
+            </div>
+            <p style="margin-top: 15px;">⚠️ Trade-off: high abort rate under contention. Read-write transactions should be <strong>short</strong>. But overall, SSI is promising as the <em>future default</em>.</p>
+        </section>
+        <!-- 37. Section: Summary -->
+        <section class="slide section-header">
+            <h2>Summary</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">Race conditions, isolation levels, and serializability</p>
+        </section>
+        <!-- 38. Race Conditions Table -->
+        <section class="slide content-slide">
+            <h2>Race Conditions Cheat Sheet</h2>
+            <div style="overflow-x: auto;">
+                <table style="width: 100%; border-collapse: collapse; font-size: 1rem; margin-top: 10px;">
+                    <tr style="background: var(--accent-light);">
+                        <th style="padding: 8px; text-align: left;">Race Condition</th>
+                        <th style="padding: 8px; text-align: center;">Read Committed</th>
+                        <th style="padding: 8px; text-align: center;">Snapshot Isolation</th>
+                        <th style="padding: 8px; text-align: center;">Serializable</th>
+                    </tr>
+                    <tr><td style="padding: 8px;">Dirty reads</td><td style="text-align: center;">✅ Prevented</td><td style="text-align: center;">✅</td><td style="text-align: center;">✅</td></tr>
+                    <tr style="background: #f8fafc;"><td style="padding: 8px;">Dirty writes</td><td style="text-align: center;">✅ Prevented</td><td style="text-align: center;">✅</td><td style="text-align: center;">✅</td></tr>
+                    <tr><td style="padding: 8px;">Read skew</td><td style="text-align: center;">❌</td><td style="text-align: center;">✅ Prevented</td><td style="text-align: center;">✅</td></tr>
+                    <tr style="background: #f8fafc;"><td style="padding: 8px;">Lost updates</td><td style="text-align: center;">❌</td><td style="text-align: center;">⚠️ Some DBs</td><td style="text-align: center;">✅</td></tr>
+                    <tr><td style="padding: 8px;">Write skew</td><td style="text-align: center;">❌</td><td style="text-align: center;">❌</td><td style="text-align: center;">✅ Prevented</td></tr>
+                    <tr style="background: #f8fafc;"><td style="padding: 8px;">Phantoms</td><td style="text-align: center;">❌</td><td style="text-align: center;">❌ (write context)</td><td style="text-align: center;">✅</td></tr>
+                </table>
+            </div>
+        </section>
+        <!-- 39. Key Takeaways -->
+        <section class="slide content-slide">
+            <h2>Chapter 7 Key Takeaways</h2>
+            <ul>
+                <li>🎯 <strong>ACID</strong> guarantees vary widely between databases — read the fine print</li>
+                <li>⚠️ Most databases use <strong>weak isolation</strong> by default (not serializable)</li>
+                <li>🐛 Concurrency bugs are <strong>hard to test</strong> (nondeterministic, timing-dependent)</li>
+                <li>🔒 <strong>Serializable isolation</strong> prevents all race conditions</li>
+            </ul>
+            <p style="margin-top: 20px;">Three approaches to serializability:</p>
+            <div class="three-col" style="margin-top: 10px;">
+                <div class="compare-card">
+                    <h3>Serial</h3>
+                    <p>Simple but limited. Single-threaded, in-memory, stored procedures.</p>
+                </div>
+                <div class="compare-card">
+                    <h3>2PL</h3>
+                    <p>Proven but slow. Readers block writers. Unstable latency.</p>
+                </div>
+                <div class="compare-card accent">
+                    <h3>SSI</h3>
+                    <p>Promising future. Optimistic, snapshot-based, no blocking.</p>
+                </div>
+            </div>
+        </section>
+        <!-- 40. Questions -->
+        <section class="slide title-slide">
+            <h1>Questions?</h1>
+            <p>Designing Data-Intensive Applications • Chapter 7</p>
+            <div class="image-box questions-image">
+                <img src="images/questions.jpg" alt="Q&A discussion" />
+            </div>
+        </section>
+
+    </div>
+    <div class="controls">
+        <button onclick="prevSlide()">PREV</button>
+        <button onclick="nextSlide()">NEXT</button>
+    </div>
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const presentation = document.getElementById('presentation');
+        const progressBar = document.getElementById('progressBar');
+        const slideNum = document.getElementById('slideNum');
+        const totalSlides = slides.length;
+        function update() {
+            presentation.style.transform = `translateX(-${currentSlide * 100}vw)`;
+            progressBar.style.width = `${((currentSlide + 1) / totalSlides) * 100}%`;
+            slideNum.innerText = `${currentSlide + 1} / ${totalSlides}`;
+        }
+        function nextSlide() { if (currentSlide < totalSlides - 1) { currentSlide++; update(); } }
+        function prevSlide() { if (currentSlide > 0) { currentSlide--; update(); } }
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'ArrowDown') nextSlide();
+            if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') prevSlide();
+            if (e.key >= '0' && e.key <= '9') { currentSlide = Math.floor(totalSlides * (parseInt(e.key) / 10)); update(); }
+        });
+        update();
+    </script>
+</body>
+</html>

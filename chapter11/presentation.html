@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KT: DDIA Chapter 11 - Stream Processing</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #ffffff;
+            --text: #0f172a;
+            --gray: #f0f0f0;
+            --accent: #2563eb;
+            --accent-light: #dbeafe;
+            --warm: #fef3c7;
+            --dark: #0f172a;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        .presentation {
+            height: 100%;
+            width: 100%;
+            display: flex;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .slide {
+            min-width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 5% 10%;
+            position: relative;
+            text-align: center;
+        }
+
+        /* ====== Slide Types ====== */
+
+        /* Title Slide: opening slide with book title, chapter name, book cover */
+        .title-slide h1 {
+            font-size: 4.5rem;
+            font-weight: 800;
+            letter-spacing: -2px;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #0f172a 0%, #2563eb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .title-slide p {
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            opacity: 0.6;
+        }
+
+        .title-slide {
+            gap: 20px;
+        }
+
+        .title-image {
+            height: 350px;
+            max-width: 280px;
+            border: none;
+            background: transparent;
+        }
+
+        .title-image img {
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            border-radius: 4px;
+        }
+
+        /* Section Header: dark full-screen divider between major topics */
+        .section-header {
+            background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%);
+            color: #fff;
+        }
+
+        .section-header h2 {
+            font-size: 5rem;
+        }
+
+        .section-header .image-box {
+            height: 55vh;
+            margin-top: 30px;
+            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .section-header .image-box img {
+            opacity: 0.9;
+        }
+
+        /* Content Slide: standard text slide, optionally with side image */
+        .content-slide {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+            text-align: left;
+            align-items: center;
+        }
+
+        .content-slide.with-image {
+            grid-template-columns: 1fr 1.2fr;
+            text-align: left;
+        }
+
+        /* ====== Typography ====== */
+        h2 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 1.8rem;
+            line-height: 1.4;
+            font-weight: 300;
+        }
+
+        ul {
+            font-size: 1.5rem;
+            line-height: 1.6;
+            font-weight: 300;
+            margin-top: 15px;
+            padding-left: 25px;
+        }
+
+        ul li {
+            margin-bottom: 10px;
+        }
+
+        /* ====== Content Components ====== */
+
+        /* Highlight: inline yellow background */
+        .highlight {
+            background: var(--warm);
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+
+        /* Code Block: dark background, monospace */
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+            text-align: left;
+            overflow-x: auto;
+            margin-top: 15px;
+            white-space: pre;
+        }
+
+        /* Image Box: container for images */
+        .image-box {
+            width: 100%;
+            height: 500px;
+            background: #f9f9f9;
+            border: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border-radius: 12px;
+        }
+
+        .image-box img {
+            max-width: 95%;
+            max-height: 95%;
+            object-fit: contain;
+        }
+
+        /* Fill variant: for photos (object-fit: cover) */
+        .image-box.fill img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Quote: left-bordered italic text */
+        .quote {
+            font-style: italic;
+            border-left: 4px solid var(--accent);
+            padding-left: 20px;
+            margin: 20px 0;
+        }
+
+        /* Stat Box: big number with label */
+        .stat-box {
+            background: #f8f8f8;
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .stat-box .number {
+            font-size: 4rem;
+            font-weight: 800;
+            color: var(--accent);
+        }
+
+        .stat-box .label {
+            font-size: 1.2rem;
+            opacity: 0.7;
+            margin-top: 10px;
+        }
+
+        .stat-box.small .number {
+            font-size: 2.5rem;
+        }
+
+        .stat-box.small {
+            padding: 20px;
+        }
+
+        /* Two Column Layout */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            width: 100%;
+        }
+
+        /* Three Column Layout */
+        .three-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 25px;
+            width: 100%;
+        }
+
+        /* Compare Card: for side-by-side comparison */
+        .compare-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 25px;
+            text-align: left;
+        }
+
+        .compare-card h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--accent);
+        }
+
+        .compare-card p,
+        .compare-card ul {
+            font-size: 1.2rem;
+        }
+
+        /* Accent variant: highlight the preferred option */
+        .compare-card.accent {
+            background: var(--accent-light);
+            border-color: var(--accent);
+        }
+
+        /* Tag / Pill: inline labels */
+        .tag {
+            display: inline-block;
+            background: var(--accent-light);
+            color: var(--accent);
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 4px;
+        }
+
+        /* Emoji: large decorative emoji */
+        .emoji {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        /* Syntax highlighting spans for code blocks */
+        .sql-keyword {
+            color: #569cd6;
+            font-weight: 600;
+        }
+
+        .code-comment {
+            color: #6a9955;
+        }
+
+        .code-string {
+            color: #ce9178;
+        }
+
+        /* Side image: floating image on text-heavy slides */
+        .side-image {
+            position: absolute;
+            right: 60px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 200px;
+            height: 200px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .side-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Questions image: smaller image for Q&A slide */
+        .questions-image {
+            height: 360px;
+            max-width: 600px;
+        }
+
+        /* Full image slide: image-dominant layout */
+        .full-image-slide .image-box {
+            height: 70vh;
+            width: 90%;
+            max-width: 1200px;
+        }
+
+        /* Timeline: horizontal timeline with dots */
+        .timeline {
+            display: flex;
+            align-items: flex-start;
+            gap: 0;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .timeline-item {
+            flex: 1;
+            text-align: center;
+            position: relative;
+            padding-top: 30px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--accent);
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            top: 4px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 16px;
+            height: 16px;
+            background: var(--accent);
+            border-radius: 50%;
+            border: 3px solid white;
+        }
+
+        .timeline-item .year {
+            font-weight: 800;
+            font-size: 1.3rem;
+            color: var(--accent);
+        }
+
+        .timeline-item .desc {
+            font-size: 1rem;
+            margin-top: 5px;
+            opacity: 0.7;
+        }
+
+        /* ====== Controls ====== */
+        .controls {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            gap: 15px;
+            z-index: 100;
+        }
+
+        .controls button {
+            background: var(--dark);
+            color: #fff;
+            border: none;
+            padding: 15px 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            border-radius: 6px;
+        }
+
+        .controls button:hover {
+            opacity: 0.8;
+        }
+
+        .progress-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: #eee;
+            z-index: 101;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), #7c3aed);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .slide-number {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            opacity: 0.4;
+        }
+
+        /* ====== Responsive ====== */
+        @media (max-width: 768px) {
+            body { font-size: 14px; }
+            .slide { padding: 10% 5%; }
+            .title-slide h1 { font-size: 2.5rem; }
+            .title-slide p { font-size: 1rem; }
+        }
+    
+    </style>
+</head>
+<body>
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+    <div class="slide-number" id="slideNum">1 / 39</div>
+    <div class="presentation" id="presentation">
+        <!-- 1. Title -->
+        <section class="slide title-slide">
+            <p>Designing Data-Intensive Applications</p>
+            <h1>Stream Processing</h1>
+            <p>Knowledge Transfer Session • Chapter 11</p>
+            <div class="image-box title-image">
+                <img src="../chapter1/images/book_cover.jpg" alt="DDIA book cover" />
+            </div>
+        </section>
+        <!-- 2. Roadmap -->
+        <section class="slide content-slide">
+            <h2>Chapter Roadmap</h2>
+            <div class="timeline" style="margin-top: 20px;">
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <p><strong>Transmitting Event Streams</strong> — messaging systems, brokers, partitioned logs</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <p><strong>Databases and Streams</strong> — CDC, event sourcing, state &amp; immutability</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <p><strong>Processing Streams</strong> — CEP, analytics, materialized views</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <p><strong>Time &amp; Windows</strong> — event time vs processing time, window types</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <p><strong>Joins &amp; Fault Tolerance</strong> — stream joins, exactly-once semantics</p>
+                </div>
+            </div>
+        </section>
+        <!-- 3. From Batch to Streams -->
+        <section class="slide content-slide">
+            <h2>From Batch to Streams</h2>
+            <p>Chapter 10: batch processing assumes <strong>bounded</strong> input (known, finite size).</p>
+            <p style="margin-top: 10px;">But data is <strong>unbounded</strong> — users produce data continuously. The dataset is never "complete."</p>
+            <div class="two-col" style="margin-top: 15px;">
+                <div class="compare-card">
+                    <h3>📦 Batch Processing</h3>
+                    <p>Divide data into chunks (e.g., one day). Process after the period ends.</p>
+                    <p style="margin-top: 8px;">Changes reflected a <strong>day later</strong> — too slow!</p>
+                </div>
+                <div class="compare-card accent">
+                    <h3>🔄 Stream Processing</h3>
+                    <p>Process every event <strong>as it happens</strong>. Abandon fixed time slices.</p>
+                    <p style="margin-top: 8px;">Continuous, incremental processing.</p>
+                </div>
+            </div>
+            <p style="margin-top: 15px;">A "stream" = data incrementally made available over time (stdin, TCP, lazy lists, video…)</p>
+        </section>
+        <!-- 4. Section: Transmitting -->
+        <section class="slide section-header">
+            <h2>Transmitting Event Streams</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">How streams are represented, stored, and transported</p>
+        </section>
+        <!-- 5. Events -->
+        <section class="slide content-slide">
+            <h2>Events: The Unit of Streaming</h2>
+            <ul>
+                <li>An <strong>event</strong> = small, self-contained, immutable object describing something that happened</li>
+                <li>Contains a <strong>timestamp</strong> (when it happened)</li>
+                <li>Encoded as text, JSON, or binary (Avro, Protobuf)</li>
+            </ul>
+            <p style="margin-top: 15px;">Terminology:</p>
+            <div class="two-col" style="margin-top: 10px;">
+                <div class="compare-card">
+                    <h3>📤 Producer</h3>
+                    <p>Generates events (also: publisher, sender)</p>
+                </div>
+                <div class="compare-card">
+                    <h3>📥 Consumer</h3>
+                    <p>Processes events (also: subscriber, recipient)</p>
+                </div>
+            </div>
+            <p style="margin-top: 15px;">Related events grouped into a <strong>topic</strong> (or stream). Polling a database for changes is expensive — better to use <strong>notifications</strong>.</p>
+        </section>
+        <!-- 6. Two Key Questions -->
+        <section class="slide content-slide">
+            <h2>Messaging Systems: Two Key Questions</h2>
+            <div class="compare-card accent" style="margin-top: 15px;">
+                <h3>1. What if producers are faster than consumers?</h3>
+                <ul>
+                    <li><strong>Drop</strong> messages (accept loss)</li>
+                    <li><strong>Buffer</strong> in a queue (how big? memory or disk?)</li>
+                    <li><strong>Backpressure</strong> / flow control (block the producer)</li>
+                </ul>
+                <p style="margin-top: 8px;">Unix pipes &amp; TCP use backpressure (small fixed buffer).</p>
+            </div>
+            <div class="compare-card" style="margin-top: 15px;">
+                <h3>2. What if nodes crash — are messages lost?</h3>
+                <ul>
+                    <li>Durability requires disk writes and/or replication</li>
+                    <li>Higher throughput if you can afford to lose some messages</li>
+                    <li>Sensor readings: loss may be OK. Event counters: loss is not!</li>
+                </ul>
+            </div>
+        </section>
+        <!-- 7. Message Brokers -->
+        <section class="slide content-slide">
+            <h2>Message Brokers</h2>
+            <p>A database optimized for message streams. Centralizes data handling.</p>
+            <ul style="margin-top: 15px;">
+                <li>Producers write → broker stores → consumers read</li>
+                <li>Tolerates clients that come and go (connect, disconnect, crash)</li>
+                <li>Consumers are <strong>asynchronous</strong> — producer doesn't wait for processing</li>
+            </ul>
+            <p style="margin-top: 15px;">Brokers vs Databases:</p>
+            <ul>
+                <li>Brokers <strong>delete</strong> messages after delivery; DBs keep until explicit delete</li>
+                <li>Brokers assume <strong>small working set</strong> (short queues)</li>
+                <li>Brokers <strong>notify</strong> on new data; DBs require polling</li>
+            </ul>
+            <p style="margin-top: 10px;"><span class="tag">RabbitMQ</span> <span class="tag">ActiveMQ</span> <span class="tag">IBM MQ</span> <span class="tag">Google Pub/Sub</span></p>
+        </section>
+        <!-- 8. Multiple Consumers (Fig 11-1) -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>Multiple Consumers</h2>
+                <p>Two patterns for consuming from the same topic:</p>
+                <div class="compare-card" style="margin-top: 10px;">
+                    <h3>⚖️ Load Balancing</h3>
+                    <p>Each message → <strong>one</strong> consumer. Share work. Parallelize expensive processing.</p>
+                </div>
+                <div class="compare-card accent" style="margin-top: 10px;">
+                    <h3>📢 Fan-out</h3>
+                    <p>Each message → <strong>all</strong> consumers. Independent processing, like multiple batch jobs on same file.</p>
+                </div>
+                <p style="margin-top: 10px;">Can be combined: consumer <em>groups</em> that each get all messages, but within a group, work is shared.</p>
+            </div>
+            <div class="image-box">
+                <img src="images/ddia_1101.png" alt="Load balancing vs fan-out" />
+            </div>
+        </section>
+        <!-- 9. Acks & Redelivery (Fig 11-2) -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>Acknowledgments &amp; Redelivery</h2>
+                <p>Consumer must <strong>acknowledge</strong> processing. If connection drops → redeliver to another consumer.</p>
+                <p style="margin-top: 10px;">⚠️ <strong>Ordering problem:</strong></p>
+                <ul style="font-size: 0.9rem;">
+                    <li>Consumer 2 crashes while processing m3</li>
+                    <li>Consumer 1 gets m4, then redelivered m3</li>
+                    <li>Order becomes: m4, m3, m5</li>
+                </ul>
+                <p style="margin-top: 10px;">Load balancing + redelivery = messages <strong>reordered</strong>. OK if independent; problematic with causal dependencies.</p>
+            </div>
+            <div class="image-box">
+                <img src="images/ddia_1102.png" alt="Redelivery ordering issue" />
+            </div>
+        </section>
+        <!-- 10. Partitioned Logs (Fig 11-3) -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>Log-Based Message Brokers</h2>
+                <p>Hybrid: durable storage of databases + low-latency notifications of messaging.</p>
+                <ul style="font-size: 0.9rem;">
+                    <li>Append-only log on disk, partitioned for throughput</li>
+                    <li>Each message gets a monotonic <strong>offset</strong></li>
+                    <li>Messages within partition are <strong>totally ordered</strong></li>
+                    <li>Millions of messages/sec via partitioning + replication</li>
+                </ul>
+                <p style="margin-top: 10px;"><span class="tag">Apache Kafka</span> <span class="tag">Amazon Kinesis</span> <span class="tag">Twitter DistributedLog</span></p>
+            </div>
+            <div class="image-box">
+                <img src="images/ddia_1103.png" alt="Partitioned log" />
+            </div>
+        </section>
+        <!-- 11. Logs vs Traditional -->
+        <section class="slide content-slide">
+            <h2>Logs vs Traditional Messaging</h2>
+            <div class="two-col" style="margin-top: 15px;">
+                <div class="compare-card">
+                    <h3>AMQP/JMS Style</h3>
+                    <ul>
+                        <li>Assign individual messages to consumers</li>
+                        <li>Message-level acknowledgment</li>
+                        <li>Deleted after delivery</li>
+                        <li>✅ Fine-grained parallelism</li>
+                        <li>❌ Can't replay old messages</li>
+                    </ul>
+                </div>
+                <div class="compare-card accent">
+                    <h3>Log-Based (Kafka)</h3>
+                    <ul>
+                        <li>Assign entire <strong>partitions</strong> to consumers</li>
+                        <li><strong>Offset</strong> tracking (like replication LSN)</li>
+                        <li>Retained on disk (days/weeks)</li>
+                        <li>✅ Replay, experimentation, debugging</li>
+                        <li>❌ Max parallelism = # partitions</li>
+                    </ul>
+                </div>
+            </div>
+            <p style="margin-top: 15px;">Throughput constant regardless of retention length — every message is written to disk anyway.</p>
+        </section>
+        <!-- 12. Offsets & Replaying -->
+        <section class="slide content-slide">
+            <h2>Consumer Offsets &amp; Replaying</h2>
+            <ul>
+                <li><strong>Offset</strong> = position in the log. All messages before it are processed; after it are pending.</li>
+                <li>Broker only needs to periodically record offset — not track per-message acks</li>
+                <li>Like a <strong>log sequence number</strong> in database replication (broker = leader, consumer = follower)</li>
+            </ul>
+            <p style="margin-top: 15px;">Disk space: log divided into <strong>segments</strong>. Old segments deleted (circular buffer on disk).</p>
+            <div class="stat-box" style="margin-top: 15px;">
+                <div class="stat-number">~11 hours</div>
+                <div>Time to fill a 6 TB drive at max sequential write speed (150 MB/s)</div>
+            </div>
+            <p style="margin-top: 10px;">💡 <strong>Replaying</strong>: reset offset to yesterday → reprocess. Like batch processing — but on a stream!</p>
+        </section>
+        <!-- 13. Section: DB & Streams -->
+        <section class="slide section-header">
+            <h2>Databases and Streams</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">The deep connection between data storage and event streams</p>
+        </section>
+        <!-- 14. Dual Writes (Fig 11-4) -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>The Dual Writes Problem</h2>
+                <p>Multiple systems need the same data (DB, cache, search index, warehouse).</p>
+                <p style="margin-top: 10px;"><strong>Dual writes fail:</strong></p>
+                <ul style="font-size: 0.9rem;">
+                    <li>Client 1: X=A to DB, then to search</li>
+                    <li>Client 2: X=B to DB, then to search</li>
+                    <li>Race condition → DB has B, search has A</li>
+                    <li>Permanently inconsistent!</li>
+                </ul>
+                <p style="margin-top: 10px;">Also: one write may fail while the other succeeds → atomic commit problem.</p>
+            </div>
+            <div class="image-box">
+                <img src="images/ddia_1104.png" alt="Dual writes race condition" />
+            </div>
+        </section>
+        <!-- 15. CDC (Fig 11-5) -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>Change Data Capture (CDC)</h2>
+                <p>Observe all writes to a database → extract as a stream → apply to derived systems.</p>
+                <ul style="font-size: 0.9rem;">
+                    <li>One database is the <strong>leader</strong></li>
+                    <li>Search index, cache, warehouse become <strong>followers</strong></li>
+                    <li>Log-based broker preserves ordering</li>
+                    <li>Usually asynchronous (replication lag applies)</li>
+                </ul>
+                <p style="margin-top: 10px;"><span class="tag">Debezium</span> <span class="tag">Maxwell</span> <span class="tag">Kafka Connect</span> <span class="tag">Databus</span></p>
+            </div>
+            <div class="image-box">
+                <img src="images/ddia_1105.png" alt="CDC pipeline" />
+            </div>
+        </section>
+        <!-- 16. Snapshots & Log Compaction -->
+        <section class="slide content-slide">
+            <h2>CDC: Snapshots &amp; Log Compaction</h2>
+            <div class="two-col" style="margin-top: 15px;">
+                <div class="compare-card">
+                    <h3>📸 Initial Snapshot</h3>
+                    <p>Can't keep all changes forever. New derived system needs <strong>full copy</strong> first, then apply changes from a known offset.</p>
+                </div>
+                <div class="compare-card accent">
+                    <h3>🗜️ Log Compaction</h3>
+                    <p>Keep only the <strong>most recent value</strong> per key. New consumer starts from offset 0 → gets full DB copy without a separate snapshot!</p>
+                    <p style="margin-top: 8px;">Supported by <span class="tag">Kafka</span></p>
+                </div>
+            </div>
+            <p style="margin-top: 15px;">Increasingly, databases support change streams natively:</p>
+            <p><span class="tag">RethinkDB</span> <span class="tag">Firebase</span> <span class="tag">CouchDB</span> <span class="tag">MongoDB oplog</span> <span class="tag">VoltDB</span></p>
+        </section>
+        <!-- 17. Event Sourcing -->
+        <section class="slide content-slide">
+            <h2>Event Sourcing</h2>
+            <p>Like CDC, but at a <strong>higher level of abstraction</strong>:</p>
+            <div class="two-col" style="margin-top: 15px;">
+                <div class="compare-card">
+                    <h3>🔄 CDC</h3>
+                    <ul>
+                        <li>App uses DB mutably (insert, update, delete)</li>
+                        <li>Changes extracted at <strong>low level</strong> (replication log, binlog)</li>
+                        <li>App doesn't need to know about CDC</li>
+                    </ul>
+                </div>
+                <div class="compare-card accent">
+                    <h3>📜 Event Sourcing</h3>
+                    <ul>
+                        <li>App logic built on <strong>immutable events</strong></li>
+                        <li>Events reflect <strong>user intent</strong>, not state changes</li>
+                        <li>Append-only event log, no updates/deletes</li>
+                    </ul>
+                </div>
+            </div>
+            <p style="margin-top: 15px;">Example: "student cancelled enrollment" (intent) vs "deleted row from enrollments table" (mechanics). Intent is <strong>more meaningful</strong> and allows new features to be chained off existing events.</p>
+        </section>
+        <!-- 18. Commands vs Events -->
+        <section class="slide content-slide">
+            <h2>Commands vs Events</h2>
+            <div class="timeline" style="margin-top: 15px;">
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <p><strong>Command</strong> — a user request. May still fail (validation, constraints).</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <p><strong>Validation</strong> — check business rules (is the username taken? is the seat available?)</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <p><strong>Event</strong> — accepted command becomes a <strong>fact</strong>. Immutable, durable. Cannot be rejected by consumers.</p>
+                </div>
+            </div>
+            <p style="margin-top: 15px;">Validation must happen <strong>synchronously</strong> (before the event is written). After that, the event is an immutable part of the log.</p>
+        </section>
+        <!-- 19. State & Immutability (Fig 11-6) -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>State, Streams &amp; Immutability</h2>
+                <p>Mutable state and immutable event log are <strong>two sides of the same coin</strong>:</p>
+                <ul style="font-size: 0.9rem;">
+                    <li><strong>State</strong> = integral of the event stream over time</li>
+                    <li><strong>Change stream</strong> = derivative of state over time</li>
+                </ul>
+                <div class="quote" style="margin-top: 10px;">
+                    <blockquote>"The truth is the log. The database is a cache of a subset of the log."</blockquote>
+                    <p style="text-align: right; font-style: italic; opacity: 0.7;">— Pat Helland</p>
+                </div>
+                <p style="margin-top: 8px;"><strong>CQRS</strong>: separate write model (event log) from read model (derived views). Derive multiple read views from the same log.</p>
+            </div>
+            <div class="image-box">
+                <img src="images/ddia_1106.png" alt="State and event stream relationship" />
+            </div>
+        </section>
+        <!-- 20. Immutability Advantages -->
+        <section class="slide content-slide">
+            <h2>Advantages of Immutable Events</h2>
+            <ul>
+                <li>📒 <strong>Auditability</strong>: like financial ledgers — never erase, add corrections instead</li>
+                <li>🐛 <strong>Debugging</strong>: buggy code wrote bad data? Full history preserved, easy recovery</li>
+                <li>📊 <strong>More information</strong>: "added to cart then removed" reveals intent, even if state is unchanged</li>
+                <li>🔄 <strong>Multiple views</strong>: derive search index, analytics DB, cache from same event log</li>
+                <li>📐 <strong>Schema evolution</strong>: introduce new features by creating new views from existing events</li>
+            </ul>
+            <p style="margin-top: 15px;">⚠️ Limitations: high-churn datasets grow large; GDPR may require actual deletion ("excision" in Datomic). Truly deleting data is <strong>surprisingly hard</strong>.</p>
+        </section>
+        <!-- 21. Section: Processing -->
+        <section class="slide section-header">
+            <h2>Processing Streams</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">What you can do once you have a stream</p>
+        </section>
+        <!-- 22. Three Options -->
+        <section class="slide content-slide">
+            <h2>Three Options for Processing</h2>
+            <div class="three-col" style="margin-top: 20px;">
+                <div class="compare-card">
+                    <h3>1. 💾 Write to Storage</h3>
+                    <p>Database, cache, search index. Keep derived systems in sync. Streaming equivalent of batch output.</p>
+                </div>
+                <div class="compare-card">
+                    <h3>2. 👤 Push to Users</h3>
+                    <p>Email alerts, push notifications, real-time dashboards. Human is the consumer.</p>
+                </div>
+                <div class="compare-card accent">
+                    <h3>3. 🔄 Produce Streams</h3>
+                    <p>Process input streams → output streams. Pipelines of operators. Like MapReduce, but continuous.</p>
+                </div>
+            </div>
+            <p style="margin-top: 15px;">Key difference from batch: stream <strong>never ends</strong>. No sorting, different fault tolerance, no "restart from beginning."</p>
+        </section>
+        <!-- 23. Uses of Stream Processing -->
+        <section class="slide content-slide">
+            <h2>Uses of Stream Processing</h2>
+            <div class="two-col" style="margin-top: 15px;">
+                <div class="compare-card">
+                    <h3>🔍 Complex Event Processing (CEP)</h3>
+                    <p>Pattern matching on event streams — like regex for events. Queries stored long-term, events flow past them.</p>
+                    <p style="margin-top: 8px;"><span class="tag">Esper</span> <span class="tag">IBM Streams</span></p>
+                </div>
+                <div class="compare-card accent">
+                    <h3>📊 Stream Analytics</h3>
+                    <p>Aggregations &amp; statistics over time windows: rates, rolling averages, percentile comparisons.</p>
+                    <p style="margin-top: 8px;"><span class="tag">Storm</span> <span class="tag">Spark Streaming</span> <span class="tag">Flink</span> <span class="tag">Kafka Streams</span></p>
+                </div>
+            </div>
+            <div class="two-col" style="margin-top: 15px;">
+                <div class="compare-card">
+                    <h3>🏗️ Materialized Views</h3>
+                    <p>Keep caches, indexes, warehouses up to date. Requires <strong>all events</strong> (not just a window) — stretches back to beginning of time.</p>
+                </div>
+                <div class="compare-card">
+                    <h3>🔎 Search on Streams</h3>
+                    <p>Store queries, run documents past them. News monitoring, real estate alerts.</p>
+                    <p style="margin-top: 8px;"><span class="tag">Elasticsearch Percolator</span></p>
+                </div>
+            </div>
+        </section>
+        <!-- 24. Section: Time -->
+        <section class="slide section-header">
+            <h2>Reasoning About Time</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">When did this event actually happen?</p>
+        </section>
+        <!-- 25. Event vs Processing Time (Fig 11-7) -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>Event Time vs Processing Time</h2>
+                <p>Don't confuse <strong>when it happened</strong> with <strong>when you processed it</strong>!</p>
+                <ul style="font-size: 0.9rem;">
+                    <li>Processing delays: queues, network, restarts, reprocessing</li>
+                    <li>Messages may arrive <strong>out of order</strong></li>
+                    <li>Redeployed processor → backlog → fake "spike" in processing-time metrics</li>
+                </ul>
+                <p style="margin-top: 10px;">Star Wars analogy: Episode IV released 1977, Episode I released 1999. Processing order ≠ event order!</p>
+                <p style="margin-top: 8px;">Mobile apps may buffer events offline for hours/days → extreme stragglers.</p>
+            </div>
+            <div class="image-box">
+                <img src="images/ddia_1107.png" alt="Processing time artifacts" />
+            </div>
+        </section>
+        <!-- 26. Stragglers & Clocks -->
+        <section class="slide content-slide">
+            <h2>Handling Stragglers &amp; Device Clocks</h2>
+            <p>When is a window "complete"? You can never be 100% sure.</p>
+            <div class="two-col" style="margin-top: 15px;">
+                <div class="compare-card">
+                    <h3>Option 1: Ignore</h3>
+                    <p>Drop late events (usually a small %). Track dropped count as a metric.</p>
+                </div>
+                <div class="compare-card accent">
+                    <h3>Option 2: Correct</h3>
+                    <p>Publish updated window value with stragglers included. May need to retract previous output.</p>
+                </div>
+            </div>
+            <p style="margin-top: 15px;">For mobile devices with untrusted clocks, log <strong>three timestamps</strong>:</p>
+            <ol style="font-size: 0.9rem;">
+                <li>Event time (device clock)</li>
+                <li>Send time (device clock)</li>
+                <li>Receive time (server clock)</li>
+            </ol>
+            <p>Offset = (3) − (2). Apply offset to (1) for estimated true event time.</p>
+        </section>
+        <!-- 27. Types of Windows -->
+        <section class="slide content-slide">
+            <h2>Types of Windows</h2>
+            <div class="two-col" style="margin-top: 15px;">
+                <div class="compare-card">
+                    <h3>📦 Tumbling Window</h3>
+                    <p>Fixed length, non-overlapping. Every event belongs to exactly <strong>one</strong> window.</p>
+                    <p style="margin-top: 8px;">e.g., 1-minute tumbling: 10:03:00–10:03:59, 10:04:00–10:04:59</p>
+                </div>
+                <div class="compare-card">
+                    <h3>🔁 Hopping Window</h3>
+                    <p>Fixed length, <strong>overlapping</strong>. Provides smoothing.</p>
+                    <p style="margin-top: 8px;">e.g., 5-min window, 1-min hop → 10:03–10:08, 10:04–10:09</p>
+                </div>
+            </div>
+            <div class="two-col" style="margin-top: 15px;">
+                <div class="compare-card accent">
+                    <h3>↔️ Sliding Window</h3>
+                    <p>All events within some <strong>interval of each other</strong>. Buffer sorted by time, remove expired.</p>
+                </div>
+                <div class="compare-card">
+                    <h3>👤 Session Window</h3>
+                    <p>No fixed duration. Group events for same user that occur <strong>closely together</strong>. Ends after inactivity timeout.</p>
+                </div>
+            </div>
+        </section>
+        <!-- 28. Section: Joins -->
+        <section class="slide section-header">
+            <h2>Stream Joins</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">Three types of joins on unbounded data</p>
+        </section>
+        <!-- 29. Stream-Stream Join -->
+        <section class="slide content-slide">
+            <h2>Stream-Stream Join (Window Join)</h2>
+            <p><strong>Example:</strong> correlate search queries with result clicks to calculate click-through rate.</p>
+            <ul style="margin-top: 15px;">
+                <li>Two event types: search event and click event, connected by session ID</li>
+                <li>Click may come seconds or <strong>days</strong> later (or never!)</li>
+                <li>Stream processor maintains <strong>state</strong>: recent events indexed by session ID</li>
+                <li>On each event, check the other index for a match</li>
+                <li>If search expires without a click → emit "no click" event</li>
+            </ul>
+            <p style="margin-top: 15px;">Window choice: e.g., join click with search if they occur within 1 hour.</p>
+        </section>
+        <!-- 30. Stream-Table & Table-Table -->
+        <section class="slide content-slide">
+            <h2>Stream-Table Join (Enrichment)</h2>
+            <p>Activity events (stream) + user profiles (database) → enriched events.</p>
+            <ul style="margin-top: 15px;">
+                <li>Same as batch join from Ch. 10 (Fig 10-2), but <strong>continuous</strong></li>
+                <li>Don't query remote DB per event (too slow, may overwhelm DB)</li>
+                <li>Load a <strong>local copy</strong> of the DB into the stream processor</li>
+                <li>Keep it up to date via <strong>CDC</strong> (subscribe to the DB changelog)</li>
+                <li>Result: joining two streams — activity events + profile updates</li>
+            </ul>
+            <h2 style="margin-top: 20px;">Table-Table Join (Materialized View)</h2>
+            <p>Both inputs are changelogs. Example: Twitter timeline = tweets JOIN follows.</p>
+            <p>Every change on one side is joined with latest state of the other side.</p>
+        </section>
+        <!-- 31. Time-Dependence -->
+        <section class="slide content-slide">
+            <h2>Time-Dependence of Joins</h2>
+            <p>All stream joins maintain <strong>state</strong> from one input and query it on messages from the other.</p>
+            <p style="margin-top: 15px;"><strong>Problem:</strong> if state changes over time, which version do you join with?</p>
+            <ul>
+                <li>User updates profile — which activity events get the old profile vs new?</li>
+                <li>Tax rates change — invoice should use the rate at time of sale</li>
+            </ul>
+            <p style="margin-top: 15px;">If ordering across streams is undetermined, the join becomes <strong>nondeterministic</strong> — rerunning may give different results.</p>
+            <p style="margin-top: 10px;"><strong>Slowly Changing Dimension (SCD)</strong>: give each version a unique ID. Invoice references specific tax rate version. Makes join deterministic, but prevents log compaction.</p>
+        </section>
+        <!-- 32. Section: Fault Tolerance -->
+        <section class="slide section-header">
+            <h2>Fault Tolerance</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">Exactly-once semantics for infinite streams</p>
+        </section>
+        <!-- 33. Microbatching & Checkpointing -->
+        <section class="slide content-slide">
+            <h2>The Challenge</h2>
+            <p>Batch: wait until task finishes → make output visible. Failed task? Discard output, retry.</p>
+            <p style="margin-top: 10px;">Stream: <strong>never finishes</strong>. Can't wait. Can't discard all output. Need finer-grained recovery.</p>
+            <div class="two-col" style="margin-top: 20px;">
+                <div class="compare-card">
+                    <h3>⚡ Microbatching</h3>
+                    <p>Break stream into small blocks (~1 sec). Each block = mini batch. Implicit tumbling window.</p>
+                    <p style="margin-top: 8px;"><span class="tag">Spark Streaming</span></p>
+                </div>
+                <div class="compare-card accent">
+                    <h3>📍 Checkpointing</h3>
+                    <p>Periodically snapshot state to durable storage. On crash → restart from last checkpoint.</p>
+                    <p style="margin-top: 8px;"><span class="tag">Apache Flink</span></p>
+                </div>
+            </div>
+            <p style="margin-top: 15px;">Both provide exactly-once <strong>within</strong> the framework. But what about external side effects?</p>
+        </section>
+        <!-- 34. Atomic Commit & Idempotence -->
+        <section class="slide content-slide">
+            <h2>Atomic Commit &amp; Idempotence</h2>
+            <p>External side effects (DB writes, emails) can't be "undone" by the framework.</p>
+            <div class="two-col" style="margin-top: 15px;">
+                <div class="compare-card">
+                    <h3>🔒 Atomic Commit</h3>
+                    <p>All outputs + state changes + ack happen atomically. Implemented internally (not XA).</p>
+                    <p style="margin-top: 8px;"><span class="tag">Google Dataflow</span> <span class="tag">Kafka Transactions</span></p>
+                </div>
+                <div class="compare-card accent">
+                    <h3>🔁 Idempotence</h3>
+                    <p>Make operations safe to repeat. Include message <strong>offset</strong> with each write → detect duplicates.</p>
+                    <p style="margin-top: 8px;">Requires deterministic processing + no concurrent updates.</p>
+                </div>
+            </div>
+            <p style="margin-top: 15px;"><strong>Rebuilding state:</strong> Flink snapshots to HDFS. Samza/Kafka Streams replicate state via dedicated topic. VoltDB replicates via redundant processing.</p>
+        </section>
+        <!-- 35. Section: Summary -->
+        <section class="slide section-header">
+            <h2>Summary</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">Batch processing, but continuous and unbounded</p>
+        </section>
+        <!-- 36. Broker Types -->
+        <section class="slide content-slide">
+            <h2>Two Types of Message Brokers</h2>
+            <div class="two-col" style="margin-top: 15px;">
+                <div class="compare-card">
+                    <h3>AMQP/JMS Style</h3>
+                    <ul>
+                        <li>Individual message assignment</li>
+                        <li>Per-message acknowledgment</li>
+                        <li>Deleted after delivery</li>
+                        <li>Good for: task queues, async RPC</li>
+                    </ul>
+                </div>
+                <div class="compare-card accent">
+                    <h3>Log-Based (Kafka)</h3>
+                    <ul>
+                        <li>Partition-level assignment</li>
+                        <li>Offset-based tracking</li>
+                        <li>Retained on disk, replayable</li>
+                        <li>Good for: stream processing, CDC, event sourcing</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        <!-- 37. Stream Join Types -->
+        <section class="slide content-slide">
+            <h2>Three Types of Stream Joins</h2>
+            <div class="three-col" style="margin-top: 15px;">
+                <div class="compare-card">
+                    <h3>🔄 Stream–Stream</h3>
+                    <p>Both inputs are activity events. Join within a <strong>time window</strong>. Maintain state indexed by join key.</p>
+                </div>
+                <div class="compare-card">
+                    <h3>📋 Stream–Table</h3>
+                    <p>Activity events + DB changelog. Keep local DB copy up to date via CDC. Enrich events.</p>
+                </div>
+                <div class="compare-card accent">
+                    <h3>📊 Table–Table</h3>
+                    <p>Both inputs are changelogs. Each change joined with latest state of the other. Maintains a materialized view.</p>
+                </div>
+            </div>
+        </section>
+        <!-- 38. Key Takeaways -->
+        <section class="slide content-slide">
+            <h2>Key Takeaways</h2>
+            <ul>
+                <li>📨 <strong>Events</strong> are the unit of streaming — produced once, consumed by many</li>
+                <li>📋 <strong>Log-based brokers</strong> (Kafka) bridge durable storage and messaging — replayable, ordered</li>
+                <li>🔄 <strong>CDC</strong> makes one DB the leader; derived systems become followers via the change stream</li>
+                <li>📜 <strong>Event sourcing</strong>: store user intent, not state mutations. "The truth is the log"</li>
+                <li>⏰ <strong>Event time ≠ processing time</strong> — use event timestamps, handle stragglers</li>
+                <li>🤝 <strong>Stream joins</strong> require maintaining state; time-dependence can make them nondeterministic</li>
+                <li>🛡️ <strong>Exactly-once</strong>: microbatching, checkpointing, atomic commit, or idempotent operations</li>
+            </ul>
+            <p style="margin-top: 15px;">Next: Chapter 12 — <strong>The Future of Data Systems</strong></p>
+        </section>
+        <!-- 39. Questions -->
+        <section class="slide title-slide">
+            <h1>Questions?</h1>
+            <p>Designing Data-Intensive Applications • Chapter 11</p>
+            <div class="image-box questions-image">
+                <img src="images/questions.jpg" alt="Q&A discussion" />
+            </div>
+        </section>
+
+    </div>
+    <div class="controls">
+        <button onclick="prevSlide()">PREV</button>
+        <button onclick="nextSlide()">NEXT</button>
+    </div>
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const presentation = document.getElementById('presentation');
+        const progressBar = document.getElementById('progressBar');
+        const slideNum = document.getElementById('slideNum');
+        const totalSlides = slides.length;
+        function update() {
+            presentation.style.transform = `translateX(-${currentSlide * 100}vw)`;
+            progressBar.style.width = `${((currentSlide + 1) / totalSlides) * 100}%`;
+            slideNum.innerText = `${currentSlide + 1} / ${totalSlides}`;
+        }
+        function nextSlide() { if (currentSlide < totalSlides - 1) { currentSlide++; update(); } }
+        function prevSlide() { if (currentSlide > 0) { currentSlide--; update(); } }
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'ArrowDown') nextSlide();
+            if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') prevSlide();
+            if (e.key >= '0' && e.key <= '9') { currentSlide = Math.floor(totalSlides * (parseInt(e.key) / 10)); update(); }
+        });
+        update();
+    </script>
+</body>
+</html>

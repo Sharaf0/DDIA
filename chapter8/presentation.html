@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KT: DDIA Chapter 8 - The Trouble with Distributed Systems</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #ffffff;
+            --text: #0f172a;
+            --gray: #f0f0f0;
+            --accent: #2563eb;
+            --accent-light: #dbeafe;
+            --warm: #fef3c7;
+            --dark: #0f172a;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        .presentation {
+            height: 100%;
+            width: 100%;
+            display: flex;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .slide {
+            min-width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 5% 10%;
+            position: relative;
+            text-align: center;
+        }
+
+        /* ====== Slide Types ====== */
+
+        /* Title Slide: opening slide with book title, chapter name, book cover */
+        .title-slide h1 {
+            font-size: 4.5rem;
+            font-weight: 800;
+            letter-spacing: -2px;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #0f172a 0%, #2563eb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .title-slide p {
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            opacity: 0.6;
+        }
+
+        .title-slide {
+            gap: 20px;
+        }
+
+        .title-image {
+            height: 350px;
+            max-width: 280px;
+            border: none;
+            background: transparent;
+        }
+
+        .title-image img {
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            border-radius: 4px;
+        }
+
+        /* Section Header: dark full-screen divider between major topics */
+        .section-header {
+            background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%);
+            color: #fff;
+        }
+
+        .section-header h2 {
+            font-size: 5rem;
+        }
+
+        .section-header .image-box {
+            height: 55vh;
+            margin-top: 30px;
+            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .section-header .image-box img {
+            opacity: 0.9;
+        }
+
+        /* Content Slide: standard text slide, optionally with side image */
+        .content-slide {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+            text-align: left;
+            align-items: center;
+        }
+
+        .content-slide.with-image {
+            grid-template-columns: 1fr 1.2fr;
+            text-align: left;
+        }
+
+        /* ====== Typography ====== */
+        h2 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 1.8rem;
+            line-height: 1.4;
+            font-weight: 300;
+        }
+
+        ul {
+            font-size: 1.5rem;
+            line-height: 1.6;
+            font-weight: 300;
+            margin-top: 15px;
+            padding-left: 25px;
+        }
+
+        ul li {
+            margin-bottom: 10px;
+        }
+
+        /* ====== Content Components ====== */
+
+        /* Highlight: inline yellow background */
+        .highlight {
+            background: var(--warm);
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+
+        /* Code Block: dark background, monospace */
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+            text-align: left;
+            overflow-x: auto;
+            margin-top: 15px;
+            white-space: pre;
+        }
+
+        /* Image Box: container for images */
+        .image-box {
+            width: 100%;
+            height: 500px;
+            background: #f9f9f9;
+            border: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border-radius: 12px;
+        }
+
+        .image-box img {
+            max-width: 95%;
+            max-height: 95%;
+            object-fit: contain;
+        }
+
+        /* Fill variant: for photos (object-fit: cover) */
+        .image-box.fill img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Quote: left-bordered italic text */
+        .quote {
+            font-style: italic;
+            border-left: 4px solid var(--accent);
+            padding-left: 20px;
+            margin: 20px 0;
+        }
+
+        /* Stat Box: big number with label */
+        .stat-box {
+            background: #f8f8f8;
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .stat-box .number {
+            font-size: 4rem;
+            font-weight: 800;
+            color: var(--accent);
+        }
+
+        .stat-box .label {
+            font-size: 1.2rem;
+            opacity: 0.7;
+            margin-top: 10px;
+        }
+
+        .stat-box.small .number {
+            font-size: 2.5rem;
+        }
+
+        .stat-box.small {
+            padding: 20px;
+        }
+
+        /* Two Column Layout */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            width: 100%;
+        }
+
+        /* Three Column Layout */
+        .three-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 25px;
+            width: 100%;
+        }
+
+        /* Compare Card: for side-by-side comparison */
+        .compare-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 25px;
+            text-align: left;
+        }
+
+        .compare-card h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--accent);
+        }
+
+        .compare-card p,
+        .compare-card ul {
+            font-size: 1.2rem;
+        }
+
+        /* Accent variant: highlight the preferred option */
+        .compare-card.accent {
+            background: var(--accent-light);
+            border-color: var(--accent);
+        }
+
+        /* Tag / Pill: inline labels */
+        .tag {
+            display: inline-block;
+            background: var(--accent-light);
+            color: var(--accent);
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 4px;
+        }
+
+        /* Emoji: large decorative emoji */
+        .emoji {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        /* Syntax highlighting spans for code blocks */
+        .sql-keyword {
+            color: #569cd6;
+            font-weight: 600;
+        }
+
+        .code-comment {
+            color: #6a9955;
+        }
+
+        .code-string {
+            color: #ce9178;
+        }
+
+        /* Side image: floating image on text-heavy slides */
+        .side-image {
+            position: absolute;
+            right: 60px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 200px;
+            height: 200px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .side-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Questions image: smaller image for Q&A slide */
+        .questions-image {
+            height: 360px;
+            max-width: 600px;
+        }
+
+        /* Full image slide: image-dominant layout */
+        .full-image-slide .image-box {
+            height: 70vh;
+            width: 90%;
+            max-width: 1200px;
+        }
+
+        /* Timeline: horizontal timeline with dots */
+        .timeline {
+            display: flex;
+            align-items: flex-start;
+            gap: 0;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .timeline-item {
+            flex: 1;
+            text-align: center;
+            position: relative;
+            padding-top: 30px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--accent);
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            top: 4px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 16px;
+            height: 16px;
+            background: var(--accent);
+            border-radius: 50%;
+            border: 3px solid white;
+        }
+
+        .timeline-item .year {
+            font-weight: 800;
+            font-size: 1.3rem;
+            color: var(--accent);
+        }
+
+        .timeline-item .desc {
+            font-size: 1rem;
+            margin-top: 5px;
+            opacity: 0.7;
+        }
+
+        /* ====== Controls ====== */
+        .controls {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            gap: 15px;
+            z-index: 100;
+        }
+
+        .controls button {
+            background: var(--dark);
+            color: #fff;
+            border: none;
+            padding: 15px 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            border-radius: 6px;
+        }
+
+        .controls button:hover {
+            opacity: 0.8;
+        }
+
+        .progress-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: #eee;
+            z-index: 101;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), #7c3aed);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .slide-number {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            opacity: 0.4;
+        }
+
+        /* ====== Responsive ====== */
+        @media (max-width: 768px) {
+            body { font-size: 14px; }
+            .slide { padding: 10% 5%; }
+            .title-slide h1 { font-size: 2.5rem; }
+            .title-slide p { font-size: 1rem; }
+        }
+    
+    </style>
+</head>
+<body>
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+    <div class="slide-number" id="slideNum">1 / 37</div>
+    <div class="presentation" id="presentation">
+        <!-- 1. Title -->
+        <section class="slide title-slide">
+            <p>Designing Data-Intensive Applications</p>
+            <h1>The Trouble with Distributed Systems</h1>
+            <p>Knowledge Transfer Session • Chapter 8</p>
+            <div class="image-box title-image">
+                <img src="../chapter1/images/book_cover.jpg" alt="DDIA book cover" />
+            </div>
+        </section>
+        <!-- 2. Quote -->
+        <section class="slide content-slide">
+            <h2>🎵 Opening "Song"</h2>
+            <p class="quote" style="font-style: italic; font-size: 1.3rem; line-height: 1.8;">
+                "Hey I just met you<br>
+                The network's laggy<br>
+                But here's my data<br>
+                So store it maybe"
+            </p>
+            <p style="margin-top: 20px; opacity: 0.6;">— Kyle Kingsbury, <em>Carly Rae Jepsen and the Perils of Network Partitions</em> (2013)</p>
+            <p style="margin-top: 25px;">This chapter: <strong>maximum pessimism</strong>. Anything that <em>can</em> go wrong <em>will</em> go wrong.</p>
+        </section>
+        <!-- 3. Overview -->
+        <section class="slide content-slide">
+            <h2>What We'll Cover</h2>
+            <div class="three-col" style="margin-top: 20px;">
+                <div class="compare-card">
+                    <h3>🌐 Unreliable Networks</h3>
+                    <p>Packet loss, delays, timeouts, congestion, and why there's no "correct" timeout value</p>
+                </div>
+                <div class="compare-card">
+                    <h3>⏰ Unreliable Clocks</h3>
+                    <p>Time-of-day vs monotonic, NTP drift, TrueTime, and why LWW is dangerous</p>
+                </div>
+                <div class="compare-card">
+                    <h3>🧠 Knowledge &amp; Truth</h3>
+                    <p>Quorums, fencing tokens, Byzantine faults, and system models</p>
+                </div>
+            </div>
+        </section>
+        <!-- 4. Section: Partial Failures -->
+        <section class="slide section-header">
+            <h2>Faults and Partial Failures</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">The defining characteristic of distributed systems</p>
+        </section>
+        <!-- 5. Single vs Distributed -->
+        <section class="slide content-slide">
+            <h2>Single Computer vs Distributed System</h2>
+            <div class="two-col" style="margin-top: 15px;">
+                <div class="compare-card">
+                    <h3>🖥️ Single Computer</h3>
+                    <ul>
+                        <li><strong>Deterministic</strong>: same input → same output</li>
+                        <li>Either fully functional or entirely broken</li>
+                        <li>Hardware hides messy physics → idealized model</li>
+                        <li>Crash = total failure (kernel panic, BSOD)</li>
+                    </ul>
+                </div>
+                <div class="compare-card accent">
+                    <h3>🌐 Distributed System</h3>
+                    <ul>
+                        <li><strong>Nondeterministic</strong>: may work, may fail, may be slow</li>
+                        <li><strong>Partial failure</strong>: some parts broken, others fine</li>
+                        <li>You may not even know if something succeeded!</li>
+                        <li>Must design for partial failure</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        <!-- 6. Cloud vs HPC -->
+        <section class="slide content-slide">
+            <h2>Cloud Computing vs Supercomputing</h2>
+            <div class="two-col" style="margin-top: 15px;">
+                <div class="compare-card">
+                    <h3>🏗️ Supercomputer (HPC)</h3>
+                    <ul>
+                        <li>Specialized hardware, very reliable nodes</li>
+                        <li>Shared memory, RDMA</li>
+                        <li>Handles partial failure → <strong>total failure</strong></li>
+                        <li>Checkpoint + restart on failure</li>
+                    </ul>
+                </div>
+                <div class="compare-card accent">
+                    <h3>☁️ Cloud / Internet Services</h3>
+                    <ul>
+                        <li>Commodity hardware, higher failure rates</li>
+                        <li>IP/Ethernet networking</li>
+                        <li>Must serve users <strong>24/7</strong> — can't stop for repair</li>
+                        <li>Tolerate faults, keep running</li>
+                    </ul>
+                </div>
+            </div>
+            <p style="margin-top: 15px;">💡 In a system with thousands of nodes, <strong>something is always broken</strong>. We must build reliable systems from unreliable components.</p>
+        </section>
+        <!-- 7. Section: Networks -->
+        <section class="slide section-header">
+            <h2>Unreliable Networks</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">Shared-nothing systems communicate only via the network</p>
+        </section>
+        <!-- 8. What Can Go Wrong (Fig 8-1) -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>What Can Go Wrong?</h2>
+                <p>When you send a request and get no response:</p>
+                <ol style="font-size: 0.9rem;">
+                    <li>Request was <strong>lost</strong> 📨</li>
+                    <li>Request is <strong>queued</strong>, will arrive later</li>
+                    <li>Remote node has <strong>crashed</strong></li>
+                    <li>Remote node is <strong>paused</strong> (GC)</li>
+                    <li>Response was <strong>lost</strong></li>
+                    <li>Response is <strong>delayed</strong></li>
+                </ol>
+                <p style="margin-top: 10px;">All <strong>indistinguishable</strong> from sender's perspective!</p>
+            </div>
+            <div class="image-box">
+                <img src="images/ddia_0801.png" alt="Network request failure modes" />
+            </div>
+        </section>
+        <!-- 9. Network Faults in Practice -->
+        <section class="slide content-slide">
+            <h2>Network Faults in Practice</h2>
+            <ul>
+                <li>🏢 One study: <strong>12 network faults/month</strong> in a medium datacenter</li>
+                <li>🦈 Sharks bite undersea cables (yes, really!)</li>
+                <li>🔌 Redundant networking doesn't help against <strong>human error</strong> (misconfigured switches)</li>
+                <li>📡 Network interface drops inbound but sends outbound — one direction fails!</li>
+                <li>☁️ EC2 known for <strong>frequent transient glitches</strong></li>
+            </ul>
+            <p style="margin-top: 20px;"><strong>Network partitions</strong>: when part of the network is cut off from the rest. Even if rare, software must handle them!</p>
+            <p class="quote" style="margin-top: 15px;">"If the error handling of network faults is not defined and tested, arbitrarily bad things could happen."</p>
+        </section>
+        <!-- 10. Detecting Faults -->
+        <section class="slide content-slide">
+            <h2>Detecting Faults</h2>
+            <p>Automatic fault detection is needed (load balancers, leader election), but it's <strong>hard</strong>:</p>
+            <div class="two-col" style="margin-top: 15px;">
+                <div class="compare-card">
+                    <h3>✅ Sometimes You Get Feedback</h3>
+                    <ul style="font-size: 0.9rem;">
+                        <li>Process crashed → OS sends <code>RST</code>/<code>FIN</code></li>
+                        <li>Process killed → script can notify others (HBase)</li>
+                        <li>Switch management → detect link failures</li>
+                        <li>Router → ICMP Destination Unreachable</li>
+                    </ul>
+                </div>
+                <div class="compare-card accent">
+                    <h3>❌ But You Can't Count On It</h3>
+                    <ul style="font-size: 0.9rem;">
+                        <li>TCP ACK ≠ app processed it</li>
+                        <li>No response → could be <strong>anything</strong></li>
+                        <li>Only option: <strong>timeout</strong></li>
+                        <li>Need positive response from application itself</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        <!-- 11. Section: Timeouts -->
+        <section class="slide section-header">
+            <h2>Timeouts and Unbounded Delays</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">There is no "correct" timeout value</p>
+        </section>
+        <!-- 12. Timeout Dilemma -->
+        <section class="slide content-slide">
+            <h2>The Timeout Dilemma</h2>
+            <div class="two-col" style="margin-top: 15px;">
+                <div class="compare-card">
+                    <h3>⏳ Long Timeout</h3>
+                    <ul>
+                        <li>Long wait until node declared dead</li>
+                        <li>Users see errors/waiting</li>
+                        <li>Delay in failover</li>
+                    </ul>
+                </div>
+                <div class="compare-card">
+                    <h3>⚡ Short Timeout</h3>
+                    <ul>
+                        <li>Faster fault detection</li>
+                        <li>Risk of <strong>false positives</strong></li>
+                        <li>Node just slow → declared dead → load transferred → <strong>cascading failure!</strong></li>
+                    </ul>
+                </div>
+            </div>
+            <p style="margin-top: 20px;">Ideal: timeout = <strong>2d + r</strong> (d = max network delay, r = max processing time). But networks have <strong>unbounded delays</strong>!</p>
+            <p style="margin-top: 10px;">Better approach: <strong>Phi Accrual failure detector</strong> — automatically adjusts timeout based on observed response times. Used by <span class="tag">Akka</span> <span class="tag">Cassandra</span></p>
+        </section>
+        <!-- 13. Congestion (Fig 8-2) -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>Network Congestion &amp; Queueing</h2>
+                <p>The main source of variable delays:</p>
+                <ul style="font-size: 0.9rem;">
+                    <li>📦 <strong>Switch queue full</strong> → packet dropped → retransmit</li>
+                    <li>🖥️ <strong>OS queue</strong> → CPU busy, request waits</li>
+                    <li>☁️ <strong>VM paused</strong> → data buffered by hypervisor</li>
+                    <li>🚦 <strong>TCP flow control</strong> → sender queues before network</li>
+                </ul>
+                <p style="margin-top: 10px;">Noisy neighbors in shared infrastructure make delays <strong>unpredictable</strong>.</p>
+            </div>
+            <div class="image-box">
+                <img src="images/ddia_0802.png" alt="Network congestion" />
+            </div>
+        </section>
+        <!-- 14. Sync vs Async Networks -->
+        <section class="slide content-slide">
+            <h2>Synchronous vs Asynchronous Networks</h2>
+            <div class="two-col" style="margin-top: 15px;">
+                <div class="compare-card">
+                    <h3>📞 Telephone (Circuit-Switched)</h3>
+                    <ul>
+                        <li>Fixed bandwidth <strong>reserved</strong> per call</li>
+                        <li>No queueing → <strong>bounded delay</strong></li>
+                        <li>16 bits every 250μs (ISDN)</li>
+                        <li>Wastes capacity when idle</li>
+                    </ul>
+                </div>
+                <div class="compare-card accent">
+                    <h3>🌐 Internet (Packet-Switched)</h3>
+                    <ul>
+                        <li>Bandwidth shared <strong>dynamically</strong></li>
+                        <li>Queueing → <strong>unbounded delay</strong></li>
+                        <li>Optimized for <strong>bursty traffic</strong></li>
+                        <li>Better utilization = cheaper</li>
+                    </ul>
+                </div>
+            </div>
+            <p style="margin-top: 15px;">Variable delays are not a law of nature — they're a <strong>cost/benefit trade-off</strong>. Static partitioning = guaranteed latency but expensive. Dynamic sharing = cheaper but variable.</p>
+        </section>
+        <!-- 15. Section: Clocks -->
+        <section class="slide section-header">
+            <h2>Unreliable Clocks</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">Each machine has its own notion of time</p>
+        </section>
+        <!-- 16. Two Clock Types -->
+        <section class="slide content-slide">
+            <h2>Two Types of Clocks</h2>
+            <div class="two-col" style="margin-top: 15px;">
+                <div class="compare-card">
+                    <h3>🕐 Time-of-Day Clock</h3>
+                    <ul>
+                        <li>Returns wall-clock time (epoch-based)</li>
+                        <li><code>clock_gettime(CLOCK_REALTIME)</code></li>
+                        <li><code>System.currentTimeMillis()</code></li>
+                        <li>Synced via NTP</li>
+                        <li>⚠️ Can <strong>jump backward</strong>!</li>
+                        <li>⚠️ <strong>Not suitable for measuring duration</strong></li>
+                    </ul>
+                </div>
+                <div class="compare-card accent">
+                    <h3>⏱️ Monotonic Clock</h3>
+                    <ul>
+                        <li>Always moves forward (guaranteed)</li>
+                        <li><code>clock_gettime(CLOCK_MONOTONIC)</code></li>
+                        <li><code>System.nanoTime()</code></li>
+                        <li>NTP may <strong>slew</strong> rate (±0.05%) but never jump</li>
+                        <li>✅ Good for <strong>measuring elapsed time</strong></li>
+                        <li>⚠️ Absolute value is meaningless</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        <!-- 17. Clock Sync Problems -->
+        <section class="slide content-slide">
+            <h2>Clock Synchronization Problems</h2>
+            <ul style="font-size: 0.95rem;">
+                <li>📉 Quartz <strong>drift</strong>: ~200 ppm (Google) → 6ms drift per 30s sync, 17s drift per day</li>
+                <li>⏮️ NTP reset: clock too far off → <strong>forcibly reset</strong> → time jumps backward!</li>
+                <li>🔥 Firewalled from NTP → drift goes <strong>unnoticed</strong> for a long time</li>
+                <li>🌐 NTP accuracy limited by <strong>network delay</strong>: ≥35ms error over internet</li>
+                <li>🤥 Some NTP servers are <strong>wrong or misconfigured</strong></li>
+                <li>⏰ <strong>Leap seconds</strong>: minute with 59 or 61 seconds → crashed many systems</li>
+                <li>☁️ VM clock is <strong>virtualized</strong> → pauses cause time jumps</li>
+            </ul>
+            <p style="margin-top: 15px;">MiFID II requires financial trading clocks synced to <strong>within 100μs of UTC</strong> — requires GPS receivers + PTP.</p>
+        </section>
+        <!-- 18. Section: Relying on Clocks -->
+        <section class="slide section-header">
+            <h2>Relying on Synchronized Clocks</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">Incorrect clocks → silent data loss, not dramatic crashes</p>
+        </section>
+        <!-- 19. LWW Problems (Fig 8-3) -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>Timestamps for Ordering Events</h2>
+                <p>Multi-leader replication with LWW (Last Write Wins):</p>
+                <ul style="font-size: 0.9rem;">
+                    <li>Client A writes x=1 on Node 1 (t=42.004)</li>
+                    <li>Client B writes x=2 on Node 3 (t=42.003)</li>
+                    <li>B is causally later, but has <strong>earlier timestamp!</strong></li>
+                    <li>Node 2 picks x=1 as "most recent" → <strong>B's write is lost</strong> 💀</li>
+                </ul>
+                <p style="margin-top: 10px;">Clock skew: only 3ms! Still causes data loss.</p>
+            </div>
+            <div class="image-box">
+                <img src="images/ddia_0803.png" alt="LWW timestamp problem" />
+            </div>
+        </section>
+        <!-- 20. Confidence Intervals -->
+        <section class="slide content-slide">
+            <h2>Clock Confidence Intervals &amp; TrueTime</h2>
+            <p>A clock reading isn't a <strong>point in time</strong> — it's a <strong>range</strong> with uncertainty.</p>
+            <div class="two-col" style="margin-top: 15px;">
+                <div class="compare-card">
+                    <h3>😕 Most Systems</h3>
+                    <p><code>clock_gettime()</code> returns a single value. No indication of uncertainty!</p>
+                    <p style="margin-top: 8px;">Microsecond digits may be <strong>meaningless</strong> if error is ±100ms.</p>
+                </div>
+                <div class="compare-card accent">
+                    <h3>✨ Google TrueTime</h3>
+                    <p>Returns <code>[earliest, latest]</code> — the confidence interval.</p>
+                    <p style="margin-top: 8px;">GPS + atomic clocks → uncertainty typically <strong>~7ms</strong>.</p>
+                    <p style="margin-top: 8px;">Spanner <strong>waits</strong> for interval length before commit to ensure causal ordering!</p>
+                </div>
+            </div>
+            <p style="margin-top: 15px;">💡 <strong>Logical clocks</strong> (incrementing counters) are a safer alternative — they track relative ordering, not wall-clock time.</p>
+        </section>
+        <!-- 21. Section: Process Pauses -->
+        <section class="slide section-header">
+            <h2>Process Pauses</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">A thread can be paused for minutes without knowing</p>
+        </section>
+        <!-- 22. Lease Problem -->
+        <section class="slide content-slide">
+            <h2>The Lease Problem</h2>
+            <div class="code-block" style="font-size: 0.9rem;">
+while (true) {
+    request = getIncomingRequest();
+    if (lease.expiryTimeMillis - System.currentTimeMillis() < 10000)
+        lease = lease.renew();
+    if (lease.isValid())
+        process(request);  // ← What if paused HERE for 15 seconds?
+}</div>
+            <p style="margin-top: 15px;">Two bugs:</p>
+            <ol>
+                <li>Comparing <strong>remote expiry time</strong> with local clock (clock skew!)</li>
+                <li>Thread could <strong>pause for 15 seconds</strong> between isValid() check and process() → lease expired, another node is leader, but this node still processes!</li>
+            </ol>
+        </section>
+        <!-- 23. Pause Reasons -->
+        <section class="slide content-slide">
+            <h2>Why Can a Thread Pause?</h2>
+            <ul>
+                <li>☕ <strong>GC stop-the-world</strong>: HotSpot JVM pauses can last <strong>minutes</strong></li>
+                <li>☁️ <strong>VM suspended</strong>: live migration, paused while another VM runs</li>
+                <li>💻 <strong>Laptop lid closed</strong>: OS suspends execution</li>
+                <li>🔀 <strong>Context switches</strong>: OS/hypervisor switches to other threads/VMs (steal time)</li>
+                <li>💾 <strong>Disk I/O</strong>: synchronous access, network filesystem latency</li>
+                <li>📄 <strong>Swapping/paging</strong>: memory access → page fault → disk I/O → thrashing</li>
+                <li>⏸️ <strong>SIGSTOP signal</strong>: Ctrl-Z in shell, accidental by ops engineer</li>
+            </ul>
+            <p style="margin-top: 15px;">The paused node <strong>doesn't know it was paused</strong>. The rest of the world moved on and may have declared it dead!</p>
+        </section>
+        <!-- 24. Mitigating GC -->
+        <section class="slide content-slide">
+            <h2>Mitigating GC Pauses</h2>
+            <div class="two-col" style="margin-top: 15px;">
+                <div class="compare-card">
+                    <h3>🏥 Treat GC Like Planned Downtime</h3>
+                    <p>Warn app before GC → stop accepting requests → drain in-flight requests → run GC → resume.</p>
+                    <p style="margin-top: 8px;">Hides pauses from clients. Used in <strong>latency-sensitive financial trading</strong>.</p>
+                </div>
+                <div class="compare-card">
+                    <h3>♻️ Short-Lived Objects Only</h3>
+                    <p>Use GC only for young generation (fast). <strong>Restart process periodically</strong> before long-lived objects accumulate.</p>
+                    <p style="margin-top: 8px;">Rolling restart: one node at a time, shift traffic away first.</p>
+                </div>
+            </div>
+            <p style="margin-top: 15px;">⚠️ <strong>Hard real-time</strong> (RTOS, safety-critical systems) guarantees bounded response time, but is very expensive and restrictive. Not practical for most data systems.</p>
+        </section>
+        <!-- 25. Section: Knowledge -->
+        <section class="slide section-header">
+            <h2>Knowledge, Truth, and Lies</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">A node cannot trust its own judgment</p>
+        </section>
+        <!-- 26. Truth by Majority -->
+        <section class="slide content-slide">
+            <h2>The Truth Is Defined by the Majority</h2>
+            <p>A node can't know anything for sure — only make guesses based on messages received (or not).</p>
+            <p style="margin-top: 15px;">Three nightmare scenarios:</p>
+            <ul>
+                <li>🔇 <strong>Asymmetric fault</strong>: node receives messages but its outgoing ones are dropped → declared dead while kicking and screaming "I'm not dead!"</li>
+                <li>⏸️ <strong>GC pause</strong>: node paused 1 minute → declared dead → wakes up and doesn't realize it was gone</li>
+                <li>🗳️ A <strong>quorum decides</strong>: if majority says you're dead, you're dead. Even if you feel fine.</li>
+            </ul>
+            <p style="margin-top: 15px;">Major decisions require a <strong>quorum</strong> (majority vote) to reduce dependence on any single node.</p>
+        </section>
+        <!-- 27. Incorrect Lock (Fig 8-4) -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>Incorrect Lock Implementation</h2>
+                <p>Client 1 gets a lease (lock) on a file. Then it pauses (GC).</p>
+                <ol style="font-size: 0.9rem;">
+                    <li>Client 1 acquires lease</li>
+                    <li>Client 1 pauses (GC) ⏸️</li>
+                    <li>Lease expires</li>
+                    <li>Client 2 acquires lease, writes to file</li>
+                    <li>Client 1 wakes up, thinks lease is still valid</li>
+                    <li>Client 1 writes to file → <strong>CORRUPTION!</strong> 💀</li>
+                </ol>
+                <p style="margin-top: 8px;">Real bug: HBase had this problem.</p>
+            </div>
+            <div class="image-box">
+                <img src="images/ddia_0804.png" alt="Incorrect lock" />
+            </div>
+        </section>
+        <!-- 28. Fencing Tokens (Fig 8-5) -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>Fencing Tokens</h2>
+                <p>Solution: lock server returns a <strong>monotonically increasing token</strong> with each lease.</p>
+                <ol style="font-size: 0.9rem;">
+                    <li>Client 1 gets lease with token <strong>33</strong></li>
+                    <li>Client 1 pauses ⏸️ → lease expires</li>
+                    <li>Client 2 gets lease with token <strong>34</strong></li>
+                    <li>Client 2 writes with token 34 ✅</li>
+                    <li>Client 1 wakes, writes with token 33</li>
+                    <li>Storage <strong>rejects token 33</strong> (already saw 34) ✅</li>
+                </ol>
+                <p style="margin-top: 8px;">ZooKeeper: <code>zxid</code> or <code>cversion</code> works as fencing token.</p>
+            </div>
+            <div class="image-box">
+                <img src="images/ddia_0805.png" alt="Fencing tokens" />
+            </div>
+        </section>
+        <!-- 29. Section: Byzantine -->
+        <section class="slide section-header">
+            <h2>Byzantine Faults</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">When nodes lie (and when we don't worry about it)</p>
+        </section>
+        <!-- 30. Byzantine Faults -->
+        <section class="slide content-slide">
+            <h2>Byzantine Fault Tolerance</h2>
+            <p>Fencing tokens handle <em>inadvertent</em> errors. But what if nodes <strong>deliberately lie</strong>?</p>
+            <div class="two-col" style="margin-top: 15px;">
+                <div class="compare-card">
+                    <h3>🚀 When It Matters</h3>
+                    <ul>
+                        <li><strong>Aerospace</strong>: radiation corrupts CPU/memory → must tolerate</li>
+                        <li><strong>Blockchain/P2P</strong>: mutually untrusting parties (Bitcoin)</li>
+                        <li>Requires <strong>supermajority</strong> (>2/3 honest nodes)</li>
+                    </ul>
+                </div>
+                <div class="compare-card accent">
+                    <h3>🏢 When We Skip It</h3>
+                    <ul>
+                        <li><strong>Datacenters</strong>: nodes controlled by your org</li>
+                        <li>Too expensive and complex</li>
+                        <li>Same software on all nodes → same bugs everywhere</li>
+                        <li>Use <strong>auth, ACLs, encryption</strong> instead</li>
+                    </ul>
+                </div>
+            </div>
+            <p style="margin-top: 15px;">This book assumes <strong>honest but unreliable</strong> nodes. Weak protections still help: checksums, input validation, multiple NTP servers.</p>
+        </section>
+        <!-- 31. Section: System Models -->
+        <section class="slide section-header">
+            <h2>System Models</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">Formalizing what can go wrong</p>
+        </section>
+        <!-- 32. Timing Models -->
+        <section class="slide content-slide">
+            <h2>Timing Models</h2>
+            <div class="three-col" style="margin-top: 20px;">
+                <div class="compare-card">
+                    <h3>Synchronous</h3>
+                    <p><strong>Bounded</strong> network delay, process pauses, and clock error.</p>
+                    <p style="margin-top: 8px; font-size: 0.9rem;">Not realistic for most systems.</p>
+                </div>
+                <div class="compare-card accent">
+                    <h3>Partially Synchronous</h3>
+                    <p>Behaves synchronously <strong>most of the time</strong>, but bounds are occasionally exceeded.</p>
+                    <p style="margin-top: 8px; font-size: 0.9rem;">Most realistic model! ✅</p>
+                </div>
+                <div class="compare-card">
+                    <h3>Asynchronous</h3>
+                    <p>No timing assumptions at all. No clocks, no timeouts.</p>
+                    <p style="margin-top: 8px; font-size: 0.9rem;">Very restrictive.</p>
+                </div>
+            </div>
+        </section>
+        <!-- 33. Fault Models -->
+        <section class="slide content-slide">
+            <h2>Node Failure Models</h2>
+            <div class="three-col" style="margin-top: 20px;">
+                <div class="compare-card">
+                    <h3>Crash-Stop</h3>
+                    <p>Node crashes → <strong>gone forever</strong>. Never comes back.</p>
+                </div>
+                <div class="compare-card accent">
+                    <h3>Crash-Recovery</h3>
+                    <p>Node crashes, may restart later. Stable storage survives; in-memory state lost.</p>
+                    <p style="margin-top: 8px; font-size: 0.9rem;">Most realistic! ✅</p>
+                </div>
+                <div class="compare-card">
+                    <h3>Byzantine</h3>
+                    <p>Nodes can do <strong>anything</strong>, including lying and sending fake messages.</p>
+                </div>
+            </div>
+            <p style="margin-top: 20px;">For real systems: <strong>partially synchronous + crash-recovery</strong> is the standard model.</p>
+        </section>
+        <!-- 34. Safety vs Liveness -->
+        <section class="slide content-slide">
+            <h2>Safety vs Liveness</h2>
+            <div class="two-col" style="margin-top: 15px;">
+                <div class="compare-card">
+                    <h3>🛡️ Safety</h3>
+                    <p><em>"Nothing bad happens"</em></p>
+                    <ul>
+                        <li>If violated, we can point to the <strong>exact moment</strong></li>
+                        <li>Cannot be undone</li>
+                        <li>Must hold <strong>always</strong>, even if everything fails</li>
+                    </ul>
+                    <p style="margin-top: 8px;">Example: uniqueness, monotonic sequence</p>
+                </div>
+                <div class="compare-card accent">
+                    <h3>🌱 Liveness</h3>
+                    <p><em>"Something good eventually happens"</em></p>
+                    <ul>
+                        <li>May not hold now, but there's <strong>hope</strong></li>
+                        <li>Often includes "eventually"</li>
+                        <li>Can have <strong>caveats</strong> (majority alive, network recovers)</li>
+                    </ul>
+                    <p style="margin-top: 8px;">Example: availability, eventual consistency</p>
+                </div>
+            </div>
+        </section>
+        <!-- 35. Section: Summary -->
+        <section class="slide section-header">
+            <h2>Summary</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">Embracing the chaos of distributed systems</p>
+        </section>
+        <!-- 36. Key Takeaways -->
+        <section class="slide content-slide">
+            <h2>Chapter 8 Key Takeaways</h2>
+            <div class="two-col" style="margin-top: 15px;">
+                <div class="compare-card">
+                    <h3>The Three Enemies</h3>
+                    <ul>
+                        <li>🌐 <strong>Networks</strong>: packets lost, delayed, reordered. No "correct" timeout.</li>
+                        <li>⏰ <strong>Clocks</strong>: drift, jump, skew. Silent data loss. LWW is dangerous.</li>
+                        <li>⏸️ <strong>Processes</strong>: GC pauses, VM suspension. Node doesn't know it was paused.</li>
+                    </ul>
+                </div>
+                <div class="compare-card accent">
+                    <h3>How We Cope</h3>
+                    <ul>
+                        <li>🗳️ <strong>Quorums</strong>: majority decides truth</li>
+                        <li>🔑 <strong>Fencing tokens</strong>: monotonic tokens prevent stale writes</li>
+                        <li>📊 <strong>System models</strong>: formalize assumptions to prove algorithms correct</li>
+                        <li>🔍 <strong>Detect, don't prevent</strong>: build reliable from unreliable</li>
+                    </ul>
+                </div>
+            </div>
+            <p style="margin-top: 15px;">Next chapter: <strong>solutions!</strong> Algorithms for consistency and consensus despite all these problems.</p>
+        </section>
+        <!-- 37. Questions -->
+        <section class="slide title-slide">
+            <h1>Questions?</h1>
+            <p>Designing Data-Intensive Applications • Chapter 8</p>
+            <div class="image-box questions-image">
+                <img src="images/questions.jpg" alt="Q&A discussion" />
+            </div>
+        </section>
+
+    </div>
+    <div class="controls">
+        <button onclick="prevSlide()">PREV</button>
+        <button onclick="nextSlide()">NEXT</button>
+    </div>
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const presentation = document.getElementById('presentation');
+        const progressBar = document.getElementById('progressBar');
+        const slideNum = document.getElementById('slideNum');
+        const totalSlides = slides.length;
+        function update() {
+            presentation.style.transform = `translateX(-${currentSlide * 100}vw)`;
+            progressBar.style.width = `${((currentSlide + 1) / totalSlides) * 100}%`;
+            slideNum.innerText = `${currentSlide + 1} / ${totalSlides}`;
+        }
+        function nextSlide() { if (currentSlide < totalSlides - 1) { currentSlide++; update(); } }
+        function prevSlide() { if (currentSlide > 0) { currentSlide--; update(); } }
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'ArrowDown') nextSlide();
+            if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') prevSlide();
+            if (e.key >= '0' && e.key <= '9') { currentSlide = Math.floor(totalSlides * (parseInt(e.key) / 10)); update(); }
+        });
+        update();
+    </script>
+</body>
+</html>

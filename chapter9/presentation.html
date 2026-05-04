@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KT: DDIA Chapter 9 - Consistency and Consensus</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #ffffff;
+            --text: #0f172a;
+            --gray: #f0f0f0;
+            --accent: #2563eb;
+            --accent-light: #dbeafe;
+            --warm: #fef3c7;
+            --dark: #0f172a;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        .presentation {
+            height: 100%;
+            width: 100%;
+            display: flex;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .slide {
+            min-width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 5% 10%;
+            position: relative;
+            text-align: center;
+        }
+
+        /* ====== Slide Types ====== */
+
+        /* Title Slide: opening slide with book title, chapter name, book cover */
+        .title-slide h1 {
+            font-size: 4.5rem;
+            font-weight: 800;
+            letter-spacing: -2px;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #0f172a 0%, #2563eb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .title-slide p {
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            opacity: 0.6;
+        }
+
+        .title-slide {
+            gap: 20px;
+        }
+
+        .title-image {
+            height: 350px;
+            max-width: 280px;
+            border: none;
+            background: transparent;
+        }
+
+        .title-image img {
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            border-radius: 4px;
+        }
+
+        /* Section Header: dark full-screen divider between major topics */
+        .section-header {
+            background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%);
+            color: #fff;
+        }
+
+        .section-header h2 {
+            font-size: 5rem;
+        }
+
+        .section-header .image-box {
+            height: 55vh;
+            margin-top: 30px;
+            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .section-header .image-box img {
+            opacity: 0.9;
+        }
+
+        /* Content Slide: standard text slide, optionally with side image */
+        .content-slide {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+            text-align: left;
+            align-items: center;
+        }
+
+        .content-slide.with-image {
+            grid-template-columns: 1fr 1.2fr;
+            text-align: left;
+        }
+
+        /* ====== Typography ====== */
+        h2 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 1.8rem;
+            line-height: 1.4;
+            font-weight: 300;
+        }
+
+        ul {
+            font-size: 1.5rem;
+            line-height: 1.6;
+            font-weight: 300;
+            margin-top: 15px;
+            padding-left: 25px;
+        }
+
+        ul li {
+            margin-bottom: 10px;
+        }
+
+        /* ====== Content Components ====== */
+
+        /* Highlight: inline yellow background */
+        .highlight {
+            background: var(--warm);
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+
+        /* Code Block: dark background, monospace */
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+            text-align: left;
+            overflow-x: auto;
+            margin-top: 15px;
+            white-space: pre;
+        }
+
+        /* Image Box: container for images */
+        .image-box {
+            width: 100%;
+            height: 500px;
+            background: #f9f9f9;
+            border: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border-radius: 12px;
+        }
+
+        .image-box img {
+            max-width: 95%;
+            max-height: 95%;
+            object-fit: contain;
+        }
+
+        /* Fill variant: for photos (object-fit: cover) */
+        .image-box.fill img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Quote: left-bordered italic text */
+        .quote {
+            font-style: italic;
+            border-left: 4px solid var(--accent);
+            padding-left: 20px;
+            margin: 20px 0;
+        }
+
+        /* Stat Box: big number with label */
+        .stat-box {
+            background: #f8f8f8;
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .stat-box .number {
+            font-size: 4rem;
+            font-weight: 800;
+            color: var(--accent);
+        }
+
+        .stat-box .label {
+            font-size: 1.2rem;
+            opacity: 0.7;
+            margin-top: 10px;
+        }
+
+        .stat-box.small .number {
+            font-size: 2.5rem;
+        }
+
+        .stat-box.small {
+            padding: 20px;
+        }
+
+        /* Two Column Layout */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            width: 100%;
+        }
+
+        /* Three Column Layout */
+        .three-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 25px;
+            width: 100%;
+        }
+
+        /* Compare Card: for side-by-side comparison */
+        .compare-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 25px;
+            text-align: left;
+        }
+
+        .compare-card h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--accent);
+        }
+
+        .compare-card p,
+        .compare-card ul {
+            font-size: 1.2rem;
+        }
+
+        /* Accent variant: highlight the preferred option */
+        .compare-card.accent {
+            background: var(--accent-light);
+            border-color: var(--accent);
+        }
+
+        /* Tag / Pill: inline labels */
+        .tag {
+            display: inline-block;
+            background: var(--accent-light);
+            color: var(--accent);
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 4px;
+        }
+
+        /* Emoji: large decorative emoji */
+        .emoji {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        /* Syntax highlighting spans for code blocks */
+        .sql-keyword {
+            color: #569cd6;
+            font-weight: 600;
+        }
+
+        .code-comment {
+            color: #6a9955;
+        }
+
+        .code-string {
+            color: #ce9178;
+        }
+
+        /* Side image: floating image on text-heavy slides */
+        .side-image {
+            position: absolute;
+            right: 60px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 200px;
+            height: 200px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .side-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Questions image: smaller image for Q&A slide */
+        .questions-image {
+            height: 360px;
+            max-width: 600px;
+        }
+
+        /* Full image slide: image-dominant layout */
+        .full-image-slide .image-box {
+            height: 70vh;
+            width: 90%;
+            max-width: 1200px;
+        }
+
+        /* Timeline: horizontal timeline with dots */
+        .timeline {
+            display: flex;
+            align-items: flex-start;
+            gap: 0;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .timeline-item {
+            flex: 1;
+            text-align: center;
+            position: relative;
+            padding-top: 30px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--accent);
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            top: 4px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 16px;
+            height: 16px;
+            background: var(--accent);
+            border-radius: 50%;
+            border: 3px solid white;
+        }
+
+        .timeline-item .year {
+            font-weight: 800;
+            font-size: 1.3rem;
+            color: var(--accent);
+        }
+
+        .timeline-item .desc {
+            font-size: 1rem;
+            margin-top: 5px;
+            opacity: 0.7;
+        }
+
+        /* ====== Controls ====== */
+        .controls {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            gap: 15px;
+            z-index: 100;
+        }
+
+        .controls button {
+            background: var(--dark);
+            color: #fff;
+            border: none;
+            padding: 15px 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            border-radius: 6px;
+        }
+
+        .controls button:hover {
+            opacity: 0.8;
+        }
+
+        .progress-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: #eee;
+            z-index: 101;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), #7c3aed);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .slide-number {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            opacity: 0.4;
+        }
+
+        /* ====== Responsive ====== */
+        @media (max-width: 768px) {
+            body { font-size: 14px; }
+            .slide { padding: 10% 5%; }
+            .title-slide h1 { font-size: 2.5rem; }
+            .title-slide p { font-size: 1rem; }
+        }
+    
+    </style>
+</head>
+<body>
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+    <div class="slide-number" id="slideNum">1 / 38</div>
+    <div class="presentation" id="presentation">
+        <!-- 1. Title -->
+        <section class="slide title-slide">
+            <p>Designing Data-Intensive Applications</p>
+            <h1>Consistency and Consensus</h1>
+            <p>Knowledge Transfer Session • Chapter 9</p>
+            <div class="image-box title-image">
+                <img src="../chapter1/images/book_cover.jpg" alt="DDIA book cover" />
+            </div>
+        </section>
+        <!-- 2. Quote -->
+        <section class="slide content-slide">
+            <h2>"Is it better to be alive and wrong or right and dead?"</h2>
+            <p style="margin-top: 20px; opacity: 0.6;">— Jay Kreps, <em>A Few Notes on Kafka and Jepsen</em> (2013)</p>
+            <p style="margin-top: 25px;">This chapter: find general-purpose abstractions (like transactions in Ch7) that let applications ignore distributed systems problems. The key abstraction: <strong>consensus</strong>.</p>
+        </section>
+        <!-- 3. Overview -->
+        <section class="slide content-slide">
+            <h2>What We'll Cover</h2>
+            <div class="three-col" style="margin-top: 20px;">
+                <div class="compare-card">
+                    <h3>📏 Linearizability</h3>
+                    <p>Make replicated data appear as a single copy. A recency guarantee.</p>
+                </div>
+                <div class="compare-card">
+                    <h3>📋 Ordering</h3>
+                    <p>Causality, Lamport timestamps, and total order broadcast.</p>
+                </div>
+                <div class="compare-card">
+                    <h3>🤝 Consensus</h3>
+                    <p>2PC, Paxos, Raft, Zab, and ZooKeeper.</p>
+                </div>
+            </div>
+        </section>
+        <!-- 4. Section: Linearizability -->
+        <section class="slide section-header">
+            <h2>Linearizability</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">Making a system appear as if there is only one copy of the data</p>
+        </section>
+        <!-- 5. Stale Reads (Fig 9-1) -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>The Problem: Stale Reads</h2>
+                <p>Alice and Bob check the World Cup score. Alice sees the winner, tells Bob. Bob reloads — sees the game still ongoing!</p>
+                <p style="margin-top: 10px;">Bob's query went to a <strong>lagging replica</strong>. A <strong>linearizability violation</strong>.</p>
+                <p style="margin-top: 10px;">Linearizability = <strong>recency guarantee</strong>: once any client reads a new value, <em>all</em> subsequent reads must also see it.</p>
+            </div>
+            <div class="image-box">
+                <img src="images/ddia_0901.png" alt="Non-linearizable sports website" />
+            </div>
+        </section>
+        <!-- 6. Concurrent R/W (Fig 9-2) -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>Concurrent Reads and Writes</h2>
+                <p>Value starts at 0, client C writes 1. What can A and B read?</p>
+                <ul style="font-size: 0.9rem;">
+                    <li>Read before write starts → must return <strong>0</strong></li>
+                    <li>Read after write ends → must return <strong>1</strong></li>
+                    <li>Read concurrent with write → may return 0 or 1</li>
+                </ul>
+                <p style="margin-top: 10px;">But that's not enough for linearizability...</p>
+            </div>
+            <div class="image-box">
+                <img src="images/ddia_0902.png" alt="Concurrent reads and writes" />
+            </div>
+        </section>
+        <!-- 7. Linearization Point (Fig 9-3) -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>The Linearization Point</h2>
+                <p>There must be a <strong>single moment</strong> when the value atomically flips from 0 to 1.</p>
+                <p style="margin-top: 10px;">Once any read returns the new value, <strong>all subsequent reads must also return the new value</strong>. No flipping back!</p>
+                <p style="margin-top: 10px;">This is the same principle that was violated in Alice and Bob's football example.</p>
+            </div>
+            <div class="image-box">
+                <img src="images/ddia_0903.png" alt="Linearization point" />
+            </div>
+        </section>
+        <!-- 8. Visualization (Fig 9-4) -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>Visualizing Linearizability</h2>
+                <p>Each operation takes effect at a single point (vertical line). These must form a valid sequence that <strong>always moves forward</strong> in time.</p>
+                <p style="margin-top: 10px;">Includes <code>cas(x, old, new)</code> — atomic compare-and-set.</p>
+                <p style="margin-top: 10px;">The shaded read by B is <strong>not linearizable</strong>: A already read value 4, so B can't return 2.</p>
+            </div>
+            <div class="image-box">
+                <img src="images/ddia_0904.png" alt="Linearizability visualization" />
+            </div>
+        </section>
+        <!-- 9. Linear vs Serial -->
+        <section class="slide content-slide">
+            <h2>Linearizability vs Serializability</h2>
+            <div class="two-col" style="margin-top: 15px;">
+                <div class="compare-card">
+                    <h3>📦 Serializability</h3>
+                    <p>Transaction isolation property. Transactions appear to execute in <em>some</em> serial order.</p>
+                    <ul style="font-size: 0.9rem; margin-top: 8px;">
+                        <li>Multi-object transactions</li>
+                        <li>Order can differ from actual execution</li>
+                        <li>From Chapter 7</li>
+                    </ul>
+                </div>
+                <div class="compare-card accent">
+                    <h3>📏 Linearizability</h3>
+                    <p>Recency guarantee on individual objects. All operations appear atomic on a timeline.</p>
+                    <ul style="font-size: 0.9rem; margin-top: 8px;">
+                        <li>Single-object (register)</li>
+                        <li>Real-time ordering matters</li>
+                        <li>Doesn't prevent write skew</li>
+                    </ul>
+                </div>
+            </div>
+            <p style="margin-top: 15px;">Combined: <strong>strict serializability</strong> (2PL and serial execution provide this; SSI does not).</p>
+        </section>
+        <!-- 10. Use Cases (Fig 9-5) -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>When Linearizability Matters</h2>
+                <ul>
+                    <li>🔒 <strong>Leader election</strong>: all nodes must agree who holds the lock</li>
+                    <li>👤 <strong>Uniqueness constraints</strong>: only one user can claim a username</li>
+                    <li>💰 <strong>Balance checks</strong>: don't go negative</li>
+                    <li>🖼️ <strong>Cross-channel timing</strong>: web server writes photo, sends resize job via queue. Resizer must see the photo!</li>
+                </ul>
+                <p style="margin-top: 10px;"><span class="tag">ZooKeeper</span> <span class="tag">etcd</span> provide linearizable operations for coordination.</p>
+            </div>
+            <div class="image-box">
+                <img src="images/ddia_0905.png" alt="Cross-channel race condition" />
+            </div>
+        </section>
+        <!-- 11. Section: Implementing -->
+        <section class="slide section-header">
+            <h2>Implementing Linearizable Systems</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">Which replication methods can provide it?</p>
+        </section>
+        <!-- 12. Replication Methods -->
+        <section class="slide content-slide">
+            <h2>Replication &amp; Linearizability</h2>
+            <div style="overflow-x: auto;">
+                <table style="width: 100%; border-collapse: collapse; font-size: 1rem; margin-top: 10px;">
+                    <tr style="background: var(--accent-light);">
+                        <th style="padding: 8px;">Replication Method</th>
+                        <th style="padding: 8px;">Linearizable?</th>
+                        <th style="padding: 8px;">Notes</th>
+                    </tr>
+                    <tr><td style="padding: 8px;"><strong>Single-leader</strong></td><td style="padding: 8px;">⚠️ Potentially</td><td style="padding: 8px;">Only if reads go to leader or sync followers. Beware split brain!</td></tr>
+                    <tr style="background: #f8fafc;"><td style="padding: 8px;"><strong>Consensus</strong></td><td style="padding: 8px;">✅ Yes</td><td style="padding: 8px;">ZooKeeper, etcd. Built-in split brain prevention.</td></tr>
+                    <tr><td style="padding: 8px;"><strong>Multi-leader</strong></td><td style="padding: 8px;">❌ No</td><td style="padding: 8px;">Concurrent writes → conflicts → no single copy illusion.</td></tr>
+                    <tr style="background: #f8fafc;"><td style="padding: 8px;"><strong>Leaderless (Dynamo)</strong></td><td style="padding: 8px;">❌ Probably not</td><td style="padding: 8px;">Even strict quorums (w+r>n) can be non-linearizable!</td></tr>
+                </table>
+            </div>
+        </section>
+        <!-- 13. Quorum Problem (Fig 9-6) -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>Quorums Are Not Enough</h2>
+                <p>n=3, w=3, r=2. Writer sends x=1 to all three replicas. Concurrently:</p>
+                <ul style="font-size: 0.9rem;">
+                    <li>Client A reads from 2 nodes → sees 1 ✅</li>
+                    <li>Client B reads from 2 different nodes → sees 0! ❌</li>
+                </ul>
+                <p style="margin-top: 10px;">B reads <em>after</em> A, but gets an older value. Quorum met, but <strong>not linearizable</strong>.</p>
+                <p style="margin-top: 10px;">Fix: synchronous read repair, or writer reads state first. But CAS still requires consensus.</p>
+            </div>
+            <div class="image-box">
+                <img src="images/ddia_0906.png" alt="Non-linearizable quorum" />
+            </div>
+        </section>
+        <!-- 14. Section: Cost -->
+        <section class="slide section-header">
+            <h2>The Cost of Linearizability</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">Performance vs correctness trade-offs</p>
+        </section>
+        <!-- 15. Network Interruption (Fig 9-7) -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>Network Interruptions</h2>
+                <p>Two datacenters, network link between them fails:</p>
+                <ul style="font-size: 0.9rem;">
+                    <li><strong>Multi-leader</strong>: both DCs continue operating, sync later ✅</li>
+                    <li><strong>Single-leader</strong>: follower DC can't reach leader → <strong>unavailable for writes</strong> ❌</li>
+                </ul>
+                <p style="margin-top: 10px;">Any linearizable system has this problem — you must choose: linearizability or availability.</p>
+            </div>
+            <div class="image-box">
+                <img src="images/ddia_0907.png" alt="Network interruption" />
+            </div>
+        </section>
+        <!-- 16. CAP Theorem -->
+        <section class="slide content-slide">
+            <h2>The CAP "Theorem"</h2>
+            <div class="two-col" style="margin-top: 15px;">
+                <div class="compare-card">
+                    <h3>The Trade-Off</h3>
+                    <p>When a <strong>network partition</strong> occurs:</p>
+                    <ul>
+                        <li>Require linearizability → some replicas <strong>unavailable</strong></li>
+                        <li>Don't require linearizability → remain <strong>available</strong></li>
+                    </ul>
+                </div>
+                <div class="compare-card accent">
+                    <h3>⚠️ CAP Is Misleading</h3>
+                    <ul style="font-size: 0.9rem;">
+                        <li>"Pick 2 of 3" is wrong — partitions <em>aren't optional</em></li>
+                        <li>Better: "Consistent or Available when Partitioned"</li>
+                        <li>Very narrow scope (only linearizability, only partitions)</li>
+                        <li>Best avoided in modern discussions</li>
+                    </ul>
+                </div>
+            </div>
+            <p style="margin-top: 15px;">💡 The real reason most DBs aren't linearizable: <strong>performance</strong>, not fault tolerance. Linearizability is inherently slow (proven!).</p>
+        </section>
+        <!-- 17. Section: Ordering -->
+        <section class="slide section-header">
+            <h2>Ordering Guarantees</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">Causality, total order, and partial order</p>
+        </section>
+        <!-- 18. Causality -->
+        <section class="slide content-slide">
+            <h2>Causality: Why Ordering Matters</h2>
+            <p>Many places where order matters:</p>
+            <ul>
+                <li>📝 Question must exist <em>before</em> the answer (consistent prefix reads)</li>
+                <li>🔄 Row must be created <em>before</em> it can be updated</li>
+                <li>📸 Snapshot must be consistent with causality</li>
+                <li>🏥 Doctor on-call check must precede the decision to go off call (write skew)</li>
+            </ul>
+            <p style="margin-top: 15px;"><strong>Causal consistency</strong>: if the system obeys the ordering imposed by causality. Snapshot isolation provides this.</p>
+            <p style="margin-top: 10px;">Linearizability <em>implies</em> causality, but causal consistency is achievable <strong>without the performance cost</strong> of linearizability!</p>
+        </section>
+        <!-- 19. Total vs Partial Order -->
+        <section class="slide content-slide">
+            <h2>Total Order vs Partial Order</h2>
+            <div class="two-col" style="margin-top: 15px;">
+                <div class="compare-card">
+                    <h3>📏 Total Order (Linearizability)</h3>
+                    <p>Any two operations can be compared. Single timeline. No concurrency.</p>
+                    <p style="margin-top: 8px;">Like natural numbers: 5 < 13, always comparable.</p>
+                </div>
+                <div class="compare-card accent">
+                    <h3>🌿 Partial Order (Causality)</h3>
+                    <p>Some operations are ordered (causal), others are <strong>incomparable</strong> (concurrent).</p>
+                    <p style="margin-top: 8px;">Like sets: {a,b} vs {b,c} — neither is a subset. Timeline branches and merges (like Git!).</p>
+                </div>
+            </div>
+            <p style="margin-top: 15px;">Causal consistency is the <strong>strongest consistency model that doesn't slow down</strong> due to network delays, and remains available during network failures.</p>
+        </section>
+        <!-- 20. Lamport Timestamps (Fig 9-8) -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>Lamport Timestamps</h2>
+                <p>Each node: <code>(counter, nodeID)</code>. Nodes carry the <strong>max counter</strong> seen with every request.</p>
+                <ul style="font-size: 0.9rem;">
+                    <li>Compare by counter first, then nodeID</li>
+                    <li>When receiving a higher counter → <strong>jump to it</strong></li>
+                    <li>Ensures total order consistent with causality</li>
+                </ul>
+                <p style="margin-top: 10px;">⚠️ But not sufficient for real-time decisions like "is this username taken?" — you'd need to check <em>every</em> node.</p>
+            </div>
+            <div class="image-box">
+                <img src="images/ddia_0908.png" alt="Lamport timestamps" />
+            </div>
+        </section>
+        <!-- 21. Section: TOB -->
+        <section class="slide section-header">
+            <h2>Total Order Broadcast</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">The bridge between ordering and consensus</p>
+        </section>
+        <!-- 22. TOB Properties -->
+        <section class="slide content-slide">
+            <h2>Total Order Broadcast</h2>
+            <p>A protocol with two guarantees:</p>
+            <div class="two-col" style="margin-top: 15px;">
+                <div class="compare-card">
+                    <h3>📬 Reliable Delivery</h3>
+                    <p>If a message is delivered to one node, it is delivered to <strong>all</strong> nodes.</p>
+                </div>
+                <div class="compare-card accent">
+                    <h3>📋 Totally Ordered</h3>
+                    <p>Messages are delivered to every node in the <strong>same order</strong>.</p>
+                </div>
+            </div>
+            <p style="margin-top: 15px;">Uses:</p>
+            <ul>
+                <li>📝 <strong>Database replication</strong>: state machine replication — every replica applies same writes in same order</li>
+                <li>🔑 <strong>Fencing tokens</strong>: sequence number = monotonically increasing token</li>
+                <li>🔒 <strong>Serializable transactions</strong>: each message = deterministic stored procedure</li>
+            </ul>
+            <p style="margin-top: 10px;"><strong>Key insight</strong>: linearizable CAS register ↔ total order broadcast ↔ consensus — all <em>equivalent</em>!</p>
+        </section>
+        <!-- 23. Section: Consensus -->
+        <section class="slide section-header">
+            <h2>Distributed Transactions &amp; Consensus</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">Getting all nodes to agree on something</p>
+        </section>
+        <!-- 24. Where Consensus Needed -->
+        <section class="slide content-slide">
+            <h2>Where Consensus Is Needed</h2>
+            <div class="three-col" style="margin-top: 20px;">
+                <div class="compare-card">
+                    <h3>👑 Leader Election</h3>
+                    <p>All nodes must agree who is leader. Split brain → data loss!</p>
+                </div>
+                <div class="compare-card">
+                    <h3>💾 Atomic Commit</h3>
+                    <p>All nodes commit or all abort. Can't have mixed outcomes.</p>
+                </div>
+                <div class="compare-card">
+                    <h3>🔐 Uniqueness</h3>
+                    <p>Only one user gets a username. Only one client gets the lock.</p>
+                </div>
+            </div>
+            <p style="margin-top: 20px;"><strong>FLP impossibility result</strong> (1985): no deterministic algorithm can <em>always</em> reach consensus if nodes may crash. But with timeouts or randomness, consensus is solvable in practice.</p>
+        </section>
+        <!-- 25. 2PC (Fig 9-9) -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>Two-Phase Commit (2PC)</h2>
+                <p>A <strong>coordinator</strong> orchestrates commit across participants:</p>
+                <ol style="font-size: 0.9rem;">
+                    <li><strong>Phase 1 (Prepare)</strong>: coordinator asks all participants "can you commit?"</li>
+                    <li>Participants vote "yes" (promise) or "no"</li>
+                    <li><strong>Phase 2 (Commit/Abort)</strong>: if ALL said yes → commit. Otherwise → abort.</li>
+                </ol>
+                <p style="margin-top: 10px;">Like a wedding: "Do you?" → "I do" → "You are now married" 💒</p>
+                <p style="margin-top: 8px; font-size: 0.9rem;">⚠️ Not to be confused with 2PL (two-phase locking)!</p>
+            </div>
+            <div class="image-box">
+                <img src="images/ddia_0909.png" alt="Two-phase commit" />
+            </div>
+        </section>
+        <!-- 26. Coordinator Failure (Fig 9-10) -->
+        <section class="slide content-slide with-image">
+            <div>
+                <h2>2PC: Coordinator Failure</h2>
+                <p>After participants vote "yes" but before receiving commit/abort:</p>
+                <ul style="font-size: 0.9rem;">
+                    <li>Participant is <strong>in doubt</strong> — can't commit or abort unilaterally</li>
+                    <li>Must <strong>wait for coordinator to recover</strong></li>
+                    <li>Holds <strong>locks</strong> the entire time!</li>
+                    <li>If coordinator log is lost → locks held <strong>forever</strong> 💀</li>
+                </ul>
+                <p style="margin-top: 10px;">2PC is a <strong>blocking</strong> protocol. This is its fatal flaw.</p>
+            </div>
+            <div class="image-box">
+                <img src="images/ddia_0910.png" alt="Coordinator failure" />
+            </div>
+        </section>
+        <!-- 27. Distributed Txns -->
+        <section class="slide content-slide">
+            <h2>Distributed Transactions in Practice</h2>
+            <div class="two-col" style="margin-top: 15px;">
+                <div class="compare-card">
+                    <h3>🏠 Database-Internal</h3>
+                    <p>Same DB software on all nodes. Can use optimized protocols.</p>
+                    <p style="margin-top: 8px;"><span class="tag">VoltDB</span> <span class="tag">MySQL Cluster</span></p>
+                    <p style="margin-top: 8px;">Works reasonably well.</p>
+                </div>
+                <div class="compare-card">
+                    <h3>🌐 Heterogeneous (XA)</h3>
+                    <p>Different technologies (DB + message queue). Uses XA standard.</p>
+                    <p style="margin-top: 8px;">⚠️ Performance: MySQL 10x slower</p>
+                    <p style="margin-top: 8px;">⚠️ Coordinator = single point of failure</p>
+                    <p style="margin-top: 8px;">⚠️ In-doubt txns hold locks indefinitely</p>
+                </div>
+            </div>
+        </section>
+        <!-- 28. Section: FT Consensus -->
+        <section class="slide section-header">
+            <h2>Fault-Tolerant Consensus</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">Paxos, Raft, Zab — algorithms that actually work</p>
+        </section>
+        <!-- 29. Consensus Properties -->
+        <section class="slide content-slide">
+            <h2>Consensus Properties</h2>
+            <div class="two-col" style="margin-top: 15px;">
+                <div class="compare-card">
+                    <h3>🛡️ Safety Properties</h3>
+                    <ul>
+                        <li><strong>Uniform agreement</strong>: no two nodes decide differently</li>
+                        <li><strong>Integrity</strong>: no node decides twice</li>
+                        <li><strong>Validity</strong>: decided value was proposed by <em>some</em> node</li>
+                    </ul>
+                    <p style="margin-top: 8px;">Must hold <strong>always</strong>, even in failure.</p>
+                </div>
+                <div class="compare-card accent">
+                    <h3>🌱 Liveness Property</h3>
+                    <ul>
+                        <li><strong>Termination</strong>: every non-crashed node eventually decides</li>
+                    </ul>
+                    <p style="margin-top: 8px;">Requires <strong>majority of nodes alive</strong>.</p>
+                    <p style="margin-top: 8px;">This is what 2PC fails: if coordinator crashes, participants are stuck forever.</p>
+                </div>
+            </div>
+        </section>
+        <!-- 30. Algorithms -->
+        <section class="slide content-slide">
+            <h2>Consensus Algorithms</h2>
+            <div style="overflow-x: auto;">
+                <table style="width: 100%; border-collapse: collapse; font-size: 1rem; margin-top: 10px;">
+                    <tr style="background: var(--accent-light);">
+                        <th style="padding: 8px;">Algorithm</th>
+                        <th style="padding: 8px;">Year</th>
+                        <th style="padding: 8px;">Used By</th>
+                        <th style="padding: 8px;">Notes</th>
+                    </tr>
+                    <tr><td style="padding: 8px;"><strong>Viewstamped Replication</strong></td><td style="padding: 8px;">1988</td><td style="padding: 8px;">—</td><td style="padding: 8px;">First practical consensus</td></tr>
+                    <tr style="background: #f8fafc;"><td style="padding: 8px;"><strong>Paxos</strong></td><td style="padding: 8px;">1998</td><td style="padding: 8px;">Chubby, Spanner</td><td style="padding: 8px;">Most-cited, notoriously hard to implement</td></tr>
+                    <tr><td style="padding: 8px;"><strong>Zab</strong></td><td style="padding: 8px;">2011</td><td style="padding: 8px;">ZooKeeper</td><td style="padding: 8px;">Total order broadcast directly</td></tr>
+                    <tr style="background: #f8fafc;"><td style="padding: 8px;"><strong>Raft</strong></td><td style="padding: 8px;">2014</td><td style="padding: 8px;">etcd, CockroachDB</td><td style="padding: 8px;">Designed for understandability</td></tr>
+                </table>
+            </div>
+            <p style="margin-top: 15px;">Key mechanism: <strong>epoch numbers</strong> + <strong>quorum votes</strong>. Each epoch has a unique leader. Leader must get quorum approval for decisions. Quorums for election and proposals <strong>overlap</strong>.</p>
+        </section>
+        <!-- 31. Consensus vs 2PC -->
+        <section class="slide content-slide">
+            <h2>Consensus vs 2PC</h2>
+            <div class="two-col" style="margin-top: 15px;">
+                <div class="compare-card">
+                    <h3>❌ Two-Phase Commit</h3>
+                    <ul>
+                        <li>Coordinator is <strong>not elected</strong></li>
+                        <li>Requires <strong>ALL</strong> participants to vote yes</li>
+                        <li>Coordinator failure → <strong>stuck forever</strong></li>
+                        <li>Blocking protocol</li>
+                    </ul>
+                </div>
+                <div class="compare-card accent">
+                    <h3>✅ Fault-Tolerant Consensus</h3>
+                    <ul>
+                        <li>Leader is <strong>elected</strong> with epoch numbers</li>
+                        <li>Requires <strong>majority</strong> to agree</li>
+                        <li>Leader failure → <strong>new election</strong></li>
+                        <li>Non-blocking (with majority alive)</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        <!-- 32. Limitations -->
+        <section class="slide content-slide">
+            <h2>Limitations of Consensus</h2>
+            <ul>
+                <li>📡 Votes are <strong>synchronous replication</strong> — performance cost</li>
+                <li>🔢 Need <strong>strict majority</strong>: 3 nodes = tolerate 1 failure, 5 nodes = tolerate 2</li>
+                <li>📍 Fixed set of voting nodes — dynamic membership is complex</li>
+                <li>🏓 Variable network delays → false leader elections → <strong>performance instability</strong></li>
+                <li>🔗 Raft: one unreliable link can cause continuous leader bouncing</li>
+            </ul>
+            <p style="margin-top: 20px;">Despite these limitations, consensus is the foundation for building correct distributed systems.</p>
+        </section>
+        <!-- 33. Section: ZooKeeper -->
+        <section class="slide section-header">
+            <h2>ZooKeeper</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">Outsourcing consensus to a coordination service</p>
+        </section>
+        <!-- 34. ZooKeeper -->
+        <section class="slide content-slide">
+            <h2>What ZooKeeper Provides</h2>
+            <div class="two-col" style="margin-top: 15px;">
+                <div class="compare-card">
+                    <h3>🔧 Features</h3>
+                    <ul>
+                        <li><strong>Linearizable CAS</strong>: atomic compare-and-set (locks, leases)</li>
+                        <li><strong>Total ordering</strong>: zxid, cversion as fencing tokens</li>
+                        <li><strong>Failure detection</strong>: heartbeats, sessions, ephemeral nodes</li>
+                        <li><strong>Change notifications</strong>: watches for changes (no polling)</li>
+                    </ul>
+                </div>
+                <div class="compare-card accent">
+                    <h3>📋 Use Cases</h3>
+                    <ul>
+                        <li>Leader election</li>
+                        <li>Work allocation / partition assignment</li>
+                        <li>Service discovery</li>
+                        <li>Distributed locking</li>
+                    </ul>
+                    <p style="margin-top: 8px;">Used by: <span class="tag">Kafka</span> <span class="tag">HBase</span> <span class="tag">Hadoop YARN</span></p>
+                </div>
+            </div>
+            <p style="margin-top: 15px;">ZooKeeper runs on 3-5 nodes, supports thousands of clients. Don't implement consensus yourself — use ZooKeeper/etcd!</p>
+        </section>
+        <!-- 35. Section: Summary -->
+        <section class="slide section-header">
+            <h2>Summary</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">From consistency models to consensus</p>
+        </section>
+        <!-- 36. Equivalence -->
+        <section class="slide content-slide">
+            <h2>The Equivalence Chain</h2>
+            <p style="margin-top: 10px;">All of these problems are <strong>equivalent to consensus</strong>:</p>
+            <div class="three-col" style="margin-top: 15px;">
+                <div class="compare-card">
+                    <h3>📏 Linearizable CAS</h3>
+                    <p>Atomically decide whether to set value based on current value.</p>
+                </div>
+                <div class="compare-card">
+                    <h3>💾 Atomic Commit</h3>
+                    <p>All nodes agree: commit or abort.</p>
+                </div>
+                <div class="compare-card">
+                    <h3>📋 Total Order Broadcast</h3>
+                    <p>All nodes deliver messages in same order.</p>
+                </div>
+            </div>
+            <div class="three-col" style="margin-top: 10px;">
+                <div class="compare-card">
+                    <h3>🔒 Locks &amp; Leases</h3>
+                    <p>Decide which client acquired it.</p>
+                </div>
+                <div class="compare-card">
+                    <h3>👤 Uniqueness</h3>
+                    <p>Decide which request wins.</p>
+                </div>
+                <div class="compare-card accent">
+                    <h3>👥 Membership</h3>
+                    <p>Agree which nodes are alive.</p>
+                </div>
+            </div>
+        </section>
+        <!-- 37. Key Takeaways -->
+        <section class="slide content-slide">
+            <h2>Chapter 9 Key Takeaways</h2>
+            <ul>
+                <li>📏 <strong>Linearizability</strong>: appealing (single copy illusion) but slow and costly. Most DBs skip it.</li>
+                <li>🌿 <strong>Causal consistency</strong>: strongest model that doesn't sacrifice performance. Promising future.</li>
+                <li>📋 <strong>Total order broadcast</strong> ↔ <strong>consensus</strong> ↔ <strong>linearizable CAS</strong> — all equivalent.</li>
+                <li>❌ <strong>2PC</strong>: coordinator failure → stuck. Not truly fault-tolerant.</li>
+                <li>✅ <strong>Raft, Paxos, Zab</strong>: real fault-tolerant consensus. Majority quorums.</li>
+                <li>🔧 <strong>ZooKeeper</strong>: outsource consensus to a dedicated service. Don't roll your own!</li>
+            </ul>
+        </section>
+        <!-- 38. Questions -->
+        <section class="slide title-slide">
+            <h1>Questions?</h1>
+            <p>Designing Data-Intensive Applications • Chapter 9</p>
+            <div class="image-box questions-image">
+                <img src="images/questions.jpg" alt="Q&A discussion" />
+            </div>
+        </section>
+
+    </div>
+    <div class="controls">
+        <button onclick="prevSlide()">PREV</button>
+        <button onclick="nextSlide()">NEXT</button>
+    </div>
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const presentation = document.getElementById('presentation');
+        const progressBar = document.getElementById('progressBar');
+        const slideNum = document.getElementById('slideNum');
+        const totalSlides = slides.length;
+        function update() {
+            presentation.style.transform = `translateX(-${currentSlide * 100}vw)`;
+            progressBar.style.width = `${((currentSlide + 1) / totalSlides) * 100}%`;
+            slideNum.innerText = `${currentSlide + 1} / ${totalSlides}`;
+        }
+        function nextSlide() { if (currentSlide < totalSlides - 1) { currentSlide++; update(); } }
+        function prevSlide() { if (currentSlide > 0) { currentSlide--; update(); } }
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'ArrowDown') nextSlide();
+            if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') prevSlide();
+            if (e.key >= '0' && e.key <= '9') { currentSlide = Math.floor(totalSlides * (parseInt(e.key) / 10)); update(); }
+        });
+        update();
+    </script>
+</body>
+</html>
