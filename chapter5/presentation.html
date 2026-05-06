@@ -455,6 +455,23 @@
             .title-slide p { font-size: 1rem; }
         }
     
+
+        /* ====== Quiz Slides ====== */
+        .quiz-slide { text-align: left; padding: 3% 8%; gap: 10px; }
+        .quiz-header { display: flex; align-items: center; gap: 15px; margin-bottom: 5px; }
+        .quiz-number { background: #2563eb; color: white; padding: 6px 16px; border-radius: 8px; font-weight: 800; font-size: 1.2rem; }
+        .quiz-topic { font-size: 0.95rem; text-transform: uppercase; letter-spacing: 2px; opacity: 0.5; font-weight: 600; }
+        .quiz-question { font-size: 1.6rem; font-weight: 600; margin-bottom: 10px; line-height: 1.3; }
+        .quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; }
+        .quiz-option { background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 10px; padding: 12px 18px; font-size: 1.1rem; font-weight: 400; cursor: pointer; }
+        .quiz-option:hover { border-color: #2563eb; }
+        .quiz-option.selected { border-color: #2563eb; background: #dbeafe; }
+        .quiz-answer { width: 100%; margin-top: 8px; }
+        .reveal-btn { background: #2563eb; color: white; border: none; padding: 8px 28px; border-radius: 8px; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: opacity 0.2s; }
+        .reveal-btn:hover { opacity: 0.85; }
+        .quiz-explanation { display: none; background: #f0fdf4; border: 2px solid #86efac; border-radius: 10px; padding: 12px 18px; margin-top: 8px; font-size: 1.05rem; line-height: 1.4; }
+        .quiz-explanation.incorrect { display: block; background: #fef2f2; border-color: #fecaca; }
+        .quiz-answer.revealed .quiz-explanation { display: block; }
     </style>
 </head>
 
@@ -1118,6 +1135,1616 @@ Mr. Poons: How far into the future
             </div>
         </section>
 
+
+        <!-- ==================== MCQ QUIZ SECTION ==================== -->
+
+        <section class="slide section-header">
+            <h2>MCQ Quiz</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">100 Questions &bull; Test Your Knowledge</p>
+        </section>
+
+        <!-- Q1 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q1</span><span class="quiz-topic">Replication</span></div>
+            <p class="quiz-question">What is replication in the context of distributed data?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Compressing data</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Keeping a copy of the same data on multiple machines connected via a network</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Splitting data across machines</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Encrypting data</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Replication means keeping a copy of the same data on multiple machines connected via a network.</div>
+            </div>
+        </section>
+
+        <!-- Q2 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q2</span><span class="quiz-topic">Replication Goals</span></div>
+            <p class="quiz-question">Which is NOT a reason for replicating data?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Reduce latency by keeping data geographically close to users</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Increase availability when parts fail</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Increase write throughput</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Increase read throughput by serving from multiple machines</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> The three main reasons are: keeping data close to users (latency), availability despite failures, and scaling read throughput. Write throughput is addressed by partitioning, not replication.</div>
+            </div>
+        </section>
+
+        <!-- Q3 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q3</span><span class="quiz-topic">Challenge</span></div>
+            <p class="quiz-question">What is the main challenge of replication?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Storing more data</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Handling changes to replicated data</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Choosing hardware</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Network configuration</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> All the difficulty in replication lies in handling changes to replicated data.</div>
+            </div>
+        </section>
+
+        <!-- Q4 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q4</span><span class="quiz-topic">Replication Approaches</span></div>
+            <p class="quiz-question">What are the three main approaches to replication?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Synchronous, asynchronous, semi-synchronous</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Single-leader, multi-leader, and leaderless</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Primary, secondary, tertiary</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Hot, warm, cold</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> The three main approaches are single-leader, multi-leader, and leaderless replication.</div>
+            </div>
+        </section>
+
+        <!-- Q5 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q5</span><span class="quiz-topic">Leader-Based</span></div>
+            <p class="quiz-question">In leader-based replication, who accepts writes?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Any replica</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Only the leader (primary/master)</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Only followers</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) All replicas simultaneously</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> One replica is designated the leader. Clients must send write requests to the leader.</div>
+            </div>
+        </section>
+
+        <!-- Q6 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q6</span><span class="quiz-topic">Followers</span></div>
+            <p class="quiz-question">What do followers do in leader-based replication?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Accept writes directly</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Apply changes from the leader's replication log in the same order</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Generate their own data</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Delete old data</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Followers take the log from the leader and update their local copy, applying writes in the same order.</div>
+            </div>
+        </section>
+
+        <!-- Q7 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q7</span><span class="quiz-topic">Read Queries</span></div>
+            <p class="quiz-question">In leader-based replication, who can serve read queries?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Only the leader</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Any replica — leader or follower</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Only followers</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) External cache only</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Reads can be served by any replica (leader or follower), but writes are only accepted by the leader.</div>
+            </div>
+        </section>
+
+        <!-- Q8 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q8</span><span class="quiz-topic">Synchronous</span></div>
+            <p class="quiz-question">What does synchronous replication guarantee?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Faster writes</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) The follower has an up-to-date copy consistent with the leader before confirming to the client</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Lower latency</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) No network usage</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Synchronous means the leader waits until the follower confirms it received the write before reporting success.</div>
+            </div>
+        </section>
+
+        <!-- Q9 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q9</span><span class="quiz-topic">Sync Disadvantage</span></div>
+            <p class="quiz-question">What is the main disadvantage of synchronous replication?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Data loss</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) If the synchronous follower is unresponsive, the leader must block all writes</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Too much disk space</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Complex configuration</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> If the synchronous follower doesn't respond, writes cannot be processed — the leader is blocked.</div>
+            </div>
+        </section>
+
+        <!-- Q10 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q10</span><span class="quiz-topic">Semi-Synchronous</span></div>
+            <p class="quiz-question">What is semi-synchronous replication?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) All followers are synchronous</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) One follower synchronous, the rest asynchronous</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) No followers</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Writes are buffered indefinitely</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> In practice, one follower is synchronous and others are asynchronous. If the sync follower is slow, another is made synchronous.</div>
+            </div>
+        </section>
+
+        <!-- Q11 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q11</span><span class="quiz-topic">Fully Async</span></div>
+            <p class="quiz-question">What is the risk of fully asynchronous replication?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Too slow</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) If the leader fails, any unreplicated writes are lost</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Too many replicas</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Uses too much bandwidth</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> If the leader fails and is not recoverable, any writes not yet replicated to followers are lost.</div>
+            </div>
+        </section>
+
+        <!-- Q12 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q12</span><span class="quiz-topic">New Follower</span></div>
+            <p class="quiz-question">What is the correct process for setting up a new follower without downtime?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Lock the database and copy</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Take a consistent snapshot, copy to follower, then request all changes since the snapshot</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Copy files while writes continue</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Restore from a week-old backup</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Take a consistent snapshot of the leader, copy it, then the follower requests changes since the snapshot's log position.</div>
+            </div>
+        </section>
+
+        <!-- Q13 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q13</span><span class="quiz-topic">Log Position</span></div>
+            <p class="quiz-question">What is the snapshot position called in different databases?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Offset</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) MySQL: binlog coordinates; PostgreSQL: log sequence number (LSN)</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Timestamp</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Checkpoint ID</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> MySQL calls it the binlog coordinates, PostgreSQL calls it the log sequence number (LSN).</div>
+            </div>
+        </section>
+
+        <!-- Q14 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q14</span><span class="quiz-topic">Follower Recovery</span></div>
+            <p class="quiz-question">How does a follower recover after a crash?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Full data copy from leader</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) It knows the last transaction processed, requests all changes since then from the leader</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) It deletes all data and restarts</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Manual intervention required</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> The follower can connect to the leader and request all data changes since its last processed transaction.</div>
+            </div>
+        </section>
+
+        <!-- Q15 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q15</span><span class="quiz-topic">Leader Failover</span></div>
+            <p class="quiz-question">What is failover?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Adding a new follower</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) One of the followers being promoted to leader when the existing leader fails</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Shutting down the system</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Merging databases</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> If the leader fails, a follower needs to be promoted to be the new leader — this process is called failover.</div>
+            </div>
+        </section>
+
+        <!-- Q16 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q16</span><span class="quiz-topic">Failover Steps</span></div>
+            <p class="quiz-question">What are the three steps of failover?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Backup, restore, verify</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Determine leader failed, choose new leader, reconfigure system</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Stop, copy, start</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Encrypt, transfer, decrypt</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> 1) Determine leader has failed (usually via timeout), 2) choose a new leader, 3) reconfigure the system to use the new leader.</div>
+            </div>
+        </section>
+
+        <!-- Q17 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q17</span><span class="quiz-topic">Failover Risk</span></div>
+            <p class="quiz-question">What dangerous scenario can occur during failover with auto-incrementing IDs?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Data is encrypted</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) The new leader may have missed writes, and if the old leader rejoins, conflicting primary keys can cause data corruption (e.g., GitHub's Redis/MySQL incident)</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) No risk exists</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) The system speeds up</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> At GitHub, an out-of-date follower was promoted, causing primary key conflicts with Redis-cached values, leading to private data disclosure.</div>
+            </div>
+        </section>
+
+        <!-- Q18 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q18</span><span class="quiz-topic">Split Brain</span></div>
+            <p class="quiz-question">What is 'split brain' in replication?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) A hardware failure</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Two nodes both believe they are the leader, accepting conflicting writes</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) A network upgrade</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) A backup strategy</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Split brain occurs when two nodes both believe they are leader, leading to conflicting writes and potential data loss.</div>
+            </div>
+        </section>
+
+        <!-- Q19 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q19</span><span class="quiz-topic">Timeout</span></div>
+            <p class="quiz-question">Why is choosing the right timeout for leader failure detection tricky?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Timeouts are always correct</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Too long means extended downtime; too short means unnecessary failovers during load spikes</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Timeouts don't matter</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Only manual detection works</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> A longer timeout means longer recovery time. A shorter timeout could cause unnecessary failovers from temporary spikes.</div>
+            </div>
+        </section>
+
+        <!-- Q20 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q20</span><span class="quiz-topic">Replication Log</span></div>
+            <p class="quiz-question">What is statement-based replication?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Copying disk blocks</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Leader logs every write statement (INSERT, UPDATE, DELETE) and forwards to followers</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Binary data copy</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Snapshot-based</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> The leader logs every write request (statement) and sends that statement log to followers.</div>
+            </div>
+        </section>
+
+        <!-- Q21 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q21</span><span class="quiz-topic">Statement Issues</span></div>
+            <p class="quiz-question">Why is statement-based replication problematic?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) It's too efficient</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Nondeterministic functions (NOW(), RAND()), auto-incrementing columns, and side effects break it</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) It uses too much storage</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) It's too simple</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Statements with NOW(), RAND(), auto-increment in different order, or triggers with side effects produce different results on replicas.</div>
+            </div>
+        </section>
+
+        <!-- Q22 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q22</span><span class="quiz-topic">WAL Shipping</span></div>
+            <p class="quiz-question">What is Write-Ahead Log (WAL) shipping?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Copying application code</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Sending the exact byte-level append-only log used by the storage engine to followers</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Sending SQL statements</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Transmitting checksums</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> WAL shipping sends the storage engine's append-only log (exact byte sequences) to followers.</div>
+            </div>
+        </section>
+
+        <!-- Q23 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q23</span><span class="quiz-topic">WAL Disadvantage</span></div>
+            <p class="quiz-question">What is the main disadvantage of WAL shipping?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Too slow</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) The log describes data at a very low level (disk blocks/bytes), tightly coupling it to the storage engine version</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) It's too abstract</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Uses too much memory</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> WAL data is at byte level, making it closely coupled to the storage engine. Different versions may not be compatible, preventing zero-downtime upgrades.</div>
+            </div>
+        </section>
+
+        <!-- Q24 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q24</span><span class="quiz-topic">Logical Log</span></div>
+            <p class="quiz-question">What is a logical (row-based) log?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Human-readable text log</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) A sequence of records describing writes at the row level (inserts, deletes, updates with column values)</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) A file system log</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) A debug log</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> A logical log describes writes at the granularity of a row: inserts contain new values, deletes contain the key, updates contain old/new values.</div>
+            </div>
+        </section>
+
+        <!-- Q25 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q25</span><span class="quiz-topic">Logical Log Benefit</span></div>
+            <p class="quiz-question">What advantage does a logical log have over WAL?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Faster writes</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Decoupled from storage engine internals, enabling different versions and even different storage engines</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Uses less CPU</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Requires less network</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> A logical log is decoupled from the storage engine internals, making it easier to maintain backward compatibility and allowing leader/follower to run different versions.</div>
+            </div>
+        </section>
+
+        <!-- Q26 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q26</span><span class="quiz-topic">Trigger-Based</span></div>
+            <p class="quiz-question">When would you use trigger-based replication?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Always</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) When you need flexibility — like replicating only a subset of data or transforming data during replication</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) When performance is critical</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) For all production systems</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Trigger-based replication is useful when you need flexibility, such as replicating a subset or conflict resolution logic.</div>
+            </div>
+        </section>
+
+        <!-- Q27 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q27</span><span class="quiz-topic">Replication Lag</span></div>
+            <p class="quiz-question">What is replication lag?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Network delay</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) The delay between a write on the leader and its reflection on a follower</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) CPU processing time</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Disk write time</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> If an application reads from an asynchronous follower, it may see outdated information — the delay is replication lag.</div>
+            </div>
+        </section>
+
+        <!-- Q28 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q28</span><span class="quiz-topic">Eventual Consistency</span></div>
+            <p class="quiz-question">What does eventual consistency mean?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Data is always consistent</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) If you stop writing and wait, followers will eventually catch up and be consistent with the leader</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Data is never consistent</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Only the leader is consistent</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> If you stop writing and wait, followers will eventually catch up — this effect is known as eventual consistency.</div>
+            </div>
+        </section>
+
+        <!-- Q29 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q29</span><span class="quiz-topic">Read-Your-Writes</span></div>
+            <p class="quiz-question">What is read-your-own-writes consistency?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) All users see the same data</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) After a user submits data, they always see their own submitted data (though others may not yet)</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Writes are immediate</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) All reads go to the leader</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Read-your-own-writes guarantees that if a user reloads a page after a write, they will always see their own update.</div>
+            </div>
+        </section>
+
+        <!-- Q30 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q30</span><span class="quiz-topic">Read-Your-Writes Impl</span></div>
+            <p class="quiz-question">How can read-your-own-writes be implemented?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Always read from followers</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Read from the leader for data the user may have modified; use followers for other data</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Cache everything</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Delay all reads</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> One approach: read user-modified data from the leader, other data from any follower.</div>
+            </div>
+        </section>
+
+        <!-- Q31 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q31</span><span class="quiz-topic">Cross-Device</span></div>
+            <p class="quiz-question">What additional challenge exists for cross-device read-your-writes?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) No challenge</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Different devices may route to different datacenters with different replication lag</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Devices share memory</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) All devices use the same connection</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> A user's different devices may connect to different datacenters. Metadata like last-update timestamp must be centralized.</div>
+            </div>
+        </section>
+
+        <!-- Q32 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q32</span><span class="quiz-topic">Monotonic Reads</span></div>
+            <p class="quiz-question">What anomaly does monotonic reads prevent?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Slow writes</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Moving backward in time — seeing newer data then older data on successive reads</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Network congestion</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Disk failures</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Monotonic reads guarantees that a user won't read older data after having previously read newer data.</div>
+            </div>
+        </section>
+
+        <!-- Q33 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q33</span><span class="quiz-topic">Monotonic Impl</span></div>
+            <p class="quiz-question">How is monotonic reads typically implemented?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Random follower selection</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Each user always reads from the same replica (e.g., chosen by hash of user ID)</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) All reads from leader</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Round-robin selection</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Make each user always read from the same replica, chosen for example by a hash of the user ID.</div>
+            </div>
+        </section>
+
+        <!-- Q34 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q34</span><span class="quiz-topic">Consistent Prefix</span></div>
+            <p class="quiz-question">What does consistent prefix reads prevent?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Data corruption</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Seeing an answer before the question — causally related writes appearing out of order</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Slow networks</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Disk full errors</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Consistent prefix reads guarantees that if a sequence of writes happens in a certain order, anyone reading will see them in that order.</div>
+            </div>
+        </section>
+
+        <!-- Q35 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q35</span><span class="quiz-topic">Consistent Prefix Problem</span></div>
+            <p class="quiz-question">In which type of database is consistent prefix reads particularly problematic?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Single-node databases</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Partitioned (sharded) databases where different partitions operate independently</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) In-memory databases</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Read-only databases</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> In partitioned databases, different partitions operate independently, so there is no global ordering of writes.</div>
+            </div>
+        </section>
+
+        <!-- Q36 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q36</span><span class="quiz-topic">Multi-Leader</span></div>
+            <p class="quiz-question">What is multi-leader replication also called?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Peer-to-peer</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Master-master or active/active replication</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Cluster replication</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Cascade replication</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Multi-leader configuration is also known as master-master or active/active replication.</div>
+            </div>
+        </section>
+
+        <!-- Q37 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q37</span><span class="quiz-topic">Multi-Leader Use Case</span></div>
+            <p class="quiz-question">When does multi-leader replication make sense?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Single datacenter only</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Multi-datacenter operation where each datacenter has its own leader</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Read-only workloads</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Small databases only</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Multi-leader makes sense when you have multiple datacenters, each with its own leader for local write acceptance.</div>
+            </div>
+        </section>
+
+        <!-- Q38 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q38</span><span class="quiz-topic">Multi-DC Advantage</span></div>
+            <p class="quiz-question">What performance advantage does multi-leader have over single-leader for multi-datacenter?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Less storage</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Writes are processed in the local datacenter without waiting for cross-datacenter replication</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Faster reads</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Simpler configuration</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Every write is processed in the local datacenter and replicated asynchronously, hiding inter-datacenter network delay from users.</div>
+            </div>
+        </section>
+
+        <!-- Q39 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q39</span><span class="quiz-topic">Offline Operation</span></div>
+            <p class="quiz-question">Why are apps like calendar clients considered multi-leader replication?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) They use SQL</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Each device acts as a leader that accepts writes offline, syncing later</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) They don't store data</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) They only read data</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Every device has a local database acting as a leader. When online, changes are synced asynchronously — a multi-leader topology.</div>
+            </div>
+        </section>
+
+        <!-- Q40 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q40</span><span class="quiz-topic">Collaborative Editing</span></div>
+            <p class="quiz-question">How is real-time collaborative editing (like Google Docs) related to replication?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) It's not related</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) It's similar to multi-leader replication where each user's changes are a 'write' that must be replicated</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) It uses single-leader</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) It doesn't require conflict resolution</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Changes are instantly applied locally and asynchronously replicated — very similar to multi-leader replication with conflict resolution.</div>
+            </div>
+        </section>
+
+        <!-- Q41 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q41</span><span class="quiz-topic">Write Conflicts</span></div>
+            <p class="quiz-question">What is the biggest problem with multi-leader replication?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Too many replicas</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Write conflicts — two leaders may concurrently accept conflicting writes</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Slow reads</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) High storage cost</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> The biggest problem is that write conflicts can occur, requiring conflict resolution.</div>
+            </div>
+        </section>
+
+        <!-- Q42 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q42</span><span class="quiz-topic">Conflict Avoidance</span></div>
+            <p class="quiz-question">What is the simplest strategy for handling conflicts?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Automatic resolution</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Conflict avoidance — ensure all writes for a record go through the same leader</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Delete conflicting data</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Lock all records</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> The simplest strategy is to avoid conflicts by ensuring that all writes for a particular record go through the same leader.</div>
+            </div>
+        </section>
+
+        <!-- Q43 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q43</span><span class="quiz-topic">Last Write Wins</span></div>
+            <p class="quiz-question">What is last-write-wins (LWW) conflict resolution?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) The first write wins</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Each write gets a timestamp; the 'latest' timestamp wins and others are discarded</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Both writes are kept</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) The longest write wins</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Give each write a unique ID or timestamp, pick the highest as the winner, discard others. This is prone to data loss.</div>
+            </div>
+        </section>
+
+        <!-- Q44 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q44</span><span class="quiz-topic">LWW Problem</span></div>
+            <p class="quiz-question">What is the problem with last-write-wins?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) It's too slow</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) It achieves convergence at the cost of durability — conflicting writes are silently discarded</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) It uses too much memory</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) It requires manual intervention</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> LWW is prone to data loss because writes that are not 'last' are silently discarded.</div>
+            </div>
+        </section>
+
+        <!-- Q45 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q45</span><span class="quiz-topic">Custom Resolution</span></div>
+            <p class="quiz-question">When can custom conflict resolution logic run?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Only at write time</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) On write (as the DB detects a conflict) or on read (storing conflicts and returning all versions)</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Only at read time</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Only during backup</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Some systems let you write a handler called on write (Bucardo), others store conflicts and resolve on read (CouchDB).</div>
+            </div>
+        </section>
+
+        <!-- Q46 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q46</span><span class="quiz-topic">CRDTs</span></div>
+            <p class="quiz-question">What are CRDTs?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Conflict Resolution Data Types</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Data structures that can be concurrently edited and automatically resolve conflicts in sensible ways</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Compressed Replicated Data Tables</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Centralized Replication Distribution Tools</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> CRDTs (Conflict-free Replicated Data Types) are data structures that can be concurrently edited by multiple users and automatically resolve conflicts.</div>
+            </div>
+        </section>
+
+        <!-- Q47 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q47</span><span class="quiz-topic">Replication Topologies</span></div>
+            <p class="quiz-question">What are the three replication topologies for multi-leader?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Star, ring, mesh</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Circular, star, and all-to-all</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Bus, tree, hybrid</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Point-to-point, multicast, broadcast</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> The most common topologies are circular, star (hub-and-spoke), and all-to-all.</div>
+            </div>
+        </section>
+
+        <!-- Q48 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q48</span><span class="quiz-topic">All-to-All</span></div>
+            <p class="quiz-question">What is the most common multi-leader topology?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Circular</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Star</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) All-to-all</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Ring</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> All-to-all is the most common topology, where every leader sends writes to every other leader.</div>
+            </div>
+        </section>
+
+        <!-- Q49 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q49</span><span class="quiz-topic">Topology Issue</span></div>
+            <p class="quiz-question">What problem can the all-to-all topology have?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Single point of failure</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Some network links may be faster, causing writes to arrive out of causal order</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Too few connections</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Data loss</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Some network links may be faster than others, causing messages to overtake each other and arrive out of causal order.</div>
+            </div>
+        </section>
+
+        <!-- Q50 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q50</span><span class="quiz-topic">Leaderless</span></div>
+            <p class="quiz-question">In leaderless replication, how are writes handled?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) One leader accepts writes</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) The client sends writes to several replicas directly, or a coordinator does so</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Only one replica stores data</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Writes go to a queue</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> The client sends its write to several replicas, or a coordinator node does this on behalf of the client.</div>
+            </div>
+        </section>
+
+        <!-- Q51 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q51</span><span class="quiz-topic">Leaderless History</span></div>
+            <p class="quiz-question">Which database pioneered the leaderless approach that inspired Dynamo-style databases?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) MySQL</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Amazon's Dynamo (internal)</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) PostgreSQL</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) MongoDB</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Amazon used leaderless replication in its in-house Dynamo system, inspiring Riak, Cassandra, and Voldemort.</div>
+            </div>
+        </section>
+
+        <!-- Q52 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q52</span><span class="quiz-topic">Read Repair</span></div>
+            <p class="quiz-question">What is read repair?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Fixing corrupted disks</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) When a client reads from multiple replicas and detects stale values, it writes the newer value back</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Restarting the database</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Rebuilding indexes</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> When a client makes a read from several replicas and detects stale responses, it writes the newer value back to the stale replica.</div>
+            </div>
+        </section>
+
+        <!-- Q53 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q53</span><span class="quiz-topic">Anti-Entropy</span></div>
+            <p class="quiz-question">What is the anti-entropy process?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Cooling servers</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) A background process that constantly looks for differences between replicas and copies missing data</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Encrypting data</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Compressing logs</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> A background process constantly looks for differences between replicas and copies any missing data from one replica to another.</div>
+            </div>
+        </section>
+
+        <!-- Q54 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q54</span><span class="quiz-topic">Quorum</span></div>
+            <p class="quiz-question">What is the quorum condition for reads and writes?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) n = r + w</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) w + r > n (write quorum + read quorum > total nodes)</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) r = w = n</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) w + r = n</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> If w + r > n, at least one of the r nodes read from must have seen the most recent write.</div>
+            </div>
+        </section>
+
+        <!-- Q55 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q55</span><span class="quiz-topic">Typical Quorum</span></div>
+            <p class="quiz-question">With n=3 replicas, what is a common quorum configuration?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) w=1, r=1</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) w=2, r=2</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) w=3, r=3</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) w=1, r=3</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> A common choice is n=3, w=2, r=2, ensuring at least one node in common between writes and reads.</div>
+            </div>
+        </section>
+
+        <!-- Q56 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q56</span><span class="quiz-topic">Quorum Flexibility</span></div>
+            <p class="quiz-question">What is the trade-off between w and r in quorum configuration?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) No trade-off</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Smaller w means faster writes but requires larger r for reads, and vice versa</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Both must be equal</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Only w matters</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> With n=3, if w=1 (fast writes, less durable), then r must be 3 to still satisfy w+r>n.</div>
+            </div>
+        </section>
+
+        <!-- Q57 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q57</span><span class="quiz-topic">Sloppy Quorum</span></div>
+            <p class="quiz-question">What is a sloppy quorum?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) An exact quorum</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Writes accepted by w nodes even if they're not the designated home nodes for that key</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) A quorum with no reads</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) A quorum for delete operations</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> In a sloppy quorum, writes and reads still require w and r successful responses, but those may include nodes not among the designated home nodes.</div>
+            </div>
+        </section>
+
+        <!-- Q58 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q58</span><span class="quiz-topic">Hinted Handoff</span></div>
+            <p class="quiz-question">What is hinted handoff?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Deleting old data</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) When a sloppy quorum node that temporarily accepted writes sends them to the proper home node once it recovers</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Manual data transfer</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Index rebuilding</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Once the original home node is back online, the temporary node sends any writes it accepted to the home node — this is hinted handoff.</div>
+            </div>
+        </section>
+
+        <!-- Q59 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q59</span><span class="quiz-topic">Multi-DC Leaderless</span></div>
+            <p class="quiz-question">How does Cassandra handle multi-datacenter leaderless replication?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Only replicates within one DC</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) n includes nodes in all DCs, but the client waits for quorum within only the local DC</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Uses single-leader across DCs</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Doesn't support multi-DC</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Cassandra and Voldemort implement n as including nodes in all datacenters, but writes wait for acknowledgment only from the local DC.</div>
+            </div>
+        </section>
+
+        <!-- Q60 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q60</span><span class="quiz-topic">Concurrent Writes</span></div>
+            <p class="quiz-question">Two writes to the same key are 'concurrent' if:</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) They happen at the exact same millisecond</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Neither happened before the other — each operation was unaware of the other</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) They have the same value</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) They come from the same client</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Two operations are concurrent if neither happened before the other — they were unaware of each other.</div>
+            </div>
+        </section>
+
+        <!-- Q61 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q61</span><span class="quiz-topic">Version Vectors</span></div>
+            <p class="quiz-question">What are version vectors used for?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Compressing data</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Tracking which value was overwritten and which are concurrent (siblings) across multiple replicas</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Encrypting replication</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Measuring latency</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Version vectors (or vector clocks) track causal dependencies and determine which writes are concurrent vs. causally ordered.</div>
+            </div>
+        </section>
+
+        <!-- Q62 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q62</span><span class="quiz-topic">Happens-Before</span></div>
+            <p class="quiz-question">What does the 'happens-before' relationship mean?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) One event is faster</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Operation A happened before B if B knew about A or depended on A</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Events are simultaneous</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Events are in different datacenters</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> An operation A happened before B if B knew about A, built upon A, or depended on A in some way.</div>
+            </div>
+        </section>
+
+        <!-- Q63 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q63</span><span class="quiz-topic">Conflict Detection</span></div>
+            <p class="quiz-question">How are conflicts detected in leaderless systems?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) They can't be detected</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Using version numbers: if a write doesn't include all previous version numbers, it's concurrent</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Manual inspection</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) By comparing timestamps only</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> The server assigns version numbers and uses them to determine whether writes are sequential or concurrent.</div>
+            </div>
+        </section>
+
+        <!-- Q64 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q64</span><span class="quiz-topic">Merging Siblings</span></div>
+            <p class="quiz-question">When siblings (concurrent values) exist, the client must:</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Delete both</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Merge them and write back the merged value</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Pick the first one</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Ignore both</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Siblings must be merged by the client, taking the union or performing application-specific merge logic.</div>
+            </div>
+        </section>
+
+        <!-- Q65 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q65</span><span class="quiz-topic">Tombstones</span></div>
+            <p class="quiz-question">Why are deletion markers (tombstones) needed?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) To mark favorite records</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Without them, a deleted item may be resurrected when merging siblings</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) To compress data</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) For encryption</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> If you use set union for merging and an item was removed, you need a tombstone to prevent it from being re-added during the merge.</div>
+            </div>
+        </section>
+
+        <!-- Q66 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q66</span><span class="quiz-topic">WAL Examples</span></div>
+            <p class="quiz-question">Which databases use WAL-based replication?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) MySQL only</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) PostgreSQL and Oracle, among others</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) MongoDB only</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Redis only</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> PostgreSQL and Oracle use WAL-based (write-ahead log) replication.</div>
+            </div>
+        </section>
+
+        <!-- Q67 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q67</span><span class="quiz-topic">MySQL Replication</span></div>
+            <p class="quiz-question">What type of replication log does MySQL use by default?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) WAL shipping</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Row-based logical log (binlog)</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Statement-based only</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Trigger-based</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> MySQL's default replication uses a row-based format in its binlog (logical log).</div>
+            </div>
+        </section>
+
+        <!-- Q68 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q68</span><span class="quiz-topic">CDC</span></div>
+            <p class="quiz-question">How is logical log replication useful beyond just replication?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) It's not useful elsewhere</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) It enables Change Data Capture (CDC) — sending DB contents to external systems like data warehouses</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Only for backups</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Only for encryption</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> A logical log format is useful for change data capture — sending contents to external systems like data warehouses or search indexes.</div>
+            </div>
+        </section>
+
+        <!-- Q69 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q69</span><span class="quiz-topic">Research Solutions</span></div>
+            <p class="quiz-question">What research project aimed to solve replication lag guarantees?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) MapReduce</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Causal consistency and solutions like those being developed for single-node transaction behavior on replicas</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) NoSQL manifesto</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) SQL Standard 2.0</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Researchers have explored causal consistency and providing transaction-like guarantees in replicated databases.</div>
+            </div>
+        </section>
+
+        <!-- Q70 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q70</span><span class="quiz-topic">Failover Automation</span></div>
+            <p class="quiz-question">Why do some operations teams prefer manual failover?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Manual is faster</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Automatic failover has risks: unnecessary failovers, split-brain, wrong timeout values</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Manual uses less network</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Automatic failover doesn't work</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Automatic failover can cause problems like unnecessary failovers from transient issues, split-brain, and data loss.</div>
+            </div>
+        </section>
+
+        <!-- Q71 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q71</span><span class="quiz-topic">Replication Methods</span></div>
+            <p class="quiz-question">Which replication method is used by most databases today?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Statement-based</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) WAL or logical (row-based) log replication</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Trigger-based</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) None</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Most databases use either WAL-based or logical (row-based) log replication.</div>
+            </div>
+        </section>
+
+        <!-- Q72 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q72</span><span class="quiz-topic">Chain Replication</span></div>
+            <p class="quiz-question">What is chain replication?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) A circular topology</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) A variant of synchronous replication used in some systems like Microsoft Azure Storage</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Asynchronous only</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) A backup strategy</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Chain replication is a variant of synchronous replication used in systems like Microsoft Azure Storage.</div>
+            </div>
+        </section>
+
+        <!-- Q73 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q73</span><span class="quiz-topic">Replication and Partitioning</span></div>
+            <p class="quiz-question">How do replication and partitioning relate?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) They are the same thing</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) They are often combined — each partition is replicated across multiple nodes</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) They cannot be used together</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Partitioning replaces replication</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Replication and partitioning are commonly combined: each partition's data is replicated across multiple nodes.</div>
+            </div>
+        </section>
+
+        <!-- Q74 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q74</span><span class="quiz-topic">Dynamo-Style</span></div>
+            <p class="quiz-question">Which databases are considered Dynamo-style?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) MySQL, PostgreSQL</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Riak, Cassandra, Voldemort</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) MongoDB, CouchDB</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Redis, Memcached</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Open-source datastores inspired by Amazon's Dynamo include Riak, Cassandra, and Voldemort.</div>
+            </div>
+        </section>
+
+        <!-- Q75 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q75</span><span class="quiz-topic">Write Quorum</span></div>
+            <p class="quiz-question">If n=5, what is the minimum w for writes to survive up to 2 node failures?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) w=1</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) w=2</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) w=3</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) w=5</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> With n=5, w=3 means 3 nodes confirm the write. If 2 fail, 3 still have it. And r=3 ensures w+r>n.</div>
+            </div>
+        </section>
+
+        <!-- Q76 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q76</span><span class="quiz-topic">Linearizability</span></div>
+            <p class="quiz-question">Do quorum reads/writes guarantee linearizability?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Always</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Not necessarily — due to replication lag, sloppy quorums, and concurrent write conflicts</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Only in Cassandra</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Only with w=n</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Even with w+r>n, there are edge cases where stale values are returned, so Dynamo-style quorums do not guarantee linearizability.</div>
+            </div>
+        </section>
+
+        <!-- Q77 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q77</span><span class="quiz-topic">Monitoring Lag</span></div>
+            <p class="quiz-question">Why is monitoring replication lag important?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) It's not important</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) If a follower falls behind, it may serve severely outdated data, and the application should be aware</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) It saves disk space</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) It improves write performance</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Monitoring is essential to alert when a follower falls significantly behind and may serve very outdated data.</div>
+            </div>
+        </section>
+
+        <!-- Q78 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q78</span><span class="quiz-topic">Lag Measurement</span></div>
+            <p class="quiz-question">Why is measuring replication lag harder in leaderless systems?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) It's easier</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) There is no fixed order of writes, so it's difficult to compare follower position against leader</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Leaderless has no lag</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Only timestamps work</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> In leaderless systems, there is no fixed order in which writes are applied, making lag measurement harder.</div>
+            </div>
+        </section>
+
+        <!-- Q79 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q79</span><span class="quiz-topic">Write Conflicts Example</span></div>
+            <p class="quiz-question">In the chapter's example of a wiki edit conflict, what happens?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) One edit is rejected</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Both users edit the same page simultaneously at different leaders, creating a conflict that must be resolved</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) The page is locked</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Only one user can edit</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Two users concurrently edit the same wiki page at different leaders, creating conflicting writes that need resolution.</div>
+            </div>
+        </section>
+
+        <!-- Q80 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q80</span><span class="quiz-topic">Conflict at DB Level</span></div>
+            <p class="quiz-question">When is a conflict detected in multi-leader async replication?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Immediately</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Only when the write is asynchronously replicated — it may be too late to ask the user</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Before the write</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) During backup</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> In async multi-leader, the conflict is detected asynchronously during replication, often too late to prompt the user.</div>
+            </div>
+        </section>
+
+        <!-- Q81 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q81</span><span class="quiz-topic">CouchDB</span></div>
+            <p class="quiz-question">How does CouchDB handle conflicts?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Last-write-wins</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Stores all versions and lets the application resolve on read</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Rejects the later write</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Merges automatically</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> CouchDB stores all conflicting versions and returns them to the application on read for resolution.</div>
+            </div>
+        </section>
+
+        <!-- Q82 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q82</span><span class="quiz-topic">Operational Transform</span></div>
+            <p class="quiz-question">What algorithm do Google Docs and similar tools use?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Last-write-wins</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Operational transformation (OT) for concurrent editing</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Two-phase commit</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Paxos</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Google Docs uses operational transformation, designed for ordered lists of items (text characters).</div>
+            </div>
+        </section>
+
+        <!-- Q83 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q83</span><span class="quiz-topic">Circular Topology</span></div>
+            <p class="quiz-question">What happens in a circular replication topology if one node fails?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Nothing</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) The flow of replication messages is interrupted</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Data is automatically repaired</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) All nodes fail</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> In circular topology, if one node fails, it can interrupt the flow of replication messages between other nodes.</div>
+            </div>
+        </section>
+
+        <!-- Q84 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q84</span><span class="quiz-topic">Star Topology</span></div>
+            <p class="quiz-question">What is the weakness of star (hub-and-spoke) topology?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Too many connections</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) The central hub is a single point of failure</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Too few nodes</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) High latency</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> In a star topology, the central node is a single point of failure.</div>
+            </div>
+        </section>
+
+        <!-- Q85 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q85</span><span class="quiz-topic">Causality Tracking</span></div>
+            <p class="quiz-question">How do version vectors help in all-to-all topology?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) They don't help</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) They track causal dependencies and detect when messages arrive out of order</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) They encrypt data</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) They compress messages</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Version vectors help track causal dependencies and detect out-of-order message delivery.</div>
+            </div>
+        </section>
+
+        <!-- Q86 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q86</span><span class="quiz-topic">Quorum Edge Cases</span></div>
+            <p class="quiz-question">Even with strict quorum (w+r>n), stale reads can occur when:</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Never</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) A sloppy quorum is used, concurrent writes occur, or writes succeed on fewer than w nodes</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Only on Tuesdays</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Only with n=1</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Sloppy quorums, concurrent writes, partially failed writes, and node restores from stale data can all cause stale reads.</div>
+            </div>
+        </section>
+
+        <!-- Q87 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q87</span><span class="quiz-topic">Tunable Consistency</span></div>
+            <p class="quiz-question">What are quorum parameters sometimes called?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Hard consistency</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Tunable consistency — adjusting w and r to balance latency, availability, and consistency</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Fixed consistency</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Optimal consistency</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Choosing w and r values lets you tune the trade-off, which is why it's sometimes called tunable consistency.</div>
+            </div>
+        </section>
+
+        <!-- Q88 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q88</span><span class="quiz-topic">Write Conflict Resolution</span></div>
+            <p class="quiz-question">What must the conflict resolution function ensure?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) It can produce different results on different replicas</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) It must be convergent — all replicas must arrive at the same final value</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) It must always pick the longest value</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) It must delete one copy</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> The resolution must be convergent: all replicas must arrive at the same final value when they have received all writes.</div>
+            </div>
+        </section>
+
+        <!-- Q89 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q89</span><span class="quiz-topic">Mergeable Data</span></div>
+            <p class="quiz-question">What approach uses data structures that automatically resolve conflicts?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) SQL transactions</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) CRDTs — data structures designed for automatic conflict resolution</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Manual review</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Lock-based</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> CRDTs are data structures that can automatically merge concurrent edits in sensible ways.</div>
+            </div>
+        </section>
+
+        <!-- Q90 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q90</span><span class="quiz-topic">Multi-Leader for Offline</span></div>
+            <p class="quiz-question">Why is multi-leader useful for offline-capable apps?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) It's not useful</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Each device acts as a leader accepting writes locally, syncing when connectivity returns</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) It requires constant internet</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Only works on desktops</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Each device has a local database acting as a leader accepting writes, syncing with others asynchronously.</div>
+            </div>
+        </section>
+
+        <!-- Q91 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q91</span><span class="quiz-topic">Replication Guarantees</span></div>
+            <p class="quiz-question">What guarantee does single-leader replication naturally provide?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Multi-datacenter support</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) A clear ordering of writes since all go through one node</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Conflict resolution</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Infinite scalability</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Single-leader provides clear write ordering since all writes flow through one leader.</div>
+            </div>
+        </section>
+
+        <!-- Q92 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q92</span><span class="quiz-topic">Stale Reads</span></div>
+            <p class="quiz-question">What causes stale reads in asynchronous replication?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Too many writes</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Replication lag — followers haven't yet received/applied recent writes from the leader</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Network encryption</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Disk failures</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Followers may not have caught up with the leader, so reads from them return outdated data.</div>
+            </div>
+        </section>
+
+        <!-- Q93 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q93</span><span class="quiz-topic">Session Consistency</span></div>
+            <p class="quiz-question">How can read-your-own-writes be implemented across sessions?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) No way to do it</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Remember the timestamp of the last write; ensure reads go to replicas caught up to at least that timestamp</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Always read from leader</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Clear cache after every write</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Track the timestamp of the user's last write and ensure any replica serving reads is caught up to at least that point.</div>
+            </div>
+        </section>
+
+        <!-- Q94 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q94</span><span class="quiz-topic">Follower Promotion</span></div>
+            <p class="quiz-question">How is a new leader typically chosen during failover?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Random selection</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) By election (consensus among remaining replicas) or appointment by a controller node</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Alphabetical order</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) The oldest replica</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> The new leader can be elected by a majority of remaining replicas or appointed by a previously elected controller node.</div>
+            </div>
+        </section>
+
+        <!-- Q95 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q95</span><span class="quiz-topic">Data Loss on Failover</span></div>
+            <p class="quiz-question">When can data loss occur during failover?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Never</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) When the old leader had unreplicated writes — the new leader may be missing recent data</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Only with synchronous replication</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Only on weekends</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> If the old leader's unreplicated writes are discarded when it rejoins as a follower, those writes are permanently lost.</div>
+            </div>
+        </section>
+
+        <!-- Q96 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q96</span><span class="quiz-topic">Deterministic Merge</span></div>
+            <p class="quiz-question">Why is deterministic merge important for multi-leader?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Performance</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) All replicas must arrive at the same final state even if they process writes in different orders</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) It's not important</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Only for analytics</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Without deterministic merge, different replicas could end up with different final states.</div>
+            </div>
+        </section>
+
+        <!-- Q97 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q97</span><span class="quiz-topic">Read Scaling</span></div>
+            <p class="quiz-question">How does leader-based replication help scale reads?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) By having faster disks</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Adding followers distributes read queries across more replicas</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) By compressing data</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) By caching queries</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Adding followers increases aggregate read throughput by distributing read queries.</div>
+            </div>
+        </section>
+
+        <!-- Q98 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q98</span><span class="quiz-topic">Linearizable Quorum</span></div>
+            <p class="quiz-question">What would be needed for quorums to provide linearizability?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Nothing extra</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Read repair must be synchronous, or a consensus algorithm like Paxos must be used</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) More replicas</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Faster network</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Linearizable quorum reads would require synchronous read repair or use of a proper consensus algorithm.</div>
+            </div>
+        </section>
+
+        <!-- Q99 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q99</span><span class="quiz-topic">Replication and Consensus</span></div>
+            <p class="quiz-question">How does the chapter connect replication to consensus?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) No connection</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Getting replicas to agree on leader election and value ordering is a form of the consensus problem, covered in Chapter 9</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) They are opposites</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Consensus replaces replication</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Leader election and consistent ordering of writes are forms of the consensus problem, explored further in Chapter 9.</div>
+            </div>
+        </section>
+
+        <!-- Q100 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q100</span><span class="quiz-topic">Summary</span></div>
+            <p class="quiz-question">What is the main trade-off in replication approaches?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Speed vs storage</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Consistency vs availability/latency/fault tolerance</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Cost vs features</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Security vs usability</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> The fundamental trade-off is between consistency guarantees and availability, latency, and fault tolerance.</div>
+            </div>
+        </section>
+
+
+
     </div>
 
     <div class="controls">
@@ -1163,6 +2790,16 @@ Mr. Poons: How far into the future
             }
         });
 
+
+        function selectOption(e) { e.classList.toggle('selected'); }
+        function checkAnswer(e, correctOptions) {
+            if (!e.parentElement.classList.contains('revealed')) e.parentElement.classList.add('revealed');
+            if (!Array.isArray(correctOptions)) return;
+            const sel = new Set(Array.from(e.parentElement.parentElement.querySelectorAll('.quiz-option.selected')).map(t => t.innerText.trim().charAt(0)));
+            const ok = correctOptions.every(o => sel.has(o)) && sel.size === correctOptions.length;
+            const exp = e.parentElement.querySelector('.quiz-explanation');
+            if (!ok) exp.classList.add('incorrect'); else exp.classList.remove('incorrect');
+        }
         update();
     </script>
 

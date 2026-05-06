@@ -454,6 +454,23 @@
             .title-slide p { font-size: 1rem; }
         }
     
+
+        /* ====== Quiz Slides ====== */
+        .quiz-slide { text-align: left; padding: 3% 8%; gap: 10px; }
+        .quiz-header { display: flex; align-items: center; gap: 15px; margin-bottom: 5px; }
+        .quiz-number { background: #2563eb; color: white; padding: 6px 16px; border-radius: 8px; font-weight: 800; font-size: 1.2rem; }
+        .quiz-topic { font-size: 0.95rem; text-transform: uppercase; letter-spacing: 2px; opacity: 0.5; font-weight: 600; }
+        .quiz-question { font-size: 1.6rem; font-weight: 600; margin-bottom: 10px; line-height: 1.3; }
+        .quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; }
+        .quiz-option { background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 10px; padding: 12px 18px; font-size: 1.1rem; font-weight: 400; cursor: pointer; }
+        .quiz-option:hover { border-color: #2563eb; }
+        .quiz-option.selected { border-color: #2563eb; background: #dbeafe; }
+        .quiz-answer { width: 100%; margin-top: 8px; }
+        .reveal-btn { background: #2563eb; color: white; border: none; padding: 8px 28px; border-radius: 8px; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: opacity 0.2s; }
+        .reveal-btn:hover { opacity: 0.85; }
+        .quiz-explanation { display: none; background: #f0fdf4; border: 2px solid #86efac; border-radius: 10px; padding: 12px 18px; margin-top: 8px; font-size: 1.05rem; line-height: 1.4; }
+        .quiz-explanation.incorrect { display: block; background: #fef2f2; border-color: #fecaca; }
+        .quiz-answer.revealed .quiz-explanation { display: block; }
     </style>
 </head>
 <body>
@@ -1134,6 +1151,1616 @@ COMMIT;</pre>
             </div>
         </section>
 
+
+        <!-- ==================== MCQ QUIZ SECTION ==================== -->
+
+        <section class="slide section-header">
+            <h2>MCQ Quiz</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">100 Questions &bull; Test Your Knowledge</p>
+        </section>
+
+        <!-- Q1 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q1</span><span class="quiz-topic">Chapter Theme</span></div>
+            <p class="quiz-question">What is the main theme of Chapter 12?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Database internals</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) How to combine tools and technologies to build reliable, scalable, and maintainable data systems</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Network protocols</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Hardware design</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Chapter 12 explores how to combine tools from previous chapters to build reliable, scalable, and maintainable applications.</div>
+            </div>
+        </section>
+
+        <!-- Q2 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q2</span><span class="quiz-topic">Data Integration</span></div>
+            <p class="quiz-question">What is data integration?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Database migration</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Ensuring that data reaches all the right places, in the right form — the most important thing to get right</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Data compression</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Data deletion</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Data integration is about making sure data ends up in all the right derived forms and systems consistently.</div>
+            </div>
+        </section>
+
+        <!-- Q3 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q3</span><span class="quiz-topic">No One Tool</span></div>
+            <p class="quiz-question">What does the chapter argue about using a single data tool?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) One tool is enough</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) No single tool can serve all data needs — you must combine specialized tools for different access patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Use only SQL</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Use only NoSQL</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> No single tool can satisfy all data storage, querying, and processing needs. Different tools are optimized for different access patterns.</div>
+            </div>
+        </section>
+
+        <!-- Q4 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q4</span><span class="quiz-topic">Derived Data</span></div>
+            <p class="quiz-question">What is derived data?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Original source data</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Data computed from other data — search indexes, materialized views, ML model predictions, caches</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Encrypted data</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Compressed data</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Derived data is created by transforming or processing source data — examples include search indexes, caches, and materialized views.</div>
+            </div>
+        </section>
+
+        <!-- Q5 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q5</span><span class="quiz-topic">Write Path</span></div>
+            <p class="quiz-question">What is the write path?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Network route</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) The pipeline that processes data eagerly as it's written — updating derived views and indexes immediately</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Disk write speed</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Memory allocation</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> The write path processes data proactively at write time, updating derived data systems (like indexes) as new data arrives.</div>
+            </div>
+        </section>
+
+        <!-- Q6 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q6</span><span class="quiz-topic">Read Path</span></div>
+            <p class="quiz-question">What is the read path?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Disk read speed</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Processing that happens lazily when a user makes a query — reading and transforming data on demand</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Network download</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) CPU scheduling</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> The read path handles queries: it reads data and performs any necessary transformations at query time.</div>
+            </div>
+        </section>
+
+        <!-- Q7 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q7</span><span class="quiz-topic">Precomputation</span></div>
+            <p class="quiz-question">What is the trade-off between write path and read path?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) No trade-off</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) More work on the write path (precomputation) means less work on the read path (faster queries), and vice versa</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Write is always better</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Read is always better</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Doing more work eagerly on the write path (precomputing derived data) makes reads faster, at the cost of slower writes.</div>
+            </div>
+        </section>
+
+        <!-- Q8 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q8</span><span class="quiz-topic">Full-Text Search</span></div>
+            <p class="quiz-question">How can a full-text search index be viewed?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) As a primary database</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) As derived data — an index built from source documents that can be rebuilt anytime</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) As source data</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) As a backup</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> A full-text search index is derived from the source documents. If the index is lost, it can be rebuilt from the original documents.</div>
+            </div>
+        </section>
+
+        <!-- Q9 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q9</span><span class="quiz-topic">Unbundling</span></div>
+            <p class="quiz-question">What does 'unbundling the database' mean?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Breaking hardware</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Decomposing database functionality into separate specialized components connected by data flows</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Removing indexes</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Deleting tables</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Unbundling means breaking apart the monolithic database into specialized components (storage, indexing, caching) connected by streams/logs.</div>
+            </div>
+        </section>
+
+        <!-- Q10 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q10</span><span class="quiz-topic">Unix Analogy</span></div>
+            <p class="quiz-question">How is unbundling similar to the Unix philosophy?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) It's not</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Like Unix pipes compose simple tools, unbundling composes specialized data tools via event logs/streams</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Both use the same code</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Both use the same hardware</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Just as Unix composes simple tools via pipes, data systems can compose specialized tools via event logs/streams.</div>
+            </div>
+        </section>
+
+        <!-- Q11 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q11</span><span class="quiz-topic">Event Log</span></div>
+            <p class="quiz-question">What role does the event log play in data integration?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Only for debugging</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) The central, ordered sequence of events that feeds all derived systems — the system of record</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Only for auditing</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Only for backups</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> The event log serves as the system of record from which all derived data systems are built and maintained.</div>
+            </div>
+        </section>
+
+        <!-- Q12 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q12</span><span class="quiz-topic">Total Ordering</span></div>
+            <p class="quiz-question">Why is total ordering of events important?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) For display</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) It ensures all derived systems process events in the same order, maintaining consistency</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) For compression</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) For encryption</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Total ordering ensures all derived data systems see events in the same sequence, keeping them consistent.</div>
+            </div>
+        </section>
+
+        <!-- Q13 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q13</span><span class="quiz-topic">Deterministic</span></div>
+            <p class="quiz-question">Why must transformations from events to derived data be deterministic?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) For performance</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) So the same input always produces the same output — enabling reliable rebuilds and reprocessing</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) For readability</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) For compression</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Deterministic transformations ensure you can always rebuild derived data from the event log and get the same result.</div>
+            </div>
+        </section>
+
+        <!-- Q14 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q14</span><span class="quiz-topic">Idempotent</span></div>
+            <p class="quiz-question">Why is idempotence important in data integration?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) For speed</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) It makes retries safe — applying the same event twice produces the same result as once</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) For storage</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) For security</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Idempotence means applying an operation multiple times has the same effect as once, making failure recovery and retries safe.</div>
+            </div>
+        </section>
+
+        <!-- Q15 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q15</span><span class="quiz-topic">End-to-End Argument</span></div>
+            <p class="quiz-question">What is the end-to-end argument?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) A network protocol</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Low-level reliability mechanisms are not sufficient — the application must implement end-to-end checks for correctness</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Always use encryption</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Always use compression</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> The end-to-end argument: correct behavior can only be guaranteed if the application-level checks are in place, not just lower-level mechanisms.</div>
+            </div>
+        </section>
+
+        <!-- Q16 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q16</span><span class="quiz-topic">Duplicate Suppression</span></div>
+            <p class="quiz-question">Why can't TCP alone guarantee exactly-once processing?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) TCP is perfect</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) TCP eliminates duplicates within a connection, but not across retried application requests or database transactions</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) TCP adds duplicates</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) TCP is stateless</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> TCP prevents duplicate packets within a connection, but application-level retries (e.g., due to timeouts) can still cause duplicates.</div>
+            </div>
+        </section>
+
+        <!-- Q17 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q17</span><span class="quiz-topic">Unique IDs</span></div>
+            <p class="quiz-question">How can application-level duplicates be suppressed?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) By TCP</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) By including a unique request ID — the server deduplicates based on this ID</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) By encryption</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) By timestamps</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Including a unique operation identifier (like a UUID) allows the server to detect and suppress duplicate requests.</div>
+            </div>
+        </section>
+
+        <!-- Q18 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q18</span><span class="quiz-topic">Operation ID</span></div>
+            <p class="quiz-question">What is an operation identifier?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) A database ID</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) A unique token generated by the client that identifies a specific end-to-end operation for deduplication</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) A session token</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) An API key</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> An operation identifier uniquely tags a user action end-to-end, enabling deduplication even across retries and crashes.</div>
+            </div>
+        </section>
+
+        <!-- Q19 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q19</span><span class="quiz-topic">Timeliness</span></div>
+            <p class="quiz-question">What is timeliness in data systems?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Using timestamps</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Users see an up-to-date state — read-after-write consistency, ensuring recent writes are visible</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Clock synchronization</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Batch processing speed</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Timeliness means users observe the most recent state of the data — seeing their own writes reflected immediately.</div>
+            </div>
+        </section>
+
+        <!-- Q20 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q20</span><span class="quiz-topic">Integrity</span></div>
+            <p class="quiz-question">What is integrity in data systems?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Encryption</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) No data corruption — no data loss, no contradictions, no false data — the system's promises are upheld</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Authentication</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Authorization</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Integrity means the data is correct: no data loss, no corruption, no contradictions between related data.</div>
+            </div>
+        </section>
+
+        <!-- Q21 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q21</span><span class="quiz-topic">Timeliness vs Integrity</span></div>
+            <p class="quiz-question">What is the relationship between timeliness and integrity?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) They're the same</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Violations of timeliness are annoying but temporary; violations of integrity can be catastrophic and permanent</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Timeliness is more important</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Integrity doesn't matter</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Timeliness issues (stale data) are temporary and self-resolving. Integrity violations (lost or corrupted data) may be permanent and catastrophic.</div>
+            </div>
+        </section>
+
+        <!-- Q22 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q22</span><span class="quiz-topic">ACID and Integrity</span></div>
+            <p class="quiz-question">How does the chapter relate ACID to these concepts?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) They're unrelated</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Traditional ACID bundles timeliness and integrity; the chapter argues they can be separated for better scalability</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) ACID replaces both</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) ACID is obsolete</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> ACID transactions combine timeliness and integrity. The chapter argues that separating them allows more scalable architectures.</div>
+            </div>
+        </section>
+
+        <!-- Q23 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q23</span><span class="quiz-topic">Exactly-Once</span></div>
+            <p class="quiz-question">How does the chapter frame exactly-once semantics?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Impossible</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) As end-to-end integrity — ensuring the net effect of each operation is correct despite faults</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Only within one system</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Guaranteed by networks</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Exactly-once is fundamentally about maintaining integrity: each operation should have its intended effect, no more, no less.</div>
+            </div>
+        </section>
+
+        <!-- Q24 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q24</span><span class="quiz-topic">Apology Workflow</span></div>
+            <p class="quiz-question">What is the 'apology and compensation' approach?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Customer service training</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) If something goes wrong, detect the error and take compensating action (e.g., refund, apologize)</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Delete all data</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Restart the system</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> The 'apology workflow': if integrity is violated, detect it and compensate — issue a refund, send a correction, apologize.</div>
+            </div>
+        </section>
+
+        <!-- Q25 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q25</span><span class="quiz-topic">Auditing</span></div>
+            <p class="quiz-question">Why is auditing important for data systems?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Legal compliance only</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Detecting data corruption and integrity violations — verifying that derived data matches the event log</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Performance monitoring</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) User tracking</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Auditing verifies that the derived data is consistent with the source events, helping detect corruption and bugs.</div>
+            </div>
+        </section>
+
+        <!-- Q26 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q26</span><span class="quiz-topic">Event-Based Audit</span></div>
+            <p class="quiz-question">How do event-sourced systems support auditing?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) They don't</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) The immutable event log provides a complete, verifiable audit trail of everything that happened</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Through backups only</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Through checksums only</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> The immutable event log in event sourcing naturally provides a full audit trail — you can trace exactly what happened and when.</div>
+            </div>
+        </section>
+
+        <!-- Q27 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q27</span><span class="quiz-topic">Cryptographic Audit</span></div>
+            <p class="quiz-question">How can audit integrity be strengthened?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Passwords</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Using cryptographic hashing (like Merkle trees) to make the event log tamper-evident</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Encryption only</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Firewalls</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Cryptographic techniques like Merkle trees can make the event log tamper-evident, similar to how blockchains work.</div>
+            </div>
+        </section>
+
+        <!-- Q28 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q28</span><span class="quiz-topic">Blockchain Relation</span></div>
+            <p class="quiz-question">How does the chapter relate blockchains to data systems?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Blockchains replace databases</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Blockchains provide tamper-evident integrity via cryptographic audit trails, useful where mutual distrust exists</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Blockchains are irrelevant</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Blockchains are only for currency</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Blockchains apply cryptographic audit and integrity techniques in environments where participants don't trust each other.</div>
+            </div>
+        </section>
+
+        <!-- Q29 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q29</span><span class="quiz-topic">Ethics</span></div>
+            <p class="quiz-question">Why does the chapter discuss ethics?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Legal requirement</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Data systems affect people's lives — engineers must consider the ethical implications of their work</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) For marketing</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) For performance</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Data systems impact people's lives (privacy, fairness, power dynamics). Engineers have a responsibility to consider ethical implications.</div>
+            </div>
+        </section>
+
+        <!-- Q30 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q30</span><span class="quiz-topic">Surveillance</span></div>
+            <p class="quiz-question">What concern does the chapter raise about data collection?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Data is always good</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Mass data collection enables surveillance — even if collected for analytics, it can be repurposed for monitoring individuals</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Data collection is harmless</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Only government collects data</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> The chapter warns that data collected for one purpose (analytics) can be repurposed for surveillance, affecting civil liberties.</div>
+            </div>
+        </section>
+
+        <!-- Q31 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q31</span><span class="quiz-topic">Predictive Analytics</span></div>
+            <p class="quiz-question">What ethical concern exists with predictive analytics?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) None</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Predictions may be biased, discriminatory, or used to make decisions that harm individuals unfairly</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Predictions are always accurate</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Only beneficial uses exist</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Predictive systems can perpetuate biases, discriminate against groups, and make unfair decisions about individuals.</div>
+            </div>
+        </section>
+
+        <!-- Q32 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q32</span><span class="quiz-topic">Feedback Loops</span></div>
+            <p class="quiz-question">What is a feedback loop in data systems?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) A hardware loop</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) System output influences future input — e.g., a recommendation algorithm reinforcing biases through its own selections</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) A network loop</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) A coding loop</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Feedback loops occur when an algorithm's output affects its future input, potentially amplifying biases and creating self-fulfilling prophecies.</div>
+            </div>
+        </section>
+
+        <!-- Q33 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q33</span><span class="quiz-topic">Privacy</span></div>
+            <p class="quiz-question">What is the chapter's stance on privacy?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Privacy is outdated</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Privacy is important — individuals should have control over their data, and 'consented' collection often isn't truly informed</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Privacy slows innovation</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Only health data needs privacy</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> The chapter argues that meaningful privacy requires true control over data, not just checkbox consent forms.</div>
+            </div>
+        </section>
+
+        <!-- Q34 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q34</span><span class="quiz-topic">Data as Liability</span></div>
+            <p class="quiz-question">How does the chapter frame data retention?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Collect everything forever</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Data is both an asset AND a liability — more data means more risk of breaches, misuse, and regulatory issues</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Data is only an asset</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Data has no value</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Every piece of data collected is a potential liability: risk of data breaches, misuse, regulatory penalties.</div>
+            </div>
+        </section>
+
+        <!-- Q35 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q35</span><span class="quiz-topic">Right to Be Forgotten</span></div>
+            <p class="quiz-question">What does the right to be forgotten require?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Nothing practical</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) The ability to truly delete all of a person's data, including from derived systems, logs, and backups</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Only delete from the main database</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Only hide the data</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> True deletion means removing data from all systems — primary, derived, logs, backups — which is technically challenging.</div>
+            </div>
+        </section>
+
+        <!-- Q36 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q36</span><span class="quiz-topic">Derived Data Challenge</span></div>
+            <p class="quiz-question">Why is deleting data from derived systems hard?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) It's easy</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Data propagates to many places — search indexes, caches, ML models, analytics — all must be updated</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Derived systems don't store data</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Only one copy exists</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Data flows to many derived systems. Truly deleting it requires tracking all downstream systems and removing it from each.</div>
+            </div>
+        </section>
+
+        <!-- Q37 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q37</span><span class="quiz-topic">Legislation</span></div>
+            <p class="quiz-question">What legislation does the chapter reference?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) None</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) GDPR, EU data protection regulation requiring data minimization, purpose limitation, and right to erasure</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Only US laws</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Only UK laws</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> The chapter references GDPR and similar legislation that give individuals rights over their personal data.</div>
+            </div>
+        </section>
+
+        <!-- Q38 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q38</span><span class="quiz-topic">Batch Integrity</span></div>
+            <p class="quiz-question">How does batch processing contribute to integrity?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) It doesn't</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Batch can periodically recompute derived data from scratch, detecting and correcting inconsistencies</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Only for speed</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Only for storage</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Batch recomputation from the source-of-truth event log can detect and correct any inconsistencies in derived data.</div>
+            </div>
+        </section>
+
+        <!-- Q39 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q39</span><span class="quiz-topic">Stream Integrity</span></div>
+            <p class="quiz-question">How does stream processing contribute to integrity?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) It doesn't</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Exactly-once processing with transactions and idempotence ensures each event's effect is applied correctly</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Only for speed</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Only for latency</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Stream processing with exactly-once semantics ensures events are processed correctly, maintaining ongoing integrity.</div>
+            </div>
+        </section>
+
+        <!-- Q40 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q40</span><span class="quiz-topic">Lambda Revisited</span></div>
+            <p class="quiz-question">How does the chapter improve on lambda architecture?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Same approach</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Unified stream processing with reprocessing capability replaces the need for separate batch and stream layers</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) More layers</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Fewer layers</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Instead of lambda's two systems, a unified stream processor with replayable logs provides both real-time and reprocessing capabilities.</div>
+            </div>
+        </section>
+
+        <!-- Q41 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q41</span><span class="quiz-topic">Dataflow Architecture</span></div>
+            <p class="quiz-question">What does the chapter call the approach of thinking in terms of data flows?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Microservices</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) A dataflow architecture — data flowing through transformations from source of truth to derived views</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Event-driven architecture</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Service-oriented architecture</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> A dataflow architecture views the system as data flowing through transformations, from source events to derived data products.</div>
+            </div>
+        </section>
+
+        <!-- Q42 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q42</span><span class="quiz-topic">Reads as Events</span></div>
+            <p class="quiz-question">How does the chapter suggest treating reads?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Same as writes</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) As events themselves — capturing the read request and its result for audit, optimization, and tracking</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Ignore reads</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Cache all reads</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Treating reads as events creates a complete picture of system behavior, useful for auditing, debugging, and optimization.</div>
+            </div>
+        </section>
+
+        <!-- Q43 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q43</span><span class="quiz-topic">Subscribe Pattern</span></div>
+            <p class="quiz-question">What pattern does the chapter propose for reads in a dataflow system?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Polling</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Subscribing to changes — the read query becomes a standing query that pushes updates when results change</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Caching only</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Batch queries</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Instead of one-shot queries, a client subscribes to a query and receives push notifications when the results change.</div>
+            </div>
+        </section>
+
+        <!-- Q44 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q44</span><span class="quiz-topic">Materialized View Maintenance</span></div>
+            <p class="quiz-question">How does stream processing relate to materialized view maintenance?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) No relation</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Stream processing continuously updates materialized views as new events arrive — real-time view maintenance</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Only batch can do this</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Views are static</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Stream processing can continuously maintain materialized views by processing change events as they arrive.</div>
+            </div>
+        </section>
+
+        <!-- Q45 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q45</span><span class="quiz-topic">Application Code</span></div>
+            <p class="quiz-question">Where does the chapter suggest keeping application-level data transformation logic?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) In the database</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) In stream processors, treating application code as a first-class citizen in the data pipeline</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) In stored procedures only</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) On the client side</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Application logic for transforming data should live in stream processors, not forced into database stored procedures or triggers.</div>
+            </div>
+        </section>
+
+        <!-- Q46 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q46</span><span class="quiz-topic">Separation of Concerns</span></div>
+            <p class="quiz-question">What separation does the chapter advocate?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Frontend and backend</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Separating the source of truth (event log) from derived data views — each can evolve independently</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Code and data</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Network and storage</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> The event log is the source of truth. Derived data views can be rebuilt, replaced, or evolved independently.</div>
+            </div>
+        </section>
+
+        <!-- Q47 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q47</span><span class="quiz-topic">Schema Evolution</span></div>
+            <p class="quiz-question">How does the chapter handle schema changes?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Stop the system</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Gradually: new code writes new format, old data coexists, reprocessing migrates old data when needed</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) All at once</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Never change schemas</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Schema evolution is gradual: new events use the new schema, old data is migrated through reprocessing when needed.</div>
+            </div>
+        </section>
+
+        <!-- Q48 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q48</span><span class="quiz-topic">Constraints</span></div>
+            <p class="quiz-question">How does the chapter handle uniqueness and other constraints?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Only ACID transactions</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Using stream processing with conflict detection and asynchronous enforcement</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Ignore constraints</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Only at the application level</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Constraints can be enforced through stream processing: checking for conflicts in the event stream and resolving them.</div>
+            </div>
+        </section>
+
+        <!-- Q49 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q49</span><span class="quiz-topic">Async Constraints</span></div>
+            <p class="quiz-question">What is the advantage of asynchronous constraint enforcement?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Faster rejection</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Better scalability — constraints are checked without blocking writes, with compensating actions for violations</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Simpler code</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Stronger guarantees</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Asynchronous constraint enforcement allows higher throughput. Violations are detected and compensated after the fact.</div>
+            </div>
+        </section>
+
+        <!-- Q50 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q50</span><span class="quiz-topic">Synchronous Constraints</span></div>
+            <p class="quiz-question">When are synchronous constraints necessary?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Never</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) When violation would be catastrophic — like double-spending money — and immediate rejection is required</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Always</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Only for reads</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Synchronous enforcement is needed when violations are unacceptable (e.g., financial double-spending) and must be prevented immediately.</div>
+            </div>
+        </section>
+
+        <!-- Q51 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q51</span><span class="quiz-topic">Multi-Partition Constraints</span></div>
+            <p class="quiz-question">How can uniqueness be enforced across partitions?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Lock all partitions</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Route all events for the constrained value through a single partition using the constrained field as the partition key</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Use a global lock</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Ignore cross-partition issues</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Partitioning by the constrained field (e.g., username) ensures all events for that value go through one partition, enabling local uniqueness checking.</div>
+            </div>
+        </section>
+
+        <!-- Q52 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q52</span><span class="quiz-topic">Coordination Avoidance</span></div>
+            <p class="quiz-question">What is coordination avoidance?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Avoiding all coordination</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Designing systems so that most operations don't require cross-partition or cross-system coordination</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Using more locks</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Reducing concurrency</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Coordination avoidance designs operations to be independent, minimizing the need for expensive cross-partition coordination.</div>
+            </div>
+        </section>
+
+        <!-- Q53 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q53</span><span class="quiz-topic">Trust but Verify</span></div>
+            <p class="quiz-question">What is the 'trust but verify' approach?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Always trust input</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Accept writes optimistically but continuously audit and verify derived data against the event log</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Never trust input</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Verify before writing</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Accept writes without blocking, but continuously audit derived data against the source-of-truth event log to catch errors.</div>
+            </div>
+        </section>
+
+        <!-- Q54 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q54</span><span class="quiz-topic">Self-Healing</span></div>
+            <p class="quiz-question">What is a self-healing data system?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Hardware repair</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) A system that detects inconsistencies between derived and source data and automatically corrects them</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Auto-scaling</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Self-documenting code</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Self-healing systems detect data inconsistencies (through auditing) and automatically rebuild or correct derived data.</div>
+            </div>
+        </section>
+
+        <!-- Q55 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q55</span><span class="quiz-topic">Incremental vs Full</span></div>
+            <p class="quiz-question">What are the two approaches to maintaining derived data?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Fast and slow</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Incremental (stream-process each change) and full recomputation (batch rebuild from scratch)</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Local and remote</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Sync and async</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Incremental: process each change event as it arrives. Full recomputation: periodically rebuild derived data from scratch from the event log.</div>
+            </div>
+        </section>
+
+        <!-- Q56 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q56</span><span class="quiz-topic">Full Recompute Benefit</span></div>
+            <p class="quiz-question">What is the benefit of periodic full recomputation?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Faster</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Catches bugs in incremental processing — any accumulated errors are corrected when the view is rebuilt from scratch</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Uses less storage</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) More real-time</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Full recomputation catches accumulated bugs or drift in incremental processing, ensuring derived data matches the source of truth.</div>
+            </div>
+        </section>
+
+        <!-- Q57 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q57</span><span class="quiz-topic">Dataflow Advantages</span></div>
+            <p class="quiz-question">What are the advantages of the dataflow approach?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Simpler than CRUD</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Loose coupling, clear data flow, rebuildable derived views, and better separation of concerns</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Less code</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Faster hardware</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Dataflow provides loose coupling between components, clear data lineage, independently rebuildable derived views, and separation of concerns.</div>
+            </div>
+        </section>
+
+        <!-- Q58 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q58</span><span class="quiz-topic">Microservices and Dataflow</span></div>
+            <p class="quiz-question">How does the dataflow approach relate to microservices?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) They're unrelated</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Dataflow connects services through event streams rather than synchronous API calls, improving decoupling</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Microservices replace dataflow</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Dataflow replaces microservices</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Rather than synchronous service-to-service calls, the dataflow approach connects services through asynchronous event streams.</div>
+            </div>
+        </section>
+
+        <!-- Q59 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q59</span><span class="quiz-topic">Async vs Sync Services</span></div>
+            <p class="quiz-question">What advantage do async data flows have over sync service calls?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Sync is better</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) No cascading failures, temporal decoupling, and better fault tolerance — services don't need to be up simultaneously</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Less data movement</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Simpler debugging</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Async data flows avoid cascading failures when a downstream service is down and provide temporal decoupling between services.</div>
+            </div>
+        </section>
+
+        <!-- Q60 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q60</span><span class="quiz-topic">Request/Response Problem</span></div>
+            <p class="quiz-question">What problem does the chapter identify with request/response architecture?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) None</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Tight coupling: caller blocks waiting for response; if callee is slow or down, the caller is impacted</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Too fast</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Too simple</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Request/response creates tight coupling: the caller blocks until the response arrives, propagating failures and latency.</div>
+            </div>
+        </section>
+
+        <!-- Q61 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q61</span><span class="quiz-topic">Stateful Clients</span></div>
+            <p class="quiz-question">What does the chapter envision for client-side applications?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Stateless clients only</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Clients maintaining local state that subscribes to server-side data changes, receiving push updates</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) No client state</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Clients only read</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Clients could maintain local state synchronized via push from the server, providing a reactive, real-time experience.</div>
+            </div>
+        </section>
+
+        <!-- Q62 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q62</span><span class="quiz-topic">Offline-First</span></div>
+            <p class="quiz-question">How does the dataflow approach help offline-first applications?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) It doesn't</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Local state can accept writes offline, syncing changes (as events) when connectivity returns</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Requires constant internet</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Disables offline mode</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> An offline-first app writes to local state and syncs events when online, similar to multi-leader replication.</div>
+            </div>
+        </section>
+
+        <!-- Q63 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q63</span><span class="quiz-topic">Spreadsheet Analogy</span></div>
+            <p class="quiz-question">What analogy does the chapter use for derived data?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Filing cabinet</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Spreadsheet formulas — cells (derived data) automatically update when input cells (source data) change</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Calculator</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Word processor</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Like spreadsheet formulas, derived data views automatically update when their source data changes.</div>
+            </div>
+        </section>
+
+        <!-- Q64 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q64</span><span class="quiz-topic">Differential Dataflow</span></div>
+            <p class="quiz-question">What is the concept behind differential dataflow?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) A database type</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Efficiently propagating small changes through a computation graph, rather than recomputing everything</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) A network protocol</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) A file format</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Differential dataflow incrementally propagates changes through the computation, updating only what's affected by the change.</div>
+            </div>
+        </section>
+
+        <!-- Q65 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q65</span><span class="quiz-topic">Multi-Model Data</span></div>
+            <p class="quiz-question">What does the chapter say about combining data models?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Use one model</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Different views of the same data can use different models — graph, relational, document — all derived from the same events</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Only relational</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Only document</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> The same source events can feed different data models: a graph view, a relational view, and a document view — each optimized for its use case.</div>
+            </div>
+        </section>
+
+        <!-- Q66 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q66</span><span class="quiz-topic">Observability</span></div>
+            <p class="quiz-question">What role does observability play in data systems?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Marketing</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Understanding what's happening in the system — monitoring, debugging, auditing data flow through pipelines</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Only for production</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Only for DevOps</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Observability is crucial for understanding data flow, diagnosing issues, and ensuring the system behaves correctly.</div>
+            </div>
+        </section>
+
+        <!-- Q67 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q67</span><span class="quiz-topic">Data Lineage</span></div>
+            <p class="quiz-question">What is data lineage?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Family tree</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Tracking where data comes from, how it was transformed, and where it flows — provenance tracking</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Data age</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Data size history</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Data lineage tracks the origin, transformations, and destinations of data throughout the system.</div>
+            </div>
+        </section>
+
+        <!-- Q68 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q68</span><span class="quiz-topic">Accountability</span></div>
+            <p class="quiz-question">Why does the chapter emphasize accountability in data systems?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) For billing</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Engineers and organizations should be accountable for how data is used and the consequences of automated decisions</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) For performance</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) For compliance only</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Accountability means taking responsibility for how data systems affect people's lives and ensuring ethical use.</div>
+            </div>
+        </section>
+
+        <!-- Q69 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q69</span><span class="quiz-topic">Algorithmic Decisions</span></div>
+            <p class="quiz-question">What concern exists with automated decision-making?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) It's always fair</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Algorithms can encode biases, be opaque, and make consequential decisions about people without transparency</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Algorithms are perfect</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Only helps people</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Automated decisions can be biased, opaque, and have significant real-world consequences without proper oversight.</div>
+            </div>
+        </section>
+
+        <!-- Q70 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q70</span><span class="quiz-topic">Right to Explanation</span></div>
+            <p class="quiz-question">What does the chapter mention about explainability?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Not needed</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) People affected by automated decisions may have a right to an explanation of how the decision was made</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Only for medical systems</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Only for financial systems</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Regulations like GDPR include provisions for individuals to receive explanations of automated decisions that affect them.</div>
+            </div>
+        </section>
+
+        <!-- Q71 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q71</span><span class="quiz-topic">Informed Consent</span></div>
+            <p class="quiz-question">What does the chapter argue about data consent?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Click-through consent is sufficient</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) True informed consent requires meaningful understanding of how data will be used — most consent mechanisms fall short</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Consent is unnecessary</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Only verbal consent counts</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> The chapter argues that most 'consent' mechanisms (like checking a box) don't provide meaningful informed consent.</div>
+            </div>
+        </section>
+
+        <!-- Q72 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q72</span><span class="quiz-topic">Power Asymmetry</span></div>
+            <p class="quiz-question">What power asymmetry exists in data collection?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Users have more power</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Organizations collecting data have vastly more power than the individuals whose data is collected</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Equal power</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Government has all power</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Companies collecting data have enormous power compared to individuals, who have little ability to know or control how their data is used.</div>
+            </div>
+        </section>
+
+        <!-- Q73 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q73</span><span class="quiz-topic">Data Minimization</span></div>
+            <p class="quiz-question">What is data minimization?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Compressing data</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Collecting only the minimum data necessary for the stated purpose — a GDPR principle</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Deleting old data</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Reducing file size</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Data minimization means collecting only what's necessary for the intended purpose, reducing risk and respecting privacy.</div>
+            </div>
+        </section>
+
+        <!-- Q74 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q74</span><span class="quiz-topic">Purpose Limitation</span></div>
+            <p class="quiz-question">What is purpose limitation?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Limiting database queries</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Using collected data only for the specific purpose for which it was collected — not repurposing it</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Limiting data size</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Limiting access speed</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Purpose limitation means data collected for one purpose (e.g., analytics) shouldn't be repurposed (e.g., surveillance).</div>
+            </div>
+        </section>
+
+        <!-- Q75 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q75</span><span class="quiz-topic">Regulation</span></div>
+            <p class="quiz-question">What does the chapter say about regulation of data systems?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) No regulation needed</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Self-regulation by the tech industry is insufficient — meaningful external regulation is necessary</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Full government control</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Only voluntary standards</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> The chapter argues that self-regulation has been insufficient and that meaningful regulation (like GDPR) is necessary.</div>
+            </div>
+        </section>
+
+        <!-- Q76 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q76</span><span class="quiz-topic">Professional Ethics</span></div>
+            <p class="quiz-question">What does the chapter argue about engineering ethics?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Ethics don't matter in engineering</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Like doctors and lawyers, software engineers should develop professional ethics about the systems they build</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Ethics are management's concern</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Only security matters</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Software engineers should develop professional ethics, similar to medical or legal ethics, regarding the systems they build.</div>
+            </div>
+        </section>
+
+        <!-- Q77 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q77</span><span class="quiz-topic">Harm Prevention</span></div>
+            <p class="quiz-question">What principle does the chapter emphasize?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Move fast and break things</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Do no harm — consider the potential negative consequences of data systems before building them</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Collect all data possible</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Optimize for speed</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> The 'do no harm' principle: engineers should consider and mitigate potential negative consequences of their data systems.</div>
+            </div>
+        </section>
+
+        <!-- Q78 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q78</span><span class="quiz-topic">Bias in Data</span></div>
+            <p class="quiz-question">What problem exists with historical training data?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) It's always clean</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Historical data contains historical biases — ML models trained on it will perpetuate and amplify those biases</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) It's always fair</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) It's always complete</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Historical data reflects historical biases. ML models trained on this data learn and can amplify those biases.</div>
+            </div>
+        </section>
+
+        <!-- Q79 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q79</span><span class="quiz-topic">Automation Bias</span></div>
+            <p class="quiz-question">What is automation bias?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Preference for manual work</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) The tendency for humans to over-trust computer decisions, even when the computer is wrong</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Bias in code</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Faster processing</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Automation bias: people tend to trust automated decisions even when they're incorrect, reducing critical human oversight.</div>
+            </div>
+        </section>
+
+        <!-- Q80 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q80</span><span class="quiz-topic">Credit Scoring</span></div>
+            <p class="quiz-question">What does the chapter say about credit scoring as an example?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) It's always fair</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Automated credit scoring can discriminate, be opaque, and trap people in cycles of poor scores</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) It only helps people</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) It's perfectly accurate</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Credit scoring systems can be discriminatory and opaque, affecting people's access to housing, employment, and services.</div>
+            </div>
+        </section>
+
+        <!-- Q81 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q81</span><span class="quiz-topic">Weapons of Math Destruction</span></div>
+            <p class="quiz-question">What does the chapter reference from Cathy O'Neil's work?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Math is dangerous</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Algorithms that are opaque, widespread, and destructive — affecting millions without accountability or recourse</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Statistics are wrong</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Calculators are biased</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Cathy O'Neil's 'Weapons of Math Destruction' describes widespread, opaque, and harmful algorithmic decision-making systems.</div>
+            </div>
+        </section>
+
+        <!-- Q82 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q82</span><span class="quiz-topic">Building Ethical Systems</span></div>
+            <p class="quiz-question">How does the chapter suggest building more ethical systems?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Don't build them</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Transparency, accountability, fairness checks, human oversight, and the ability to appeal automated decisions</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Use more AI</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Collect more data</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Ethical systems require transparency, accountability, fairness testing, human oversight, and appeal mechanisms.</div>
+            </div>
+        </section>
+
+        <!-- Q83 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q83</span><span class="quiz-topic">Data Flow Integrity</span></div>
+            <p class="quiz-question">How does the dataflow approach improve integrity?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) More locks</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) The event log is the single source of truth; derived data can always be verified against it or rebuilt</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) More replicas</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) More transactions</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> With a single source of truth (event log), any derived data can be audited against the log and rebuilt if inconsistencies are found.</div>
+            </div>
+        </section>
+
+        <!-- Q84 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q84</span><span class="quiz-topic">Immutable Log</span></div>
+            <p class="quiz-question">What does immutability of the event log guarantee?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Nothing</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) An accurate, tamper-resistant history — events that happened cannot be erased or altered</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Faster processing</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Less storage</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> An immutable event log provides an indelible record of what happened, supporting audit, debugging, and integrity verification.</div>
+            </div>
+        </section>
+
+        <!-- Q85 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q85</span><span class="quiz-topic">Practical Immutability</span></div>
+            <p class="quiz-question">Is the event log truly immutable in practice?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Always immutable</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Practically immutable for most purposes, but privacy laws may require the ability to purge certain events (GDPR erasure)</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Always mutable</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Depends on hardware</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> While immutability is the default, privacy regulations like GDPR's right to erasure may require the ability to delete specific events.</div>
+            </div>
+        </section>
+
+        <!-- Q86 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q86</span><span class="quiz-topic">Encryption for Privacy</span></div>
+            <p class="quiz-question">How can cryptography help with privacy in event logs?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) It can't</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Encrypting events with per-user keys — deleting the key makes the data unreadable without deleting the events</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Only for network</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Only for storage</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Encrypting events with per-user keys allows 'crypto-shredding': deleting the key renders the data unreadable without physically removing events.</div>
+            </div>
+        </section>
+
+        <!-- Q87 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q87</span><span class="quiz-topic">Correctness Argument</span></div>
+            <p class="quiz-question">What is the chapter's argument for correctness?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Use more testing</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Design systems so correctness can be verified from first principles — event log as ground truth, derived data as provably correct transformations</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Trust the database</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Manual verification</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Correctness should be provable: derived data is a deterministic function of the event log, verifiable through auditing.</div>
+            </div>
+        </section>
+
+        <!-- Q88 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q88</span><span class="quiz-topic">Formal Verification</span></div>
+            <p class="quiz-question">Does the chapter advocate for formal verification?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Yes, all code should be formally verified</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Not necessarily — but designing systems with clear correctness properties makes informal reasoning and testing more effective</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Formal verification is impossible</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Only for safety-critical systems</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> While not requiring full formal verification, designing with clear correctness properties makes the system easier to reason about and test.</div>
+            </div>
+        </section>
+
+        <!-- Q89 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q89</span><span class="quiz-topic">Culture of Accountability</span></div>
+            <p class="quiz-question">What cultural change does the chapter advocate?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) No change needed</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) A shift from 'move fast and break things' to carefully considering consequences and accepting responsibility</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Slower development</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) More management</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> The chapter advocates moving from reckless speed to responsible engineering, where consequences are considered and accountability accepted.</div>
+            </div>
+        </section>
+
+        <!-- Q90 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q90</span><span class="quiz-topic">Future Trends</span></div>
+            <p class="quiz-question">What trends does the chapter identify for the future?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Return to mainframes</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Unbundled databases, stream-based integration, event sourcing, and stronger emphasis on correctness and ethics</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Less data</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Simpler systems only</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Future trends include unbundled database architectures, stream-based integration, event sourcing, and greater attention to correctness and ethics.</div>
+            </div>
+        </section>
+
+        <!-- Q91 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q91</span><span class="quiz-topic">Composability</span></div>
+            <p class="quiz-question">What does the chapter mean by 'composability'?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Musical composition</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Building complex data systems by combining simple, well-defined components connected by data flows</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Code compilation</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Data compression</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Composability means building complex data systems by combining simple, well-defined, independently evolvable components.</div>
+            </div>
+        </section>
+
+        <!-- Q92 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q92</span><span class="quiz-topic">API Design</span></div>
+            <p class="quiz-question">What does the chapter say about API boundaries?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) APIs don't matter</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) APIs between components should be well-defined, with clear contracts about data format and semantics</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Use any format</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) APIs should be implicit</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Clear API boundaries with well-defined data contracts enable components to evolve independently while maintaining compatibility.</div>
+            </div>
+        </section>
+
+        <!-- Q93 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q93</span><span class="quiz-topic">Gradual Migration</span></div>
+            <p class="quiz-question">How should organizations adopt new architectures?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Big bang cutover</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Gradually — running old and new systems in parallel, migrating piece by piece</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) All at once</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Never migrate</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Gradual migration: run old and new systems in parallel, migrate incrementally, and verify at each step.</div>
+            </div>
+        </section>
+
+        <!-- Q94 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q94</span><span class="quiz-topic">Research Directions</span></div>
+            <p class="quiz-question">What research directions does the chapter highlight?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Faster hardware only</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Better consistency models, improved stream processing, differential dataflow, and privacy-preserving analytics</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Only cloud computing</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Only blockchain</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Research areas include better consistency models, advanced stream processing, differential dataflow, and privacy-preserving techniques.</div>
+            </div>
+        </section>
+
+        <!-- Q95 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q95</span><span class="quiz-topic">System of Record</span></div>
+            <p class="quiz-question">What is the system of record in the dataflow approach?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) The database</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) The event log — the authoritative, immutable record from which all derived data is computed</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) The cache</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) The search index</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> The event log is the system of record — the single source of truth. All other data representations are derived from it.</div>
+            </div>
+        </section>
+
+        <!-- Q96 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q96</span><span class="quiz-topic">Rebuilding Derived Data</span></div>
+            <p class="quiz-question">Why is rebuilding derived data important?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Wastes time</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) It enables schema changes, bug fixes, and algorithm improvements without losing data — just reprocess from the log</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) For backup only</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) For compliance only</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Rebuilding from the event log enables zero-downtime schema changes, bug fixes, and algorithm improvements.</div>
+            </div>
+        </section>
+
+        <!-- Q97 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q97</span><span class="quiz-topic">Cross-Functional Responsibility</span></div>
+            <p class="quiz-question">Who is responsible for data ethics?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Only lawyers</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Everyone — engineers, product managers, executives — not just compliance departments</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Only governments</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Only users</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Data ethics is everyone's responsibility — engineers who build the systems, product managers who design them, and executives who set policies.</div>
+            </div>
+        </section>
+
+        <!-- Q98 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q98</span><span class="quiz-topic">Optimism</span></div>
+            <p class="quiz-question">What is the chapter's overall tone about the future?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Purely pessimistic</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Cautiously optimistic — great tools and techniques exist, but they must be used responsibly</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Purely optimistic</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Indifferent</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> The chapter is cautiously optimistic: we have powerful tools for building data systems, but must use them responsibly and ethically.</div>
+            </div>
+        </section>
+
+        <!-- Q99 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q99</span><span class="quiz-topic">Legacy Integration</span></div>
+            <p class="quiz-question">How does the dataflow approach handle legacy systems?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Replace everything</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Wrap legacy systems with CDC or event adapters, integrating them into the event-driven data flow</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Ignore legacy systems</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Rewrite from scratch</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Legacy systems can be integrated by wrapping them with CDC connectors, making their changes available as events in the data flow.</div>
+            </div>
+        </section>
+
+        <!-- Q100 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q100</span><span class="quiz-topic">Final Message</span></div>
+            <p class="quiz-question">What is the book's ultimate message?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Use the newest technology</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Building reliable, scalable, maintainable data systems requires understanding fundamentals, making informed trade-offs, and acting responsibly</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) There's one perfect architecture</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Technology solves all problems</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> The book's message: understand the fundamentals, make informed trade-offs, and build systems responsibly with awareness of their impact.</div>
+            </div>
+        </section>
+
+
+
     </div>
     <div class="controls">
         <button onclick="prevSlide()">PREV</button>
@@ -1158,6 +2785,16 @@ COMMIT;</pre>
             if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') prevSlide();
             if (e.key >= '0' && e.key <= '9') { currentSlide = Math.floor(totalSlides * (parseInt(e.key) / 10)); update(); }
         });
+
+        function selectOption(e) { e.classList.toggle('selected'); }
+        function checkAnswer(e, correctOptions) {
+            if (!e.parentElement.classList.contains('revealed')) e.parentElement.classList.add('revealed');
+            if (!Array.isArray(correctOptions)) return;
+            const sel = new Set(Array.from(e.parentElement.parentElement.querySelectorAll('.quiz-option.selected')).map(t => t.innerText.trim().charAt(0)));
+            const ok = correctOptions.every(o => sel.has(o)) && sel.size === correctOptions.length;
+            const exp = e.parentElement.querySelector('.quiz-explanation');
+            if (!ok) exp.classList.add('incorrect'); else exp.classList.remove('incorrect');
+        }
         update();
     </script>
 </body>

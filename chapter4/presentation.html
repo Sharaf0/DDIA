@@ -455,6 +455,23 @@
             .title-slide p { font-size: 1rem; }
         }
     
+
+        /* ====== Quiz Slides ====== */
+        .quiz-slide { text-align: left; padding: 3% 8%; gap: 10px; }
+        .quiz-header { display: flex; align-items: center; gap: 15px; margin-bottom: 5px; }
+        .quiz-number { background: #2563eb; color: white; padding: 6px 16px; border-radius: 8px; font-weight: 800; font-size: 1.2rem; }
+        .quiz-topic { font-size: 0.95rem; text-transform: uppercase; letter-spacing: 2px; opacity: 0.5; font-weight: 600; }
+        .quiz-question { font-size: 1.6rem; font-weight: 600; margin-bottom: 10px; line-height: 1.3; }
+        .quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; }
+        .quiz-option { background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 10px; padding: 12px 18px; font-size: 1.1rem; font-weight: 400; cursor: pointer; }
+        .quiz-option:hover { border-color: #2563eb; }
+        .quiz-option.selected { border-color: #2563eb; background: #dbeafe; }
+        .quiz-answer { width: 100%; margin-top: 8px; }
+        .reveal-btn { background: #2563eb; color: white; border: none; padding: 8px 28px; border-radius: 8px; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: opacity 0.2s; }
+        .reveal-btn:hover { opacity: 0.85; }
+        .quiz-explanation { display: none; background: #f0fdf4; border: 2px solid #86efac; border-radius: 10px; padding: 12px 18px; margin-top: 8px; font-size: 1.05rem; line-height: 1.4; }
+        .quiz-explanation.incorrect { display: block; background: #fef2f2; border-color: #fecaca; }
+        .quiz-answer.revealed .quiz-explanation { display: block; }
     </style>
 </head>
 
@@ -1045,6 +1062,1616 @@
             </div>
         </section>
 
+
+        <!-- ==================== MCQ QUIZ SECTION ==================== -->
+
+        <section class="slide section-header">
+            <h2>MCQ Quiz</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">100 Questions &bull; Test Your Knowledge</p>
+        </section>
+
+        <!-- Q1 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q1</span><span class="quiz-topic">Evolution</span></div>
+            <p class="quiz-question">What do applications inevitably need to handle over time?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Static, unchanging requirements</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Changes in requirements and features</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Only hardware upgrades</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Reduced user bases</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Applications inevitably change as new requirements emerge and existing features are modified.</div>
+            </div>
+        </section>
+
+        <!-- Q2 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q2</span><span class="quiz-topic">Evolvability</span></div>
+            <p class="quiz-question">What term describes the ease of making changes to a system?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Scalability</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Reliability</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Evolvability</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Portability</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> Chapter 1 introduced evolvability — the ease with which you can modify a data system and adapt it to changing requirements.</div>
+            </div>
+        </section>
+
+        <!-- Q3 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q3</span><span class="quiz-topic">Rolling Upgrades</span></div>
+            <p class="quiz-question">In a server-side application, how is a new version typically deployed?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) By shutting down all servers simultaneously</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) By replacing all hardware</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Via a rolling upgrade, deploying to a few nodes at a time</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) By asking users to clear their cache</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> With server-side apps, you perform a rolling upgrade, deploying the new version to a few nodes at a time for gradual transition without downtime.</div>
+            </div>
+        </section>
+
+        <!-- Q4 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q4</span><span class="quiz-topic">Client Updates</span></div>
+            <p class="quiz-question">Why can't client-side updates be forced immediately?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Users may not install the update for some time</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Clients are always online</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Client apps never change</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Servers push updates automatically</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> With client-side applications, you're at the mercy of the user, who may not install the update for some time.</div>
+            </div>
+        </section>
+
+        <!-- Q5 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q5</span><span class="quiz-topic">Backward Compatibility</span></div>
+            <p class="quiz-question">What does backward compatibility mean?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Old code can read data from new code</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) New code can read data written by old code</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Data never changes format</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Code runs on older hardware</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Backward compatibility means newer code can read data that was written by older code.</div>
+            </div>
+        </section>
+
+        <!-- Q6 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q6</span><span class="quiz-topic">Forward Compatibility</span></div>
+            <p class="quiz-question">What does forward compatibility mean?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) New code reads old data</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Data is always encrypted</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Old code can read data written by new code</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Systems run faster over time</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> Forward compatibility means older code can read data that was written by newer code — trickier because old code must ignore additions.</div>
+            </div>
+        </section>
+
+        <!-- Q7 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q7</span><span class="quiz-topic">Encoding</span></div>
+            <p class="quiz-question">What is in-memory data optimized for?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Disk storage</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Network transmission</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Efficient access and manipulation by the CPU</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Human readability</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> In memory, data is kept in structures optimized for efficient access and manipulation by the CPU.</div>
+            </div>
+        </section>
+
+        <!-- Q8 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q8</span><span class="quiz-topic">Encoding</span></div>
+            <p class="quiz-question">What is encoding also known as?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Deserialization</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Decryption</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Serialization or marshalling</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Compilation</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> The translation from in-memory representation to a byte sequence is called encoding (also serialization or marshalling).</div>
+            </div>
+        </section>
+
+        <!-- Q9 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q9</span><span class="quiz-topic">Decoding</span></div>
+            <p class="quiz-question">What is decoding also known as?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Compression</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Parsing, deserialization, or unmarshalling</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Hashing</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Indexing</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> The reverse of encoding is called decoding (parsing, deserialization, unmarshalling).</div>
+            </div>
+        </section>
+
+        <!-- Q10 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q10</span><span class="quiz-topic">Language Formats</span></div>
+            <p class="quiz-question">Why are language-specific serialization formats problematic?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) They are too fast</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) They tie you to a particular programming language</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) They use too little memory</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) They are too readable</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Language-specific encodings are tied to a particular language, making it very difficult to read the data in another language.</div>
+            </div>
+        </section>
+
+        <!-- Q11 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q11</span><span class="quiz-topic">Security</span></div>
+            <p class="quiz-question">What security risk exists with language-specific deserialization?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Data is always encrypted</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Decoding can instantiate arbitrary classes, enabling remote code execution</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) It requires special hardware</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) It only works on Linux</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> The decoding process needs to instantiate arbitrary classes — this is frequently a source of security problems.</div>
+            </div>
+        </section>
+
+        <!-- Q12 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q12</span><span class="quiz-topic">JSON Numbers</span></div>
+            <p class="quiz-question">What number limitation does JSON have?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) It can't represent zero</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) It doesn't distinguish integers from floating-point numbers</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) It only supports negatives</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Numbers must be strings</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> JSON doesn't distinguish between integers and floating-point numbers and doesn't specify precision.</div>
+            </div>
+        </section>
+
+        <!-- Q13 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q13</span><span class="quiz-topic">JSON Binary</span></div>
+            <p class="quiz-question">How does JSON handle binary data?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Native binary support</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) No binary string support — must use Base64 encoding</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Only supports ASCII</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Binary as integers</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> JSON has no datatype for binary strings; they must be Base64-encoded, adding ~33% size overhead.</div>
+            </div>
+        </section>
+
+        <!-- Q14 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q14</span><span class="quiz-topic">XML</span></div>
+            <p class="quiz-question">What data type ambiguity exists in XML?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Only supports integers</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Cannot distinguish a number from a digit string without external schema</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) No text support</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Cannot nest data</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> XML cannot distinguish between a number and a string of digits unless you refer to an external schema.</div>
+            </div>
+        </section>
+
+        <!-- Q15 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q15</span><span class="quiz-topic">CSV</span></div>
+            <p class="quiz-question">What fundamental problem does CSV have?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Too slow to parse</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) No schema — meaning of rows and columns is application-defined</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Only stores numbers</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Requires encryption</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> CSV does not have any schema, so it is up to the application to define the meaning of each row and column.</div>
+            </div>
+        </section>
+
+        <!-- Q16 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q16</span><span class="quiz-topic">Binary Encoding</span></div>
+            <p class="quiz-question">Why use binary encoding over textual JSON?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) More human-readable</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) More compact and faster to parse</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Easier to debug</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Works only with XML</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Binary encodings for JSON are more compact and faster to parse than textual formats.</div>
+            </div>
+        </section>
+
+        <!-- Q17 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q17</span><span class="quiz-topic">MessagePack</span></div>
+            <p class="quiz-question">How many bytes does MessagePack use vs 81-byte JSON?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) 81 bytes</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) 44 bytes</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) 66 bytes</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) 100 bytes</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> MessagePack encoding of the example JSON is 66 bytes vs 81 bytes textual.</div>
+            </div>
+        </section>
+
+        <!-- Q18 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q18</span><span class="quiz-topic">Schema IDL</span></div>
+            <p class="quiz-question">What do Thrift and Protocol Buffers require?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) A text editor</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) A schema in an Interface Definition Language (IDL)</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) A web browser</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) A SQL database</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Both require a schema for any data that is encoded, described using an IDL.</div>
+            </div>
+        </section>
+
+        <!-- Q19 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q19</span><span class="quiz-topic">Field Tags</span></div>
+            <p class="quiz-question">How are fields identified in Thrift/Protobuf binary encoding?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) By field name strings</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) By field tag numbers</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) By alphabetical order</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) By data type only</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Encoded data contains field tag numbers instead of field names — compact aliases for fields.</div>
+            </div>
+        </section>
+
+        <!-- Q20 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q20</span><span class="quiz-topic">Thrift Protocols</span></div>
+            <p class="quiz-question">What are Thrift's two binary encoding formats?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) FastJSON and SlowJSON</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) BinaryProtocol and CompactProtocol</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) TCP and UDP</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) REST and SOAP</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Thrift has BinaryProtocol and CompactProtocol.</div>
+            </div>
+        </section>
+
+        <!-- Q21 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q21</span><span class="quiz-topic">CompactProtocol</span></div>
+            <p class="quiz-question">How does Thrift CompactProtocol save space?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Removes all data</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Packs field type and tag into one byte, uses variable-length integers</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Larger buffers</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Uses gzip</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> CompactProtocol packs field type and tag number into a single byte and uses variable-length integers.</div>
+            </div>
+        </section>
+
+        <!-- Q22 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q22</span><span class="quiz-topic">Protobuf Repeated</span></div>
+            <p class="quiz-question">What keyword marks a multi-valued field in Protobuf?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) optional</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) required</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) repeated</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) singular</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> The 'repeated' keyword marks a field with zero or more entries.</div>
+            </div>
+        </section>
+
+        <!-- Q23 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q23</span><span class="quiz-topic">Adding Fields</span></div>
+            <p class="quiz-question">What rule ensures forward compatibility when adding fields?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Field must be required</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Each new field must have a new tag number</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Delete old data</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Name must be short</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> You add new fields with new tag numbers. Old code ignores unknown tags (forward compatibility).</div>
+            </div>
+        </section>
+
+        <!-- Q24 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q24</span><span class="quiz-topic">Required Fields</span></div>
+            <p class="quiz-question">Why can't you add a new required field?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Required fields are ignored</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Old data lacks the field, so old code would fail the check</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Too much memory</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Protobuf doesn't support them</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Every new field must be optional or have a default value, because old data won't contain the new field.</div>
+            </div>
+        </section>
+
+        <!-- Q25 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q25</span><span class="quiz-topic">Removing Fields</span></div>
+            <p class="quiz-question">What rule applies when removing a schema field?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Back up first</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Only remove optional fields; never reuse the tag number</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Rename first</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Update all clients simultaneously</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> You can only remove optional fields and must never reuse the same tag number.</div>
+            </div>
+        </section>
+
+        <!-- Q26 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q26</span><span class="quiz-topic">Type Changes</span></div>
+            <p class="quiz-question">What risk exists when changing int32 to int64?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) No risk</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Old code may truncate values that don't fit in 32 bits</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Schema becomes invalid</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Field auto-deleted</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Old code reading new 64-bit data may truncate values if they exceed 32-bit range.</div>
+            </div>
+        </section>
+
+        <!-- Q27 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q27</span><span class="quiz-topic">Avro Encoding</span></div>
+            <p class="quiz-question">How does Avro differ from Thrift/Protobuf?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Larger field tags</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) No tag numbers or field identifiers in encoded data</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Only works with JSON</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Fixed-length integers</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Avro has no tag numbers — just values concatenated together.</div>
+            </div>
+        </section>
+
+        <!-- Q28 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q28</span><span class="quiz-topic">Avro Parsing</span></div>
+            <p class="quiz-question">How does an Avro reader parse the encoded bytes?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Header in file</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Matches writer's schema field order to determine layout</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Trial and error</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Database query</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> You go through fields in the writer's schema order and use it to determine datatypes.</div>
+            </div>
+        </section>
+
+        <!-- Q29 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q29</span><span class="quiz-topic">Schema Resolution</span></div>
+            <p class="quiz-question">What happens when Avro writer and reader schemas differ?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Error thrown</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Fields matched by name with type conversions where possible</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Differences ignored</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Reader's schema used exclusively</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> The Avro library resolves differences by matching fields by name and converting types.</div>
+            </div>
+        </section>
+
+        <!-- Q30 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q30</span><span class="quiz-topic">Avro Defaults</span></div>
+            <p class="quiz-question">What rule applies when adding/removing Avro fields?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Any field can change freely</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Only add/remove fields that have a default value</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Fields must be numbered</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Only strings can change</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> You may only add or remove fields that have a default value for compatibility.</div>
+            </div>
+        </section>
+
+        <!-- Q31 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q31</span><span class="quiz-topic">Avro Null</span></div>
+            <p class="quiz-question">How do you make an Avro field nullable?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Set to null directly</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Use a union type like union { null, string }</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Add 'nullable' keyword</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Use 'optional' modifier</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Avro uses union types — e.g., union { null, long, string } — to allow null values.</div>
+            </div>
+        </section>
+
+        <!-- Q32 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q32</span><span class="quiz-topic">Object Container</span></div>
+            <p class="quiz-question">How is the writer's schema communicated in a large Avro file?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Each record has the schema</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Writer's schema included once at the beginning of the file</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Sent separately</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Each field carries schema</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> In Avro's object container file, the writer's schema is included once at the beginning.</div>
+            </div>
+        </section>
+
+        <!-- Q33 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q33</span><span class="quiz-topic">Schema Registry</span></div>
+            <p class="quiz-question">How are individual DB records' schemas tracked?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Schema in every record</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Version number in each record, mapped to schema in a registry</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Different format per record</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Never tracked</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> A version number is included with each record and mapped to a schema in a schema registry.</div>
+            </div>
+        </section>
+
+        <!-- Q34 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q34</span><span class="quiz-topic">Avro RPC</span></div>
+            <p class="quiz-question">How is schema communicated during Avro network connections?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Sent with every message</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Negotiated at connection setup, used for the connection lifetime</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Hard-coded</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Schemas not used</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> The two parties negotiate schema at connection setup and use it for the lifetime of the connection.</div>
+            </div>
+        </section>
+
+        <!-- Q35 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q35</span><span class="quiz-topic">Dynamic Schemas</span></div>
+            <p class="quiz-question">Why is Avro good for dynamically generated schemas?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Requires manual updates</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Uses field names (not tags) so schemas auto-generated from DB schema</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Only for static schemas</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Slower than others</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Since Avro uses field names, a new schema can be auto-generated from a DB schema without manual tag assignment.</div>
+            </div>
+        </section>
+
+        <!-- Q36 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q36</span><span class="quiz-topic">Code Generation</span></div>
+            <p class="quiz-question">What is Avro's stance on code generation?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Always required</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Optional — can be used without code gen in dynamic languages</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Not supported</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Java only</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Avro is often used without code generation in dynamically typed languages.</div>
+            </div>
+        </section>
+
+        <!-- Q37 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q37</span><span class="quiz-topic">Schema Benefits</span></div>
+            <p class="quiz-question">Which is NOT a benefit of schema-based binary encoding?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Compact encoding</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Schema as documentation</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Human readability of encoded data</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Compatibility checking</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> Binary encodings are not human-readable. Benefits are compactness, documentation, compatibility, and code gen.</div>
+            </div>
+        </section>
+
+        <!-- Q38 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q38</span><span class="quiz-topic">Documentation</span></div>
+            <p class="quiz-question">Why are schemas valuable as documentation?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Replace code comments</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Required for decoding, so guaranteed to be up-to-date</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Written in natural language</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Marketing only</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> The schema is required for decoding, so it's guaranteed to be up to date.</div>
+            </div>
+        </section>
+
+        <!-- Q39 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q39</span><span class="quiz-topic">Dataflow Modes</span></div>
+            <p class="quiz-question">What are the three main dataflow modes?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) HTTP, FTP, SMTP</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Databases, service calls, and async message passing</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) USB, Bluetooth, WiFi</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) stdin, stdout, stderr</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Through databases, through service calls (REST/RPC), and through asynchronous message passing.</div>
+            </div>
+        </section>
+
+        <!-- Q40 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q40</span><span class="quiz-topic">DB Dataflow</span></div>
+            <p class="quiz-question">What role does a process writing to a DB play?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Consumer</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Sends a message to its future self</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Deletes records</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Compresses data</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Writing to a DB encodes data that a future process will decode — sending a message to your future self.</div>
+            </div>
+        </section>
+
+        <!-- Q41 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q41</span><span class="quiz-topic">DB Compatibility</span></div>
+            <p class="quiz-question">What compatibility is needed when newer apps write DB data read by older apps?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) None</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Forward compatibility — old code must read new code's data</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Database crashes</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Only backward</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Forward compatibility is needed because old code must be able to read data written by newer code.</div>
+            </div>
+        </section>
+
+        <!-- Q42 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q42</span><span class="quiz-topic">Data Preservation</span></div>
+            <p class="quiz-question">What problem occurs when old code reads and rewrites a DB record?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Record encrypted</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) New fields unknown to old code may be lost/overwritten</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Index corrupted</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Record deleted</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> If old code re-encodes a record, new fields it doesn't know about may be lost in translation.</div>
+            </div>
+        </section>
+
+        <!-- Q43 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q43</span><span class="quiz-topic">Schema Migration</span></div>
+            <p class="quiz-question">How do most relational DBs handle adding new columns?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Rewrite entire table</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) ALTER TABLE with null default — no data rewrite needed</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Create new table</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Full backup required</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Most relational databases allow adding a column with a null default without rewriting existing data.</div>
+            </div>
+        </section>
+
+        <!-- Q44 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q44</span><span class="quiz-topic">Data Outlives Code</span></div>
+            <p class="quiz-question">Why does 'data outlive code'?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Data is smaller</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) You may replace code many times, but data persists for decades</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Code deleted after compilation</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Data is encrypted</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Data outlives code — you may replace application code many times, but underlying data remains.</div>
+            </div>
+        </section>
+
+        <!-- Q45 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q45</span><span class="quiz-topic">Archival</span></div>
+            <p class="quiz-question">What format is recommended for data dumps to archival storage?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) CSV only</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Avro with a consistent latest schema</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Raw binary</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Microsoft Word</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Formats like Avro object container files are a good fit, encoding all records with a consistent latest schema.</div>
+            </div>
+        </section>
+
+        <!-- Q46 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q46</span><span class="quiz-topic">REST</span></div>
+            <p class="quiz-question">What does REST build upon?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) OOP</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) HTTP principles — URLs for resources, HTTP features for caching/auth</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Binary protocols</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Shared memory</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> REST builds upon HTTP, using URLs to identify resources and HTTP features for cache control and authentication.</div>
+            </div>
+        </section>
+
+        <!-- Q47 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q47</span><span class="quiz-topic">SOAP</span></div>
+            <p class="quiz-question">What problem does SOAP have?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Too simple</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Complex WS-* standards and interoperability issues</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) No XML support</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Too fast</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> SOAP has a complex multitude of related standards (WS-*) with frequent interoperability problems.</div>
+            </div>
+        </section>
+
+        <!-- Q48 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q48</span><span class="quiz-topic">REST vs SOAP</span></div>
+            <p class="quiz-question">What has been the industry trend?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) SOAP growing</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) REST gaining popularity; SOAP declining</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Both equal</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Neither used</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> REST has been gaining popularity, especially for cross-organizational APIs, while SOAP has fallen out of favor.</div>
+            </div>
+        </section>
+
+        <!-- Q49 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q49</span><span class="quiz-topic">RPC Flaw</span></div>
+            <p class="quiz-question">What is the fundamental flaw of RPC?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Too fast</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Tries to make network calls look like local calls, hiding real differences</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Java only</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) No parameters</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> RPC tries to make network calls look like local function calls — fundamentally flawed because they're very different.</div>
+            </div>
+        </section>
+
+        <!-- Q50 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q50</span><span class="quiz-topic">Network vs Local</span></div>
+            <p class="quiz-question">Which is NOT a difference between network and local calls?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Network calls are unpredictable</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Network calls may timeout</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Local calls always take the same time</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Network calls need parameter encoding</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> Local calls don't always take the same time, but variability is far less. The key differences are unpredictability, timeouts, and encoding needs.</div>
+            </div>
+        </section>
+
+        <!-- Q51 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q51</span><span class="quiz-topic">Idempotence</span></div>
+            <p class="quiz-question">What can retrying a failed network request cause?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Nothing — always safe</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Action performed multiple times if request was processed but response lost</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Server auto-detects</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Client crashes</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> If the request was processed but the response lost, retrying causes the action to happen multiple times.</div>
+            </div>
+        </section>
+
+        <!-- Q52 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q52</span><span class="quiz-topic">Modern RPC</span></div>
+            <p class="quiz-question">Which is a modern RPC framework?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) CORBA</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) gRPC</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) DCOM</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Java RMI</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Modern RPC frameworks include gRPC (Protocol Buffers), Finagle, and Rest.li.</div>
+            </div>
+        </section>
+
+        <!-- Q53 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q53</span><span class="quiz-topic">Futures</span></div>
+            <p class="quiz-question">What do Finagle and Rest.li use for async RPC?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Threads</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Futures (promises)</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Callbacks only</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Polling</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Finagle and Rest.li use futures (promises) to encapsulate asynchronous actions that may fail.</div>
+            </div>
+        </section>
+
+        <!-- Q54 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q54</span><span class="quiz-topic">gRPC Streams</span></div>
+            <p class="quiz-question">What does gRPC support beyond request/response?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Only sync calls</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Streams — series of requests and responses over time</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) File uploads only</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) DB queries</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> gRPC supports streams — a call can consist of a series of requests and responses over time.</div>
+            </div>
+        </section>
+
+        <!-- Q55 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q55</span><span class="quiz-topic">RPC Versioning</span></div>
+            <p class="quiz-question">What compatibility assumption can be made for RPC versioning?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) All clients update simultaneously</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Servers update first, then clients</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Clients update before servers</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) No versioning needed</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Servers update first, clients second — so backward compat on requests and forward compat on responses.</div>
+            </div>
+        </section>
+
+        <!-- Q56 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q56</span><span class="quiz-topic">API Versioning</span></div>
+            <p class="quiz-question">Where is API version commonly specified for REST?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Request body only</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) URL or HTTP Accept header</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Server logs</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Database</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Common approaches include version number in the URL or HTTP Accept header.</div>
+            </div>
+        </section>
+
+        <!-- Q57 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q57</span><span class="quiz-topic">Message Passing</span></div>
+            <p class="quiz-question">Async message passing is a cross between what?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) TCP and UDP</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) RPC and databases</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) HTTP and FTP</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Sockets and pipes</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> It's similar to RPC (low-latency delivery) and databases (message sent via an intermediary).</div>
+            </div>
+        </section>
+
+        <!-- Q58 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q58</span><span class="quiz-topic">Broker Benefits</span></div>
+            <p class="quiz-question">What advantage does a message broker offer over direct RPC?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Slower delivery</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Buffers when recipient unavailable, redelivers on crash, decouples sender/recipient</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Requires both online</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Auto-encrypts</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Brokers buffer when recipient is unavailable, redeliver to crashed processes, and decouple sender from recipient.</div>
+            </div>
+        </section>
+
+        <!-- Q59 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q59</span><span class="quiz-topic">Communication</span></div>
+            <p class="quiz-question">Message passing communication is typically:</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Synchronous</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) One-way and asynchronous</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Bidirectional and blocking</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Encrypted by default</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Usually one-way: a sender normally doesn't expect to receive a reply.</div>
+            </div>
+        </section>
+
+        <!-- Q60 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q60</span><span class="quiz-topic">Brokers</span></div>
+            <p class="quiz-question">Which is a popular open-source message broker?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Apache Tomcat</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) RabbitMQ</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Nginx</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) PostgreSQL</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Popular message brokers include RabbitMQ, ActiveMQ, HornetQ, NATS, and Apache Kafka.</div>
+            </div>
+        </section>
+
+        <!-- Q61 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q61</span><span class="quiz-topic">Message Delivery</span></div>
+            <p class="quiz-question">In the broker model, messages are delivered to:</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Databases</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Queues or topics</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) File systems</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) CPU registers</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> A process sends to a named queue or topic, and the broker delivers to consumers.</div>
+            </div>
+        </section>
+
+        <!-- Q62 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q62</span><span class="quiz-topic">Topic vs Queue</span></div>
+            <p class="quiz-question">What distinguishes a topic from a queue?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Identical</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Topic: fan-out (one-to-many); queue: each message to one consumer</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Queues faster</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Topics JSON only</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Topics provide publish/subscribe (fan-out), queues deliver each message to one consumer.</div>
+            </div>
+        </section>
+
+        <!-- Q63 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q63</span><span class="quiz-topic">Actor Model</span></div>
+            <p class="quiz-question">What is the actor model?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) DB replication technique</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Concurrency model where actors communicate via async messages</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) GUI framework</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Testing methodology</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> The actor model is a programming model for concurrency where actors communicate by sending async messages.</div>
+            </div>
+        </section>
+
+        <!-- Q64 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q64</span><span class="quiz-topic">Actor Frameworks</span></div>
+            <p class="quiz-question">Which is a distributed actor framework?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Django</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Akka</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) React</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) jQuery</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Distributed actor frameworks include Akka, Orleans, and Erlang OTP.</div>
+            </div>
+        </section>
+
+        <!-- Q65 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q65</span><span class="quiz-topic">Akka Encoding</span></div>
+            <p class="quiz-question">What encoding does Akka use by default?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) JSON</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Java's built-in serialization</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) XML</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) CSV</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Akka uses Java's built-in serialization by default, which lacks forward/backward compatibility.</div>
+            </div>
+        </section>
+
+        <!-- Q66 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q66</span><span class="quiz-topic">Orleans</span></div>
+            <p class="quiz-question">How does Orleans handle rolling upgrades?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Natively supported</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Custom serialization plugins needed; default doesn't support rolling upgrades</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Automatic migration</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Full restart required</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Orleans default encoding doesn't support rolling upgrades; custom serialization plugins can be used.</div>
+            </div>
+        </section>
+
+        <!-- Q67 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q67</span><span class="quiz-topic">Erlang OTP</span></div>
+            <p class="quiz-question">What challenge does Erlang OTP have with schema evolution?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Very easy</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Difficult to map records across schemas; careful planning needed</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) No binary data</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Automatic evolution</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Mapping records across schemas is difficult in Erlang OTP despite its reputation for high availability.</div>
+            </div>
+        </section>
+
+        <!-- Q68 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q68</span><span class="quiz-topic">Large Numbers</span></div>
+            <p class="quiz-question">What problem arises with 64-bit IDs in JSON?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) JSON truncates all numbers</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) IEEE 754 floating-point can't represent integers greater than 2^53</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) JSON rejects them</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Auto-converted to strings</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Languages using IEEE 754 can't accurately represent integers larger than 2^53.</div>
+            </div>
+        </section>
+
+        <!-- Q69 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q69</span><span class="quiz-topic">Unicode</span></div>
+            <p class="quiz-question">What advantage does JSON have regarding string encoding?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) More languages</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Mandates Unicode (UTF-8) making encoding unambiguous</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Shorter strings</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) No string support</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> JSON mandates Unicode character strings, making character encoding unambiguous.</div>
+            </div>
+        </section>
+
+        <!-- Q70 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q70</span><span class="quiz-topic">Binary JSON</span></div>
+            <p class="quiz-question">Which is NOT a binary JSON encoding?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) MessagePack</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) BSON</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) BJSON</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Protocol Buffers</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> Protocol Buffers is a separate schema-based binary encoding, not a JSON variant.</div>
+            </div>
+        </section>
+
+        <!-- Q71 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q71</span><span class="quiz-topic">Thrift Binary Size</span></div>
+            <p class="quiz-question">How many bytes does Thrift BinaryProtocol use for the example?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) 81</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) 34</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) 66</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) 59</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> Thrift BinaryProtocol uses 59 bytes for the example record.</div>
+            </div>
+        </section>
+
+        <!-- Q72 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q72</span><span class="quiz-topic">Thrift Compact Size</span></div>
+            <p class="quiz-question">How many bytes does Thrift CompactProtocol use?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) 59</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) 43</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) 34</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) 66</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> Thrift CompactProtocol is only 34 bytes.</div>
+            </div>
+        </section>
+
+        <!-- Q73 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q73</span><span class="quiz-topic">Protobuf Size</span></div>
+            <p class="quiz-question">How many bytes does Protocol Buffers use?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) 34</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) 59</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) 33</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) 66</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> Protocol Buffers encoding is 33 bytes — very similar to Thrift CompactProtocol.</div>
+            </div>
+        </section>
+
+        <!-- Q74 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q74</span><span class="quiz-topic">Varint</span></div>
+            <p class="quiz-question">How do variable-length integers work?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Always 8 bytes</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Top bit indicates more bytes follow; lower 7 bits carry value</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Stored as strings</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Only powers of 2</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Each byte's top bit indicates whether more bytes follow; the lower 7 bits carry the value.</div>
+            </div>
+        </section>
+
+        <!-- Q75 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q75</span><span class="quiz-topic">Avro Size</span></div>
+            <p class="quiz-question">How many bytes does Avro use for the example?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) 59</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) 33</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) 32</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) 66</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> Avro encoding is only 32 bytes — the most compact with no tag numbers.</div>
+            </div>
+        </section>
+
+        <!-- Q76 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q76</span><span class="quiz-topic">Avro Null Default</span></div>
+            <p class="quiz-question">What default value indicates a missing field in old Avro data?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) 0</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Empty string</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) null via union type</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) -1</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> Use union { null, long } with null default to handle missing fields from old data.</div>
+            </div>
+        </section>
+
+        <!-- Q77 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q77</span><span class="quiz-topic">Avro Names</span></div>
+            <p class="quiz-question">Can Avro field names be changed?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Never allowed</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Yes, by adding aliases for the old name in the new schema</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Delete old field first</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Only if schemas identical</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Avro supports aliases: the new schema can contain aliases for old names to match old writer schemas.</div>
+            </div>
+        </section>
+
+        <!-- Q78 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q78</span><span class="quiz-topic">Schema Registry</span></div>
+            <p class="quiz-question">What does a schema registry do?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Stores tables</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Maps schema version numbers to schema definitions</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Compiles code</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Routes traffic</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> A schema registry maps version numbers to full schema definitions for encoding/decoding.</div>
+            </div>
+        </section>
+
+        <!-- Q79 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q79</span><span class="quiz-topic">REST Acronym</span></div>
+            <p class="quiz-question">What does REST stand for?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Remote Execution and State Transfer</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Representational State Transfer</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Reliable Encrypted Secure Transport</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Resource Encoding Standard</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> REST = Representational State Transfer.</div>
+            </div>
+        </section>
+
+        <!-- Q80 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q80</span><span class="quiz-topic">WSDL</span></div>
+            <p class="quiz-question">What is WSDL used for?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Data compression</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Describing SOAP APIs in machine-readable form for code generation</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Encrypting messages</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Routing traffic</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> WSDL describes SOAP web service APIs for code generation.</div>
+            </div>
+        </section>
+
+        <!-- Q81 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q81</span><span class="quiz-topic">OpenAPI</span></div>
+            <p class="quiz-question">What is the REST equivalent of WSDL?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) YAML</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) OpenAPI (formerly Swagger)</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) HTML</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) LaTeX</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> OpenAPI, formerly known as Swagger, describes RESTful APIs.</div>
+            </div>
+        </section>
+
+        <!-- Q82 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q82</span><span class="quiz-topic">Network Issues</span></div>
+            <p class="quiz-question">What doesn't exist in local function calls?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Stack overflow</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Network unpredictability — requests/responses may be lost or delayed</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Memory allocation</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Type checking</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Network calls are unpredictable — they may be lost, delayed, duplicated, or arrive out of order.</div>
+            </div>
+        </section>
+
+        <!-- Q83 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q83</span><span class="quiz-topic">gRPC Cross-Language</span></div>
+            <p class="quiz-question">How does gRPC handle cross-language RPC?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Java only</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Protocol Buffers encoding enables calls between different languages</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Translates source code</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Same language required</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> gRPC uses Protocol Buffers which provides cross-language support.</div>
+            </div>
+        </section>
+
+        <!-- Q84 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q84</span><span class="quiz-topic">REST Debugging</span></div>
+            <p class="quiz-question">What is a main advantage of REST over RPC?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) REST is faster</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Easy experimentation/debugging via browser or curl</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Less bandwidth</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) More secure</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> REST allows requests via web browser or curl without code generation.</div>
+            </div>
+        </section>
+
+        <!-- Q85 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q85</span><span class="quiz-topic">Service Discovery</span></div>
+            <p class="quiz-question">What infrastructure does RPC typically need?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Compiler</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Service discovery to find network addresses of services</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Text editor</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Database</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> RPC frameworks need service discovery to locate services at runtime.</div>
+            </div>
+        </section>
+
+        <!-- Q86 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q86</span><span class="quiz-topic">Broker Decoupling</span></div>
+            <p class="quiz-question">What does a message broker allow regarding recipients?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Must be running always</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Sender doesn't need recipient's IP/port — just sends to a named queue</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Recipient sends first</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) One sender per topic</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> The sender doesn't need to know the recipient's IP or port — the broker handles routing.</div>
+            </div>
+        </section>
+
+        <!-- Q87 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q87</span><span class="quiz-topic">Message Redelivery</span></div>
+            <p class="quiz-question">What happens to broker messages when a recipient crashes?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Lost</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Queued and redelivered when recipient recovers</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Sender notified immediately</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Encrypted</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> The broker buffers and automatically redelivers messages when the crashed process recovers.</div>
+            </div>
+        </section>
+
+        <!-- Q88 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q88</span><span class="quiz-topic">Production Encoding</span></div>
+            <p class="quiz-question">What encoding should production message-passing systems use?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Plain text</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Schema-based binary (Thrift, Protobuf, Avro)</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) HTML</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Any format</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Schema-based binary encoding ensures backward and forward compatibility.</div>
+            </div>
+        </section>
+
+        <!-- Q89 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q89</span><span class="quiz-topic">Base64 Overhead</span></div>
+            <p class="quiz-question">What is the size overhead of Base64-encoding binary data?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) No overhead</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) About 33% increase</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) 50% increase</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Data shrinks</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Base64-encoding increases data size by approximately 33%.</div>
+            </div>
+        </section>
+
+        <!-- Q90 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q90</span><span class="quiz-topic">Proto3</span></div>
+            <p class="quiz-question">What changed in Protocol Buffers 3 regarding required/optional?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Same as before</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Required keyword dropped; all fields optional by default</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Optional dropped</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Replaced with 'mandatory'</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Proto3 dropped required/optional; all fields are optional by default.</div>
+            </div>
+        </section>
+
+        <!-- Q91 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q91</span><span class="quiz-topic">Thrift Lists</span></div>
+            <p class="quiz-question">How does Thrift encode lists?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) As JSON arrays</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Dedicated list type with element type and count</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Not supported</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Repeated strings</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Thrift has a dedicated list datatype parameterized with element type.</div>
+            </div>
+        </section>
+
+        <!-- Q92 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q92</span><span class="quiz-topic">Protobuf Lists</span></div>
+            <p class="quiz-question">How does Protobuf handle lists/arrays?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Special list type</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) 'repeated' marker — same tag appears multiple times</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Stored separately</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) JSON arrays internally</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> No list type — 'repeated' marker means the same field tag appears multiple times.</div>
+            </div>
+        </section>
+
+        <!-- Q93 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q93</span><span class="quiz-topic">Repeated Compat</span></div>
+            <p class="quiz-question">What compat benefit does Protobuf's repeated approach provide?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) None</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Optional can be changed to repeated — old code reads last element</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Prevents all bugs</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Smaller files</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> An optional field can be changed to repeated. Old code reading new data sees only the last element.</div>
+            </div>
+        </section>
+
+        <!-- Q94 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q94</span><span class="quiz-topic">Avro Schema Languages</span></div>
+            <p class="quiz-question">Which two schema languages does Avro support?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) JSON and XML</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Avro IDL (human) and JSON-based (machine)</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) YAML and TOML</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) SQL and GraphQL</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Avro has Avro IDL for human editing and JSON-based for machine readability.</div>
+            </div>
+        </section>
+
+        <!-- Q95 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q95</span><span class="quiz-topic">Avro Union</span></div>
+            <p class="quiz-question">What does union { null, string } mean?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Field must be string</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Field can be either null or a string</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Field ignored</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Field encrypted</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> The field can be either null or a string — Avro's way of making a field nullable.</div>
+            </div>
+        </section>
+
+        <!-- Q96 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q96</span><span class="quiz-topic">Espresso</span></div>
+            <p class="quiz-question">How does LinkedIn's Espresso handle schema evolution?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Rewrites data</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Uses Avro for storage with Avro's schema evolution rules</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) No schema changes</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Requires downtime</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Espresso uses Avro for storage, enabling Avro's schema evolution.</div>
+            </div>
+        </section>
+
+        <!-- Q97 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q97</span><span class="quiz-topic">SOA</span></div>
+            <p class="quiz-question">What does the chapter call the approach of composing services?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Monolithic</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Service-oriented architecture (SOA) / microservices</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Peer-to-peer</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Client-server only</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> SOA, recently rebranded as microservices architecture.</div>
+            </div>
+        </section>
+
+        <!-- Q98 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q98</span><span class="quiz-topic">Middleware</span></div>
+            <p class="quiz-question">What is message-oriented middleware?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Direct messaging</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Sending messages between services via a broker</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Email</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) WebSockets</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Communication between services via a message broker is message-oriented middleware.</div>
+            </div>
+        </section>
+
+        <!-- Q99 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q99</span><span class="quiz-topic">Reply Pattern</span></div>
+            <p class="quiz-question">How does a sender receive a reply in message passing?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Same message</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) On a separate channel — reply is sent to a reply/callback queue</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Direct callback</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Shared memory</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Replies are sent as separate messages on a reply queue or callback queue.</div>
+            </div>
+        </section>
+
+        <!-- Q100 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q100</span><span class="quiz-topic">Key Thesis</span></div>
+            <p class="quiz-question">What is the chapter's key thesis?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Always use JSON</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Choose formats supporting schema evolution for independent component upgrades</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Binary is always better</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Avoid schema changes</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Choose encoding formats that support backward and forward compatibility for independent upgrades.</div>
+            </div>
+        </section>
+
+
+
     </div>
 
     <div class="controls">
@@ -1090,6 +2717,16 @@
             }
         });
 
+
+        function selectOption(e) { e.classList.toggle('selected'); }
+        function checkAnswer(e, correctOptions) {
+            if (!e.parentElement.classList.contains('revealed')) e.parentElement.classList.add('revealed');
+            if (!Array.isArray(correctOptions)) return;
+            const sel = new Set(Array.from(e.parentElement.parentElement.querySelectorAll('.quiz-option.selected')).map(t => t.innerText.trim().charAt(0)));
+            const ok = correctOptions.every(o => sel.has(o)) && sel.size === correctOptions.length;
+            const exp = e.parentElement.querySelector('.quiz-explanation');
+            if (!ok) exp.classList.add('incorrect'); else exp.classList.remove('incorrect');
+        }
         update();
     </script>
 

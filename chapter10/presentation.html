@@ -454,6 +454,23 @@
             .title-slide p { font-size: 1rem; }
         }
     
+
+        /* ====== Quiz Slides ====== */
+        .quiz-slide { text-align: left; padding: 3% 8%; gap: 10px; }
+        .quiz-header { display: flex; align-items: center; gap: 15px; margin-bottom: 5px; }
+        .quiz-number { background: #2563eb; color: white; padding: 6px 16px; border-radius: 8px; font-weight: 800; font-size: 1.2rem; }
+        .quiz-topic { font-size: 0.95rem; text-transform: uppercase; letter-spacing: 2px; opacity: 0.5; font-weight: 600; }
+        .quiz-question { font-size: 1.6rem; font-weight: 600; margin-bottom: 10px; line-height: 1.3; }
+        .quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; }
+        .quiz-option { background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 10px; padding: 12px 18px; font-size: 1.1rem; font-weight: 400; cursor: pointer; }
+        .quiz-option:hover { border-color: #2563eb; }
+        .quiz-option.selected { border-color: #2563eb; background: #dbeafe; }
+        .quiz-answer { width: 100%; margin-top: 8px; }
+        .reveal-btn { background: #2563eb; color: white; border: none; padding: 8px 28px; border-radius: 8px; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: opacity 0.2s; }
+        .reveal-btn:hover { opacity: 0.85; }
+        .quiz-explanation { display: none; background: #f0fdf4; border: 2px solid #86efac; border-radius: 10px; padding: 12px 18px; margin-top: 8px; font-size: 1.05rem; line-height: 1.4; }
+        .quiz-explanation.incorrect { display: block; background: #fef2f2; border-color: #fecaca; }
+        .quiz-answer.revealed .quiz-explanation { display: block; }
     </style>
 </head>
 <body>
@@ -1147,6 +1164,1616 @@ end</div>
             </div>
         </section>
 
+
+        <!-- ==================== MCQ QUIZ SECTION ==================== -->
+
+        <section class="slide section-header">
+            <h2>MCQ Quiz</h2>
+            <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">100 Questions &bull; Test Your Knowledge</p>
+        </section>
+
+        <!-- Q1 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q1</span><span class="quiz-topic">System Types</span></div>
+            <p class="quiz-question">What are the three types of systems discussed?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Databases, caches, queues</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Services (online), batch processing (offline), stream processing (near-real-time)</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Frontend, backend, database</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Client, server, proxy</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Services (online systems), batch processing systems (offline), and stream processing systems (near-real-time).</div>
+            </div>
+        </section>
+
+        <!-- Q2 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q2</span><span class="quiz-topic">Online Systems</span></div>
+            <p class="quiz-question">What characterizes an online (service) system?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Runs periodically</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Waits for requests, processes them, and sends responses — measured by response time</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Processes all data at once</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Only reads data</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> An online system waits for a client request, handles it, and sends a response. Response time is the primary metric.</div>
+            </div>
+        </section>
+
+        <!-- Q3 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q3</span><span class="quiz-topic">Batch Processing</span></div>
+            <p class="quiz-question">What characterizes a batch processing system?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Instant responses</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Takes a large amount of input data, runs a job to process it, and produces output — measured by throughput</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Processes one record at a time</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Always online</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Batch processing takes a large dataset, processes it, and produces output. Throughput (data processed per time) is the key metric.</div>
+            </div>
+        </section>
+
+        <!-- Q4 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q4</span><span class="quiz-topic">Stream Processing</span></div>
+            <p class="quiz-question">What characterizes stream processing?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Processes data in bulk</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Near-real-time: processes events shortly after they happen, with lower latency than batch</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Only batch at night</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Only handles network traffic</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Stream processing is between online and batch — it operates on events shortly after they happen, rather than on a fixed dataset.</div>
+            </div>
+        </section>
+
+        <!-- Q5 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q5</span><span class="quiz-topic">Unix Philosophy</span></div>
+            <p class="quiz-question">What is the Unix philosophy?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Build monolithic programs</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Make each program do one thing well, expect output to become input for another, and compose them via pipes</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Use only C</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Avoid text files</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> The Unix philosophy: write programs that do one thing well, handle text streams (universal interface), and compose via pipes.</div>
+            </div>
+        </section>
+
+        <!-- Q6 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q6</span><span class="quiz-topic">Unix Pipes</span></div>
+            <p class="quiz-question">What do Unix pipes enable?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) File storage</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Composing small programs into powerful data processing pipelines</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Network communication</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Process scheduling</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Pipes connect the stdout of one program to stdin of another, enabling flexible composition of tools.</div>
+            </div>
+        </section>
+
+        <!-- Q7 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q7</span><span class="quiz-topic">Uniform Interface</span></div>
+            <p class="quiz-question">What is the 'uniform interface' in Unix?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) GUI</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Files (file descriptors) — everything is a file, and programs read/write byte sequences</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) HTTP</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) SQL</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> The uniform interface is the file (specifically, a file descriptor): a byte sequence that programs can read and write.</div>
+            </div>
+        </section>
+
+        <!-- Q8 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q8</span><span class="quiz-topic">Loose Coupling</span></div>
+            <p class="quiz-question">What does the Unix philosophy achieve regarding coupling?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Tight coupling</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Loose coupling — programs don't need to know about each other, just read stdin and write stdout</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) No coupling</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Bidirectional coupling</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Unix programs are loosely coupled: they don't know or care what reads their output — it's just bytes.</div>
+            </div>
+        </section>
+
+        <!-- Q9 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q9</span><span class="quiz-topic">MapReduce</span></div>
+            <p class="quiz-question">What is MapReduce?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) A database query</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) A programming model for processing large datasets in parallel across a distributed cluster</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) A file system</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) A network protocol</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> MapReduce is a programming framework for processing large amounts of data in a distributed setting, inspired by Unix tools.</div>
+            </div>
+        </section>
+
+        <!-- Q10 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q10</span><span class="quiz-topic">MapReduce Origin</span></div>
+            <p class="quiz-question">Who published the original MapReduce paper?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Amazon</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Google (Jeff Dean and Sanjay Ghemawat, 2004)</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Facebook</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Microsoft</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> MapReduce was published by Jeff Dean and Sanjay Ghemawat at Google in 2004.</div>
+            </div>
+        </section>
+
+        <!-- Q11 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q11</span><span class="quiz-topic">Hadoop</span></div>
+            <p class="quiz-question">What is Hadoop?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) A database</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) An open-source implementation of MapReduce with HDFS (Hadoop Distributed File System)</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) A programming language</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) A network protocol</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Hadoop is the open-source implementation of MapReduce, with HDFS as its distributed file system.</div>
+            </div>
+        </section>
+
+        <!-- Q12 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q12</span><span class="quiz-topic">HDFS</span></div>
+            <p class="quiz-question">What is HDFS?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) A local file system</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Hadoop Distributed File System — stores large files across many machines with replication</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) A database</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) A cache</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> HDFS stores data across many machines with replication for fault tolerance. It's based on Google's GFS.</div>
+            </div>
+        </section>
+
+        <!-- Q13 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q13</span><span class="quiz-topic">HDFS Replication</span></div>
+            <p class="quiz-question">How does HDFS handle fault tolerance?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) RAID</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Replicates each block on multiple machines (typically 3 copies)</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Checksums only</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) No fault tolerance</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> HDFS replicates each file block on multiple machines, typically keeping 3 copies for fault tolerance.</div>
+            </div>
+        </section>
+
+        <!-- Q14 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q14</span><span class="quiz-topic">Map Phase</span></div>
+            <p class="quiz-question">What does the mapper function do?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Sorts data</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Called once for each input record; extracts a key and value from each record</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Joins tables</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Writes to database</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> The mapper is called once for each input record and extracts a key-value pair from the input record.</div>
+            </div>
+        </section>
+
+        <!-- Q15 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q15</span><span class="quiz-topic">Reduce Phase</span></div>
+            <p class="quiz-question">What does the reducer function do?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Reads files</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Collects all values belonging to the same key and processes them to produce output</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Maps keys to values</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Sorts the input</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> The reducer takes all the values for a given key and combines them to produce zero or more output records.</div>
+            </div>
+        </section>
+
+        <!-- Q16 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q16</span><span class="quiz-topic">Shuffle</span></div>
+            <p class="quiz-question">What happens between map and reduce?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Nothing</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) The framework sorts and partitions mapper output by key, sending all values for a key to the same reducer (shuffle)</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Data is deleted</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Data is compressed</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> The shuffle stage partitions the mapper output by key, sorts it, and routes all values for the same key to the same reducer.</div>
+            </div>
+        </section>
+
+        <!-- Q17 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q17</span><span class="quiz-topic">MapReduce Fault</span></div>
+            <p class="quiz-question">How does MapReduce handle a failed task?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Restart the entire job</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Reschedule the failed task on another machine — mappers re-read input; reducers re-fetch mapper output</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Ignore the failure</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Abort the job</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> If a map or reduce task fails, MapReduce reschedules it on another machine. Mappers re-read from HDFS; reducers re-fetch from mappers.</div>
+            </div>
+        </section>
+
+        <!-- Q18 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q18</span><span class="quiz-topic">Deterministic Map</span></div>
+            <p class="quiz-question">Why should MapReduce mappers be deterministic?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) For performance</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) So that re-executing a failed mapper produces the same output — enabling reliable retry</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) For security</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) For readability</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Deterministic mappers ensure that re-execution on failure produces identical output, maintaining correctness.</div>
+            </div>
+        </section>
+
+        <!-- Q19 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q19</span><span class="quiz-topic">Sort-Merge Join</span></div>
+            <p class="quiz-question">How does MapReduce implement joins?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Nested loops</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Sort-merge join: mapper emits key-value pairs; reducer receives all values for a key from both datasets, sorted and ready to join</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Hash lookup</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Index scan</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Both datasets' mappers emit records keyed by the join key. The reducer sees all matching records from both sides, sorted together.</div>
+            </div>
+        </section>
+
+        <!-- Q20 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q20</span><span class="quiz-topic">Secondary Sort</span></div>
+            <p class="quiz-question">What is secondary sort in MapReduce?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) A second sort job</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Sorting the values within each key group — e.g., ensuring dimension records appear before fact records for a given key</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Sorting by value</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Reverse sorting</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Secondary sort arranges values within a key group in a specific order so the reducer sees them in the right sequence.</div>
+            </div>
+        </section>
+
+        <!-- Q21 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q21</span><span class="quiz-topic">Broadcast Join</span></div>
+            <p class="quiz-question">What is a broadcast hash join?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Joining with a broadcast signal</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) A small dataset is loaded entirely into memory on each mapper, which then joins with its local partition of the large dataset</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Sending all data to one node</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) A network broadcast</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> The small dataset is loaded into a hash table in memory on each mapper. Each mapper joins it with its partition of the large dataset.</div>
+            </div>
+        </section>
+
+        <!-- Q22 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q22</span><span class="quiz-topic">Partition Hash Join</span></div>
+            <p class="quiz-question">What is a partition hash join?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Joining data randomly</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Both inputs are partitioned the same way; each partition is independently joined in memory using a hash table</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Joining with encryption</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) A full table scan</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> If both inputs are partitioned by the join key using the same hash, matching records end up in the same partition for efficient joining.</div>
+            </div>
+        </section>
+
+        <!-- Q23 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q23</span><span class="quiz-topic">Skew Problem</span></div>
+            <p class="quiz-question">What is the 'hot key' skew problem in MapReduce joins?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Keys are too large</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) A key with many values causes one reducer to process far more data than others, creating a bottleneck</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Keys are duplicated</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Keys are missing</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> If one key has a disproportionate number of records (like a celebrity's user ID), the reducer handling it becomes a bottleneck.</div>
+            </div>
+        </section>
+
+        <!-- Q24 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q24</span><span class="quiz-topic">Skew Mitigation</span></div>
+            <p class="quiz-question">How can skew be mitigated in MapReduce?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Delete hot keys</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Pig's skewed join: send records for hot keys to multiple reducers with replicated join input</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Use a bigger reducer</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Skip hot keys</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Pig's skewed join sends hot key records to random reducers and replicates the other join input to those reducers.</div>
+            </div>
+        </section>
+
+        <!-- Q25 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q25</span><span class="quiz-topic">Map-Side Joins</span></div>
+            <p class="quiz-question">What is the advantage of map-side joins over reduce-side joins?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) More flexible</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) No reducer needed, no sorting or shuffling — each mapper reads and joins data locally</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Handle more data</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) More correct</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Map-side joins avoid the overhead of sorting, shuffling, and reducing. The mapper directly reads and joins data.</div>
+            </div>
+        </section>
+
+        <!-- Q26 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q26</span><span class="quiz-topic">Output</span></div>
+            <p class="quiz-question">What does a MapReduce job typically output?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Updates to a database</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) A new set of files in the distributed file system — the output is immutable</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Console messages</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Network responses</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> MapReduce jobs write their output as new files in HDFS. The output of one job becomes the input of the next.</div>
+            </div>
+        </section>
+
+        <!-- Q27 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q27</span><span class="quiz-topic">Immutable Output</span></div>
+            <p class="quiz-question">Why is immutable output a good practice?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Saves space</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) If the job fails or has a bug, you can re-run it without corrupting the input — easy retry and rollback</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Faster writes</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Better encryption</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Immutable outputs mean the input is never modified. If something goes wrong, you can simply re-run the job safely.</div>
+            </div>
+        </section>
+
+        <!-- Q28 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q28</span><span class="quiz-topic">Materialization</span></div>
+            <p class="quiz-question">What is the materialization problem in MapReduce?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Data is too physical</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Each job must fully write its output to disk before the next job can start — wasting time and disk space</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Data is lost</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Memory overflow</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> MapReduce materializes (writes to disk) all intermediate state between jobs, adding latency and I/O overhead.</div>
+            </div>
+        </section>
+
+        <!-- Q29 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q29</span><span class="quiz-topic">Dataflow Engines</span></div>
+            <p class="quiz-question">What are dataflow engines like Spark, Tez, and Flink?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Databases</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Alternatives to MapReduce that allow more flexible execution graphs (not just map→reduce)</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Operating systems</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Network protocols</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Dataflow engines like Spark, Tez, and Flink generalize the MapReduce model with flexible operator DAGs.</div>
+            </div>
+        </section>
+
+        <!-- Q30 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q30</span><span class="quiz-topic">Operators</span></div>
+            <p class="quiz-question">In dataflow engines, what replaces map and reduce?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Only map</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) General-purpose operators — each can perform map-like, reduce-like, or other transformations</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) SQL queries</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Stored procedures</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Dataflow engines use general operators that can perform any function — mapping, filtering, joining, aggregating, etc.</div>
+            </div>
+        </section>
+
+        <!-- Q31 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q31</span><span class="quiz-topic">Pipelining</span></div>
+            <p class="quiz-question">How do dataflow engines improve on MapReduce's materialization?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) They don't</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) They pipeline data between operators in memory, avoiding unnecessary disk writes between stages</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) They use more disk</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) They use compression</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Dataflow engines can pass data between operators through memory (pipelining), significantly reducing I/O.</div>
+            </div>
+        </section>
+
+        <!-- Q32 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q32</span><span class="quiz-topic">Spark RDD</span></div>
+            <p class="quiz-question">What is an RDD in Spark?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Relational Database Design</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Resilient Distributed Dataset — an immutable, distributed collection that tracks its lineage for fault tolerance</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Remote Data Distribution</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Random Data Deletion</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> RDD = Resilient Distributed Dataset. It's Spark's core abstraction: an immutable distributed dataset with lineage tracking.</div>
+            </div>
+        </section>
+
+        <!-- Q33 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q33</span><span class="quiz-topic">Fault Tolerance DF</span></div>
+            <p class="quiz-question">How do dataflow engines handle fault tolerance?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Checkpointing only</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Recomputing lost data from the input — the lineage/DAG tells the system what to re-execute</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Ignoring faults</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Manual recovery</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> If a partition is lost, the engine recomputes it by re-executing the operators from the input data, guided by the execution graph.</div>
+            </div>
+        </section>
+
+        <!-- Q34 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q34</span><span class="quiz-topic">Graph Processing</span></div>
+            <p class="quiz-question">What is graph processing in the context of batch?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Drawing graphs</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Processing data modeled as a graph (vertices and edges) — like PageRank, social network analysis</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Graph databases</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Bar charts</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Graph processing operates on data modeled as graphs (vertices and edges), running iterative algorithms like PageRank.</div>
+            </div>
+        </section>
+
+        <!-- Q35 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q35</span><span class="quiz-topic">Pregel</span></div>
+            <p class="quiz-question">What is the Pregel model?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) A database query</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Bulk Synchronous Parallel — vertices process messages in rounds (supersteps), sending messages along edges</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) A network protocol</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) A file system</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Pregel (BSP model): in each superstep, a vertex processes messages from the previous step, then sends messages to its neighbors.</div>
+            </div>
+        </section>
+
+        <!-- Q36 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q36</span><span class="quiz-topic">PageRank</span></div>
+            <p class="quiz-question">What is PageRank an example of?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Sorting</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) An iterative graph algorithm where each vertex's importance is determined by the importance of vertices linking to it</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) A join operation</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) A filter</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> PageRank is an iterative graph algorithm: a vertex's rank depends on the ranks of vertices that point to it.</div>
+            </div>
+        </section>
+
+        <!-- Q37 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q37</span><span class="quiz-topic">MapReduce Graph</span></div>
+            <p class="quiz-question">How can graph algorithms be done in MapReduce?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) They can't</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Multiple iterations of MapReduce jobs — each iteration processes one step of the algorithm</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Single MapReduce job</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Only with SQL</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Graph algorithms in MapReduce require multiple iterations, each one a separate MapReduce job, which is inefficient.</div>
+            </div>
+        </section>
+
+        <!-- Q38 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q38</span><span class="quiz-topic">Pregel Advantage</span></div>
+            <p class="quiz-question">What advantage does Pregel have over iterated MapReduce for graphs?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Simpler code</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Only vertices that have messages to process are active; the graph structure stays in memory between iterations</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Faster I/O</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Better fault tolerance</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Pregel keeps the graph in memory and only processes active vertices, avoiding the overhead of shuffling the entire graph each iteration.</div>
+            </div>
+        </section>
+
+        <!-- Q39 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q39</span><span class="quiz-topic">Unix Analogy</span></div>
+            <p class="quiz-question">How is MapReduce analogous to Unix tools?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Same code</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Like Unix pipes: input files → map (like grep/awk) → sort → reduce (like uniq -c) → output files</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Same OS</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Same language</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> MapReduce is like a distributed version of Unix commands: map is like grep/awk, shuffle is like sort, reduce is like uniq -c/aggregation.</div>
+            </div>
+        </section>
+
+        <!-- Q40 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q40</span><span class="quiz-topic">Simple Log Analysis</span></div>
+            <p class="quiz-question">What is the simplest Unix command pipeline for log analysis?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) SELECT * FROM logs</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) cat access.log | awk '{print $7}' | sort | uniq -c | sort -rn | head -5</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) grep error access.log</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) wc -l access.log</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> This pipeline extracts URLs, sorts them, counts occurrences, sorts by count, and shows the top 5 — a simple batch analysis.</div>
+            </div>
+        </section>
+
+        <!-- Q41 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q41</span><span class="quiz-topic">Shared Nothing</span></div>
+            <p class="quiz-question">MapReduce is based on what architecture?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Shared memory</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Shared-nothing — each node uses its own CPU, memory, and disk</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Shared disk</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Single machine</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> MapReduce runs on shared-nothing commodity hardware where each machine has independent resources.</div>
+            </div>
+        </section>
+
+        <!-- Q42 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q42</span><span class="quiz-topic">Commodity Hardware</span></div>
+            <p class="quiz-question">Why does MapReduce use commodity hardware?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) For security</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Cost-effective: cheaper than specialized parallel database hardware, with fault tolerance built into software</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) For speed</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) For compatibility</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Commodity hardware is cheaper. MapReduce builds fault tolerance in software, tolerating individual machine failures.</div>
+            </div>
+        </section>
+
+        <!-- Q43 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q43</span><span class="quiz-topic">MPP vs MapReduce</span></div>
+            <p class="quiz-question">How do MPP databases differ from MapReduce?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) They're the same</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) MPP databases are optimized for parallel SQL queries on structured data; MapReduce handles arbitrary code on any data format</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) MapReduce is faster</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) MPP has no fault tolerance</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> MPP databases optimize SQL on structured data. MapReduce handles arbitrary processing logic on any data format.</div>
+            </div>
+        </section>
+
+        <!-- Q44 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q44</span><span class="quiz-topic">Schema on Read</span></div>
+            <p class="quiz-question">What does MapReduce use instead of schema-on-write?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) No schema</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Schema-on-read — data is interpreted by the reader, not enforced on write</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) XML schema</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) JSON schema</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> MapReduce uses schema-on-read: raw data is stored and the processing code interprets the structure at read time.</div>
+            </div>
+        </section>
+
+        <!-- Q45 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q45</span><span class="quiz-topic">Diversity</span></div>
+            <p class="quiz-question">What advantage does schema-on-read provide?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Strict validation</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Flexibility to process diverse data formats without requiring upfront schema design</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Better performance</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Stronger types</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Schema-on-read allows processing varied, messy, or evolving data formats without requiring upfront schema design.</div>
+            </div>
+        </section>
+
+        <!-- Q46 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q46</span><span class="quiz-topic">Data Lake</span></div>
+            <p class="quiz-question">What is a data lake approach?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) A physical lake</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Dump raw data into HDFS first, then figure out how to process it later — shift data modeling downstream</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) A database schema</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) An in-memory cache</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> The data lake approach stores raw data in HDFS, deferring structure and interpretation to the processing stage.</div>
+            </div>
+        </section>
+
+        <!-- Q47 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q47</span><span class="quiz-topic">Sushi Principle</span></div>
+            <p class="quiz-question">What is the 'sushi principle' in data processing?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Raw data is dangerous</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Raw data is better — keep data in its rawest form and transform it as needed downstream</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Cook data first</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Only use JSON</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> The sushi principle: raw data is better. Store it raw and process it as needed, rather than transforming it on ingest.</div>
+            </div>
+        </section>
+
+        <!-- Q48 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q48</span><span class="quiz-topic">MapReduce Workflow</span></div>
+            <p class="quiz-question">How are complex workflows built in MapReduce?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Single job</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Chaining multiple MapReduce jobs — output of one becomes input to the next</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Nested queries</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Recursion</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Complex workflows are built by chaining MapReduce jobs, where each job's output directory becomes the next job's input.</div>
+            </div>
+        </section>
+
+        <!-- Q49 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q49</span><span class="quiz-topic">Workflow Schedulers</span></div>
+            <p class="quiz-question">What tools manage MapReduce workflow dependencies?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) cron</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Airflow, Oozie, Azkaban, Luigi, Pinball</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Jenkins only</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Make</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Workflow schedulers like Oozie, Azkaban, Luigi, Airflow, and Pinball manage dependencies between MapReduce jobs.</div>
+            </div>
+        </section>
+
+        <!-- Q50 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q50</span><span class="quiz-topic">Hadoop Ecosystem</span></div>
+            <p class="quiz-question">What makes up the Hadoop ecosystem?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Just MapReduce</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) HDFS, MapReduce, Hive, HBase, Spark, Pig, and many other tools</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Only HDFS</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Only Hive</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> The Hadoop ecosystem includes HDFS, MapReduce/Spark, Hive (SQL), HBase (random access), Pig, and many others.</div>
+            </div>
+        </section>
+
+        <!-- Q51 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q51</span><span class="quiz-topic">Hive</span></div>
+            <p class="quiz-question">What is Apache Hive?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) A database</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) A SQL-on-Hadoop engine that translates SQL queries into MapReduce (or Tez/Spark) jobs</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) A file system</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) A web server</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Hive provides a SQL interface to data in HDFS, translating queries into MapReduce, Tez, or Spark jobs.</div>
+            </div>
+        </section>
+
+        <!-- Q52 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q52</span><span class="quiz-topic">Pig</span></div>
+            <p class="quiz-question">What is Apache Pig?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) A database</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) A high-level data flow language (Pig Latin) that compiles to MapReduce or Tez jobs</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) A file system</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) A monitoring tool</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Pig provides Pig Latin, a data flow scripting language that is compiled into MapReduce or Tez jobs.</div>
+            </div>
+        </section>
+
+        <!-- Q53 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q53</span><span class="quiz-topic">Combiner</span></div>
+            <p class="quiz-question">What is a combiner in MapReduce?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) A data merger</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) A mini-reducer that runs on the mapper's output to pre-aggregate data before the shuffle, reducing network traffic</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) A joiner</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) A compressor</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> A combiner is like a reducer applied locally on the map output, reducing the amount of data shuffled over the network.</div>
+            </div>
+        </section>
+
+        <!-- Q54 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q54</span><span class="quiz-topic">Combiner Constraint</span></div>
+            <p class="quiz-question">What constraint must a combiner function satisfy?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) No constraint</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) It must be commutative and associative — applying it multiple times produces the same result as once</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) It must be injective</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) It must be idempotent</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> The combiner must produce the same result regardless of how many times or in what order it's applied (commutative, associative).</div>
+            </div>
+        </section>
+
+        <!-- Q55 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q55</span><span class="quiz-topic">Map Output</span></div>
+            <p class="quiz-question">Where is mapper output stored?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) In HDFS</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) On the mapper's local disk (not in HDFS) — it's intermediate data not worth replicating</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) In memory only</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) On a shared disk</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Mapper output is written to local disk since it's temporary intermediate data that will be discarded after the reducers read it.</div>
+            </div>
+        </section>
+
+        <!-- Q56 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q56</span><span class="quiz-topic">Reducer Input</span></div>
+            <p class="quiz-question">How does a reducer get its input?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Reads from HDFS</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) The framework fetches the relevant partition of each mapper's output over the network (shuffle)</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Local disk</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) From a database</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> The MapReduce framework pulls the appropriate partition from each mapper's output, sending it to the assigned reducer.</div>
+            </div>
+        </section>
+
+        <!-- Q57 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q57</span><span class="quiz-topic">Number of Reducers</span></div>
+            <p class="quiz-question">How is the number of reducers determined?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Always 1</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Configured by the user — affects how many output partitions and output files are produced</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Equals number of mappers</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Equals number of input files</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> The user specifies the number of reduce tasks. This determines the number of output files and partition granularity.</div>
+            </div>
+        </section>
+
+        <!-- Q58 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q58</span><span class="quiz-topic">Join Types</span></div>
+            <p class="quiz-question">What are the three types of joins in batch processing?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Left, right, full</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Sort-merge join, broadcast hash join, partition hash join</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Inner, outer, cross</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Natural, self, anti</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> The three strategies: sort-merge join (reduce-side), broadcast hash join (map-side, small table in memory), partition hash join (map-side, same partitioning).</div>
+            </div>
+        </section>
+
+        <!-- Q59 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q59</span><span class="quiz-topic">ETL</span></div>
+            <p class="quiz-question">What does ETL stand for?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Extract, Transform, Load</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Extract, Transform, Load — moving data from transactional systems to analytics/warehouse</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Execute, Test, Log</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Encrypt, Transfer, Lock</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> ETL = Extract, Transform, Load — the process of moving and transforming data from operational databases to analytical systems.</div>
+            </div>
+        </section>
+
+        <!-- Q60 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q60</span><span class="quiz-topic">Batch ETL</span></div>
+            <p class="quiz-question">How is MapReduce commonly used in ETL?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Real-time processing</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Extracting data from transactional databases, transforming it, and loading it into a data warehouse</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Serving web pages</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Running databases</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> MapReduce is commonly used for ETL: extract from operational databases, transform (clean, denormalize), load into a warehouse.</div>
+            </div>
+        </section>
+
+        <!-- Q61 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q61</span><span class="quiz-topic">Machine Learning</span></div>
+            <p class="quiz-question">How is batch processing used for machine learning?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Real-time predictions only</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Training ML models on large datasets — classifiers, recommendation systems, ranking models</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Only for inference</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Only for data collection</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Batch processing trains ML models on large datasets, such as recommendation systems and spam classifiers.</div>
+            </div>
+        </section>
+
+        <!-- Q62 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q62</span><span class="quiz-topic">Recommender Systems</span></div>
+            <p class="quiz-question">What batch processing output powers recommendation engines?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Real-time queries</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Precomputed candidate sets (e.g., 'people you may know') that are looked up at request time</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Live user surveys</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Random suggestions</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Batch jobs precompute recommendations and store them, so they can be looked up quickly when the user makes a request.</div>
+            </div>
+        </section>
+
+        <!-- Q63 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q63</span><span class="quiz-topic">Search Indexes</span></div>
+            <p class="quiz-question">How does batch processing help build search indexes?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Real-time indexing only</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Full-text search indexes (e.g., for Google, Lucene) are built as batch processing output</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Manual indexing</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) No relation to search</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Google's original use of MapReduce was building indexes for its search engine. Lucene/Solr indexes can be built in batch.</div>
+            </div>
+        </section>
+
+        <!-- Q64 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q64</span><span class="quiz-topic">Key-Value Output</span></div>
+            <p class="quiz-question">How can batch job output be used by online services?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Directly from HDFS</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Load output into a read-only key-value store (like Voldemort) for fast lookups by online services</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Always through a database</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Via email</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Batch output can be bulk-loaded into read-only stores like Voldemort's read-only store, enabling fast lookups for web services.</div>
+            </div>
+        </section>
+
+        <!-- Q65 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q65</span><span class="quiz-topic">Philosophy Diff</span></div>
+            <p class="quiz-question">What is the key philosophical difference between Unix and MapReduce?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) No difference</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Unix pipes stream data in real-time; MapReduce materializes intermediate state to disk for fault tolerance</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) MapReduce is simpler</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Unix is distributed</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Unix pipes stream data between processes. MapReduce materializes all intermediate state to HDFS between stages.</div>
+            </div>
+        </section>
+
+        <!-- Q66 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q66</span><span class="quiz-topic">Spark</span></div>
+            <p class="quiz-question">What is Apache Spark?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) A database</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) A dataflow engine that keeps data in memory (RDDs) and avoids writing intermediate data to disk</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) A file system</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) A message queue</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Spark uses in-memory RDDs and pipelining to avoid the disk I/O overhead of MapReduce's materialization.</div>
+            </div>
+        </section>
+
+        <!-- Q67 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q67</span><span class="quiz-topic">Tez</span></div>
+            <p class="quiz-question">What is Apache Tez?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) A database</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) A dataflow engine that Hive and Pig can use instead of MapReduce for better performance</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) A network protocol</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) A file system</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Tez is a flexible dataflow execution engine that can run Hive and Pig queries more efficiently than MapReduce.</div>
+            </div>
+        </section>
+
+        <!-- Q68 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q68</span><span class="quiz-topic">Flink</span></div>
+            <p class="quiz-question">What is Apache Flink?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Only a batch engine</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) A stream-first dataflow engine that also handles batch processing (treats batch as a bounded stream)</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) A database</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) A file system</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Flink treats batch processing as a special case of stream processing, processing bounded datasets.</div>
+            </div>
+        </section>
+
+        <!-- Q69 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q69</span><span class="quiz-topic">Operator Flexibility</span></div>
+            <p class="quiz-question">What can operators in dataflow engines do that MapReduce can't?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Nothing new</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Repartition, sort, broadcast, aggregate in any combination — not constrained to map→shuffle→reduce</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Only map and reduce</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Only sort</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Dataflow operators can perform any combination of operations, unlike MapReduce's rigid map-shuffle-reduce structure.</div>
+            </div>
+        </section>
+
+        <!-- Q70 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q70</span><span class="quiz-topic">Determinism Need</span></div>
+            <p class="quiz-question">Why is determinism important for fault tolerance in dataflow engines?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) It's not important</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) If an operator is nondeterministic, re-execution may produce different output, causing inconsistencies downstream</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) For performance</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) For security</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Nondeterministic operators complicate fault recovery because re-execution may produce different results.</div>
+            </div>
+        </section>
+
+        <!-- Q71 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q71</span><span class="quiz-topic">Higher-Level APIs</span></div>
+            <p class="quiz-question">What benefit do higher-level APIs (Hive, Pig, Spark SQL) provide?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Lower performance</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) They let the system optimize execution plans automatically, like a database query optimizer</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) More code to write</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Less flexibility</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Higher-level APIs enable automatic optimization: the framework can choose join strategies, reorder operations, and optimize execution.</div>
+            </div>
+        </section>
+
+        <!-- Q72 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q72</span><span class="quiz-topic">Declarative vs Imperative</span></div>
+            <p class="quiz-question">Why does the chapter argue for declarative APIs in batch processing?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) They're harder to write</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) The framework can optimize execution automatically — choosing join types, parallelism, and data locality</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) For readability only</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) To match SQL standards</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Declarative APIs allow the framework to choose the optimal execution strategy, similar to how a SQL optimizer works.</div>
+            </div>
+        </section>
+
+        <!-- Q73 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q73</span><span class="quiz-topic">Data Locality</span></div>
+            <p class="quiz-question">Why is data locality important in MapReduce?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) For security</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Running computation near where the data is stored reduces network transfer — mappers run on HDFS data nodes</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) For compression</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) For encryption</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> MapReduce schedules map tasks on nodes that hold the input data, avoiding network transfer when possible.</div>
+            </div>
+        </section>
+
+        <!-- Q74 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q74</span><span class="quiz-topic">Speculative Execution</span></div>
+            <p class="quiz-question">What is speculative execution in MapReduce?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Guessing output</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Running duplicate copies of slow tasks on other nodes — using whichever finishes first</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Predicting failures</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Caching results</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> If a task is slow (straggler), MapReduce runs a duplicate copy on another node and uses whichever finishes first.</div>
+            </div>
+        </section>
+
+        <!-- Q75 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q75</span><span class="quiz-topic">Side Effect Freedom</span></div>
+            <p class="quiz-question">Why should MapReduce tasks avoid side effects?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Side effects are fine</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Tasks may be retried or run speculatively — side effects would execute multiple times</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) For performance</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) For security</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Tasks must be free of externally visible side effects because they may be re-executed on failure or run speculatively.</div>
+            </div>
+        </section>
+
+        <!-- Q76 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q76</span><span class="quiz-topic">Batch vs OLTP</span></div>
+            <p class="quiz-question">How does batch processing differ from OLTP?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) They're the same</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Batch processes entire datasets offline; OLTP handles individual requests in real-time</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Batch is faster per record</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) OLTP processes more data</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Batch processes entire datasets in bulk. OLTP handles individual user requests with low-latency responses.</div>
+            </div>
+        </section>
+
+        <!-- Q77 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q77</span><span class="quiz-topic">Batch vs OLAP</span></div>
+            <p class="quiz-question">How does batch processing relate to OLAP?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) They're unrelated</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Batch processing can power OLAP — ETL jobs prepare data for data warehouse analytical queries</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Batch replaces OLAP</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) OLAP replaces batch</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Batch processing (ETL) prepares data for OLAP systems (data warehouses), transforming operational data for analytical queries.</div>
+            </div>
+        </section>
+
+        <!-- Q78 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q78</span><span class="quiz-topic">Custom Code</span></div>
+            <p class="quiz-question">What advantage does MapReduce have over SQL?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) MapReduce is always faster</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) MapReduce can run arbitrary code — not limited to SQL functions — useful for ML, NLP, image processing</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) MapReduce has simpler syntax</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) MapReduce requires less hardware</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> MapReduce can execute arbitrary code (not just SQL), enabling ML algorithms, natural language processing, and image analysis.</div>
+            </div>
+        </section>
+
+        <!-- Q79 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q79</span><span class="quiz-topic">Callback Model</span></div>
+            <p class="quiz-question">What programming model does MapReduce use?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Stored procedures</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Callback functions — the framework calls user-provided map and reduce functions</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Event-driven</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Actor model</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> The user provides map and reduce callback functions. The framework handles distribution, sorting, and fault tolerance.</div>
+            </div>
+        </section>
+
+        <!-- Q80 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q80</span><span class="quiz-topic">Beyond MapReduce</span></div>
+            <p class="quiz-question">Why did dataflow engines emerge?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) MapReduce was too fast</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) MapReduce's rigid two-stage model (map+reduce) with disk materialization was inefficient for multi-stage workflows</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) MapReduce was too simple</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) MapReduce used too little disk</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> MapReduce's requirement to write all intermediate data to disk and its rigid map-reduce structure were inefficient for complex workflows.</div>
+            </div>
+        </section>
+
+        <!-- Q81 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q81</span><span class="quiz-topic">Execution DAG</span></div>
+            <p class="quiz-question">What is an execution DAG?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) A cyclic graph</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Directed Acyclic Graph of operators — the workflow of data transformations without cycles</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) A database schema</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) A network topology</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Dataflow engines model computation as a DAG (directed acyclic graph) of operators, with data flowing from inputs through transformations to outputs.</div>
+            </div>
+        </section>
+
+        <!-- Q82 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q82</span><span class="quiz-topic">Operator Types</span></div>
+            <p class="quiz-question">What types of operators exist in dataflow engines?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Only map and reduce</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Map, filter, join, group-by, sort, aggregate, and more — any transformation</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Only join and filter</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Only sort</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Dataflow engines support arbitrary operators: map, filter, join, aggregate, sort, group-by, and user-defined functions.</div>
+            </div>
+        </section>
+
+        <!-- Q83 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q83</span><span class="quiz-topic">Memory vs Disk</span></div>
+            <p class="quiz-question">When should dataflow engines spill to disk?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Never</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) When the dataset doesn't fit in memory — spilling to disk as needed while keeping hot data in memory</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Always</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Only on failure</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Dataflow engines keep data in memory when possible but spill to disk when memory is insufficient.</div>
+            </div>
+        </section>
+
+        <!-- Q84 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q84</span><span class="quiz-topic">Checkpointing</span></div>
+            <p class="quiz-question">How does Spark handle fault tolerance differently from MapReduce?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Same approach</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Spark tracks lineage (computation graph) and recomputes lost partitions, optionally checkpointing to disk</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) No fault tolerance</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Manual recovery</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Spark tracks lineage and can recompute lost partitions. Optional checkpointing saves state to disk for costly computations.</div>
+            </div>
+        </section>
+
+        <!-- Q85 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q85</span><span class="quiz-topic">Hadoop Diversity</span></div>
+            <p class="quiz-question">Why did the Hadoop ecosystem become popular despite MapReduce's limitations?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Perfect implementation</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) HDFS provided a shared storage platform where diverse processing engines could coexist</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Only for batch</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Government mandates</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> HDFS as a shared storage platform enabled diverse processing engines to read/write the same data, fostering an ecosystem.</div>
+            </div>
+        </section>
+
+        <!-- Q86 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q86</span><span class="quiz-topic">Sort Order</span></div>
+            <p class="quiz-question">Why is sorting important in MapReduce?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) For display</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Sorting enables efficient merge joins, grouping operations, and secondary sort for reducer input ordering</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) For compression</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) For encryption</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Sorting is fundamental to MapReduce: it enables merge joins, grouping, and controlled ordering within reducer input.</div>
+            </div>
+        </section>
+
+        <!-- Q87 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q87</span><span class="quiz-topic">MapReduce vs DB</span></div>
+            <p class="quiz-question">What is a fundamental philosophical difference between MapReduce and databases?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) They're the same philosophy</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) MapReduce embraces schema-on-read and arbitrary code; databases enforce schema-on-write and declarative queries</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Databases are always better</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) MapReduce is always better</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> MapReduce embraces flexibility (any data format, any code). Databases enforce structure (schemas, SQL).</div>
+            </div>
+        </section>
+
+        <!-- Q88 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q88</span><span class="quiz-topic">Codd's Vision</span></div>
+            <p class="quiz-question">What was Codd's original vision for databases?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Only batch processing</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Separating logical data model from physical storage — declarative queries optimized by the system</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Manual query optimization</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Only transactional workloads</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Codd envisioned separating the logical model from physical storage, with a query optimizer automatically choosing efficient execution plans.</div>
+            </div>
+        </section>
+
+        <!-- Q89 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q89</span><span class="quiz-topic">Convergence</span></div>
+            <p class="quiz-question">How are MapReduce and SQL converging?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) They're not</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) SQL engines now run on Hadoop (Hive, Spark SQL); batch engines adopt declarative APIs and query optimization</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) SQL replaced MapReduce entirely</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) MapReduce replaced SQL entirely</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> SQL-on-Hadoop systems bring declarative queries to batch processing. Batch engines adopt query optimization techniques from databases.</div>
+            </div>
+        </section>
+
+        <!-- Q90 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q90</span><span class="quiz-topic">Pregel Implementation</span></div>
+            <p class="quiz-question">Which frameworks implement the Pregel model?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Only Google's Pregel</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Apache Giraph, Spark's GraphX, Flink's Gelly</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Only Hadoop</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Only Spark</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Open-source Pregel implementations include Apache Giraph, Spark's GraphX, and Flink's Gelly.</div>
+            </div>
+        </section>
+
+        <!-- Q91 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q91</span><span class="quiz-topic">Graph Partitioning</span></div>
+            <p class="quiz-question">Why is graph partitioning difficult?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) It's easy</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Real-world graphs often have no natural partitioning — most vertices are connected to vertices on other machines</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Graphs are always balanced</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Only one partition needed</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Real-world graphs often don't partition well — most vertices have edges crossing machine boundaries, requiring network communication.</div>
+            </div>
+        </section>
+
+        <!-- Q92 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q92</span><span class="quiz-topic">Cross-Machine Edges</span></div>
+            <p class="quiz-question">What happens when graph edges cross machine boundaries?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Nothing special</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Messages must be sent over the network, adding latency to each iteration of the graph algorithm</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Edges are deleted</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Vertices are moved</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Edges between machines require network communication for message passing, slowing down graph processing.</div>
+            </div>
+        </section>
+
+        <!-- Q93 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q93</span><span class="quiz-topic">MapReduce Era</span></div>
+            <p class="quiz-question">Why is MapReduce considered 'old technology'?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) It's not old</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) While still important for understanding, newer dataflow engines (Spark, Flink) have largely superseded it for new applications</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) It was never useful</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Only used in 2004</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> MapReduce is foundational for understanding batch processing, but Spark, Tez, and Flink have largely replaced it in practice.</div>
+            </div>
+        </section>
+
+        <!-- Q94 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q94</span><span class="quiz-topic">Batch Timescale</span></div>
+            <p class="quiz-question">What is the typical timescale for batch processing?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Milliseconds</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Minutes to hours — processing accumulated data periodically</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Microseconds</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Weeks</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Batch jobs typically run on minutes-to-hours timescales, processing data that has accumulated since the last run.</div>
+            </div>
+        </section>
+
+        <!-- Q95 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q95</span><span class="quiz-topic">Batch Correctness</span></div>
+            <p class="quiz-question">Why is batch processing considered 'correct' despite failures?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) No failures occur</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Failed tasks are retried; deterministic processing + immutable inputs mean re-execution produces the same correct result</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Errors are ignored</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Manual verification</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> The combination of deterministic processing, immutable inputs, and automatic retries ensures correctness despite individual failures.</div>
+            </div>
+        </section>
+
+        <!-- Q96 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q96</span><span class="quiz-topic">Human Fault Tolerance</span></div>
+            <p class="quiz-question">How does MapReduce help with human errors?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) It doesn't</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Immutable inputs and re-runnable jobs mean you can fix code bugs and re-process data without data loss</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Error checking</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Code review</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Since input data is immutable, a buggy job's output can be discarded and the job re-run with fixed code — no data corruption.</div>
+            </div>
+        </section>
+
+        <!-- Q97 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q97</span><span class="quiz-topic">Separation of Logic</span></div>
+            <p class="quiz-question">What does MapReduce separate?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Data and schema</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Application logic (what to compute) from execution mechanics (how to distribute, sort, and handle faults)</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Reads and writes</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Network and storage</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> MapReduce separates what to compute (user's map/reduce functions) from how to compute it (framework handles distribution and fault tolerance).</div>
+            </div>
+        </section>
+
+        <!-- Q98 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q98</span><span class="quiz-topic">Next Chapter</span></div>
+            <p class="quiz-question">What does Chapter 11 cover after batch processing?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Database design</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Stream processing — similar to batch but operating on unbounded, continuous data streams</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Network protocols</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Security</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Chapter 11 covers stream processing, which applies similar ideas to unbounded, continuously arriving data.</div>
+            </div>
+        </section>
+
+        <!-- Q99 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q99</span><span class="quiz-topic">Batch to Stream</span></div>
+            <p class="quiz-question">How does batch processing relate to stream processing?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) They're completely different</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Stream processing applies similar principles to unbounded data — batch is a special case of bounded streams</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Batch is always better</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Stream replaces batch entirely</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Stream processing extends batch ideas to unbounded, continuously arriving data. Batch can be viewed as processing a bounded stream.</div>
+            </div>
+        </section>
+
+        <!-- Q100 -->
+        <section class="slide quiz-slide">
+            <div class="quiz-header"><span class="quiz-number">Q100</span><span class="quiz-topic">Key Takeaway</span></div>
+            <p class="quiz-question">What is the chapter's key message?</p>
+            <div class="quiz-options">
+                <div class="quiz-option" onclick="selectOption(this)">A) Always use SQL</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Batch processing enables reliable, fault-tolerant processing of large datasets; dataflow engines generalize and improve upon MapReduce</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) MapReduce is perfect</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Avoid batch processing</div>
+            </div>
+            <div class="quiz-answer">
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Batch processing provides reliable, scalable data processing. Dataflow engines (Spark, Flink) improve on MapReduce with flexibility and performance.</div>
+            </div>
+        </section>
+
+
+
     </div>
     <div class="controls">
         <button onclick="prevSlide()">PREV</button>
@@ -1171,6 +2798,16 @@ end</div>
             if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') prevSlide();
             if (e.key >= '0' && e.key <= '9') { currentSlide = Math.floor(totalSlides * (parseInt(e.key) / 10)); update(); }
         });
+
+        function selectOption(e) { e.classList.toggle('selected'); }
+        function checkAnswer(e, correctOptions) {
+            if (!e.parentElement.classList.contains('revealed')) e.parentElement.classList.add('revealed');
+            if (!Array.isArray(correctOptions)) return;
+            const sel = new Set(Array.from(e.parentElement.parentElement.querySelectorAll('.quiz-option.selected')).map(t => t.innerText.trim().charAt(0)));
+            const ok = correctOptions.every(o => sel.has(o)) && sel.size === correctOptions.length;
+            const exp = e.parentElement.querySelector('.quiz-explanation');
+            if (!ok) exp.classList.add('incorrect'); else exp.classList.remove('incorrect');
+        }
         update();
     </script>
 </body>
