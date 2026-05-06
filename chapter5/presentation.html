@@ -449,10 +449,179 @@
 
         /* ====== Responsive ====== */
         @media (max-width: 768px) {
-            body { font-size: 14px; }
-            .slide { padding: 10% 5%; }
-            .title-slide h1 { font-size: 2.5rem; }
-            .title-slide p { font-size: 1rem; }
+            body {
+                font-size: 14px;
+            }
+
+            .slide {
+                align-items: stretch;
+                justify-content: flex-start;
+                padding: 72px 20px 92px;
+                overflow-y: auto;
+                overflow-x: hidden;
+                -webkit-overflow-scrolling: touch;
+                overscroll-behavior-y: contain;
+                gap: 20px;
+            }
+
+            .title-slide,
+            .section-header {
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+            }
+
+            .title-slide h1,
+            .section-header h2 {
+                font-size: 2.35rem;
+                letter-spacing: -1px;
+            }
+
+            .title-slide p {
+                font-size: 0.95rem;
+                letter-spacing: 2px;
+            }
+
+            h2 {
+                font-size: 1.85rem;
+                margin-bottom: 12px;
+            }
+
+            p {
+                font-size: 1.05rem;
+                line-height: 1.5;
+            }
+
+            ul,
+            .compare-card p,
+            .compare-card ul,
+            .quiz-option,
+            .quiz-explanation {
+                font-size: 0.98rem;
+                line-height: 1.5;
+            }
+
+            ul {
+                padding-left: 20px;
+            }
+
+            .content-slide,
+            .content-slide.with-image,
+            .two-col,
+            .three-col,
+            .quiz-options,
+            .timeline {
+                grid-template-columns: 1fr;
+            }
+
+            .timeline {
+                display: grid;
+                gap: 16px;
+                margin-top: 12px;
+            }
+
+            .timeline-item {
+                padding-top: 0;
+                text-align: left;
+            }
+
+            .timeline-item::before,
+            .timeline-item::after {
+                display: none;
+            }
+
+            .image-box,
+            .full-image-slide .image-box {
+                height: min(34vh, 280px);
+                width: 100%;
+            }
+
+            .title-image,
+            .questions-image {
+                height: min(32vh, 240px);
+                max-width: 100%;
+            }
+
+            .side-image {
+                position: relative;
+                top: auto;
+                right: auto;
+                transform: none;
+                width: 100%;
+                height: min(28vh, 220px);
+                margin-top: 12px;
+            }
+
+            .code-block {
+                font-size: 0.82rem;
+                padding: 14px;
+            }
+
+            .stat-box {
+                padding: 20px;
+                margin: 12px 0;
+            }
+
+            .stat-box .number {
+                font-size: 2.2rem;
+            }
+
+            .tag {
+                font-size: 0.88rem;
+            }
+
+            .quiz-slide {
+                padding: 72px 20px 96px;
+            }
+
+            .quiz-header {
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .quiz-number {
+                font-size: 0.95rem;
+                padding: 5px 12px;
+            }
+
+            .quiz-topic {
+                font-size: 0.75rem;
+                letter-spacing: 1px;
+            }
+
+            .quiz-question {
+                font-size: 1.2rem;
+                margin-bottom: 8px;
+            }
+
+            .controls {
+                left: 16px;
+                right: 16px;
+                bottom: calc(env(safe-area-inset-bottom, 0px) + 16px);
+                gap: 12px;
+            }
+
+            .controls button {
+                flex: 1;
+                padding: 14px 16px;
+                font-size: 0.95rem;
+                opacity: 0.92;
+                border-radius: 999px;
+            }
+
+            .slide-number {
+                left: 16px;
+                bottom: calc(env(safe-area-inset-bottom, 0px) + 72px);
+                font-size: 0.9rem;
+                opacity: 0.75;
+                padding: 4px 10px;
+                border-radius: 999px;
+                background: rgba(255, 255, 255, 0.88);
+            }
+
+            .progress-container {
+                height: 4px;
+            }
         }
     
 
@@ -2779,6 +2948,63 @@ Mr. Poons: How far into the future
                 update();
             }
         }
+
+        const swipeState = {
+            startX: null,
+            startY: null
+        };
+        const swipeThreshold = 50;
+
+        function isInteractiveTarget(target) {
+            return Boolean(target.closest('button, a, input, textarea, select, label, .quiz-option, .reveal-btn'));
+        }
+
+        function resetSwipe() {
+            swipeState.startX = null;
+            swipeState.startY = null;
+        }
+
+        function handleSwipeEnd(endX, endY) {
+            if (swipeState.startX === null || swipeState.startY === null) {
+                return;
+            }
+
+            const deltaX = endX - swipeState.startX;
+            const deltaY = endY - swipeState.startY;
+            resetSwipe();
+
+            if (Math.abs(deltaX) < swipeThreshold || Math.abs(deltaX) <= Math.abs(deltaY)) {
+                return;
+            }
+
+            if (deltaX < 0) {
+                nextSlide();
+                return;
+            }
+
+            prevSlide();
+        }
+
+        presentation.addEventListener('touchstart', (event) => {
+            if (event.touches.length !== 1 || isInteractiveTarget(event.target)) {
+                resetSwipe();
+                return;
+            }
+
+            swipeState.startX = event.touches[0].clientX;
+            swipeState.startY = event.touches[0].clientY;
+        }, { passive: true });
+
+        presentation.addEventListener('touchend', (event) => {
+            if (swipeState.startX === null || swipeState.startY === null || event.changedTouches.length !== 1) {
+                return;
+            }
+
+            const touch = event.changedTouches[0];
+            handleSwipeEnd(touch.clientX, touch.clientY);
+        }, { passive: true });
+
+        presentation.addEventListener('touchcancel', resetSwipe, { passive: true });
 
         window.addEventListener('keydown', (e) => {
             if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'ArrowDown') nextSlide();
