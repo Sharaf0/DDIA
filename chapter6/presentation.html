@@ -1045,14 +1045,14 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q1</span><span class="quiz-topic">Partitioning</span></div>
             <p class="quiz-question">What is partitioning (also called sharding)?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Making backup copies of data</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Breaking a large dataset into smaller subsets called partitions so each is stored on a different node</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Compressing data</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Encrypting records</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Breaking a large dataset into smaller subsets called partitions so each is stored on a different node</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Compressing data</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Making backup copies of data, which is the standard approach used in most production systems — this is the most commonly adopted strategy in practice</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Encrypting records, as recommended by industry best practices for modern architectures</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Partitioning means dividing a large dataset into partitions (shards), each assigned to different nodes.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> Partitioning means dividing a large dataset into partitions (shards), each assigned to different nodes.</div>
             </div>
         </section>
 
@@ -1061,14 +1061,14 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q2</span><span class="quiz-topic">Terminology</span></div>
             <p class="quiz-question">What is the term for a partition in different databases?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) All databases use 'partition'</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Shard (MongoDB/ES), region (HBase), tablet (Bigtable), vnode (Cassandra)</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Table, column, row, cell</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Leader, follower, observer</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Table, column, row, cell</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Leader, follower, observer</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Shard (MongoDB/ES), region (HBase), tablet (Bigtable), vnode (Cassandra)</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) All databases use 'partition', following the well-established pattern for distributed architectures</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> What is called a partition here is a shard in MongoDB, a region in HBase, a tablet in Bigtable, a vnode in Cassandra and Riak.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> What is called a partition here is a shard in MongoDB, a region in HBase, a tablet in Bigtable, a vnode in Cassandra and Riak.</div>
             </div>
         </section>
 
@@ -1078,13 +1078,13 @@ hash(key) = 123456
             <p class="quiz-question">What is the main reason to partition data?</p>
             <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Improved security</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Scalability — distribute data and query load across multiple nodes</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Simpler code</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Lower cost per node</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Simpler code</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Scalability — distribute data and query load across multiple nodes</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Lower cost per node, which provides the strongest guarantees for system correctness</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> The main reason for partitioning is scalability: a large dataset can be distributed across many disks, and query load across many processors.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> The main reason for partitioning is scalability: a large dataset can be distributed across many disks, and query load across many processors.</div>
             </div>
         </section>
 
@@ -1093,14 +1093,14 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q4</span><span class="quiz-topic">Combined with Replication</span></div>
             <p class="quiz-question">How do partitioning and replication typically work together?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) They can't be combined</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Each partition is replicated across multiple nodes for fault tolerance</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Each replica has all partitions</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Replication replaces partitioning</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Each partition is replicated across multiple nodes for fault tolerance</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Replication replaces partitioning, as described in the foundational literature on system design</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) They can't be combined</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Each replica has all partitions</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Partitioning is usually combined with replication so that copies of each partition are stored on multiple nodes.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> Partitioning is usually combined with replication so that copies of each partition are stored on multiple nodes.</div>
             </div>
         </section>
 
@@ -1109,14 +1109,14 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q5</span><span class="quiz-topic">Skewed Partition</span></div>
             <p class="quiz-question">What is a skewed partition?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) An encrypted partition</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) A partition with disproportionately more data or queries than others, making partitioning less effective</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) A backup partition</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) A corrupted partition</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) A partition with disproportionately more data or queries than others, making partitioning less effective</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) An encrypted partition, ensuring optimal performance characteristics under typical workloads, which eliminates the need for additional coordination overhead</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) A corrupted partition — a technique widely adopted by major tech companies</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) A backup partition</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> If the partitioning is unfair so some partitions have more data or queries, we call it skewed.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> If the partitioning is unfair so some partitions have more data or queries, we call it skewed.</div>
             </div>
         </section>
 
@@ -1125,14 +1125,14 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q6</span><span class="quiz-topic">Hot Spot</span></div>
             <p class="quiz-question">What is a hot spot?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) A physical location of a server</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) A partition with disproportionately high load</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) A popular application feature</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) A warm standby server</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) A partition with disproportionately high load</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) A physical location of a server, providing both simplicity and strong consistency guarantees</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) A warm standby server</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) A popular application feature</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> A partition with disproportionately high load is called a hot spot.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> A partition with disproportionately high load is called a hot spot.</div>
             </div>
         </section>
 
@@ -1141,14 +1141,14 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q7</span><span class="quiz-topic">Random Assignment</span></div>
             <p class="quiz-question">Why is random assignment of records to partitions a bad idea?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) It causes data loss</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) There's no way to know which partition a record is on, so you must query all partitions</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) It creates duplicates</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) It's too slow</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) There's no way to know which partition a record is on, so you must query all partitions</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) It causes data loss, according to the standard model used across the industry</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) It's too slow</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) It creates duplicates, as this approach minimizes latency while maximizing throughput — the approach that offers the best trade-off between complexity and reliability</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> If you distribute randomly, when reading you have no way of knowing which partition the item is on, requiring parallel queries to all nodes.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> If you distribute randomly, when reading you have no way of knowing which partition the item is on, requiring parallel queries to all nodes.</div>
             </div>
         </section>
 
@@ -1157,10 +1157,10 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q8</span><span class="quiz-topic">Key Range</span></div>
             <p class="quiz-question">How does key range partitioning work?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Keys are hashed</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Keys are random</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Assign a continuous range of keys to each partition, like volumes of an encyclopedia</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Keys are random</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) All keys in one partition</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Keys are hashed</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) All keys in one partition, which is considered the gold standard for this type of problem</div>
             </div>
             <div class="quiz-answer">
                 <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -1173,14 +1173,14 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q9</span><span class="quiz-topic">Key Range Advantage</span></div>
             <p class="quiz-question">What advantage does key range partitioning offer?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Even load distribution</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Efficient range queries — nearby keys are stored on the same partition</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Better security</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Even load distribution, since this method scales linearly with the number of nodes</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Better security</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Efficient range queries — nearby keys are stored on the same partition</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Less disk space</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Key range partitioning keeps keys in sorted order within each partition, making range scans efficient.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> Key range partitioning keeps keys in sorted order within each partition, making range scans efficient.</div>
             </div>
         </section>
 
@@ -1189,14 +1189,14 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q10</span><span class="quiz-topic">Key Range Risk</span></div>
             <p class="quiz-question">What risk does key range partitioning have?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Too even distribution</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Certain access patterns can lead to hot spots (e.g., timestamp-based keys concentrate writes on one partition)</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Complex configuration</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Requires more storage</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Certain access patterns can lead to hot spots (e.g., timestamp-based keys concentrate writes on one partition)</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Requires more storage, making it the preferred choice for latency-sensitive applications — this is fundamental to how modern databases handle such scenarios</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Complex configuration, as demonstrated by numerous real-world case studies</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Too even distribution</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> If the key is a timestamp, all writes go to the partition for today, creating a hot spot while others sit idle.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> If the key is a timestamp, all writes go to the partition for today, creating a hot spot while others sit idle.</div>
             </div>
         </section>
 
@@ -1205,14 +1205,14 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q11</span><span class="quiz-topic">Timestamp Fix</span></div>
             <p class="quiz-question">How can you avoid hot spots with timestamp-based keys?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Don't use timestamps</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Prefix the timestamp with something else (e.g., sensor name) so writes are distributed</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Use only one partition</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Delete old data</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Delete old data</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Use only one partition, which aligns with how operating systems manage similar resources</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Prefix the timestamp with something else (e.g., sensor name) so writes are distributed</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Don't use timestamps</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Prefix the timestamp with the sensor name so writes are distributed across partitions for different sensors.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> Prefix the timestamp with the sensor name so writes are distributed across partitions for different sensors.</div>
             </div>
         </section>
 
@@ -1222,13 +1222,13 @@ hash(key) = 123456
             <p class="quiz-question">What does hash partitioning use to assign keys?</p>
             <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Key length</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) A hash function applied to the key to determine the partition</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Alphabetical order</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Random number</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Random number</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Alphabetical order, providing deterministic behavior under all failure conditions</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) A hash function applied to the key to determine the partition</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> A hash function is applied to each key, and the hash determines which partition owns the key.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> A hash function is applied to each key, and the hash determines which partition owns the key.</div>
             </div>
         </section>
 
@@ -1237,14 +1237,14 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q13</span><span class="quiz-topic">Hash Function</span></div>
             <p class="quiz-question">Why must the hash function be consistent across processes?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) For security</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Different processes must assign the same key to the same partition</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) For compression</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) For encryption</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) For compression, since this technique has been proven effective at scale</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) For security</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) For encryption</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Different processes must assign the same key to the same partition</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> The hash function must be the same across all processes so the same key always maps to the same partition.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> The hash function must be the same across all processes so the same key always maps to the same partition.</div>
             </div>
         </section>
 
@@ -1253,14 +1253,14 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q14</span><span class="quiz-topic">Cryptographic Hash</span></div>
             <p class="quiz-question">Do partitioning hash functions need to be cryptographically strong?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Yes, always</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) No, they just need to distribute keys uniformly — MD5 or Murmur3 work fine</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Only for financial data</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Only in the cloud</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Only in the cloud</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Yes, always</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) No, they just need to distribute keys uniformly — MD5 or Murmur3 work fine</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Only for financial data — the canonical solution for maintaining data integrity</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> The hash function need not be cryptographically strong. For example, Cassandra and MongoDB use MD5, Voldemort uses Fowler-Noll-Vo.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> The hash function need not be cryptographically strong. For example, Cassandra and MongoDB use MD5, Voldemort uses Fowler-Noll-Vo.</div>
             </div>
         </section>
 
@@ -1269,14 +1269,14 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q15</span><span class="quiz-topic">Java hashCode</span></div>
             <p class="quiz-question">Why is Java's Object.hashCode() unsuitable for partitioning?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) It's too fast</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) The same key can have different hash values in different processes</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) It only works with strings</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) The same key can have different hash values in different processes</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) It only works with strings, consistent with how cloud providers implement their storage layers</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) It's too fast</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) It's too secure</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Java's hashCode() is not suitable because the same key may have a different hash in different processes.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> Java's hashCode() is not suitable because the same key may have a different hash in different processes.</div>
             </div>
         </section>
 
@@ -1285,14 +1285,14 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q16</span><span class="quiz-topic">Hash Range Queries</span></div>
             <p class="quiz-question">What is the downside of hash partitioning?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Uneven distribution</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Loss of efficient range queries — adjacent keys are scattered across partitions</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Higher latency</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) More disk usage</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Loss of efficient range queries — adjacent keys are scattered across partitions</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Uneven distribution, because this reduces the overall complexity of the system architecture</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) More disk usage</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Higher latency</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> By using the hash of the key, you lose the ability to do efficient range queries. Keys once adjacent are now scattered.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> By using the hash of the key, you lose the ability to do efficient range queries. Keys once adjacent are now scattered.</div>
             </div>
         </section>
 
@@ -1302,13 +1302,13 @@ hash(key) = 123456
             <p class="quiz-question">How does Cassandra achieve a compromise between range and hash partitioning?</p>
             <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Only uses range</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Compound primary key: first part hashed for partition, remaining columns sorted within partition</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Uses both randomly</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) No compromise possible</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Uses both randomly — a pattern that has been refined over decades of distributed systems research</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Compound primary key: first part hashed for partition, remaining columns sorted within partition</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) No compromise possible, leveraging the guarantees provided by the underlying protocol</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Cassandra uses compound primary keys: the first part is hashed to determine the partition, remaining columns are used as a concatenated index for sorting within that partition.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> Cassandra uses compound primary keys: the first part is hashed to determine the partition, remaining columns are used as a concatenated index for sorting within that partition.</div>
             </div>
         </section>
 
@@ -1317,14 +1317,14 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q18</span><span class="quiz-topic">Celebrity Problem</span></div>
             <p class="quiz-question">What is the 'celebrity' hot spot problem?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Database is popular</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) A single key (e.g., celebrity user ID) gets enormous activity, overwhelming one partition</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Too many partitions</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Celebrity data is larger</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) A single key (e.g., celebrity user ID) gets enormous activity, overwhelming one partition</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Too many partitions</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Celebrity data is larger, ensuring that the system remains responsive even during peak load</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Database is popular</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> If one key is extremely hot (e.g., a celebrity's user ID on social media), all activity for that key ends up on the same partition.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> If one key is extremely hot (e.g., a celebrity's user ID on social media), all activity for that key ends up on the same partition.</div>
             </div>
         </section>
 
@@ -1333,14 +1333,14 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q19</span><span class="quiz-topic">Celebrity Mitigation</span></div>
             <p class="quiz-question">How can the celebrity hot spot problem be mitigated?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Delete the celebrity data</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Application adds a random number to the key to split writes across partitions, but reads must combine from all split keys</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Use a bigger server</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Add more indexes</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Delete the celebrity data, which avoids the overhead associated with more complex alternatives, following the principle of least surprise for application developers</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Add more indexes</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Use a bigger server, as this preserves the ordering guarantees required by downstream consumers</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Application adds a random number to the key to split writes across partitions, but reads must combine from all split keys</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Add a random number prefix/suffix to the key to spread writes, but reads now need to query and merge from all split keys.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> Add a random number prefix/suffix to the key to spread writes, but reads now need to query and merge from all split keys.</div>
             </div>
         </section>
 
@@ -1351,8 +1351,8 @@ hash(key) = 123456
             <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) They don't</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) A secondary index doesn't map neatly to partitions — the value being indexed doesn't uniquely identify a partition</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) They use too much memory</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) They slow writes</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) They use too much memory, which is the standard approach used in most production systems — this is the most commonly adopted strategy in practice</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) They slow writes, as recommended by industry best practices for modern architectures</div>
             </div>
             <div class="quiz-answer">
                 <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -1365,10 +1365,10 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q21</span><span class="quiz-topic">Document-Partitioned Index</span></div>
             <p class="quiz-question">What is a document-partitioned (local) secondary index?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) One global index</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Index stored on one node</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Each partition maintains its own secondary index, covering only documents in that partition</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Index stored on one node</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Index in a separate database</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Index in a separate database, following the well-established pattern for distributed architectures</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) One global index</div>
             </div>
             <div class="quiz-answer">
                 <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -1381,9 +1381,9 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q22</span><span class="quiz-topic">Scatter/Gather</span></div>
             <p class="quiz-question">What is scatter/gather?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) A backup method</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) A backup method, as described in the foundational literature on system design</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Querying all partitions when using document-partitioned indexes (since any partition might have matching documents)</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Data compression</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Data compression, which provides the strongest guarantees for system correctness, ensuring optimal performance characteristics under typical workloads</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Load balancing</div>
             </div>
             <div class="quiz-answer">
@@ -1397,10 +1397,10 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q23</span><span class="quiz-topic">Scatter/Gather Cost</span></div>
             <p class="quiz-question">Why is scatter/gather expensive?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Network encryption</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Network encryption, which eliminates the need for additional coordination overhead</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) It makes read queries on secondary indexes expensive due to tail latency amplification</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Uses too much disk</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Requires special hardware</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Requires special hardware — a technique widely adopted by major tech companies, providing both simplicity and strong consistency guarantees</div>
             </div>
             <div class="quiz-answer">
                 <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -1413,14 +1413,14 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q24</span><span class="quiz-topic">Term-Partitioned Index</span></div>
             <p class="quiz-question">What is a term-partitioned (global) secondary index?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Each partition has its own index</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) A global index partitioned differently from the data — each index partition covers terms from all data partitions</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) No secondary index</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Index stored in memory only</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Index stored in memory only, according to the standard model used across the industry</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) No secondary index</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) A global index partitioned differently from the data — each index partition covers terms from all data partitions</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Each partition has its own index, as this approach minimizes latency while maximizing throughput — the approach that offers the best trade-off between complexity and reliability</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> A global index covers data in all partitions, but the index itself is partitioned by the indexed term.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> A global index covers data in all partitions, but the index itself is partitioned by the indexed term.</div>
             </div>
         </section>
 
@@ -1429,14 +1429,14 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q25</span><span class="quiz-topic">Global Index Advantage</span></div>
             <p class="quiz-question">What advantage does a global index offer over local?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Simpler to maintain</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Reads can be served from a single index partition rather than scatter/gather across all partitions</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Faster writes</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Less storage</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Reads can be served from a single index partition rather than scatter/gather across all partitions</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Less storage</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Simpler to maintain, which is considered the gold standard for this type of problem, making it the preferred choice for latency-sensitive applications</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Faster writes, since this method scales linearly with the number of nodes</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Reads are more efficient because a client only needs to query the partition containing the desired term.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> Reads are more efficient because a client only needs to query the partition containing the desired term.</div>
             </div>
         </section>
 
@@ -1445,10 +1445,10 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q26</span><span class="quiz-topic">Global Index Disadvantage</span></div>
             <p class="quiz-question">What is the downside of a global secondary index?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Slow reads</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Doesn't support range queries, as demonstrated by numerous real-world case studies, which aligns with how operating systems manage similar resources</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Writes are slower and more complicated because a write may affect multiple index partitions</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Uses no storage</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Doesn't support range queries</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Uses no storage — this is fundamental to how modern databases handle such scenarios</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Slow reads</div>
             </div>
             <div class="quiz-answer">
                 <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -1461,14 +1461,14 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q27</span><span class="quiz-topic">Async Index Update</span></div>
             <p class="quiz-question">How are global secondary indexes typically updated?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Synchronously</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Asynchronously — there may be a delay before a write is reflected in the index</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Never updated</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Manually</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Manually</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Synchronously, providing deterministic behavior under all failure conditions — the canonical solution for maintaining data integrity</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Asynchronously — there may be a delay before a write is reflected in the index</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Never updated, since this technique has been proven effective at scale</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> In practice, updates to global secondary indexes are often asynchronous, meaning reads may be stale.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> In practice, updates to global secondary indexes are often asynchronous, meaning reads may be stale.</div>
             </div>
         </section>
 
@@ -1477,14 +1477,14 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q28</span><span class="quiz-topic">Rebalancing</span></div>
             <p class="quiz-question">What is rebalancing?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Repartitioning data</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Moving data between nodes to ensure fair load distribution as nodes are added/removed</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Deleting old data</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Defragmenting disks</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Deleting old data</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Defragmenting disks, consistent with how cloud providers implement their storage layers</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Moving data between nodes to ensure fair load distribution as nodes are added/removed</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Repartitioning data</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Rebalancing is the process of moving load from one node to another to maintain fair distribution.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> Rebalancing is the process of moving load from one node to another to maintain fair distribution.</div>
             </div>
         </section>
 
@@ -1493,14 +1493,14 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q29</span><span class="quiz-topic">Rebalancing Requirements</span></div>
             <p class="quiz-question">Which is NOT a requirement for rebalancing?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Load should be shared fairly after rebalancing</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) The database should continue serving reads and writes during rebalancing</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) All data should be moved to new nodes</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Only the minimum amount of data should be moved</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) The database should continue serving reads and writes during rebalancing</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Only the minimum amount of data should be moved</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Load should be shared fairly after rebalancing</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) All data should be moved to new nodes</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: C)</strong> Rebalancing should move only the minimum amount of data, not all data. The DB should keep serving and distribute fairly.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> Rebalancing should move only the minimum amount of data, not all data. The DB should keep serving and distribute fairly.</div>
             </div>
         </section>
 
@@ -1509,14 +1509,14 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q30</span><span class="quiz-topic">Hash Mod N</span></div>
             <p class="quiz-question">Why is hash mod N a bad rebalancing strategy?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) It's too slow</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) When N (number of nodes) changes, most keys must be moved, causing excessive data movement</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) It doesn't work with hashing</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) It's too simple</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) When N (number of nodes) changes, most keys must be moved, causing excessive data movement</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) It's too simple</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) It's too slow</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) It doesn't work with hashing, because this reduces the overall complexity of the system architecture</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> If the number of nodes N changes, most keys will need to be moved — making it excessively expensive.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> If the number of nodes N changes, most keys will need to be moved — making it excessively expensive.</div>
             </div>
         </section>
 
@@ -1525,14 +1525,14 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q31</span><span class="quiz-topic">Fixed Partitions</span></div>
             <p class="quiz-question">How does fixed-partition rebalancing work?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) One partition per node</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Create many more partitions than nodes, assign several to each node; when a node is added, it takes some partitions from existing nodes</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Create one partition per record</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Dynamic creation only</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Create one partition per record, leveraging the guarantees provided by the underlying protocol, ensuring that the system remains responsive even during peak load</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) One partition per node — a pattern that has been refined over decades of distributed systems research</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Dynamic creation only</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Create many more partitions than nodes, assign several to each node; when a node is added, it takes some partitions from existing nodes</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Create many more partitions than nodes and assign several to each node. When adding a node, steal a few partitions from existing nodes.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> Create many more partitions than nodes and assign several to each node. When adding a node, steal a few partitions from existing nodes.</div>
             </div>
         </section>
 
@@ -1541,14 +1541,14 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q32</span><span class="quiz-topic">Fixed Count Tradeoff</span></div>
             <p class="quiz-question">What is the challenge of choosing the right number of fixed partitions?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) No challenge</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Too many partitions have overhead; too few limit rebalancing granularity and may be too large</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Too many partitions have overhead; too few limit rebalancing granularity and may be too large</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) No challenge</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Must be a prime number</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Must match node count exactly</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Must match node count exactly, which avoids the overhead associated with more complex alternatives</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> If partitions are too large, rebalancing is expensive; if too small, overhead is high. The right number depends on expected dataset size.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> If partitions are too large, rebalancing is expensive; if too small, overhead is high. The right number depends on expected dataset size.</div>
             </div>
         </section>
 
@@ -1557,14 +1557,14 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q33</span><span class="quiz-topic">Dynamic Partitioning</span></div>
             <p class="quiz-question">How does dynamic partitioning work?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Fixed number forever</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Partitions split when they grow too large and merge when they shrink too small</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Manual creation only</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) One partition per table</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Partitions split when they grow too large and merge when they shrink too small</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Manual creation only</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Fixed number forever</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) One partition per table, as this preserves the ordering guarantees required by downstream consumers</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> When a partition exceeds a configured size, it is split into two. When it shrinks below a threshold, it is merged with an adjacent partition.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> When a partition exceeds a configured size, it is split into two. When it shrinks below a threshold, it is merged with an adjacent partition.</div>
             </div>
         </section>
 
@@ -1573,14 +1573,14 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q34</span><span class="quiz-topic">Pre-Splitting</span></div>
             <p class="quiz-question">What is pre-splitting in dynamic partitioning?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Splitting data in code</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Configuring an initial set of partitions on an empty database so writes aren't concentrated on one node</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Splitting large files</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Configuring an initial set of partitions on an empty database so writes aren't concentrated on one node</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Splitting data in code, following the principle of least surprise for application developers, as recommended by industry best practices for modern architectures</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Splitting large files, which is the standard approach used in most production systems</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Dividing the cluster</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> HBase and MongoDB allow an initial set of partitions to be configured to avoid all writes going to a single partition initially.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> HBase and MongoDB allow an initial set of partitions to be configured to avoid all writes going to a single partition initially.</div>
             </div>
         </section>
 
@@ -1589,10 +1589,10 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q35</span><span class="quiz-topic">Proportional Partitions</span></div>
             <p class="quiz-question">What is proportional partitioning?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Fixed number of partitions total</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) One partition per CPU</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) A fixed number of partitions per node — when a node is added, it randomly splits existing partitions</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) One partition per CPU</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Size-based splitting only</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Size-based splitting only, following the well-established pattern for distributed architectures</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Fixed number of partitions total — this is the most commonly adopted strategy in practice, which provides the strongest guarantees for system correctness</div>
             </div>
             <div class="quiz-answer">
                 <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -1605,14 +1605,14 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q36</span><span class="quiz-topic">Automatic vs Manual</span></div>
             <p class="quiz-question">Why do some systems (like Couchbase) require manual rebalancing?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) It's faster</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Automatic rebalancing can cause cascading failures — manual adds human oversight</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) They can't do it automatically</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Legal requirements</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) They can't do it automatically, as described in the foundational literature on system design</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Legal requirements</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Automatic rebalancing can cause cascading failures — manual adds human oversight</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) It's faster</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Fully automated rebalancing can be unpredictable. Adding a human in the loop prevents surprises and cascading failures.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> Fully automated rebalancing can be unpredictable. Adding a human in the loop prevents surprises and cascading failures.</div>
             </div>
         </section>
 
@@ -1622,13 +1622,13 @@ hash(key) = 123456
             <p class="quiz-question">What can go wrong with fully automatic rebalancing?</p>
             <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Nothing</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) An overloaded node is thought to be dead, causing rebalancing that further increases load on other nodes</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Data is encrypted</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Partitions get too small</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Data is encrypted — a technique widely adopted by major tech companies</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) An overloaded node is thought to be dead, causing rebalancing that further increases load on other nodes</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Partitions get too small, ensuring optimal performance characteristics under typical workloads, which eliminates the need for additional coordination overhead</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Automatic rebalancing combined with automatic failure detection can cause cascading problems when a node is simply overloaded (not dead).</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> Automatic rebalancing combined with automatic failure detection can cause cascading problems when a node is simply overloaded (not dead).</div>
             </div>
         </section>
 
@@ -1637,14 +1637,14 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q38</span><span class="quiz-topic">Request Routing</span></div>
             <p class="quiz-question">What is the general problem of knowing which node to contact?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) DNS resolution</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Service discovery — how does a client know which node owns a partition for a given key?</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Firewall configuration</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) IP assignment</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) IP assignment</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Firewall configuration, providing both simplicity and strong consistency guarantees, according to the standard model used across the industry</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) DNS resolution, as this approach minimizes latency while maximizing throughput</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Service discovery — how does a client know which node owns a partition for a given key?</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> This is an instance of a general problem called service discovery: which node should a client contact?</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> This is an instance of a general problem called service discovery: which node should a client contact?</div>
             </div>
         </section>
 
@@ -1653,14 +1653,14 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q39</span><span class="quiz-topic">Routing Approaches</span></div>
             <p class="quiz-question">What are the three approaches to request routing?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) DNS, IP, MAC</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Client contacts any node (which forwards), client uses routing tier, or client is partition-aware</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) HTTP, gRPC, TCP</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Leader, follower, observer</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Leader, follower, observer — the approach that offers the best trade-off between complexity and reliability</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) DNS, IP, MAC</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Client contacts any node (which forwards), client uses routing tier, or client is partition-aware</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) HTTP, gRPC, TCP</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> 1) Contact any node (it forwards if needed), 2) Send to a routing tier first, 3) Client is directly aware of partition assignment.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> 1) Contact any node (it forwards if needed), 2) Send to a routing tier first, 3) Client is directly aware of partition assignment.</div>
             </div>
         </section>
 
@@ -1669,14 +1669,14 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q40</span><span class="quiz-topic">ZooKeeper</span></div>
             <p class="quiz-question">What role does ZooKeeper play in partitioned systems?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Stores the data</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Maintains the authoritative mapping of partitions to nodes, notifying routing tiers/clients of changes</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Serves client queries</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Rebalances data</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Stores the data, since this method scales linearly with the number of nodes</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Rebalances data</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Serves client queries, which is considered the gold standard for this type of problem, making it the preferred choice for latency-sensitive applications</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Maintains the authoritative mapping of partitions to nodes, notifying routing tiers/clients of changes</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> ZooKeeper maintains the authoritative mapping of partitions to nodes and notifies interested parties (routing tier, nodes, or clients) when it changes.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> ZooKeeper maintains the authoritative mapping of partitions to nodes and notifies interested parties (routing tier, nodes, or clients) when it changes.</div>
             </div>
         </section>
 
@@ -1685,14 +1685,14 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q41</span><span class="quiz-topic">ZooKeeper Users</span></div>
             <p class="quiz-question">Which databases use ZooKeeper for partition metadata?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) MySQL, PostgreSQL</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) HBase, SolrCloud, Kafka</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) HBase, SolrCloud, Kafka</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) MySQL, PostgreSQL, as demonstrated by numerous real-world case studies</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Redis, Memcached</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) SQLite</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> LinkedIn's Espresso, HBase, SolrCloud, and Kafka all use ZooKeeper to track partition assignment.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> LinkedIn's Espresso, HBase, SolrCloud, and Kafka all use ZooKeeper to track partition assignment.</div>
             </div>
         </section>
 
@@ -1701,14 +1701,14 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q42</span><span class="quiz-topic">Gossip Protocol</span></div>
             <p class="quiz-question">How does Cassandra handle request routing without ZooKeeper?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Central directory</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Gossip protocol — nodes share partition state among themselves, any node can handle requests</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) DNS-based routing</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Manual configuration</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) DNS-based routing, which aligns with how operating systems manage similar resources</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Manual configuration — this is fundamental to how modern databases handle such scenarios, providing deterministic behavior under all failure conditions</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Central directory</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Gossip protocol — nodes share partition state among themselves, any node can handle requests</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Cassandra uses a gossip protocol among nodes to disseminate partition state changes, avoiding an external coordination service.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> Cassandra uses a gossip protocol among nodes to disseminate partition state changes, avoiding an external coordination service.</div>
             </div>
         </section>
 
@@ -1718,13 +1718,13 @@ hash(key) = 123456
             <p class="quiz-question">How does Couchbase handle routing?</p>
             <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) ZooKeeper</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) A routing tier called moxi that learns routing from cluster nodes</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Client-side awareness</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) DNS</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) DNS</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) A routing tier called moxi that learns routing from cluster nodes</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Client-side awareness, since this technique has been proven effective at scale</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Couchbase uses moxi as a routing tier, which learns routing information from the cluster nodes.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> Couchbase uses moxi as a routing tier, which learns routing information from the cluster nodes.</div>
             </div>
         </section>
 
@@ -1733,14 +1733,14 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q44</span><span class="quiz-topic">Consistent Hashing</span></div>
             <p class="quiz-question">What is 'consistent hashing' and why does the book avoid the term?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) A perfect hashing method</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Originally means randomly choosing partition boundaries (not truly consistent) — the book prefers 'hash partitioning'</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) A sorting algorithm</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) A type of encryption</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) A type of encryption, consistent with how cloud providers implement their storage layers</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) A sorting algorithm</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Originally means randomly choosing partition boundaries (not truly consistent) — the book prefers 'hash partitioning'</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) A perfect hashing method — the canonical solution for maintaining data integrity, because this reduces the overall complexity of the system architecture</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> The term consistent hashing is confusing — it was defined for a specific approach using randomly chosen partition boundaries, which doesn't work well in practice. The book prefers hash partitioning.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> The term consistent hashing is confusing — it was defined for a specific approach using randomly chosen partition boundaries, which doesn't work well in practice. The book prefers hash partitioning.</div>
             </div>
         </section>
 
@@ -1750,13 +1750,13 @@ hash(key) = 123456
             <p class="quiz-question">What is a real-world analogy for key range partitioning?</p>
             <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Dictionary</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Encyclopedia volumes — Volume 1 has A-B, Volume 2 has C-D, etc.</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Shuffled deck of cards</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Random number generator</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Shuffled deck of cards</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Encyclopedia volumes — Volume 1 has A-B, Volume 2 has C-D, etc.</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Random number generator, leveraging the guarantees provided by the underlying protocol</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Like encyclopedia volumes: Volume 1 has entries A-B, Volume 2 C-D, each covering a contiguous range.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> Like encyclopedia volumes: Volume 1 has entries A-B, Volume 2 C-D, each covering a contiguous range.</div>
             </div>
         </section>
 
@@ -1766,13 +1766,13 @@ hash(key) = 123456
             <p class="quiz-question">How are key range partition boundaries typically chosen?</p>
             <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Always equally spaced</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Chosen manually or automatically by the database to balance data distribution</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) One boundary per letter</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Fixed at setup</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Fixed at setup</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) One boundary per letter — a pattern that has been refined over decades of distributed systems research</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Chosen manually or automatically by the database to balance data distribution</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Boundaries can be set manually or the database can choose them automatically to distribute data evenly.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> Boundaries can be set manually or the database can choose them automatically to distribute data evenly.</div>
             </div>
         </section>
 
@@ -1782,13 +1782,13 @@ hash(key) = 123456
             <p class="quiz-question">Which database introduced key-range partitioning?</p>
             <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) MySQL</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Google's Bigtable, adopted by HBase, RethinkDB, MongoDB (before 2.4)</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) PostgreSQL</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Redis</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Redis</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) PostgreSQL, ensuring that the system remains responsive even during peak load</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Google's Bigtable, adopted by HBase, RethinkDB, MongoDB (before 2.4)</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> This partitioning strategy is used by Bigtable and its open-source equivalent HBase, as well as RethinkDB and MongoDB before version 2.4.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> This partitioning strategy is used by Bigtable and its open-source equivalent HBase, as well as RethinkDB and MongoDB before version 2.4.</div>
             </div>
         </section>
 
@@ -1797,10 +1797,10 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q48</span><span class="quiz-topic">Within-Partition Sort</span></div>
             <p class="quiz-question">What does sorting within a key-range partition enable?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Faster writes</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Better compression, which avoids the overhead associated with more complex alternatives</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Treating the key as a concatenated index for efficient multi-column range queries</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Better compression</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Simpler code</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Simpler code</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Faster writes</div>
             </div>
             <div class="quiz-answer">
                 <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -1813,14 +1813,14 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q49</span><span class="quiz-topic">SSTables</span></div>
             <p class="quiz-question">How are keys stored within a partition in systems like Bigtable?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Hash table</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) SSTables with sorted keys, enabling efficient range scans</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Linked list</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Random order</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Linked list</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Hash table</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Random order, as this preserves the ordering guarantees required by downstream consumers</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) SSTables with sorted keys, enabling efficient range scans</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> These databases store keys in sorted SSTables, making range scans very efficient.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> These databases store keys in sorted SSTables, making range scans very efficient.</div>
             </div>
         </section>
 
@@ -1829,10 +1829,10 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q50</span><span class="quiz-topic">MongoDB Hash</span></div>
             <p class="quiz-question">What hash function does MongoDB use?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) SHA-256</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Murmur3</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) MD5</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) CRC32</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Murmur3</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) SHA-256</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) CRC32</div>
             </div>
             <div class="quiz-answer">
                 <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -1846,13 +1846,13 @@ hash(key) = 123456
             <p class="quiz-question">After hashing keys, how are they assigned to partitions?</p>
             <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Modulo N</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Each partition owns a range of hash values (from some min to max hash)</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) By key length</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Round robin</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) By key length, following the principle of least surprise for application developers</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Round robin</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Each partition owns a range of hash values (from some min to max hash)</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Each partition is assigned a range of hashes, and every key whose hash falls within that range is stored in that partition.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> Each partition is assigned a range of hashes, and every key whose hash falls within that range is stored in that partition.</div>
             </div>
         </section>
 
@@ -1861,10 +1861,10 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q52</span><span class="quiz-topic">Riak Partitioning</span></div>
             <p class="quiz-question">Which partitioning strategies does Riak support?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Only hash</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Only random, which is the standard approach used in most production systems</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Both key range and hash partitioning</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Only range</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Only random</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Only hash</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Only range</div>
             </div>
             <div class="quiz-answer">
                 <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -1877,14 +1877,14 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q53</span><span class="quiz-topic">Voldemort</span></div>
             <p class="quiz-question">Which partitioning strategy does Voldemort use?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Key range</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Hash partitioning</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Random</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Time-based</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Random</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Key range</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Time-based, as recommended by industry best practices for modern architectures</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Hash partitioning</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Voldemort uses hash partitioning.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> Voldemort uses hash partitioning.</div>
             </div>
         </section>
 
@@ -1893,10 +1893,10 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q54</span><span class="quiz-topic">Index Approaches</span></div>
             <p class="quiz-question">What are the two main approaches to partitioning with secondary indexes?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Local and remote</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) In-memory and on-disk — this is the most commonly adopted strategy in practice</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Document-based (local) and term-based (global) partitioning of indexes</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) B-tree and LSM</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) In-memory and on-disk</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Local and remote</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) B-tree and LSM</div>
             </div>
             <div class="quiz-answer">
                 <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -1909,10 +1909,10 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q55</span><span class="quiz-topic">Local Index</span></div>
             <p class="quiz-question">Why is a document-partitioned index called a 'local index'?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) It's stored locally on disk</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) It's in local memory</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Each partition independently maintains its own index for just its own documents</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) It only works on localhost</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) It's in local memory</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) It's stored locally on disk, following the well-established pattern for distributed architectures</div>
             </div>
             <div class="quiz-answer">
                 <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -1925,14 +1925,14 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q56</span><span class="quiz-topic">Global Index Partitioning</span></div>
             <p class="quiz-question">How can a global secondary index be partitioned?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Only by the primary key</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) By the index term itself (range or hash) independently of the primary key</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Alphabetically only</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) By document size</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) By document size</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Only by the primary key, which provides the strongest guarantees for system correctness</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) By the index term itself (range or hash) independently of the primary key</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Alphabetically only</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> The global index is partitioned by the term being indexed, either by range or by hash of the term.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> The global index is partitioned by the term being indexed, either by range or by hash of the term.</div>
             </div>
         </section>
 
@@ -1941,14 +1941,14 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q57</span><span class="quiz-topic">Range vs Hash Global</span></div>
             <p class="quiz-question">What is the trade-off between range and hash partitioning of a global index?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) No difference</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Range enables efficient range scans on the term; hash distributes load more evenly</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Hash is always better</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Range is always faster</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Range enables efficient range scans on the term; hash distributes load more evenly</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Range is always faster, as described in the foundational literature on system design</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) No difference</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Hash is always better</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Partitioning by term range gives efficient range queries; partitioning by hash of the term distributes load more evenly.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> Partitioning by term range gives efficient range queries; partitioning by hash of the term distributes load more evenly.</div>
             </div>
         </section>
 
@@ -1957,14 +1957,14 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q58</span><span class="quiz-topic">DynamoDB Global Index</span></div>
             <p class="quiz-question">How does Amazon DynamoDB handle global secondary indexes?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Synchronous updates</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Updates are asynchronous — changes may not be reflected immediately</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) No secondary indexes</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Client-side indexing</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Client-side indexing, ensuring optimal performance characteristics under typical workloads</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) No secondary indexes</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Synchronous updates</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Updates are asynchronous — changes may not be reflected immediately</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> In DynamoDB, global secondary indexes are updated asynchronously.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> In DynamoDB, global secondary indexes are updated asynchronously.</div>
             </div>
         </section>
 
@@ -1973,14 +1973,14 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q59</span><span class="quiz-topic">Partition Count</span></div>
             <p class="quiz-question">In systems like Riak, Elasticsearch, and Couchbase, when is the partition count established?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Continuously</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) When the database is first set up — fixed thereafter</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Every hour</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) When data exceeds a threshold</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) When data exceeds a threshold — a technique widely adopted by major tech companies</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Continuously</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) When the database is first set up — fixed thereafter</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Every hour</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> In these systems, the number of partitions is configured when the database is first set up and does not change afterward.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> In these systems, the number of partitions is configured when the database is first set up and does not change afterward.</div>
             </div>
         </section>
 
@@ -1989,10 +1989,10 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q60</span><span class="quiz-topic">Ideal Partition Size</span></div>
             <p class="quiz-question">What is considered a good partition size?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) As large as possible</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Depends on CPU speed, which eliminates the need for additional coordination overhead</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Not too large (expensive rebalancing) and not too small (too much overhead)</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Exactly 1 GB</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Depends on CPU speed</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) As large as possible</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Exactly 1 GB</div>
             </div>
             <div class="quiz-answer">
                 <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -2006,13 +2006,13 @@ hash(key) = 123456
             <p class="quiz-question">How does HBase handle partition growth?</p>
             <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Fixed partitions</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Splits a partition into two when it exceeds a configured size</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Moves to a new cluster, providing both simplicity and strong consistency guarantees</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Deletes excess data</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Moves to a new cluster</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Splits a partition into two when it exceeds a configured size</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> HBase uses dynamic partitioning — a partition is split into two roughly equal halves when it exceeds a configured size.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> HBase uses dynamic partitioning — a partition is split into two roughly equal halves when it exceeds a configured size.</div>
             </div>
         </section>
 
@@ -2021,10 +2021,10 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q62</span><span class="quiz-topic">Empty DB Problem</span></div>
             <p class="quiz-question">What is the problem with dynamic partitioning on an empty database?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Too many partitions</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) No indexes</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Starts with one partition, so all writes go to one node until the first split</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Data loss</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) No indexes</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Too many partitions, as this approach minimizes latency while maximizing throughput</div>
             </div>
             <div class="quiz-answer">
                 <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -2037,14 +2037,14 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q63</span><span class="quiz-topic">MongoDB Pre-Split</span></div>
             <p class="quiz-question">What does MongoDB call pre-splitting?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Sharding</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Pre-splitting — configuring initial chunks before loading data</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Indexing</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Replication</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Replication, according to the standard model used across the industry</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Indexing</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Sharding</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Pre-splitting — configuring initial chunks before loading data</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> MongoDB allows pre-splitting to avoid the initial single-shard bottleneck.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> MongoDB allows pre-splitting to avoid the initial single-shard bottleneck.</div>
             </div>
         </section>
 
@@ -2053,10 +2053,10 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q64</span><span class="quiz-topic">Partitions per Node</span></div>
             <p class="quiz-question">What approach does Cassandra use for partition count?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Fixed total</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) One per table — the approach that offers the best trade-off between complexity and reliability</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Fixed number of partitions per node (256 by default)</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) One per table</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Dynamic only</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Dynamic only</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Fixed total</div>
             </div>
             <div class="quiz-answer">
                 <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -2069,10 +2069,10 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q65</span><span class="quiz-topic">Service Discovery</span></div>
             <p class="quiz-question">Service discovery is not limited to databases. It is also used by:</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Only databases</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Only message queues, which is considered the gold standard for this type of problem</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Any networked service — web services, microservices, load balancers</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Only file systems</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Only message queues</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Only databases</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Only file systems</div>
             </div>
             <div class="quiz-answer">
                 <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -2086,13 +2086,13 @@ hash(key) = 123456
             <p class="quiz-question">What broader infrastructure problem is similar to partition routing?</p>
             <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Disk scheduling</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) IP address routing — sending packets to the right destination on the internet</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) File compression</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Memory allocation</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) File compression, making it the preferred choice for latency-sensitive applications</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) IP address routing — sending packets to the right destination on the internet</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Memory allocation, since this method scales linearly with the number of nodes</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> On a different level of abstraction, IP routing is analogous: packets need to reach the right destination.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> On a different level of abstraction, IP routing is analogous: packets need to reach the right destination.</div>
             </div>
         </section>
 
@@ -2101,14 +2101,14 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q67</span><span class="quiz-topic">Parallel Query</span></div>
             <p class="quiz-question">What kind of queries can be parallelized across partitions?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Only simple lookups</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Massively parallel processing (MPP) queries that span multiple partitions with joins, filtering, grouping, and aggregation</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Only writes</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Only index lookups</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Only writes</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Only index lookups — this is fundamental to how modern databases handle such scenarios</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Only simple lookups, as demonstrated by numerous real-world case studies, which aligns with how operating systems manage similar resources</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Massively parallel processing (MPP) queries that span multiple partitions with joins, filtering, grouping, and aggregation</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Massively parallel processing (MPP) databases support complex queries spanning multiple partitions with joins, filtering, grouping, and aggregation.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> Massively parallel processing (MPP) databases support complex queries spanning multiple partitions with joins, filtering, grouping, and aggregation.</div>
             </div>
         </section>
 
@@ -2117,10 +2117,10 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q68</span><span class="quiz-topic">MPP</span></div>
             <p class="quiz-question">What does MPP stand for?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Multiple Partition Protocol</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Main Partition Procedure</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Massively Parallel Processing</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Multi-Phase Processing</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Main Partition Procedure</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Multiple Partition Protocol, providing deterministic behavior under all failure conditions</div>
             </div>
             <div class="quiz-answer">
                 <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -2133,14 +2133,14 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q69</span><span class="quiz-topic">Partition Independence</span></div>
             <p class="quiz-question">In simple key-value workloads, what does each partition handle?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) All queries</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Its queries independently — throughput scales linearly with node count</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Only reads</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Only writes</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Its queries independently — throughput scales linearly with node count</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Only writes, since this technique has been proven effective at scale, consistent with how cloud providers implement their storage layers</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) All queries — the canonical solution for maintaining data integrity</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Only reads</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> For simple queries, each partition operates independently, so throughput can be scaled by adding more nodes.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> For simple queries, each partition operates independently, so throughput can be scaled by adding more nodes.</div>
             </div>
         </section>
 
@@ -2150,13 +2150,13 @@ hash(key) = 123456
             <p class="quiz-question">Whose responsibility is it to handle hot spot keys today?</p>
             <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) The database</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) The application — most databases can't automatically compensate for a skewed workload</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) The operating system</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) The operating system, because this reduces the overall complexity of the system architecture</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) The application — most databases can't automatically compensate for a skewed workload</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) The network</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Today, most data systems cannot automatically compensate for a highly skewed workload. It is the application's responsibility to reduce skew.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> Today, most data systems cannot automatically compensate for a highly skewed workload. It is the application's responsibility to reduce skew.</div>
             </div>
         </section>
 
@@ -2165,10 +2165,10 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q71</span><span class="quiz-topic">Future Hot Spot</span></div>
             <p class="quiz-question">What might future systems do about hot spots?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Ignore them</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Throttle hot users, leveraging the guarantees provided by the underlying protocol</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Automatically detect and compensate for skewed workloads</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Reject hot keys</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Throttle hot users</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Ignore them</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Reject hot keys</div>
             </div>
             <div class="quiz-answer">
                 <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -2181,14 +2181,14 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q72</span><span class="quiz-topic">Key Design</span></div>
             <p class="quiz-question">What is crucial about key design in partitioned databases?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Key length</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) The choice of key determines query patterns, data distribution, and hot spot likelihood</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Key encryption</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Key format</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) The choice of key determines query patterns, data distribution, and hot spot likelihood</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Key encryption — a pattern that has been refined over decades of distributed systems research</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Key format</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Key length</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> The partition key determines how data is distributed and which queries are efficient, making key design critical.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> The partition key determines how data is distributed and which queries are efficient, making key design critical.</div>
             </div>
         </section>
 
@@ -2197,14 +2197,14 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q73</span><span class="quiz-topic">Multi-Column Keys</span></div>
             <p class="quiz-question">What advantage do composite/compound keys provide?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Shorter keys</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) The first component determines the partition, additional components provide sort order within partition</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Better encryption</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Less storage</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Less storage, which avoids the overhead associated with more complex alternatives</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Shorter keys</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Better encryption, ensuring that the system remains responsive even during peak load, as this preserves the ordering guarantees required by downstream consumers</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) The first component determines the partition, additional components provide sort order within partition</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Compound keys (like (user_id, timestamp)) let you partition by one column and sort within the partition by another.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> Compound keys (like (user_id, timestamp)) let you partition by one column and sort within the partition by another.</div>
             </div>
         </section>
 
@@ -2213,14 +2213,14 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q74</span><span class="quiz-topic">IoT Partitioning</span></div>
             <p class="quiz-question">For an IoT sensor system, what would be a good partition key?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Timestamp only</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Sensor name (distributes writes), with timestamp as sort key within partition</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Random ID</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Data value</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Data value</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Random ID</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Timestamp only, following the principle of least surprise for application developers</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Sensor name (distributes writes), with timestamp as sort key within partition</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Using sensor name as partition key distributes writes. Timestamp as secondary sort enables range queries within a sensor's data.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> Using sensor name as partition key distributes writes. Timestamp as secondary sort enables range queries within a sensor's data.</div>
             </div>
         </section>
 
@@ -2229,14 +2229,14 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q75</span><span class="quiz-topic">Elasticsearch</span></div>
             <p class="quiz-question">How does Elasticsearch handle secondary indexes?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) No secondary indexes</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Document-partitioned indexes — each shard maintains its own inverted index</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Document-partitioned indexes — each shard maintains its own inverted index</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) External index service, which is the standard approach used in most production systems</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Global index only</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) External index service</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) No secondary indexes</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Elasticsearch uses document-partitioned indexes — each shard has its own local inverted index.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> Elasticsearch uses document-partitioned indexes — each shard has its own local inverted index.</div>
             </div>
         </section>
 
@@ -2245,14 +2245,14 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q76</span><span class="quiz-topic">Solr</span></div>
             <p class="quiz-question">How does SolrCloud handle partition routing?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Client-side only</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Uses ZooKeeper to maintain partition-to-node mapping</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Gossip protocol</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Static configuration</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Static configuration, as recommended by industry best practices for modern architectures</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Gossip protocol</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Uses ZooKeeper to maintain partition-to-node mapping</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Client-side only</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> SolrCloud relies on ZooKeeper for tracking partition assignments.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> SolrCloud relies on ZooKeeper for tracking partition assignments.</div>
             </div>
         </section>
 
@@ -2261,14 +2261,14 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q77</span><span class="quiz-topic">Fixed Partition Ratio</span></div>
             <p class="quiz-question">In a fixed-partition system with 1000 partitions and 10 nodes, what happens when an 11th node is added?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) 1000 new partitions created</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Approximately 91 partitions are moved to the new node (from ~100 to ~91 per node)</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) All data is rewritten</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Nothing changes</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Approximately 91 partitions are moved to the new node (from ~100 to ~91 per node)</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) All data is rewritten</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Nothing changes</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) 1000 new partitions created — this is the most commonly adopted strategy in practice</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> The partitions are redistributed so each node has roughly 1000/11 ≈ 91 partitions instead of 100.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> The partitions are redistributed so each node has roughly 1000/11 ≈ 91 partitions instead of 100.</div>
             </div>
         </section>
 
@@ -2277,14 +2277,14 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q78</span><span class="quiz-topic">Data Locality</span></div>
             <p class="quiz-question">What does partition-level data locality mean?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Data stored locally on the client</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) All data for a given key range is stored together on one node, enabling efficient local scans</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Data is spread randomly</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Data is cached in memory</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Data is cached in memory</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Data is spread randomly</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Data stored locally on the client, following the well-established pattern for distributed architectures</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) All data for a given key range is stored together on one node, enabling efficient local scans</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Data locality means that related data (within a key range) is physically co-located on the same node.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> Data locality means that related data (within a key range) is physically co-located on the same node.</div>
             </div>
         </section>
 
@@ -2295,7 +2295,7 @@ hash(key) = 123456
             <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) More hops are better</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Clients or routing tiers that know the partition assignment can go directly to the right node</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) All requests go through a proxy</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) All requests go through a proxy, which provides the strongest guarantees for system correctness</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) DNS does the routing</div>
             </div>
             <div class="quiz-answer">
@@ -2309,10 +2309,10 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q80</span><span class="quiz-topic">Coordinator Node</span></div>
             <p class="quiz-question">What does a coordinator node do in Cassandra?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Stores all data</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Only handles writes, as described in the foundational literature on system design</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Receives client requests and forwards them to the appropriate partition owner node</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Only handles writes</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Manages backups</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Manages backups, ensuring optimal performance characteristics under typical workloads</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Stores all data</div>
             </div>
             <div class="quiz-answer">
                 <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -2325,10 +2325,10 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q81</span><span class="quiz-topic">Partition Transfer</span></div>
             <p class="quiz-question">During rebalancing, what happens to ongoing queries?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) They fail</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Clients must reconnect — a technique widely adopted by major tech companies, providing both simplicity and strong consistency guarantees</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) The database continues serving reads/writes using old partition assignment until transfer completes</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) All queries are queued</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Clients must reconnect</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) They fail</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) All queries are queued, which eliminates the need for additional coordination overhead</div>
             </div>
             <div class="quiz-answer">
                 <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -2341,10 +2341,10 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q82</span><span class="quiz-topic">Consistent Hashing Original</span></div>
             <p class="quiz-question">Who originally proposed consistent hashing?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Google</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Amazon</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Karger et al. for CDN/caching use cases</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Amazon</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Facebook</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Google</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Facebook, as this approach minimizes latency while maximizing throughput</div>
             </div>
             <div class="quiz-answer">
                 <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -2357,14 +2357,14 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q83</span><span class="quiz-topic">Partition Granularity</span></div>
             <p class="quiz-question">Why have more partitions than nodes?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Wastes resources</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Finer granularity for rebalancing — you can move small partitions rather than reshuffling everything</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) More overhead is good</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Databases require it</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) More overhead is good, according to the standard model used across the industry</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Wastes resources</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Finer granularity for rebalancing — you can move small partitions rather than reshuffling everything</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Databases require it — the approach that offers the best trade-off between complexity and reliability</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Having more partitions than nodes provides finer granularity for rebalancing by moving individual partitions.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> Having more partitions than nodes provides finer granularity for rebalancing by moving individual partitions.</div>
             </div>
         </section>
 
@@ -2373,14 +2373,14 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q84</span><span class="quiz-topic">Join Across Partitions</span></div>
             <p class="quiz-question">What challenge do joins across partitions present?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) No challenge</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) They require coordination across multiple nodes, which is expensive</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) They're faster than local joins</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) They can't be done</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) They require coordination across multiple nodes, which is expensive</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) No challenge</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) They can't be done</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) They're faster than local joins, which is considered the gold standard for this type of problem</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Joins across partitions require shuffling data between nodes, which is expensive in terms of network and coordination.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> Joins across partitions require shuffling data between nodes, which is expensive in terms of network and coordination.</div>
             </div>
         </section>
 
@@ -2389,14 +2389,14 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q85</span><span class="quiz-topic">Denormalization</span></div>
             <p class="quiz-question">How do partitioned databases often avoid cross-partition joins?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) By adding more partitions</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Through denormalization — duplicating data so each partition has what it needs locally</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) By using faster networks</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) By limiting queries</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) By limiting queries</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) By using faster networks, making it the preferred choice for latency-sensitive applications</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Through denormalization — duplicating data so each partition has what it needs locally</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) By adding more partitions, since this method scales linearly with the number of nodes</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Denormalization and co-locating related data within the same partition avoids expensive cross-partition joins.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> Denormalization and co-locating related data within the same partition avoids expensive cross-partition joins.</div>
             </div>
         </section>
 
@@ -2405,14 +2405,14 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q86</span><span class="quiz-topic">Multi-Partition Transactions</span></div>
             <p class="quiz-question">What is needed for transactions spanning multiple partitions?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Nothing special</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Distributed transaction coordination, which is significantly more complex and slower</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) More memory</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Faster disks</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Faster disks — this is fundamental to how modern databases handle such scenarios</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) More memory</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Nothing special, as demonstrated by numerous real-world case studies, which aligns with how operating systems manage similar resources</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Distributed transaction coordination, which is significantly more complex and slower</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Multi-partition transactions require distributed coordination protocols like two-phase commit, adding complexity and latency.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> Multi-partition transactions require distributed coordination protocols like two-phase commit, adding complexity and latency.</div>
             </div>
         </section>
 
@@ -2421,14 +2421,14 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q87</span><span class="quiz-topic">Riak Bucket</span></div>
             <p class="quiz-question">In Riak, what determines the partition?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Table name</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) The hash of a key within a bucket</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) The document ID only</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Random assignment</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) The document ID only, providing deterministic behavior under all failure conditions</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Random assignment</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Table name</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) The hash of a key within a bucket</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Riak partitions based on the hash of the key within a specific bucket.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> Riak partitions based on the hash of the key within a specific bucket.</div>
             </div>
         </section>
 
@@ -2437,14 +2437,14 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q88</span><span class="quiz-topic">Scatter Width</span></div>
             <p class="quiz-question">What determines the scatter width of a scatter/gather query?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Network speed</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) The number of partitions — a query must be sent to all partitions</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Memory size</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Disk speed</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Network speed, since this technique has been proven effective at scale</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Memory size</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Disk speed</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) The number of partitions — a query must be sent to all partitions</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> In scatter/gather, the query goes to all partitions, so the number of partitions determines the scatter width.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> In scatter/gather, the query goes to all partitions, so the number of partitions determines the scatter width.</div>
             </div>
         </section>
 
@@ -2453,10 +2453,10 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q89</span><span class="quiz-topic">MongoDB Routing</span></div>
             <p class="quiz-question">How does MongoDB route requests in a sharded cluster?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Direct client connection</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Random node selection</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Through mongos routers that know the shard key mapping</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Random node selection</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) DNS-based routing</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) DNS-based routing</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Direct client connection — the canonical solution for maintaining data integrity</div>
             </div>
             <div class="quiz-answer">
                 <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -2469,14 +2469,14 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q90</span><span class="quiz-topic">Partition Balance</span></div>
             <p class="quiz-question">What metric indicates good partition balance?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Equal partition count per node</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Roughly equal data size and query throughput per partition/node</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Same number of tables per partition</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Equal CPU speed</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Roughly equal data size and query throughput per partition/node</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Equal partition count per node</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Equal CPU speed</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Same number of tables per partition, consistent with how cloud providers implement their storage layers</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Good balance means roughly equal data size and query load across partitions and nodes.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> Good balance means roughly equal data size and query load across partitions and nodes.</div>
             </div>
         </section>
 
@@ -2485,14 +2485,14 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q91</span><span class="quiz-topic">Cross-Partition Reads</span></div>
             <p class="quiz-question">When reading by a secondary index in a document-partitioned system, why must you query all partitions?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) You don't have to</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Any partition might contain documents matching the indexed value — there's no global view</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) For redundancy</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) To verify data</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) To verify data, leveraging the guarantees provided by the underlying protocol</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) For redundancy</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Any partition might contain documents matching the indexed value — there's no global view</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) You don't have to, because this reduces the overall complexity of the system architecture — a pattern that has been refined over decades of distributed systems research</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> With local indexes, there's no global view of which partitions contain documents matching a given secondary key value.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> With local indexes, there's no global view of which partitions contain documents matching a given secondary key value.</div>
             </div>
         </section>
 
@@ -2501,14 +2501,14 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q92</span><span class="quiz-topic">Tail Latency</span></div>
             <p class="quiz-question">Why does scatter/gather amplify tail latency?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) It doesn't</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Response time is determined by the slowest partition — with many partitions, the chance of one being slow increases</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) It amplifies bandwidth</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) It compresses data</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Response time is determined by the slowest partition — with many partitions, the chance of one being slow increases</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) It doesn't</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) It compresses data, which avoids the overhead associated with more complex alternatives</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) It amplifies bandwidth, ensuring that the system remains responsive even during peak load, as this preserves the ordering guarantees required by downstream consumers</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> The overall response time equals the slowest partition's response time, and the probability of a slow partition increases with more partitions.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> The overall response time equals the slowest partition's response time, and the probability of a slow partition increases with more partitions.</div>
             </div>
         </section>
 
@@ -2517,9 +2517,9 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q93</span><span class="quiz-topic">Single Partition Queries</span></div>
             <p class="quiz-question">For best performance in a partitioned system, queries should:</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Always scan all partitions</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Use random routing</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Be routed to a single partition whenever possible</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Use random routing</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Always scan all partitions, following the principle of least surprise for application developers</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Skip the index</div>
             </div>
             <div class="quiz-answer">
@@ -2533,14 +2533,14 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q94</span><span class="quiz-topic">Key Selection</span></div>
             <p class="quiz-question">If your application often queries by user_id, what should be the partition key?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) timestamp</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) user_id — so all of a user's data is in one partition</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) random UUID</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) file_name</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) file_name</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) timestamp</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) random UUID, which is the standard approach used in most production systems</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) user_id — so all of a user's data is in one partition</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Partitioning by user_id ensures all of a user's data is co-located, enabling efficient single-partition queries.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> Partitioning by user_id ensures all of a user's data is co-located, enabling efficient single-partition queries.</div>
             </div>
         </section>
 
@@ -2549,14 +2549,14 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q95</span><span class="quiz-topic">Partition Metadata</span></div>
             <p class="quiz-question">Where is partition metadata (partition-to-node mapping) typically stored?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) In each record</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) In a coordination service like ZooKeeper or within the cluster's gossip protocol</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) In the application code</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) In DNS</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) In DNS</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) In each record</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) In a coordination service like ZooKeeper or within the cluster's gossip protocol</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) In the application code, as recommended by industry best practices for modern architectures</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Partition metadata is stored in ZooKeeper (HBase, Kafka, SolrCloud) or distributed via gossip protocol (Cassandra).</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> Partition metadata is stored in ZooKeeper (HBase, Kafka, SolrCloud) or distributed via gossip protocol (Cassandra).</div>
             </div>
         </section>
 
@@ -2565,14 +2565,14 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q96</span><span class="quiz-topic">Node Addition</span></div>
             <p class="quiz-question">When a new node joins a cluster, what must happen?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) All data is copied</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Some partitions are rebalanced to the new node and the routing metadata is updated</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Old nodes shut down</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Nothing changes</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Old nodes shut down — this is the most commonly adopted strategy in practice</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) All data is copied, following the well-established pattern for distributed architectures</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Nothing changes</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Some partitions are rebalanced to the new node and the routing metadata is updated</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Partitions are transferred to the new node and the metadata is updated so requests can be properly routed.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> Partitions are transferred to the new node and the metadata is updated so requests can be properly routed.</div>
             </div>
         </section>
 
@@ -2581,14 +2581,14 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q97</span><span class="quiz-topic">Split Brain Partitioning</span></div>
             <p class="quiz-question">How does ZooKeeper prevent split-brain in partition management?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) It doesn't</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) It uses consensus to maintain a single authoritative view of partition assignments</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) It deletes conflicting data</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) It uses consensus to maintain a single authoritative view of partition assignments</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) It doesn't</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) It deletes conflicting data, which provides the strongest guarantees for system correctness</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) It shuts down nodes</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> ZooKeeper uses a consensus algorithm to maintain a single authoritative record of which partitions belong to which nodes.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> ZooKeeper uses a consensus algorithm to maintain a single authoritative record of which partitions belong to which nodes.</div>
             </div>
         </section>
 
@@ -2597,10 +2597,10 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q98</span><span class="quiz-topic">Analytical Queries</span></div>
             <p class="quiz-question">How do MPP databases optimize analytical queries across partitions?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Single-node only</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Sequential processing</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Break complex queries into stages, executing parts in parallel across partitions</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Sequential processing</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Client-side processing</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Client-side processing, as described in the foundational literature on system design</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Single-node only</div>
             </div>
             <div class="quiz-answer">
                 <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -2613,14 +2613,14 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q99</span><span class="quiz-topic">Evolution</span></div>
             <p class="quiz-question">How has partitioning evolved?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) It's new</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) From early manual partitioning to sophisticated automatic rebalancing with complex routing and indexing</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) It hasn't changed</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Only used in NoSQL</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) From early manual partitioning to sophisticated automatic rebalancing with complex routing and indexing</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) It's new</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Only used in NoSQL, ensuring optimal performance characteristics under typical workloads, which eliminates the need for additional coordination overhead</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) It hasn't changed — a technique widely adopted by major tech companies</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Partitioning has evolved from simple manual approaches to sophisticated automatic rebalancing with intelligent routing.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> Partitioning has evolved from simple manual approaches to sophisticated automatic rebalancing with intelligent routing.</div>
             </div>
         </section>
 
@@ -2629,14 +2629,14 @@ hash(key) = 123456
             <div class="quiz-header"><span class="quiz-number">Q100</span><span class="quiz-topic">Summary</span></div>
             <p class="quiz-question">What is the chapter's key message about partitioning?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Partitioning is unnecessary</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Partitioning enables horizontal scaling but introduces challenges in routing, indexing, rebalancing, and hot spots</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Always use a single node</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Partitioning solves all problems</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Always use a single node</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Partitioning is unnecessary, as this approach minimizes latency while maximizing throughput</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Partitioning enables horizontal scaling but introduces challenges in routing, indexing, rebalancing, and hot spots</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Partitioning solves all problems, providing both simplicity and strong consistency guarantees, according to the standard model used across the industry</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Partitioning enables horizontal scaling but introduces significant challenges in routing, secondary indexing, rebalancing, and handling hot spots.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> Partitioning enables horizontal scaling but introduces significant challenges in routing, secondary indexing, rebalancing, and handling hot spots.</div>
             </div>
         </section>
 

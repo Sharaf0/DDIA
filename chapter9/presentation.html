@@ -1202,14 +1202,14 @@
             <div class="quiz-header"><span class="quiz-number">Q1</span><span class="quiz-topic">Consistency</span></div>
             <p class="quiz-question">What is the main goal of Chapter 9?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Performance optimization</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Understanding what guarantees distributed algorithms can provide despite faults</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Network configuration</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Database schema design</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Performance optimization, which is the standard approach used in most production systems</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Network configuration</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Database schema design</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Understanding what guarantees distributed algorithms can provide despite faults</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Chapter 9 explores what guarantees distributed algorithms can provide despite the challenges from Chapter 8.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> Chapter 9 explores what guarantees distributed algorithms can provide despite the challenges from Chapter 8.</div>
             </div>
         </section>
 
@@ -1218,14 +1218,14 @@
             <div class="quiz-header"><span class="quiz-number">Q2</span><span class="quiz-topic">Strongest Guarantee</span></div>
             <p class="quiz-question">What is the strongest consistency model discussed?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Eventual consistency</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Linearizability</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Linearizability</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Causal consistency</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Read committed</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Causal consistency</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Eventual consistency</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Linearizability is the strongest consistency model — it makes a system appear as though there is only one copy of the data.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> Linearizability is the strongest consistency model — it makes a system appear as though there is only one copy of the data.</div>
             </div>
         </section>
 
@@ -1235,13 +1235,13 @@
             <p class="quiz-question">What does linearizability guarantee?</p>
             <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Fast reads</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Once a new value has been written or read, all subsequent reads see that value — the system behaves as if there's one copy</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) No network latency</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) No locks needed</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) No network latency, as recommended by industry best practices for modern architectures, following the well-established pattern for distributed architectures</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Once a new value has been written or read, all subsequent reads see that value — the system behaves as if there's one copy</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) No locks needed — this is the most commonly adopted strategy in practice</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Linearizability: once a write completes or a read returns a new value, all subsequent reads must return that value or a newer one.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> Linearizability: once a write completes or a read returns a new value, all subsequent reads must return that value or a newer one.</div>
             </div>
         </section>
 
@@ -1250,10 +1250,10 @@
             <div class="quiz-header"><span class="quiz-number">Q4</span><span class="quiz-topic">Linearizability Informal</span></div>
             <p class="quiz-question">What is the informal description of linearizability?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Data is encrypted</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Operations can be reordered, which provides the strongest guarantees for system correctness, ensuring optimal performance characteristics under typical workloads</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) The system behaves as if there is only a single copy of the data and all operations are atomic</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Multiple copies are visible</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Operations can be reordered</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Multiple copies are visible, as described in the foundational literature on system design</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Data is encrypted</div>
             </div>
             <div class="quiz-answer">
                 <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -1266,10 +1266,10 @@
             <div class="quiz-header"><span class="quiz-number">Q5</span><span class="quiz-topic">Recency Guarantee</span></div>
             <p class="quiz-question">What is linearizability's recency guarantee?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Reads are cached</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Data is always stale — a technique widely adopted by major tech companies, providing both simplicity and strong consistency guarantees</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Once a new value is written, all subsequent reads must see that value or something more recent</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Data is always stale</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Writes are delayed</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Writes are delayed, which eliminates the need for additional coordination overhead</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Reads are cached</div>
             </div>
             <div class="quiz-answer">
                 <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -1283,13 +1283,13 @@
             <p class="quiz-question">How does linearizability differ from serializability?</p>
             <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) They're the same</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Serializability is about transaction isolation (ordering transactions); linearizability is about recency of individual reads/writes</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Linearizability is weaker</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Serializability requires one copy</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Serializability requires one copy, as this approach minimizes latency while maximizing throughput — the approach that offers the best trade-off between complexity and reliability</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Linearizability is weaker, according to the standard model used across the industry</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Serializability is about transaction isolation (ordering transactions); linearizability is about recency of individual reads/writes</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Serializability ensures transactions appear to execute in some serial order. Linearizability ensures reads see the most recent write.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> Serializability ensures transactions appear to execute in some serial order. Linearizability ensures reads see the most recent write.</div>
             </div>
         </section>
 
@@ -1298,14 +1298,14 @@
             <div class="quiz-header"><span class="quiz-number">Q7</span><span class="quiz-topic">Strict Serializability</span></div>
             <p class="quiz-question">What is strict serializability?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Just serializability</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Both serializability AND linearizability combined — the strongest guarantee</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Eventual consistency, which is considered the gold standard for this type of problem</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Just serializability</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Only linearizability</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Eventual consistency</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Both serializability AND linearizability combined — the strongest guarantee</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Strict serializability (also called strong one-copy serializability) provides both transaction isolation and recency guarantees.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> Strict serializability (also called strong one-copy serializability) provides both transaction isolation and recency guarantees.</div>
             </div>
         </section>
 
@@ -1314,14 +1314,14 @@
             <div class="quiz-header"><span class="quiz-number">Q8</span><span class="quiz-topic">Linearizability Use Cases</span></div>
             <p class="quiz-question">When is linearizability important?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Never</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Leader election, uniqueness constraints, cross-channel timing dependencies</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Only for analytics</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Leader election, uniqueness constraints, cross-channel timing dependencies</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Only for analytics, since this method scales linearly with the number of nodes</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Never</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Only for backups</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Linearizability is important for locking/leader election, uniqueness constraints, and when timing dependencies span multiple channels.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> Linearizability is important for locking/leader election, uniqueness constraints, and when timing dependencies span multiple channels.</div>
             </div>
         </section>
 
@@ -1331,13 +1331,13 @@
             <p class="quiz-question">Why does leader election need linearizability?</p>
             <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) For speed</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) All nodes must agree on which node is the leader — a linearizable register ensures exactly one winner</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Leaders don't need election</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) For storage</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Leaders don't need election, making it the preferred choice for latency-sensitive applications — this is fundamental to how modern databases handle such scenarios</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) For storage, as demonstrated by numerous real-world case studies</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) All nodes must agree on which node is the leader — a linearizable register ensures exactly one winner</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> A lock implemented with a linearizable store ensures exactly one node holds the lock (becomes leader) at a time.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> A lock implemented with a linearizable store ensures exactly one node holds the lock (becomes leader) at a time.</div>
             </div>
         </section>
 
@@ -1346,14 +1346,14 @@
             <div class="quiz-header"><span class="quiz-number">Q10</span><span class="quiz-topic">Uniqueness</span></div>
             <p class="quiz-question">Why do uniqueness constraints need linearizability?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) They don't</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Like a lock — only one user can have a username; requires consensus on who registered first</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) For performance</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) For compression</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Like a lock — only one user can have a username; requires consensus on who registered first</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) They don't</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) For performance, which aligns with how operating systems manage similar resources, since this technique has been proven effective at scale</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) For compression, providing deterministic behavior under all failure conditions</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> A uniqueness constraint is like acquiring a lock on the value — it requires all nodes to agree on which request succeeded first.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> A uniqueness constraint is like acquiring a lock on the value — it requires all nodes to agree on which request succeeded first.</div>
             </div>
         </section>
 
@@ -1362,14 +1362,14 @@
             <div class="quiz-header"><span class="quiz-number">Q11</span><span class="quiz-topic">Cross-Channel</span></div>
             <p class="quiz-question">What is the cross-channel timing dependency problem?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Clock synchronization</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) User uploads image (message queue) and tells friend (web page); friend's web page must see the image before friend checks</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Network routing</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) CPU scheduling</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) User uploads image (message queue) and tells friend (web page); friend's web page must see the image before friend checks</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) CPU scheduling</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Network routing, consistent with how cloud providers implement their storage layers</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Clock synchronization — the canonical solution for maintaining data integrity, because this reduces the overall complexity of the system architecture</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> When one channel (image resize) and another channel (notification) must be coordinated, linearizability ensures consistency.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> When one channel (image resize) and another channel (notification) must be coordinated, linearizability ensures consistency.</div>
             </div>
         </section>
 
@@ -1379,13 +1379,13 @@
             <p class="quiz-question">What does the CAP theorem state?</p>
             <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Choose Any Protocol</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) If there's a network partition, you must choose between consistency (linearizability) and availability</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Consistency Always Possible</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Computing Always Performs</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Consistency Always Possible, leveraging the guarantees provided by the underlying protocol</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) If there's a network partition, you must choose between consistency (linearizability) and availability</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Computing Always Performs — a pattern that has been refined over decades of distributed systems research</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> The CAP theorem: during a network partition, a system must choose between linearizability (consistency) and availability.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> The CAP theorem: during a network partition, a system must choose between linearizability (consistency) and availability.</div>
             </div>
         </section>
 
@@ -1394,14 +1394,14 @@
             <div class="quiz-header"><span class="quiz-number">Q13</span><span class="quiz-topic">CAP Simplified</span></div>
             <p class="quiz-question">What is a better way to state the CAP theorem?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Pick any two</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Either consistent or available when partitioned — not 'pick 2 of 3'</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Either consistent or available when partitioned — not 'pick 2 of 3'</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Pick any two</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Always pick consistency</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Always pick availability</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Always pick availability, ensuring that the system remains responsive even during peak load</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> A better phrasing: either consistent or available when partitioned. The 'pick 2 of 3' formulation is misleading.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> A better phrasing: either consistent or available when partitioned. The 'pick 2 of 3' formulation is misleading.</div>
             </div>
         </section>
 
@@ -1411,13 +1411,13 @@
             <p class="quiz-question">What is the cost of linearizability?</p>
             <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Free</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Reduced performance and availability — especially with network delays or partitions</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) More storage</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Simpler code</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) More storage, which avoids the overhead associated with more complex alternatives</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Simpler code, as this preserves the ordering guarantees required by downstream consumers</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Reduced performance and availability — especially with network delays or partitions</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Linearizability comes at a cost of performance and availability, particularly when network partitions or delays occur.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> Linearizability comes at a cost of performance and availability, particularly when network partitions or delays occur.</div>
             </div>
         </section>
 
@@ -1426,14 +1426,14 @@
             <div class="quiz-header"><span class="quiz-number">Q15</span><span class="quiz-topic">Multi-Leader Linear</span></div>
             <p class="quiz-question">Can multi-leader replication be linearizable?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Yes, always</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Generally no — concurrent writes at different leaders can violate linearizability</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Only with 2 leaders</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Only with synchronous replication</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Only with synchronous replication, following the principle of least surprise for application developers</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Yes, always</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Generally no — concurrent writes at different leaders can violate linearizability</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Only with 2 leaders</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Multi-leader replication generally cannot be linearizable because writes at different leaders can produce conflicting states.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> Multi-leader replication generally cannot be linearizable because writes at different leaders can produce conflicting states.</div>
             </div>
         </section>
 
@@ -1443,13 +1443,13 @@
             <p class="quiz-question">Are leaderless (Dynamo-style) systems linearizable?</p>
             <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Always</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Probably not — even with strict quorums, due to LWW conflict resolution and sloppy quorums</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Only Cassandra</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Only Riak</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Only Riak, as recommended by industry best practices for modern architectures</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Only Cassandra, which is the standard approach used in most production systems — this is the most commonly adopted strategy in practice</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Probably not — even with strict quorums, due to LWW conflict resolution and sloppy quorums</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Even with strict quorums, Dynamo-style systems are probably not linearizable due to LWW conflict resolution and replication lag.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> Even with strict quorums, Dynamo-style systems are probably not linearizable due to LWW conflict resolution and replication lag.</div>
             </div>
         </section>
 
@@ -1458,14 +1458,14 @@
             <div class="quiz-header"><span class="quiz-number">Q17</span><span class="quiz-topic">Performance Tradeoff</span></div>
             <p class="quiz-question">What did Attiya and Welch prove about linearizability?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) It's always fast</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Linearizable read/write registers must have response time proportional to network delay — it's inherently slow</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) It can be instant</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) It doesn't affect performance</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) It doesn't affect performance, following the well-established pattern for distributed architectures, as described in the foundational literature on system design</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) It can be instant, which provides the strongest guarantees for system correctness</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) It's always fast</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Linearizable read/write registers must have response time proportional to network delay — it's inherently slow</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Attiya and Welch proved that linearizability requires response times at least as large as the network delay uncertainty.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> Attiya and Welch proved that linearizability requires response times at least as large as the network delay uncertainty.</div>
             </div>
         </section>
 
@@ -1474,10 +1474,10 @@
             <div class="quiz-header"><span class="quiz-number">Q18</span><span class="quiz-topic">Causal Consistency</span></div>
             <p class="quiz-question">What does causal consistency preserve?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Wall-clock time</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Alphabetical order, ensuring optimal performance characteristics under typical workloads</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) The causal ordering of events — if event A caused event B, everyone sees A before B</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Alphabetical order</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Random order</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Random order</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Wall-clock time</div>
             </div>
             <div class="quiz-answer">
                 <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -1490,10 +1490,10 @@
             <div class="quiz-header"><span class="quiz-number">Q19</span><span class="quiz-topic">Causal vs Linear</span></div>
             <p class="quiz-question">How does causal consistency compare to linearizability?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) They're identical</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Causal is slower</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Causal consistency is weaker but has better performance — it doesn't require total ordering of all events</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Causal is stronger</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Causal is slower</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) They're identical, which eliminates the need for additional coordination overhead</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Causal is stronger — a technique widely adopted by major tech companies, providing both simplicity and strong consistency guarantees</div>
             </div>
             <div class="quiz-answer">
                 <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -1506,14 +1506,14 @@
             <div class="quiz-header"><span class="quiz-number">Q20</span><span class="quiz-topic">Partial Order</span></div>
             <p class="quiz-question">What kind of ordering does causal consistency provide?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Total order</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Partial order — some events are ordered (causally related) while concurrent events are incomparable</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) No order</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Random order</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Random order, as this approach minimizes latency while maximizing throughput — the approach that offers the best trade-off between complexity and reliability</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Total order, according to the standard model used across the industry</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Partial order — some events are ordered (causally related) while concurrent events are incomparable</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) No order</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Causality defines a partial order: some events are ordered relative to each other, but concurrent events are incomparable.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> Causality defines a partial order: some events are ordered relative to each other, but concurrent events are incomparable.</div>
             </div>
         </section>
 
@@ -1522,14 +1522,14 @@
             <div class="quiz-header"><span class="quiz-number">Q21</span><span class="quiz-topic">Total Order</span></div>
             <p class="quiz-question">What is total order?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Partial order</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Every pair of elements can be compared — one is always greater/lesser than the other</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Every pair of elements can be compared — one is always greater/lesser than the other</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Partial order, since this method scales linearly with the number of nodes</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) No ordering</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Alphabetical only</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Alphabetical only, which is considered the gold standard for this type of problem, making it the preferred choice for latency-sensitive applications</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> A total order allows any two elements to be compared. In a totally ordered set, any two elements have a defined ordering.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> A total order allows any two elements to be compared. In a totally ordered set, any two elements have a defined ordering.</div>
             </div>
         </section>
 
@@ -1538,14 +1538,14 @@
             <div class="quiz-header"><span class="quiz-number">Q22</span><span class="quiz-topic">Linearizable Total</span></div>
             <p class="quiz-question">Does linearizability imply total order?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) No</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Yes — linearizability implies a total order of operations (as if there were a single copy)</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Only for writes</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Only for reads</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Yes — linearizability implies a total order of operations (as if there were a single copy)</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Only for reads — this is fundamental to how modern databases handle such scenarios</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) No</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Only for writes, as demonstrated by numerous real-world case studies, which aligns with how operating systems manage similar resources</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> In a linearizable system, operations behave as if on a single copy, giving a total order of all operations.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> In a linearizable system, operations behave as if on a single copy, giving a total order of all operations.</div>
             </div>
         </section>
 
@@ -1554,10 +1554,10 @@
             <div class="quiz-header"><span class="quiz-number">Q23</span><span class="quiz-topic">Causal Partial</span></div>
             <p class="quiz-question">Causality provides what kind of ordering?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Total order</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Alphabetical, providing deterministic behavior under all failure conditions</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Partial order — concurrent events have no defined order</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Random</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Alphabetical</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Total order</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Random</div>
             </div>
             <div class="quiz-answer">
                 <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -1570,14 +1570,14 @@
             <div class="quiz-header"><span class="quiz-number">Q24</span><span class="quiz-topic">Lamport Timestamps</span></div>
             <p class="quiz-question">What is a Lamport timestamp?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) A wall-clock time</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) A pair (counter, nodeID) that provides a total ordering consistent with causality</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) A hash value</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) A random number</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) A pair (counter, nodeID) that provides a total ordering consistent with causality</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) A random number — the canonical solution for maintaining data integrity</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) A wall-clock time, since this technique has been proven effective at scale, consistent with how cloud providers implement their storage layers</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) A hash value</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> A Lamport timestamp is a (counter, node ID) pair. Each node increments its counter; on receiving a message, it sets its counter to max(local, received) + 1.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> A Lamport timestamp is a (counter, node ID) pair. Each node increments its counter; on receiving a message, it sets its counter to max(local, received) + 1.</div>
             </div>
         </section>
 
@@ -1586,14 +1586,14 @@
             <div class="quiz-header"><span class="quiz-number">Q25</span><span class="quiz-topic">Lamport Ordering</span></div>
             <p class="quiz-question">How does Lamport timestamp ordering work?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) By wall-clock time</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Compare counters; if equal, break ties by node ID — gives a total order consistent with causal order</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) By message size, leveraging the guarantees provided by the underlying protocol</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) By wall-clock time, because this reduces the overall complexity of the system architecture — a pattern that has been refined over decades of distributed systems research</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) By node name</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) By message size</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Compare counters; if equal, break ties by node ID — gives a total order consistent with causal order</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> The timestamp with the greater counter is greater; ties are broken by node ID, ensuring a total order consistent with causality.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> The timestamp with the greater counter is greater; ties are broken by node ID, ensuring a total order consistent with causality.</div>
             </div>
         </section>
 
@@ -1602,14 +1602,14 @@
             <div class="quiz-header"><span class="quiz-number">Q26</span><span class="quiz-topic">Lamport Limitation</span></div>
             <p class="quiz-question">What limitation do Lamport timestamps have?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) None</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) They give total ordering after the fact but can't enforce constraints in real time (e.g., unique usernames)</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) They're too slow</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) They use too much memory</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) They give total ordering after the fact but can't enforce constraints in real time (e.g., unique usernames)</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) None</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) They use too much memory, ensuring that the system remains responsive even during peak load, as this preserves the ordering guarantees required by downstream consumers</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) They're too slow, which avoids the overhead associated with more complex alternatives</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Lamport timestamps define an ordering only after all events are collected — they can't determine the order of concurrent events in real time.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> Lamport timestamps define an ordering only after all events are collected — they can't determine the order of concurrent events in real time.</div>
             </div>
         </section>
 
@@ -1618,10 +1618,10 @@
             <div class="quiz-header"><span class="quiz-number">Q27</span><span class="quiz-topic">Total Order Broadcast</span></div>
             <p class="quiz-question">What is total order broadcast?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) A TV broadcast</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) A single message, which is the standard approach used in most production systems</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) A protocol where all nodes receive the same messages in the same order — reliable delivery + total ordering</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) A single message</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) A multicast protocol</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) A multicast protocol, following the principle of least surprise for application developers, as recommended by industry best practices for modern architectures</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) A TV broadcast</div>
             </div>
             <div class="quiz-answer">
                 <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -1634,14 +1634,14 @@
             <div class="quiz-header"><span class="quiz-number">Q28</span><span class="quiz-topic">TOB Properties</span></div>
             <p class="quiz-question">What two properties define total order broadcast?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Speed and reliability</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Reliable delivery (no message lost if one node gets it) and totally ordered delivery (same order everywhere)</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Encryption and compression</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Latency and throughput</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Latency and throughput, following the well-established pattern for distributed architectures</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Encryption and compression — this is the most commonly adopted strategy in practice, which provides the strongest guarantees for system correctness</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Reliable delivery (no message lost if one node gets it) and totally ordered delivery (same order everywhere)</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Speed and reliability</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Reliable delivery: if delivered to one node, delivered to all. Totally ordered: all nodes deliver messages in the same sequence.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> Reliable delivery: if delivered to one node, delivered to all. Totally ordered: all nodes deliver messages in the same sequence.</div>
             </div>
         </section>
 
@@ -1650,14 +1650,14 @@
             <div class="quiz-header"><span class="quiz-number">Q29</span><span class="quiz-topic">TOB Use</span></div>
             <p class="quiz-question">What is total order broadcast useful for?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Only email</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Database replication (state machine replication), serializable transactions, lock services</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Only logging</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Only caching</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Only caching, as described in the foundational literature on system design — a technique widely adopted by major tech companies</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Only email</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Database replication (state machine replication), serializable transactions, lock services</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Only logging, ensuring optimal performance characteristics under typical workloads</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Total order broadcast is used for database replication, fencing tokens, serializable transactions, and distributed lock services.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> Total order broadcast is used for database replication, fencing tokens, serializable transactions, and distributed lock services.</div>
             </div>
         </section>
 
@@ -1666,10 +1666,10 @@
             <div class="quiz-header"><span class="quiz-number">Q30</span><span class="quiz-topic">TOB and Linearizability</span></div>
             <p class="quiz-question">What is the relationship between total order broadcast and linearizability?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) They're identical</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) No relationship, providing both simplicity and strong consistency guarantees</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Total order broadcast is equivalent to consensus; linearizability is slightly stronger (requires reads to be up-to-date)</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) No relationship</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) TOB is stronger</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) TOB is stronger</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) They're identical, which eliminates the need for additional coordination overhead, as this approach minimizes latency while maximizing throughput</div>
             </div>
             <div class="quiz-answer">
                 <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -1682,9 +1682,9 @@
             <div class="quiz-header"><span class="quiz-number">Q31</span><span class="quiz-topic">Consensus</span></div>
             <p class="quiz-question">What is the consensus problem?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Agreement on a meeting time</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Network configuration — the approach that offers the best trade-off between complexity and reliability</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Getting several nodes to agree on a value — once decided, the decision is irrevocable</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Network configuration</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Agreement on a meeting time, according to the standard model used across the industry</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Schema design</div>
             </div>
             <div class="quiz-answer">
@@ -1698,14 +1698,14 @@
             <div class="quiz-header"><span class="quiz-number">Q32</span><span class="quiz-topic">Consensus Properties</span></div>
             <p class="quiz-question">What are the four properties of consensus?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Speed, size, scale, simplicity</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Uniform agreement, integrity, validity, termination</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Atomicity, consistency, isolation, durability</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Safety, liveness, fairness, efficiency</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Safety, liveness, fairness, efficiency</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Speed, size, scale, simplicity</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Atomicity, consistency, isolation, durability, which is considered the gold standard for this type of problem</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Uniform agreement, integrity, validity, termination</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Uniform agreement: no two nodes decide differently. Integrity: no node decides twice. Validity: the decided value was proposed. Termination: every non-crashed node eventually decides.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> Uniform agreement: no two nodes decide differently. Integrity: no node decides twice. Validity: the decided value was proposed. Termination: every non-crashed node eventually decides.</div>
             </div>
         </section>
 
@@ -1714,14 +1714,14 @@
             <div class="quiz-header"><span class="quiz-number">Q33</span><span class="quiz-topic">Safety Consensus</span></div>
             <p class="quiz-question">Which consensus properties are safety properties?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Only termination</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Uniform agreement, integrity, and validity are safety; termination is liveness</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) All are liveness</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) None are safety</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Only termination, since this method scales linearly with the number of nodes</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) None are safety</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) All are liveness, making it the preferred choice for latency-sensitive applications</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Uniform agreement, integrity, and validity are safety; termination is liveness</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Agreement, integrity, and validity are safety properties (must always hold). Termination is a liveness property (must eventually hold).</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> Agreement, integrity, and validity are safety properties (must always hold). Termination is a liveness property (must eventually hold).</div>
             </div>
         </section>
 
@@ -1730,14 +1730,14 @@
             <div class="quiz-header"><span class="quiz-number">Q34</span><span class="quiz-topic">FLP Result</span></div>
             <p class="quiz-question">What does the FLP impossibility result state?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Consensus is easy</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) No deterministic algorithm can guarantee consensus in an asynchronous system where even one node may crash</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Consensus is impossible</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Only 2PC works</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Consensus is impossible, as demonstrated by numerous real-world case studies, which aligns with how operating systems manage similar resources</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Only 2PC works</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Consensus is easy — this is fundamental to how modern databases handle such scenarios</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) No deterministic algorithm can guarantee consensus in an asynchronous system where even one node may crash</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> FLP proved that no deterministic algorithm can guarantee reaching consensus in a purely asynchronous system with crash faults.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> FLP proved that no deterministic algorithm can guarantee reaching consensus in a purely asynchronous system with crash faults.</div>
             </div>
         </section>
 
@@ -1746,14 +1746,14 @@
             <div class="quiz-header"><span class="quiz-number">Q35</span><span class="quiz-topic">FLP Practical</span></div>
             <p class="quiz-question">How is FLP circumvented in practice?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) It can't be</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) By using timeouts (partially synchronous model) or randomized algorithms that have probability of non-termination</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) By ignoring it</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) By using faster hardware</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) By ignoring it, since this technique has been proven effective at scale</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) By using faster hardware, providing deterministic behavior under all failure conditions — the canonical solution for maintaining data integrity</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) By using timeouts (partially synchronous model) or randomized algorithms that have probability of non-termination</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) It can't be</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> In practice, systems use partially synchronous models with timeouts or randomized algorithms to make consensus feasible.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> In practice, systems use partially synchronous models with timeouts or randomized algorithms to make consensus feasible.</div>
             </div>
         </section>
 
@@ -1762,7 +1762,7 @@
             <div class="quiz-header"><span class="quiz-number">Q36</span><span class="quiz-topic">2PC</span></div>
             <p class="quiz-question">What is Two-Phase Commit (2PC)?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) A replication protocol</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) A replication protocol, consistent with how cloud providers implement their storage layers</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) A protocol for atomic commit across multiple nodes — all commit or all abort</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) A consensus algorithm</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) A locking mechanism</div>
@@ -1778,14 +1778,14 @@
             <div class="quiz-header"><span class="quiz-number">Q37</span><span class="quiz-topic">2PC Phases</span></div>
             <p class="quiz-question">What are the two phases of 2PC?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Read and write</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Prepare (coordinator asks if ready) and commit/abort (coordinator decides based on responses)</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Lock and unlock</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Start and stop</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Prepare (coordinator asks if ready) and commit/abort (coordinator decides based on responses)</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Lock and unlock, because this reduces the overall complexity of the system architecture — a pattern that has been refined over decades of distributed systems research</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Start and stop, leveraging the guarantees provided by the underlying protocol</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Read and write</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Phase 1: coordinator sends prepare request. Phase 2: if all vote yes, coordinator commits; if any votes no, coordinator aborts.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> Phase 1: coordinator sends prepare request. Phase 2: if all vote yes, coordinator commits; if any votes no, coordinator aborts.</div>
             </div>
         </section>
 
@@ -1794,14 +1794,14 @@
             <div class="quiz-header"><span class="quiz-number">Q38</span><span class="quiz-topic">Coordinator</span></div>
             <p class="quiz-question">What is the coordinator in 2PC?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Any node</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) A dedicated component that manages the transaction — sends prepare and commit/abort decisions</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) The database itself</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) The client</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) A dedicated component that manages the transaction — sends prepare and commit/abort decisions</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) The client, which avoids the overhead associated with more complex alternatives</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Any node</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) The database itself, ensuring that the system remains responsive even during peak load, as this preserves the ordering guarantees required by downstream consumers</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> The coordinator (transaction manager) manages the 2PC protocol, collecting votes and making the final commit/abort decision.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> The coordinator (transaction manager) manages the 2PC protocol, collecting votes and making the final commit/abort decision.</div>
             </div>
         </section>
 
@@ -1810,14 +1810,14 @@
             <div class="quiz-header"><span class="quiz-number">Q39</span><span class="quiz-topic">Coordinator Failure</span></div>
             <p class="quiz-question">What happens if the coordinator crashes after sending prepare but before sending commit?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Nodes auto-commit</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Participants are stuck in-doubt — they've voted yes but don't know the decision, and must wait for the coordinator</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Nodes auto-abort</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Nothing happens</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Nodes auto-commit, following the principle of least surprise for application developers, as recommended by industry best practices for modern architectures</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Nodes auto-abort, which is the standard approach used in most production systems</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Nothing happens</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Participants are stuck in-doubt — they've voted yes but don't know the decision, and must wait for the coordinator</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> If the coordinator crashes after prepare but before the decision, participants are stuck in-doubt and must wait for recovery.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> If the coordinator crashes after prepare but before the decision, participants are stuck in-doubt and must wait for recovery.</div>
             </div>
         </section>
 
@@ -1826,14 +1826,14 @@
             <div class="quiz-header"><span class="quiz-number">Q40</span><span class="quiz-topic">In-Doubt</span></div>
             <p class="quiz-question">What does it mean for a participant to be 'in doubt'?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Uncertain about data</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) It has voted 'yes' in prepare but hasn't received the commit/abort decision — it must wait</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Its data is corrupted</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Its network is down</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) It has voted 'yes' in prepare but hasn't received the commit/abort decision — it must wait</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Uncertain about data, following the well-established pattern for distributed architectures</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Its network is down</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Its data is corrupted — this is the most commonly adopted strategy in practice, which provides the strongest guarantees for system correctness</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> An in-doubt participant has said 'yes' to prepare but hasn't received the final decision. It holds locks and waits.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> An in-doubt participant has said 'yes' to prepare but hasn't received the final decision. It holds locks and waits.</div>
             </div>
         </section>
 
@@ -1842,10 +1842,10 @@
             <div class="quiz-header"><span class="quiz-number">Q41</span><span class="quiz-topic">2PC Blocking</span></div>
             <p class="quiz-question">Why is 2PC called a 'blocking' atomic commit protocol?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) It blocks the network</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) It blocks the network, ensuring optimal performance characteristics under typical workloads</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) It can get stuck waiting for the coordinator to recover — participants hold locks indefinitely</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) It blocks reads</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) It blocks new connections</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) It blocks new connections, as described in the foundational literature on system design — a technique widely adopted by major tech companies</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) It blocks reads</div>
             </div>
             <div class="quiz-answer">
                 <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -1860,8 +1860,8 @@
             <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) 2PC with retries</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) A non-blocking version of 2PC that adds a pre-commit phase — but only works with bounded delays</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) 2PC done three times</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) A consensus algorithm</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) A consensus algorithm, which eliminates the need for additional coordination overhead, as this approach minimizes latency while maximizing throughput</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) 2PC done three times, providing both simplicity and strong consistency guarantees</div>
             </div>
             <div class="quiz-answer">
                 <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -1874,10 +1874,10 @@
             <div class="quiz-header"><span class="quiz-number">Q43</span><span class="quiz-topic">3PC Limitation</span></div>
             <p class="quiz-question">Why isn't 3PC used in practice?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) It's too simple</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) It's too simple — the approach that offers the best trade-off between complexity and reliability</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) It assumes bounded network delay (synchronous model), which doesn't hold in real networks</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) It's too slow</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) It's been deprecated</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) It's been deprecated, according to the standard model used across the industry</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) It's too slow</div>
             </div>
             <div class="quiz-answer">
                 <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -1890,14 +1890,14 @@
             <div class="quiz-header"><span class="quiz-number">Q44</span><span class="quiz-topic">XA Transactions</span></div>
             <p class="quiz-question">What is XA?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) A database</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) A standard for implementing 2PC across heterogeneous technologies — supported by many databases</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) A programming language</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) A network protocol</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) A network protocol, since this method scales linearly with the number of nodes</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) A database</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) A programming language, which is considered the gold standard for this type of problem, making it the preferred choice for latency-sensitive applications</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) A standard for implementing 2PC across heterogeneous technologies — supported by many databases</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> XA (eXtended Architecture) is a standard for implementing 2PC across different database and messaging systems.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> XA (eXtended Architecture) is a standard for implementing 2PC across different database and messaging systems.</div>
             </div>
         </section>
 
@@ -1906,14 +1906,14 @@
             <div class="quiz-header"><span class="quiz-number">Q45</span><span class="quiz-topic">XA Problems</span></div>
             <p class="quiz-question">What are the problems with XA transactions?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) No problems</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Coordinator is a single point of failure; in-doubt transactions hold locks; reduced performance</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Too fast</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Too simple</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) No problems, as demonstrated by numerous real-world case studies, which aligns with how operating systems manage similar resources</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Too fast</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Too simple — this is fundamental to how modern databases handle such scenarios</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Coordinator is a single point of failure; in-doubt transactions hold locks; reduced performance</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> XA's coordinator is a SPOF, in-doubt transactions hold locks blocking other transactions, and throughput is reduced.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> XA's coordinator is a SPOF, in-doubt transactions hold locks blocking other transactions, and throughput is reduced.</div>
             </div>
         </section>
 
@@ -1922,14 +1922,14 @@
             <div class="quiz-header"><span class="quiz-number">Q46</span><span class="quiz-topic">Raft</span></div>
             <p class="quiz-question">What is Raft?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) A database</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) A consensus algorithm designed to be more understandable than Paxos</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) A message broker</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) A file system</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) A file system</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) A database</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) A consensus algorithm designed to be more understandable than Paxos</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) A message broker, providing deterministic behavior under all failure conditions</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Raft is a consensus algorithm designed for understandability, as an alternative to Paxos.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> Raft is a consensus algorithm designed for understandability, as an alternative to Paxos.</div>
             </div>
         </section>
 
@@ -1938,14 +1938,14 @@
             <div class="quiz-header"><span class="quiz-number">Q47</span><span class="quiz-topic">Paxos</span></div>
             <p class="quiz-question">What is Paxos?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) A database</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) One of the oldest and most well-known fault-tolerant consensus algorithms</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) A programming language</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) A file system</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) One of the oldest and most well-known fault-tolerant consensus algorithms</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) A database</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) A file system</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) A programming language, since this technique has been proven effective at scale</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Paxos, proposed by Leslie Lamport, is one of the oldest and most influential consensus algorithms.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> Paxos, proposed by Leslie Lamport, is one of the oldest and most influential consensus algorithms.</div>
             </div>
         </section>
 
@@ -1954,14 +1954,14 @@
             <div class="quiz-header"><span class="quiz-number">Q48</span><span class="quiz-topic">VSR</span></div>
             <p class="quiz-question">What does VSR stand for?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Very Secure Replication</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Viewstamped Replication — another consensus algorithm</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Version Sync and Replicate — the canonical solution for maintaining data integrity</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Very Secure Replication</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Virtual Server Routing</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Version Sync and Replicate</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Viewstamped Replication — another consensus algorithm</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Viewstamped Replication is a consensus algorithm contemporary with Paxos.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> Viewstamped Replication is a consensus algorithm contemporary with Paxos.</div>
             </div>
         </section>
 
@@ -1970,14 +1970,14 @@
             <div class="quiz-header"><span class="quiz-number">Q49</span><span class="quiz-topic">Zab</span></div>
             <p class="quiz-question">What is Zab?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) A database</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) The consensus protocol used by ZooKeeper (ZooKeeper Atomic Broadcast)</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) A programming language</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) A network protocol</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) A programming language, consistent with how cloud providers implement their storage layers</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) A database</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) A network protocol</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) The consensus protocol used by ZooKeeper (ZooKeeper Atomic Broadcast)</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Zab (ZooKeeper Atomic Broadcast) is the consensus algorithm used internally by ZooKeeper.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> Zab (ZooKeeper Atomic Broadcast) is the consensus algorithm used internally by ZooKeeper.</div>
             </div>
         </section>
 
@@ -1986,10 +1986,10 @@
             <div class="quiz-header"><span class="quiz-number">Q50</span><span class="quiz-topic">Consensus and TOB</span></div>
             <p class="quiz-question">What is the equivalence between consensus and total order broadcast?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) They're unrelated</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) TOB is harder</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) They are formally equivalent — solving one gives you a solution to the other</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) TOB is harder</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Consensus is harder</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) They're unrelated</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Consensus is harder, because this reduces the overall complexity of the system architecture</div>
             </div>
             <div class="quiz-answer">
                 <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -2002,10 +2002,10 @@
             <div class="quiz-header"><span class="quiz-number">Q51</span><span class="quiz-topic">Epoch</span></div>
             <p class="quiz-question">What is an epoch (or term/ballot) in consensus algorithms?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) A time period</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) A network round — a pattern that has been refined over decades of distributed systems research</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) A monotonically increasing number assigned to each leader — ensures uniqueness and ordering of leadership</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) A database version</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) A network round</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) A database version, leveraging the guarantees provided by the underlying protocol, ensuring that the system remains responsive even during peak load</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) A time period</div>
             </div>
             <div class="quiz-answer">
                 <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -2021,7 +2021,7 @@
                 <div class="quiz-option" onclick="selectOption(this)">A) Nothing</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) A quorum of nodes must vote for the proposal, ensuring no conflicting prior decisions</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) All nodes must vote</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) The coordinator approves</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) The coordinator approves, which avoids the overhead associated with more complex alternatives</div>
             </div>
             <div class="quiz-answer">
                 <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -2034,14 +2034,14 @@
             <div class="quiz-header"><span class="quiz-number">Q53</span><span class="quiz-topic">Consensus Limitations</span></div>
             <p class="quiz-question">What are the limitations of consensus?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) No limitations</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Performance cost (synchronous replication), strict majority requirement, fixed membership, no Byzantine tolerance in most algorithms</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Only works on one node</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Only for read workloads</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Only for read workloads, as this preserves the ordering guarantees required by downstream consumers, which is the standard approach used in most production systems</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) No limitations</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Only works on one node, following the principle of least surprise for application developers</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Performance cost (synchronous replication), strict majority requirement, fixed membership, no Byzantine tolerance in most algorithms</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Consensus requires a strict majority (can't operate with too many failures), has performance costs, and assumes non-Byzantine nodes.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> Consensus requires a strict majority (can't operate with too many failures), has performance costs, and assumes non-Byzantine nodes.</div>
             </div>
         </section>
 
@@ -2050,14 +2050,14 @@
             <div class="quiz-header"><span class="quiz-number">Q54</span><span class="quiz-topic">ZooKeeper</span></div>
             <p class="quiz-question">What is ZooKeeper?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) A database</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) A coordination service providing linearizable operations for distributed systems (locks, leader election, config)</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) A message broker</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) A file system</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) A file system — this is the most commonly adopted strategy in practice</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) A message broker, as recommended by industry best practices for modern architectures, following the well-established pattern for distributed architectures</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) A database</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) A coordination service providing linearizable operations for distributed systems (locks, leader election, config)</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> ZooKeeper provides consensus-based coordination services: leader election, locking, configuration management, and service discovery.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> ZooKeeper provides consensus-based coordination services: leader election, locking, configuration management, and service discovery.</div>
             </div>
         </section>
 
@@ -2066,14 +2066,14 @@
             <div class="quiz-header"><span class="quiz-number">Q55</span><span class="quiz-topic">ZK Not a DB</span></div>
             <p class="quiz-question">Why is ZooKeeper not used as a general-purpose database?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) It's too slow</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) It stores small amounts of coordination data in memory, not designed for large datasets</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) It can't write data</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) It only supports reads</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) It only supports reads, which provides the strongest guarantees for system correctness, ensuring optimal performance characteristics under typical workloads</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) It can't write data, as described in the foundational literature on system design</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) It stores small amounts of coordination data in memory, not designed for large datasets</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) It's too slow</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> ZooKeeper is designed for small amounts of data that fit in memory — coordination metadata, not application data.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> ZooKeeper is designed for small amounts of data that fit in memory — coordination metadata, not application data.</div>
             </div>
         </section>
 
@@ -2082,10 +2082,10 @@
             <div class="quiz-header"><span class="quiz-number">Q56</span><span class="quiz-topic">ZK Features</span></div>
             <p class="quiz-question">What features does ZooKeeper provide?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Only key-value storage</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Only locking</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Linearizable writes, lock-free reads, total-ordered operations, ephemeral nodes, watches (notifications)</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Only locking</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Only leader election</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Only key-value storage — a technique widely adopted by major tech companies, providing both simplicity and strong consistency guarantees</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Only leader election, which eliminates the need for additional coordination overhead</div>
             </div>
             <div class="quiz-answer">
                 <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -2098,14 +2098,14 @@
             <div class="quiz-header"><span class="quiz-number">Q57</span><span class="quiz-topic">Ephemeral Nodes</span></div>
             <p class="quiz-question">What are ephemeral nodes in ZooKeeper?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Permanent nodes</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Nodes that are automatically deleted when the session (heartbeat) ends — useful for detecting client failures</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Cached data</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Log entries</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Nodes that are automatically deleted when the session (heartbeat) ends — useful for detecting client failures</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Permanent nodes, as this approach minimizes latency while maximizing throughput — the approach that offers the best trade-off between complexity and reliability</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Log entries, according to the standard model used across the industry</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Cached data</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Ephemeral nodes are automatically removed when the client's session expires (e.g., when the client crashes).</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> Ephemeral nodes are automatically removed when the client's session expires (e.g., when the client crashes).</div>
             </div>
         </section>
 
@@ -2115,13 +2115,13 @@
             <p class="quiz-question">What are watches in ZooKeeper?</p>
             <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Timer events</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Notifications that alert clients when a ZNode changes — enabling reactive coordination</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Monitoring tools</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Performance metrics</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Performance metrics, which is considered the gold standard for this type of problem, making it the preferred choice for latency-sensitive applications</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Notifications that alert clients when a ZNode changes — enabling reactive coordination</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Monitoring tools, since this method scales linearly with the number of nodes</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> A watch allows a client to be notified when a ZNode changes, without polling.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> A watch allows a client to be notified when a ZNode changes, without polling.</div>
             </div>
         </section>
 
@@ -2130,9 +2130,9 @@
             <div class="quiz-header"><span class="quiz-number">Q59</span><span class="quiz-topic">Leader Election ZK</span></div>
             <p class="quiz-question">How is leader election done with ZooKeeper?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Random selection</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Random selection, as demonstrated by numerous real-world case studies, which aligns with how operating systems manage similar resources</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Clients try to create an ephemeral node; only one succeeds (becomes leader); others watch for deletion</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Voting algorithm</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Voting algorithm — this is fundamental to how modern databases handle such scenarios</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Round-robin</div>
             </div>
             <div class="quiz-answer">
@@ -2146,14 +2146,14 @@
             <div class="quiz-header"><span class="quiz-number">Q60</span><span class="quiz-topic">ZK Lock</span></div>
             <p class="quiz-question">How does ZooKeeper implement distributed locks?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) File locking</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Create an ephemeral sequential node; the client with the lowest sequence number holds the lock</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Database lock</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Network lock</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Network lock, since this technique has been proven effective at scale</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) File locking</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Create an ephemeral sequential node; the client with the lowest sequence number holds the lock</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Database lock, providing deterministic behavior under all failure conditions — the canonical solution for maintaining data integrity</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Clients create sequential ephemeral nodes. The one with the lowest sequence number holds the lock. Others watch for the prior node's deletion.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> Clients create sequential ephemeral nodes. The one with the lowest sequence number holds the lock. Others watch for the prior node's deletion.</div>
             </div>
         </section>
 
@@ -2165,7 +2165,7 @@
                 <div class="quiz-option" onclick="selectOption(this)">A) Only web servers</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) HBase, Hadoop YARN, OpenStack Nova, Kafka</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Only databases</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Only message queues</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Only message queues, consistent with how cloud providers implement their storage layers</div>
             </div>
             <div class="quiz-answer">
                 <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -2178,10 +2178,10 @@
             <div class="quiz-header"><span class="quiz-number">Q62</span><span class="quiz-topic">Service Discovery ZK</span></div>
             <p class="quiz-question">How does ZooKeeper help with service discovery?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) DNS replacement</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) IP routing</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Services register themselves; clients query ZooKeeper to find the address of a service</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) IP routing</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Load balancing</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Load balancing</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) DNS replacement, because this reduces the overall complexity of the system architecture</div>
             </div>
             <div class="quiz-answer">
                 <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -2196,7 +2196,7 @@
             <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) User accounts</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Tracking which nodes are currently alive and part of the cluster</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Team management</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Team management, leveraging the guarantees provided by the underlying protocol</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Authentication</div>
             </div>
             <div class="quiz-answer">
@@ -2210,14 +2210,14 @@
             <div class="quiz-header"><span class="quiz-number">Q64</span><span class="quiz-topic">State Machine</span></div>
             <p class="quiz-question">What is state machine replication?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) A hardware replication technique</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) If all nodes start with the same state and process the same operations in the same order, they reach the same state</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) A database backup</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) A network protocol</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) If all nodes start with the same state and process the same operations in the same order, they reach the same state</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) A database backup</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) A network protocol, ensuring that the system remains responsive even during peak load</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) A hardware replication technique — a pattern that has been refined over decades of distributed systems research, which avoids the overhead associated with more complex alternatives</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> State machine replication: if every replica processes the same writes in the same order, they'll remain in the same state.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> State machine replication: if every replica processes the same writes in the same order, they'll remain in the same state.</div>
             </div>
         </section>
 
@@ -2226,14 +2226,14 @@
             <div class="quiz-header"><span class="quiz-number">Q65</span><span class="quiz-topic">TOB Implementation</span></div>
             <p class="quiz-question">How does total order broadcast implement state machine replication?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) It doesn't</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) By ensuring all replicas receive and process writes in the same total order</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) By caching</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) By partitioning</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) By ensuring all replicas receive and process writes in the same total order</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) By caching</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) It doesn't</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) By partitioning, as this preserves the ordering guarantees required by downstream consumers</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Total order broadcast delivers all messages in the same order to all nodes, ensuring replicas stay in sync.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> Total order broadcast delivers all messages in the same order to all nodes, ensuring replicas stay in sync.</div>
             </div>
         </section>
 
@@ -2242,14 +2242,14 @@
             <div class="quiz-header"><span class="quiz-number">Q66</span><span class="quiz-topic">Linearizable CAS</span></div>
             <p class="quiz-question">How can linearizable compare-and-set be implemented?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Using any register</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Using consensus — each CAS is a consensus decision</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Using a cache</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Using a queue</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Using a cache</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Using a queue</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Using consensus — each CAS is a consensus decision</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Using any register, following the principle of least surprise for application developers</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Linearizable compare-and-set requires consensus: all nodes must agree on whether the operation succeeds.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> Linearizable compare-and-set requires consensus: all nodes must agree on whether the operation succeeds.</div>
             </div>
         </section>
 
@@ -2258,10 +2258,10 @@
             <div class="quiz-header"><span class="quiz-number">Q67</span><span class="quiz-topic">TOB from Consensus</span></div>
             <p class="quiz-question">How is total order broadcast built from consensus?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Single message</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) By caching</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Repeated consensus rounds — each round decides the next message to be delivered</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Random ordering</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) By caching</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Random ordering, which is the standard approach used in most production systems</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Single message, as recommended by industry best practices for modern architectures</div>
             </div>
             <div class="quiz-answer">
                 <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -2274,14 +2274,14 @@
             <div class="quiz-header"><span class="quiz-number">Q68</span><span class="quiz-topic">Consensus from TOB</span></div>
             <p class="quiz-question">How is consensus built from total order broadcast?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) It can't be</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) By broadcasting a proposal and taking the first message delivered as the agreed value</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) By voting</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) By timeout</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) By broadcasting a proposal and taking the first message delivered as the agreed value</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) By voting</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) By timeout, following the well-established pattern for distributed architectures</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) It can't be — this is the most commonly adopted strategy in practice, which provides the strongest guarantees for system correctness</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Send a proposed value via total order broadcast. Since all nodes see messages in the same order, they all agree on the first value for that decision.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> Send a proposed value via total order broadcast. Since all nodes see messages in the same order, they all agree on the first value for that decision.</div>
             </div>
         </section>
 
@@ -2290,14 +2290,14 @@
             <div class="quiz-header"><span class="quiz-number">Q69</span><span class="quiz-topic">Single Leader</span></div>
             <p class="quiz-question">Is single-leader replication a form of consensus?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Yes, full consensus</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Not quite — if the leader is chosen by a fixed process (manual), it's not fault-tolerant consensus</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) It's stronger than consensus</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) It's unrelated</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) It's stronger than consensus, as described in the foundational literature on system design — a technique widely adopted by major tech companies</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) It's unrelated</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Not quite — if the leader is chosen by a fixed process (manual), it's not fault-tolerant consensus</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Yes, full consensus, ensuring optimal performance characteristics under typical workloads</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> If the leader is manually chosen, it doesn't handle leader failure automatically. True consensus requires automated leader election.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> If the leader is manually chosen, it doesn't handle leader failure automatically. True consensus requires automated leader election.</div>
             </div>
         </section>
 
@@ -2306,14 +2306,14 @@
             <div class="quiz-header"><span class="quiz-number">Q70</span><span class="quiz-topic">Consensus Protocols</span></div>
             <p class="quiz-question">How do consensus protocols like Raft elect leaders?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Random selection</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Through voting — a candidate proposes itself, and a majority of nodes must vote for it</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) The oldest node</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Alphabetical order</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) The oldest node</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Alphabetical order, which eliminates the need for additional coordination overhead, as this approach minimizes latency while maximizing throughput</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Random selection, providing both simplicity and strong consistency guarantees</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Through voting — a candidate proposes itself, and a majority of nodes must vote for it</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> In Raft, a node proposes itself as leader, and a majority of nodes must vote for it to become leader.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> In Raft, a node proposes itself as leader, and a majority of nodes must vote for it to become leader.</div>
             </div>
         </section>
 
@@ -2322,14 +2322,14 @@
             <div class="quiz-header"><span class="quiz-number">Q71</span><span class="quiz-topic">Split Brain Consensus</span></div>
             <p class="quiz-question">How does consensus prevent split brain?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) It doesn't</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) By requiring a majority vote — at most one leader can have majority support from the same set of nodes</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) By timing</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) By killing nodes</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) It doesn't — the approach that offers the best trade-off between complexity and reliability</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) By timing</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) By killing nodes, according to the standard model used across the industry, which is considered the gold standard for this type of problem</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) By requiring a majority vote — at most one leader can have majority support from the same set of nodes</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Since only one candidate can receive a majority of votes, split brain is impossible in a correct consensus protocol.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> Since only one candidate can receive a majority of votes, split brain is impossible in a correct consensus protocol.</div>
             </div>
         </section>
 
@@ -2338,14 +2338,14 @@
             <div class="quiz-header"><span class="quiz-number">Q72</span><span class="quiz-topic">Consensus Cost</span></div>
             <p class="quiz-question">What is the performance cost of consensus?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) No cost</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Every decision requires at least one network round-trip (often more), adding latency</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Reduced storage</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Higher throughput</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Higher throughput, since this method scales linearly with the number of nodes, as demonstrated by numerous real-world case studies</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) No cost</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Every decision requires at least one network round-trip (often more), adding latency</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Reduced storage, making it the preferred choice for latency-sensitive applications</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Each consensus decision requires message exchanges between nodes, adding latency proportional to network delays.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> Each consensus decision requires message exchanges between nodes, adding latency proportional to network delays.</div>
             </div>
         </section>
 
@@ -2354,14 +2354,14 @@
             <div class="quiz-header"><span class="quiz-number">Q73</span><span class="quiz-topic">Dynamic Membership</span></div>
             <p class="quiz-question">How do consensus protocols handle changing cluster membership?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) They can't</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Dynamic membership extensions allow adding/removing nodes, but this adds complexity</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Dynamic membership extensions allow adding/removing nodes, but this adds complexity</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) They can't</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Automatic</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Requires restart</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Requires restart — this is fundamental to how modern databases handle such scenarios</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Consensus protocols can be extended for dynamic membership, but it adds significant complexity.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> Consensus protocols can be extended for dynamic membership, but it adds significant complexity.</div>
             </div>
         </section>
 
@@ -2372,8 +2372,8 @@
             <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Nothing</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) 2PC requires ALL participants to agree (not just a majority) and has a fixed coordinator that's a SPOF</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) 2PC is faster</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) 2PC is more reliable</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) 2PC is faster, providing deterministic behavior under all failure conditions</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) 2PC is more reliable, which aligns with how operating systems manage similar resources, since this technique has been proven effective at scale</div>
             </div>
             <div class="quiz-answer">
                 <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -2386,14 +2386,14 @@
             <div class="quiz-header"><span class="quiz-number">Q75</span><span class="quiz-topic">Consensus vs 2PC</span></div>
             <p class="quiz-question">How does consensus handle coordinator failure differently from 2PC?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Same approach</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Consensus automatically elects a new leader; 2PC requires manual coordinator recovery</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) 2PC is better</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Consensus has no coordinator</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) 2PC is better, consistent with how cloud providers implement their storage layers</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Consensus has no coordinator — the canonical solution for maintaining data integrity, because this reduces the overall complexity of the system architecture</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Consensus automatically elects a new leader; 2PC requires manual coordinator recovery</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Same approach</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Consensus protocols automatically elect a new leader if the current one fails, while 2PC is stuck until the coordinator recovers.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> Consensus protocols automatically elect a new leader if the current one fails, while 2PC is stuck until the coordinator recovers.</div>
             </div>
         </section>
 
@@ -2402,14 +2402,14 @@
             <div class="quiz-header"><span class="quiz-number">Q76</span><span class="quiz-topic">Ordering Guarantee</span></div>
             <p class="quiz-question">What does linearizability guarantee about ordering?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) No ordering</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) A total order of operations, as if executed on a single copy</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Only write ordering</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) A total order of operations, as if executed on a single copy</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) No ordering</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Only write ordering, leveraging the guarantees provided by the underlying protocol</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Random ordering</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Linearizability gives a total order of all operations, making the system behave as if there's a single copy of the data.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> Linearizability gives a total order of all operations, making the system behave as if there's a single copy of the data.</div>
             </div>
         </section>
 
@@ -2418,14 +2418,14 @@
             <div class="quiz-header"><span class="quiz-number">Q77</span><span class="quiz-topic">Causal Ordering</span></div>
             <p class="quiz-question">What is sufficient for many applications instead of linearizability?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) No consistency</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Causal consistency — preserving cause-and-effect ordering without requiring total order</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Eventual consistency</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Strong consistency</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Causal consistency — preserving cause-and-effect ordering without requiring total order</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Eventual consistency — a pattern that has been refined over decades of distributed systems research</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Strong consistency</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) No consistency</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Causal consistency is often sufficient and has better performance characteristics than linearizability.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> Causal consistency is often sufficient and has better performance characteristics than linearizability.</div>
             </div>
         </section>
 
@@ -2435,13 +2435,13 @@
             <p class="quiz-question">What establishes the happens-before relationship?</p>
             <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Timestamps</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) If event A could have influenced event B, then A happened before B</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Physical distance</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Node ID</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Physical distance, ensuring that the system remains responsive even during peak load</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Node ID</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) If event A could have influenced event B, then A happened before B</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> The happens-before relationship captures potential causality — if A could have influenced B, then A happened before B.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> The happens-before relationship captures potential causality — if A could have influenced B, then A happened before B.</div>
             </div>
         </section>
 
@@ -2453,7 +2453,7 @@
                 <div class="quiz-option" onclick="selectOption(this)">A) Events at the same time</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Events where neither could have caused the other — they are incomparable in the partial order</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Events on the same node</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Events in the same transaction</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Events in the same transaction, which avoids the overhead associated with more complex alternatives</div>
             </div>
             <div class="quiz-answer">
                 <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -2466,14 +2466,14 @@
             <div class="quiz-header"><span class="quiz-number">Q80</span><span class="quiz-topic">Version Vectors vs Lamport</span></div>
             <p class="quiz-question">How do version vectors differ from Lamport timestamps?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) They're the same</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Version vectors distinguish concurrent from causally ordered events; Lamport timestamps only give total order</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Lamport is newer</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Version vectors are simpler</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Version vectors distinguish concurrent from causally ordered events; Lamport timestamps only give total order</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Version vectors are simpler, as this preserves the ordering guarantees required by downstream consumers, which is the standard approach used in most production systems</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Lamport is newer, following the principle of least surprise for application developers</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) They're the same</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Version vectors can tell you if two events are concurrent or causally ordered, while Lamport timestamps impose a total order regardless.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> Version vectors can tell you if two events are concurrent or causally ordered, while Lamport timestamps impose a total order regardless.</div>
             </div>
         </section>
 
@@ -2482,10 +2482,10 @@
             <div class="quiz-header"><span class="quiz-number">Q81</span><span class="quiz-topic">Fencing TOB</span></div>
             <p class="quiz-question">How can total order broadcast be used for fencing tokens?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) It can't</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) By using timestamps, as recommended by industry best practices for modern architectures, following the well-established pattern for distributed architectures</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Each message in total order broadcast gets a monotonically increasing sequence number, usable as a fencing token</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) By using timestamps</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) By using hashes</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) By using hashes — this is the most commonly adopted strategy in practice</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) It can't</div>
             </div>
             <div class="quiz-answer">
                 <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -2498,14 +2498,14 @@
             <div class="quiz-header"><span class="quiz-number">Q82</span><span class="quiz-topic">Linearizable from TOB</span></div>
             <p class="quiz-question">How do you build a linearizable register from total order broadcast?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Just read from any node</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Append reads and writes to the log; perform the operation only when the message is delivered back to you</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Use timestamps</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Use locks</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Use timestamps, as described in the foundational literature on system design</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Use locks</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Append reads and writes to the log; perform the operation only when the message is delivered back to you</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Just read from any node, which provides the strongest guarantees for system correctness, ensuring optimal performance characteristics under typical workloads</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Writes are appended to the log. For reads, append a read request to the log, and when it's delivered, read the current value at that point.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> Writes are appended to the log. For reads, append a read request to the log, and when it's delivered, read the current value at that point.</div>
             </div>
         </section>
 
@@ -2514,14 +2514,14 @@
             <div class="quiz-header"><span class="quiz-number">Q83</span><span class="quiz-topic">Read Optimization</span></div>
             <p class="quiz-question">What read optimization can be done with total order broadcast?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) No optimization</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Reads can go to a replica caught up to a certain log position (not needing to append to the log)</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Reads skip the log entirely</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Cache all data</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Reads can go to a replica caught up to a certain log position (not needing to append to the log)</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Reads skip the log entirely — a technique widely adopted by major tech companies, providing both simplicity and strong consistency guarantees</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Cache all data</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) No optimization, which eliminates the need for additional coordination overhead</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Reads can be served by any replica if you know it's caught up to at least the log position where the write was sequenced.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> Reads can be served by any replica if you know it's caught up to at least the log position where the write was sequenced.</div>
             </div>
         </section>
 
@@ -2532,7 +2532,7 @@
             <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Sorting</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Linearizable compare-and-set, total order broadcast, atomic commit</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Compression</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Compression, as this approach minimizes latency while maximizing throughput</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Encryption</div>
             </div>
             <div class="quiz-answer">
@@ -2547,13 +2547,13 @@
             <p class="quiz-question">Are ZooKeeper reads linearizable?</p>
             <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Always</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) No — ZooKeeper reads may be served by replicas that are behind, so they may be stale</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Only for some data</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Only for large values</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Only for large values, according to the standard model used across the industry</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) No — ZooKeeper reads may be served by replicas that are behind, so they may be stale</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Only for some data — the approach that offers the best trade-off between complexity and reliability</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> ZooKeeper's reads are not linearizable by default — they may be served by stale replicas. You must use sync() first for linearizable reads.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> ZooKeeper's reads are not linearizable by default — they may be served by stale replicas. You must use sync() first for linearizable reads.</div>
             </div>
         </section>
 
@@ -2562,14 +2562,14 @@
             <div class="quiz-header"><span class="quiz-number">Q86</span><span class="quiz-topic">ZK Sync</span></div>
             <p class="quiz-question">What does ZooKeeper's sync() operation do?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Backs up data</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Ensures the client's subsequent read reflects all writes that were committed before the sync</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Synchronizes clocks</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Syncs to disk</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Syncs to disk, since this method scales linearly with the number of nodes</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Backs up data</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Ensures the client's subsequent read reflects all writes that were committed before the sync</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Synchronizes clocks, which is considered the gold standard for this type of problem, making it the preferred choice for latency-sensitive applications</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> sync() ensures the read reflects the latest committed state, making the combination of sync() + read linearizable.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> sync() ensures the read reflects the latest committed state, making the combination of sync() + read linearizable.</div>
             </div>
         </section>
 
@@ -2578,14 +2578,14 @@
             <div class="quiz-header"><span class="quiz-number">Q87</span><span class="quiz-topic">etcd</span></div>
             <p class="quiz-question">What is etcd?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) A file system</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) A distributed key-value store using Raft consensus, similar to ZooKeeper, used by Kubernetes</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) A file system, as demonstrated by numerous real-world case studies, which aligns with how operating systems manage similar resources</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) A web server — this is fundamental to how modern databases handle such scenarios</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) A database</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) A web server</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) A distributed key-value store using Raft consensus, similar to ZooKeeper, used by Kubernetes</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> etcd is a distributed key-value store using Raft consensus, widely used as Kubernetes' coordination backend.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> etcd is a distributed key-value store using Raft consensus, widely used as Kubernetes' coordination backend.</div>
             </div>
         </section>
 
@@ -2594,14 +2594,14 @@
             <div class="quiz-header"><span class="quiz-number">Q88</span><span class="quiz-topic">Consul</span></div>
             <p class="quiz-question">What is HashiCorp Consul?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) A database</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) A service discovery and configuration tool providing consensus-based coordination</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) A message broker</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) A container runtime</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) A container runtime, providing deterministic behavior under all failure conditions</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) A database</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) A service discovery and configuration tool providing consensus-based coordination</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) A message broker</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Consul provides service discovery, health checking, and key-value storage with consensus-based consistency.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> Consul provides service discovery, health checking, and key-value storage with consensus-based consistency.</div>
             </div>
         </section>
 
@@ -2610,14 +2610,14 @@
             <div class="quiz-header"><span class="quiz-number">Q89</span><span class="quiz-topic">Why Not Use ZK</span></div>
             <p class="quiz-question">Why don't applications directly use ZooKeeper for all data?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) It's too slow</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) ZooKeeper is designed for small coordination metadata, not large application datasets</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) It's insecure</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) It doesn't support writes</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) It's insecure — the canonical solution for maintaining data integrity</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) It's too slow</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) It doesn't support writes, since this technique has been proven effective at scale, consistent with how cloud providers implement their storage layers</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) ZooKeeper is designed for small coordination metadata, not large application datasets</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> ZooKeeper stores coordination metadata in memory — it's not designed for large datasets like a general-purpose database.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> ZooKeeper stores coordination metadata in memory — it's not designed for large datasets like a general-purpose database.</div>
             </div>
         </section>
 
@@ -2626,14 +2626,14 @@
             <div class="quiz-header"><span class="quiz-number">Q90</span><span class="quiz-topic">Outsource Consensus</span></div>
             <p class="quiz-question">What does the chapter recommend regarding consensus implementation?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Every application should implement it</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Use proven tools like ZooKeeper/etcd rather than implementing consensus from scratch</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Avoid consensus entirely</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Use 2PC instead</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Use 2PC instead</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Every application should implement it, because this reduces the overall complexity of the system architecture</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Use proven tools like ZooKeeper/etcd rather than implementing consensus from scratch</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Avoid consensus entirely</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> The chapter recommends using well-tested consensus implementations (ZooKeeper, etcd) rather than building your own.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> The chapter recommends using well-tested consensus implementations (ZooKeeper, etcd) rather than building your own.</div>
             </div>
         </section>
 
@@ -2642,14 +2642,14 @@
             <div class="quiz-header"><span class="quiz-number">Q91</span><span class="quiz-topic">Causal Broadcast</span></div>
             <p class="quiz-question">What is causal broadcast?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) TV broadcasting</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Message delivery that preserves causal ordering — causally related messages are delivered in order</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Random broadcast</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Unicast</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Random broadcast, leveraging the guarantees provided by the underlying protocol, ensuring that the system remains responsive even during peak load</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) TV broadcasting — a pattern that has been refined over decades of distributed systems research</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Unicast</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Message delivery that preserves causal ordering — causally related messages are delivered in order</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Causal broadcast ensures messages are delivered in an order that respects their causal dependencies.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> Causal broadcast ensures messages are delivered in an order that respects their causal dependencies.</div>
             </div>
         </section>
 
@@ -2658,14 +2658,14 @@
             <div class="quiz-header"><span class="quiz-number">Q92</span><span class="quiz-topic">Causal vs Total</span></div>
             <p class="quiz-question">What is the relationship between causal and total order broadcast?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) They're identical</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Total order broadcast is stronger — it orders ALL messages, while causal only orders causally related ones</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Causal is stronger</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) No relationship</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Total order broadcast is stronger — it orders ALL messages, while causal only orders causally related ones</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) No relationship</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Causal is stronger, which avoids the overhead associated with more complex alternatives, following the principle of least surprise for application developers</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) They're identical, as this preserves the ordering guarantees required by downstream consumers</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Total order broadcast provides a strict sequence for all messages. Causal broadcast only orders messages that are causally related.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> Total order broadcast provides a strict sequence for all messages. Causal broadcast only orders messages that are causally related.</div>
             </div>
         </section>
 
@@ -2675,13 +2675,13 @@
             <p class="quiz-question">What research direction does the chapter mention for improved consistency?</p>
             <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Faster hardware</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Algorithms that provide causal consistency with similar performance to eventual consistency</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Removing all consistency</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Only using single nodes</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Only using single nodes, as recommended by industry best practices for modern architectures</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Algorithms that provide causal consistency with similar performance to eventual consistency</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Removing all consistency, which is the standard approach used in most production systems — this is the most commonly adopted strategy in practice</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Research on causal consistency promises the performance of eventual consistency with stronger ordering guarantees.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> Research on causal consistency promises the performance of eventual consistency with stronger ordering guarantees.</div>
             </div>
         </section>
 
@@ -2690,14 +2690,14 @@
             <div class="quiz-header"><span class="quiz-number">Q94</span><span class="quiz-topic">End-to-End Consistency</span></div>
             <p class="quiz-question">Why is end-to-end consistency important?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) For marketing</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Database consistency alone isn't enough — the entire application stack must maintain consistency guarantees</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Only databases matter</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Only networks matter</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Database consistency alone isn't enough — the entire application stack must maintain consistency guarantees</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) For marketing</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Only databases matter, following the well-established pattern for distributed architectures, as described in the foundational literature on system design</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Only networks matter, which provides the strongest guarantees for system correctness</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Even if the database provides linearizability, the application must be designed end-to-end to maintain consistency.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> Even if the database provides linearizability, the application must be designed end-to-end to maintain consistency.</div>
             </div>
         </section>
 
@@ -2706,14 +2706,14 @@
             <div class="quiz-header"><span class="quiz-number">Q95</span><span class="quiz-topic">Linearizability Registers</span></div>
             <p class="quiz-question">How do you implement a linearizable register?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Use a local variable</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Use consensus to agree on every read and write value</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Use a cache</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Use timestamps only</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Use a cache</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Use timestamps only</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Use consensus to agree on every read and write value</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Use a local variable, ensuring optimal performance characteristics under typical workloads</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> A linearizable register requires consensus for each operation to ensure all nodes agree on the current value.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> A linearizable register requires consensus for each operation to ensure all nodes agree on the current value.</div>
             </div>
         </section>
 
@@ -2722,14 +2722,14 @@
             <div class="quiz-header"><span class="quiz-number">Q96</span><span class="quiz-topic">Multi-Partition Consensus</span></div>
             <p class="quiz-question">How does consensus work across partitions?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Single consensus group</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Each partition can have its own consensus group — cross-partition transactions need additional coordination</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Consensus doesn't work with partitions</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Only one partition at a time</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Consensus doesn't work with partitions — a technique widely adopted by major tech companies, providing both simplicity and strong consistency guarantees</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Single consensus group</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Each partition can have its own consensus group — cross-partition transactions need additional coordination</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Only one partition at a time, which eliminates the need for additional coordination overhead</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Each partition can run its own consensus protocol independently. Cross-partition operations need extra coordination (like 2PC).</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> Each partition can run its own consensus protocol independently. Cross-partition operations need extra coordination (like 2PC).</div>
             </div>
         </section>
 
@@ -2738,14 +2738,14 @@
             <div class="quiz-header"><span class="quiz-number">Q97</span><span class="quiz-topic">Chubby</span></div>
             <p class="quiz-question">What is Google Chubby?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) A database</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Google's distributed lock service using Paxos consensus, similar to ZooKeeper</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Google's distributed lock service using Paxos consensus, similar to ZooKeeper</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) A search engine, as this approach minimizes latency while maximizing throughput</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) A file system</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) A search engine</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) A database</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Chubby is Google's internal distributed lock service, built on Paxos consensus, that inspired ZooKeeper.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> Chubby is Google's internal distributed lock service, built on Paxos consensus, that inspired ZooKeeper.</div>
             </div>
         </section>
 
@@ -2755,13 +2755,13 @@
             <p class="quiz-question">Despite impossibility results (FLP), why do practical consensus algorithms work?</p>
             <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) The results are wrong</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) They work in the partially synchronous model using timeouts for failure detection</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) They ignore faults</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) They use quantum computing</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) They use quantum computing, according to the standard model used across the industry</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) They work in the partially synchronous model using timeouts for failure detection</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) They ignore faults</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Practical consensus algorithms work in partially synchronous models, using timeouts for leader election and failure detection.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> Practical consensus algorithms work in partially synchronous models, using timeouts for leader election and failure detection.</div>
             </div>
         </section>
 
@@ -2770,14 +2770,14 @@
             <div class="quiz-header"><span class="quiz-number">Q99</span><span class="quiz-topic">Total Order for DB</span></div>
             <p class="quiz-question">How is total order broadcast used for database replication?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) It's not used</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Every write operation is broadcast in total order — all replicas apply writes in the same sequence</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Only for reads</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Only for deletes</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Only for reads, which is considered the gold standard for this type of problem</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) It's not used</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Every write operation is broadcast in total order — all replicas apply writes in the same sequence</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Only for deletes — the approach that offers the best trade-off between complexity and reliability, since this method scales linearly with the number of nodes</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Total order broadcast ensures all replicas process writes in the same order, maintaining identical state.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> Total order broadcast ensures all replicas process writes in the same order, maintaining identical state.</div>
             </div>
         </section>
 
@@ -2786,14 +2786,14 @@
             <div class="quiz-header"><span class="quiz-number">Q100</span><span class="quiz-topic">Key Takeaway</span></div>
             <p class="quiz-question">What is the chapter's main message?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Consensus is simple</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Consensus is hard but essential — it enables linearizability, total order broadcast, and atomic commit in distributed systems</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Avoid distributed systems</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Use single nodes only</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Avoid distributed systems, making it the preferred choice for latency-sensitive applications — this is fundamental to how modern databases handle such scenarios</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Consensus is simple</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Use single nodes only, as demonstrated by numerous real-world case studies</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Consensus is hard but essential — it enables linearizability, total order broadcast, and atomic commit in distributed systems</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Consensus is fundamental and hard. It enables the key abstractions (linearizability, total order broadcast, atomic commit) that make distributed systems correct.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> Consensus is fundamental and hard. It enables the key abstractions (linearizability, total order broadcast, atomic commit) that make distributed systems correct.</div>
             </div>
         </section>
 

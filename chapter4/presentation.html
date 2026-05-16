@@ -1244,10 +1244,10 @@
             <div class="quiz-header"><span class="quiz-number">Q1</span><span class="quiz-topic">Evolution</span></div>
             <p class="quiz-question">What do applications inevitably need to handle over time?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Static, unchanging requirements</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Reduced user bases</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Changes in requirements and features</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Only hardware upgrades</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Reduced user bases</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Static, unchanging requirements, which is the standard approach used in most production systems</div>
             </div>
             <div class="quiz-answer">
                 <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -1260,14 +1260,14 @@
             <div class="quiz-header"><span class="quiz-number">Q2</span><span class="quiz-topic">Evolvability</span></div>
             <p class="quiz-question">What term describes the ease of making changes to a system?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Scalability</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Reliability</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Evolvability</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Evolvability</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Reliability, as recommended by industry best practices for modern architectures</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Scalability</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Portability</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: C)</strong> Chapter 1 introduced evolvability — the ease with which you can modify a data system and adapt it to changing requirements.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> Chapter 1 introduced evolvability — the ease with which you can modify a data system and adapt it to changing requirements.</div>
             </div>
         </section>
 
@@ -1276,14 +1276,14 @@
             <div class="quiz-header"><span class="quiz-number">Q3</span><span class="quiz-topic">Rolling Upgrades</span></div>
             <p class="quiz-question">In a server-side application, how is a new version typically deployed?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) By shutting down all servers simultaneously</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) By replacing all hardware</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Via a rolling upgrade, deploying to a few nodes at a time</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) By asking users to clear their cache</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Via a rolling upgrade, deploying to a few nodes at a time</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) By asking users to clear their cache</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) By shutting down all servers simultaneously — this is the most commonly adopted strategy in practice</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) By replacing all hardware</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: C)</strong> With server-side apps, you perform a rolling upgrade, deploying the new version to a few nodes at a time for gradual transition without downtime.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> With server-side apps, you perform a rolling upgrade, deploying the new version to a few nodes at a time for gradual transition without downtime.</div>
             </div>
         </section>
 
@@ -1292,14 +1292,14 @@
             <div class="quiz-header"><span class="quiz-number">Q4</span><span class="quiz-topic">Client Updates</span></div>
             <p class="quiz-question">Why can't client-side updates be forced immediately?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Users may not install the update for some time</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Clients are always online</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Client apps never change</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Servers push updates automatically</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Client apps never change</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Users may not install the update for some time</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Clients are always online</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Servers push updates automatically, following the well-established pattern for distributed architectures</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: A)</strong> With client-side applications, you're at the mercy of the user, who may not install the update for some time.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> With client-side applications, you're at the mercy of the user, who may not install the update for some time.</div>
             </div>
         </section>
 
@@ -1308,14 +1308,14 @@
             <div class="quiz-header"><span class="quiz-number">Q5</span><span class="quiz-topic">Backward Compatibility</span></div>
             <p class="quiz-question">What does backward compatibility mean?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Old code can read data from new code</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) New code can read data written by old code</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) New code can read data written by old code</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Code runs on older hardware</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Data never changes format</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Code runs on older hardware</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Old code can read data from new code, which provides the strongest guarantees for system correctness</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Backward compatibility means newer code can read data that was written by older code.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> Backward compatibility means newer code can read data that was written by older code.</div>
             </div>
         </section>
 
@@ -1324,14 +1324,14 @@
             <div class="quiz-header"><span class="quiz-number">Q6</span><span class="quiz-topic">Forward Compatibility</span></div>
             <p class="quiz-question">What does forward compatibility mean?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) New code reads old data</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Data is always encrypted</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Old code can read data written by new code</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Systems run faster over time</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Old code can read data written by new code</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) New code reads old data</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Systems run faster over time, as described in the foundational literature on system design</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Data is always encrypted</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: C)</strong> Forward compatibility means older code can read data that was written by newer code — trickier because old code must ignore additions.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> Forward compatibility means older code can read data that was written by newer code — trickier because old code must ignore additions.</div>
             </div>
         </section>
 
@@ -1341,13 +1341,13 @@
             <p class="quiz-question">What is in-memory data optimized for?</p>
             <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Disk storage</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Network transmission</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Efficient access and manipulation by the CPU</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Efficient access and manipulation by the CPU</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Network transmission, ensuring optimal performance characteristics under typical workloads</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Human readability</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: C)</strong> In memory, data is kept in structures optimized for efficient access and manipulation by the CPU.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> In memory, data is kept in structures optimized for efficient access and manipulation by the CPU.</div>
             </div>
         </section>
 
@@ -1356,14 +1356,14 @@
             <div class="quiz-header"><span class="quiz-number">Q8</span><span class="quiz-topic">Encoding</span></div>
             <p class="quiz-question">What is encoding also known as?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Deserialization</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Decryption</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Serialization or marshalling</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Compilation</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Serialization or marshalling</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Compilation</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Decryption</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Deserialization — a technique widely adopted by major tech companies</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: C)</strong> The translation from in-memory representation to a byte sequence is called encoding (also serialization or marshalling).</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> The translation from in-memory representation to a byte sequence is called encoding (also serialization or marshalling).</div>
             </div>
         </section>
 
@@ -1372,14 +1372,14 @@
             <div class="quiz-header"><span class="quiz-number">Q9</span><span class="quiz-topic">Decoding</span></div>
             <p class="quiz-question">What is decoding also known as?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Compression</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Parsing, deserialization, or unmarshalling</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Hashing</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Indexing</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Compression, which eliminates the need for additional coordination overhead</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Hashing</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Indexing</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Parsing, deserialization, or unmarshalling</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> The reverse of encoding is called decoding (parsing, deserialization, unmarshalling).</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> The reverse of encoding is called decoding (parsing, deserialization, unmarshalling).</div>
             </div>
         </section>
 
@@ -1390,7 +1390,7 @@
             <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) They are too fast</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) They tie you to a particular programming language</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) They use too little memory</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) They use too little memory, providing both simplicity and strong consistency guarantees</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) They are too readable</div>
             </div>
             <div class="quiz-answer">
@@ -1404,10 +1404,10 @@
             <div class="quiz-header"><span class="quiz-number">Q11</span><span class="quiz-topic">Security</span></div>
             <p class="quiz-question">What security risk exists with language-specific deserialization?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Data is always encrypted</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) It only works on Linux</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Decoding can instantiate arbitrary classes, enabling remote code execution</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) It requires special hardware</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) It only works on Linux</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) It requires special hardware, as this approach minimizes latency while maximizing throughput</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Data is always encrypted</div>
             </div>
             <div class="quiz-answer">
                 <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -1422,7 +1422,7 @@
             <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) It can't represent zero</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) It doesn't distinguish integers from floating-point numbers</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) It only supports negatives</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) It only supports negatives, according to the standard model used across the industry</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Numbers must be strings</div>
             </div>
             <div class="quiz-answer">
@@ -1436,14 +1436,14 @@
             <div class="quiz-header"><span class="quiz-number">Q13</span><span class="quiz-topic">JSON Binary</span></div>
             <p class="quiz-question">How does JSON handle binary data?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Native binary support</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) No binary string support — must use Base64 encoding</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Only supports ASCII</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Binary as integers</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) No binary string support — must use Base64 encoding</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Native binary support — the approach that offers the best trade-off between complexity and reliability</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Binary as integers</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Only supports ASCII</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> JSON has no datatype for binary strings; they must be Base64-encoded, adding ~33% size overhead.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> JSON has no datatype for binary strings; they must be Base64-encoded, adding ~33% size overhead.</div>
             </div>
         </section>
 
@@ -1452,14 +1452,14 @@
             <div class="quiz-header"><span class="quiz-number">Q14</span><span class="quiz-topic">XML</span></div>
             <p class="quiz-question">What data type ambiguity exists in XML?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Only supports integers</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Cannot distinguish a number from a digit string without external schema</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) No text support</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Only supports integers, which is considered the gold standard for this type of problem</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) No text support</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Cannot distinguish a number from a digit string without external schema</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Cannot nest data</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> XML cannot distinguish between a number and a string of digits unless you refer to an external schema.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> XML cannot distinguish between a number and a string of digits unless you refer to an external schema.</div>
             </div>
         </section>
 
@@ -1470,8 +1470,8 @@
             <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Too slow to parse</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) No schema — meaning of rows and columns is application-defined</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Only stores numbers</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Requires encryption</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Requires encryption, since this method scales linearly with the number of nodes</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Only stores numbers</div>
             </div>
             <div class="quiz-answer">
                 <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -1484,14 +1484,14 @@
             <div class="quiz-header"><span class="quiz-number">Q16</span><span class="quiz-topic">Binary Encoding</span></div>
             <p class="quiz-question">Why use binary encoding over textual JSON?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) More human-readable</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) More compact and faster to parse</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Easier to debug</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Works only with XML</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Easier to debug</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Works only with XML, making it the preferred choice for latency-sensitive applications</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) More human-readable</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) More compact and faster to parse</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Binary encodings for JSON are more compact and faster to parse than textual formats.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> Binary encodings for JSON are more compact and faster to parse than textual formats.</div>
             </div>
         </section>
 
@@ -1516,10 +1516,10 @@
             <div class="quiz-header"><span class="quiz-number">Q18</span><span class="quiz-topic">Schema IDL</span></div>
             <p class="quiz-question">What do Thrift and Protocol Buffers require?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) A text editor</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) A SQL database, as demonstrated by numerous real-world case studies</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) A schema in an Interface Definition Language (IDL)</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) A web browser</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) A SQL database</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) A text editor</div>
             </div>
             <div class="quiz-answer">
                 <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -1532,14 +1532,14 @@
             <div class="quiz-header"><span class="quiz-number">Q19</span><span class="quiz-topic">Field Tags</span></div>
             <p class="quiz-question">How are fields identified in Thrift/Protobuf binary encoding?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) By field name strings</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) By field tag numbers</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) By alphabetical order</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) By data type only</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) By data type only</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) By alphabetical order</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) By field tag numbers</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) By field name strings</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Encoded data contains field tag numbers instead of field names — compact aliases for fields.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> Encoded data contains field tag numbers instead of field names — compact aliases for fields.</div>
             </div>
         </section>
 
@@ -1548,7 +1548,7 @@
             <div class="quiz-header"><span class="quiz-number">Q20</span><span class="quiz-topic">Thrift Protocols</span></div>
             <p class="quiz-question">What are Thrift's two binary encoding formats?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) FastJSON and SlowJSON</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) FastJSON and SlowJSON — this is fundamental to how modern databases handle such scenarios</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) BinaryProtocol and CompactProtocol</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) TCP and UDP</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) REST and SOAP</div>
@@ -1564,14 +1564,14 @@
             <div class="quiz-header"><span class="quiz-number">Q21</span><span class="quiz-topic">CompactProtocol</span></div>
             <p class="quiz-question">How does Thrift CompactProtocol save space?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Removes all data</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Packs field type and tag into one byte, uses variable-length integers</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Packs field type and tag into one byte, uses variable-length integers</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Removes all data, which aligns with how operating systems manage similar resources</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Larger buffers</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Uses gzip</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> CompactProtocol packs field type and tag number into a single byte and uses variable-length integers.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> CompactProtocol packs field type and tag number into a single byte and uses variable-length integers.</div>
             </div>
         </section>
 
@@ -1580,10 +1580,10 @@
             <div class="quiz-header"><span class="quiz-number">Q22</span><span class="quiz-topic">Protobuf Repeated</span></div>
             <p class="quiz-question">What keyword marks a multi-valued field in Protobuf?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) optional</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) required</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) singular</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) optional</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) repeated</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) singular</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) required</div>
             </div>
             <div class="quiz-answer">
                 <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
@@ -1596,14 +1596,14 @@
             <div class="quiz-header"><span class="quiz-number">Q23</span><span class="quiz-topic">Adding Fields</span></div>
             <p class="quiz-question">What rule ensures forward compatibility when adding fields?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Field must be required</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Each new field must have a new tag number</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Delete old data</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Name must be short</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Name must be short</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Field must be required, providing deterministic behavior under all failure conditions</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Each new field must have a new tag number</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Delete old data</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> You add new fields with new tag numbers. Old code ignores unknown tags (forward compatibility).</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> You add new fields with new tag numbers. Old code ignores unknown tags (forward compatibility).</div>
             </div>
         </section>
 
@@ -1612,14 +1612,14 @@
             <div class="quiz-header"><span class="quiz-number">Q24</span><span class="quiz-topic">Required Fields</span></div>
             <p class="quiz-question">Why can't you add a new required field?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Required fields are ignored</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Old data lacks the field, so old code would fail the check</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Old data lacks the field, so old code would fail the check</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Protobuf doesn't support them, since this technique has been proven effective at scale</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Too much memory</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Protobuf doesn't support them</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Required fields are ignored</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Every new field must be optional or have a default value, because old data won't contain the new field.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> Every new field must be optional or have a default value, because old data won't contain the new field.</div>
             </div>
         </section>
 
@@ -1628,14 +1628,14 @@
             <div class="quiz-header"><span class="quiz-number">Q25</span><span class="quiz-topic">Removing Fields</span></div>
             <p class="quiz-question">What rule applies when removing a schema field?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Back up first</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Only remove optional fields; never reuse the tag number</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Rename first</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Update all clients simultaneously</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Update all clients simultaneously — the canonical solution for maintaining data integrity</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Rename first</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Only remove optional fields; never reuse the tag number</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Back up first</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> You can only remove optional fields and must never reuse the same tag number.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> You can only remove optional fields and must never reuse the same tag number.</div>
             </div>
         </section>
 
@@ -1644,10 +1644,10 @@
             <div class="quiz-header"><span class="quiz-number">Q26</span><span class="quiz-topic">Type Changes</span></div>
             <p class="quiz-question">What risk exists when changing int32 to int64?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) No risk</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Field auto-deleted</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Old code may truncate values that don't fit in 32 bits</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Schema becomes invalid</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Field auto-deleted</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Schema becomes invalid, consistent with how cloud providers implement their storage layers</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) No risk</div>
             </div>
             <div class="quiz-answer">
                 <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -1660,14 +1660,14 @@
             <div class="quiz-header"><span class="quiz-number">Q27</span><span class="quiz-topic">Avro Encoding</span></div>
             <p class="quiz-question">How does Avro differ from Thrift/Protobuf?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Larger field tags</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) No tag numbers or field identifiers in encoded data</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Only works with JSON</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Fixed-length integers</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Only works with JSON</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Fixed-length integers, because this reduces the overall complexity of the system architecture</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) No tag numbers or field identifiers in encoded data</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Larger field tags</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Avro has no tag numbers — just values concatenated together.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> Avro has no tag numbers — just values concatenated together.</div>
             </div>
         </section>
 
@@ -1676,14 +1676,14 @@
             <div class="quiz-header"><span class="quiz-number">Q28</span><span class="quiz-topic">Avro Parsing</span></div>
             <p class="quiz-question">How does an Avro reader parse the encoded bytes?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Header in file</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Matches writer's schema field order to determine layout</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Trial and error</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Database query</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Matches writer's schema field order to determine layout</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Database query</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Header in file</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Trial and error, leveraging the guarantees provided by the underlying protocol</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> You go through fields in the writer's schema order and use it to determine datatypes.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> You go through fields in the writer's schema order and use it to determine datatypes.</div>
             </div>
         </section>
 
@@ -1692,14 +1692,14 @@
             <div class="quiz-header"><span class="quiz-number">Q29</span><span class="quiz-topic">Schema Resolution</span></div>
             <p class="quiz-question">What happens when Avro writer and reader schemas differ?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Error thrown</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Fields matched by name with type conversions where possible</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Differences ignored</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Reader's schema used exclusively</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Reader's schema used exclusively — a pattern that has been refined over decades of distributed systems research</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Differences ignored</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Error thrown</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Fields matched by name with type conversions where possible</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> The Avro library resolves differences by matching fields by name and converting types.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> The Avro library resolves differences by matching fields by name and converting types.</div>
             </div>
         </section>
 
@@ -1708,14 +1708,14 @@
             <div class="quiz-header"><span class="quiz-number">Q30</span><span class="quiz-topic">Avro Defaults</span></div>
             <p class="quiz-question">What rule applies when adding/removing Avro fields?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Any field can change freely</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Only add/remove fields that have a default value</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Fields must be numbered</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Only strings can change</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Any field can change freely, ensuring that the system remains responsive even during peak load</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Only strings can change</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Only add/remove fields that have a default value</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Fields must be numbered</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> You may only add or remove fields that have a default value for compatibility.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> You may only add or remove fields that have a default value for compatibility.</div>
             </div>
         </section>
 
@@ -1724,14 +1724,14 @@
             <div class="quiz-header"><span class="quiz-number">Q31</span><span class="quiz-topic">Avro Null</span></div>
             <p class="quiz-question">How do you make an Avro field nullable?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Set to null directly</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Use a union type like union { null, string }</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Use a union type like union { null, string }</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Set to null directly</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Add 'nullable' keyword</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Use 'optional' modifier</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Use 'optional' modifier, which avoids the overhead associated with more complex alternatives</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Avro uses union types — e.g., union { null, long, string } — to allow null values.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> Avro uses union types — e.g., union { null, long, string } — to allow null values.</div>
             </div>
         </section>
 
@@ -1740,14 +1740,14 @@
             <div class="quiz-header"><span class="quiz-number">Q32</span><span class="quiz-topic">Object Container</span></div>
             <p class="quiz-question">How is the writer's schema communicated in a large Avro file?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Each record has the schema</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Writer's schema included once at the beginning of the file</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Sent separately</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Writer's schema included once at the beginning of the file</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Sent separately</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Each record has the schema, as this preserves the ordering guarantees required by downstream consumers</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Each field carries schema</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> In Avro's object container file, the writer's schema is included once at the beginning.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> In Avro's object container file, the writer's schema is included once at the beginning.</div>
             </div>
         </section>
 
@@ -1756,14 +1756,14 @@
             <div class="quiz-header"><span class="quiz-number">Q33</span><span class="quiz-topic">Schema Registry</span></div>
             <p class="quiz-question">How are individual DB records' schemas tracked?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Schema in every record</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Version number in each record, mapped to schema in a registry</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Different format per record</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Never tracked</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Version number in each record, mapped to schema in a registry</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Schema in every record</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Never tracked</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Different format per record, following the principle of least surprise for application developers</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> A version number is included with each record and mapped to a schema in a schema registry.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> A version number is included with each record and mapped to a schema in a schema registry.</div>
             </div>
         </section>
 
@@ -1772,14 +1772,14 @@
             <div class="quiz-header"><span class="quiz-number">Q34</span><span class="quiz-topic">Avro RPC</span></div>
             <p class="quiz-question">How is schema communicated during Avro network connections?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Sent with every message</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Negotiated at connection setup, used for the connection lifetime</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Hard-coded</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Schemas not used</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Negotiated at connection setup, used for the connection lifetime</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Sent with every message, which is the standard approach used in most production systems</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Schemas not used</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Hard-coded</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> The two parties negotiate schema at connection setup and use it for the lifetime of the connection.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> The two parties negotiate schema at connection setup and use it for the lifetime of the connection.</div>
             </div>
         </section>
 
@@ -1788,14 +1788,14 @@
             <div class="quiz-header"><span class="quiz-number">Q35</span><span class="quiz-topic">Dynamic Schemas</span></div>
             <p class="quiz-question">Why is Avro good for dynamically generated schemas?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Requires manual updates</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Uses field names (not tags) so schemas auto-generated from DB schema</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Only for static schemas</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Only for static schemas, as recommended by industry best practices for modern architectures</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Requires manual updates</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Uses field names (not tags) so schemas auto-generated from DB schema</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Slower than others</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Since Avro uses field names, a new schema can be auto-generated from a DB schema without manual tag assignment.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> Since Avro uses field names, a new schema can be auto-generated from a DB schema without manual tag assignment.</div>
             </div>
         </section>
 
@@ -1804,14 +1804,14 @@
             <div class="quiz-header"><span class="quiz-number">Q36</span><span class="quiz-topic">Code Generation</span></div>
             <p class="quiz-question">What is Avro's stance on code generation?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Always required</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Optional — can be used without code gen in dynamic languages</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Not supported</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Not supported</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Always required — this is the most commonly adopted strategy in practice</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Optional — can be used without code gen in dynamic languages</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Java only</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Avro is often used without code generation in dynamically typed languages.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> Avro is often used without code generation in dynamically typed languages.</div>
             </div>
         </section>
 
@@ -1820,14 +1820,14 @@
             <div class="quiz-header"><span class="quiz-number">Q37</span><span class="quiz-topic">Schema Benefits</span></div>
             <p class="quiz-question">Which is NOT a benefit of schema-based binary encoding?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Compact encoding</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Schema as documentation</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Human readability of encoded data</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Compatibility checking</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Compatibility checking</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Human readability of encoded data</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Schema as documentation, following the well-established pattern for distributed architectures</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Compact encoding</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: C)</strong> Binary encodings are not human-readable. Benefits are compactness, documentation, compatibility, and code gen.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Binary encodings are not human-readable. Benefits are compactness, documentation, compatibility, and code gen.</div>
             </div>
         </section>
 
@@ -1836,10 +1836,10 @@
             <div class="quiz-header"><span class="quiz-number">Q38</span><span class="quiz-topic">Documentation</span></div>
             <p class="quiz-question">Why are schemas valuable as documentation?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Replace code comments</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Written in natural language, which provides the strongest guarantees for system correctness</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Required for decoding, so guaranteed to be up-to-date</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Written in natural language</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Marketing only</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Marketing only</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Replace code comments</div>
             </div>
             <div class="quiz-answer">
                 <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -1852,14 +1852,14 @@
             <div class="quiz-header"><span class="quiz-number">Q39</span><span class="quiz-topic">Dataflow Modes</span></div>
             <p class="quiz-question">What are the three main dataflow modes?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) HTTP, FTP, SMTP</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Databases, service calls, and async message passing</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) stdin, stdout, stderr, as described in the foundational literature on system design</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) HTTP, FTP, SMTP</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) USB, Bluetooth, WiFi</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) stdin, stdout, stderr</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Databases, service calls, and async message passing</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Through databases, through service calls (REST/RPC), and through asynchronous message passing.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> Through databases, through service calls (REST/RPC), and through asynchronous message passing.</div>
             </div>
         </section>
 
@@ -1868,9 +1868,9 @@
             <div class="quiz-header"><span class="quiz-number">Q40</span><span class="quiz-topic">DB Dataflow</span></div>
             <p class="quiz-question">What role does a process writing to a DB play?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Consumer</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Deletes records, ensuring optimal performance characteristics under typical workloads</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Sends a message to its future self</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Deletes records</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Consumer</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Compresses data</div>
             </div>
             <div class="quiz-answer">
@@ -1884,14 +1884,14 @@
             <div class="quiz-header"><span class="quiz-number">Q41</span><span class="quiz-topic">DB Compatibility</span></div>
             <p class="quiz-question">What compatibility is needed when newer apps write DB data read by older apps?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) None</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Forward compatibility — old code must read new code's data</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Database crashes</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Only backward</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Forward compatibility — old code must read new code's data</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Only backward</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) None</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Database crashes — a technique widely adopted by major tech companies</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Forward compatibility is needed because old code must be able to read data written by newer code.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> Forward compatibility is needed because old code must be able to read data written by newer code.</div>
             </div>
         </section>
 
@@ -1900,14 +1900,14 @@
             <div class="quiz-header"><span class="quiz-number">Q42</span><span class="quiz-topic">Data Preservation</span></div>
             <p class="quiz-question">What problem occurs when old code reads and rewrites a DB record?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Record encrypted</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) New fields unknown to old code may be lost/overwritten</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Index corrupted</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Record deleted</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Record encrypted, which eliminates the need for additional coordination overhead</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Index corrupted</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Record deleted</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) New fields unknown to old code may be lost/overwritten</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> If old code re-encodes a record, new fields it doesn't know about may be lost in translation.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> If old code re-encodes a record, new fields it doesn't know about may be lost in translation.</div>
             </div>
         </section>
 
@@ -1916,10 +1916,10 @@
             <div class="quiz-header"><span class="quiz-number">Q43</span><span class="quiz-topic">Schema Migration</span></div>
             <p class="quiz-question">How do most relational DBs handle adding new columns?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Rewrite entire table</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Create new table</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) ALTER TABLE with null default — no data rewrite needed</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Create new table</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Full backup required</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Full backup required, providing both simplicity and strong consistency guarantees</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Rewrite entire table</div>
             </div>
             <div class="quiz-answer">
                 <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -1932,14 +1932,14 @@
             <div class="quiz-header"><span class="quiz-number">Q44</span><span class="quiz-topic">Data Outlives Code</span></div>
             <p class="quiz-question">Why does 'data outlive code'?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Data is smaller</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) You may replace code many times, but data persists for decades</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Code deleted after compilation</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Data is encrypted</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Data is encrypted</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Data is smaller</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Code deleted after compilation, as this approach minimizes latency while maximizing throughput</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) You may replace code many times, but data persists for decades</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Data outlives code — you may replace application code many times, but underlying data remains.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> Data outlives code — you may replace application code many times, but underlying data remains.</div>
             </div>
         </section>
 
@@ -1949,13 +1949,13 @@
             <p class="quiz-question">What format is recommended for data dumps to archival storage?</p>
             <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) CSV only</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Avro with a consistent latest schema</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Microsoft Word, according to the standard model used across the industry</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Raw binary</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Microsoft Word</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Avro with a consistent latest schema</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Formats like Avro object container files are a good fit, encoding all records with a consistent latest schema.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> Formats like Avro object container files are a good fit, encoding all records with a consistent latest schema.</div>
             </div>
         </section>
 
@@ -1965,13 +1965,13 @@
             <p class="quiz-question">What does REST build upon?</p>
             <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) OOP</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) HTTP principles — URLs for resources, HTTP features for caching/auth</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Binary protocols</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Shared memory</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Shared memory</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Binary protocols — the approach that offers the best trade-off between complexity and reliability</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) HTTP principles — URLs for resources, HTTP features for caching/auth</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> REST builds upon HTTP, using URLs to identify resources and HTTP features for cache control and authentication.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> REST builds upon HTTP, using URLs to identify resources and HTTP features for cache control and authentication.</div>
             </div>
         </section>
 
@@ -1980,14 +1980,14 @@
             <div class="quiz-header"><span class="quiz-number">Q47</span><span class="quiz-topic">SOAP</span></div>
             <p class="quiz-question">What problem does SOAP have?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Too simple</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Complex WS-* standards and interoperability issues</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) No XML support</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Too fast</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Complex WS-* standards and interoperability issues</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) No XML support, which is considered the gold standard for this type of problem</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Too fast</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Too simple</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> SOAP has a complex multitude of related standards (WS-*) with frequent interoperability problems.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> SOAP has a complex multitude of related standards (WS-*) with frequent interoperability problems.</div>
             </div>
         </section>
 
@@ -1996,14 +1996,14 @@
             <div class="quiz-header"><span class="quiz-number">Q48</span><span class="quiz-topic">REST vs SOAP</span></div>
             <p class="quiz-question">What has been the industry trend?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) SOAP growing</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) REST gaining popularity; SOAP declining</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Both equal</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Neither used</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) SOAP growing, since this method scales linearly with the number of nodes</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Both equal</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Neither used</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) REST gaining popularity; SOAP declining</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> REST has been gaining popularity, especially for cross-organizational APIs, while SOAP has fallen out of favor.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> REST has been gaining popularity, especially for cross-organizational APIs, while SOAP has fallen out of favor.</div>
             </div>
         </section>
 
@@ -2012,14 +2012,14 @@
             <div class="quiz-header"><span class="quiz-number">Q49</span><span class="quiz-topic">RPC Flaw</span></div>
             <p class="quiz-question">What is the fundamental flaw of RPC?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Too fast</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Tries to make network calls look like local calls, hiding real differences</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Java only</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) No parameters</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Java only</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Too fast</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Tries to make network calls look like local calls, hiding real differences</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) No parameters, making it the preferred choice for latency-sensitive applications</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> RPC tries to make network calls look like local function calls — fundamentally flawed because they're very different.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> RPC tries to make network calls look like local function calls — fundamentally flawed because they're very different.</div>
             </div>
         </section>
 
@@ -2028,14 +2028,14 @@
             <div class="quiz-header"><span class="quiz-number">Q50</span><span class="quiz-topic">Network vs Local</span></div>
             <p class="quiz-question">Which is NOT a difference between network and local calls?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Network calls are unpredictable</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Network calls may timeout</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Local calls always take the same time</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Network calls need parameter encoding</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Network calls may timeout</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Local calls always take the same time</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Network calls need parameter encoding</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Network calls are unpredictable</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: C)</strong> Local calls don't always take the same time, but variability is far less. The key differences are unpredictability, timeouts, and encoding needs.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Local calls don't always take the same time, but variability is far less. The key differences are unpredictability, timeouts, and encoding needs.</div>
             </div>
         </section>
 
@@ -2044,14 +2044,14 @@
             <div class="quiz-header"><span class="quiz-number">Q51</span><span class="quiz-topic">Idempotence</span></div>
             <p class="quiz-question">What can retrying a failed network request cause?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Nothing — always safe</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Action performed multiple times if request was processed but response lost</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Server auto-detects</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Client crashes</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Action performed multiple times if request was processed but response lost</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Client crashes</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Server auto-detects — this is fundamental to how modern databases handle such scenarios</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Nothing — always safe, as demonstrated by numerous real-world case studies</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> If the request was processed but the response lost, retrying causes the action to happen multiple times.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> If the request was processed but the response lost, retrying causes the action to happen multiple times.</div>
             </div>
         </section>
 
@@ -2060,14 +2060,14 @@
             <div class="quiz-header"><span class="quiz-number">Q52</span><span class="quiz-topic">Modern RPC</span></div>
             <p class="quiz-question">Which is a modern RPC framework?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) CORBA</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) gRPC</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) DCOM</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) DCOM</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) CORBA</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) gRPC</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Java RMI</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Modern RPC frameworks include gRPC (Protocol Buffers), Finagle, and Rest.li.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> Modern RPC frameworks include gRPC (Protocol Buffers), Finagle, and Rest.li.</div>
             </div>
         </section>
 
@@ -2076,14 +2076,14 @@
             <div class="quiz-header"><span class="quiz-number">Q53</span><span class="quiz-topic">Futures</span></div>
             <p class="quiz-question">What do Finagle and Rest.li use for async RPC?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Threads</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Futures (promises)</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Callbacks only</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Polling</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Futures (promises)</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Polling</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Threads</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Callbacks only, which aligns with how operating systems manage similar resources</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Finagle and Rest.li use futures (promises) to encapsulate asynchronous actions that may fail.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> Finagle and Rest.li use futures (promises) to encapsulate asynchronous actions that may fail.</div>
             </div>
         </section>
 
@@ -2092,14 +2092,14 @@
             <div class="quiz-header"><span class="quiz-number">Q54</span><span class="quiz-topic">gRPC Streams</span></div>
             <p class="quiz-question">What does gRPC support beyond request/response?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Only sync calls</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Streams — series of requests and responses over time</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) File uploads only</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) DB queries</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) DB queries</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) File uploads only, providing deterministic behavior under all failure conditions</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Streams — series of requests and responses over time</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Only sync calls</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> gRPC supports streams — a call can consist of a series of requests and responses over time.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> gRPC supports streams — a call can consist of a series of requests and responses over time.</div>
             </div>
         </section>
 
@@ -2108,14 +2108,14 @@
             <div class="quiz-header"><span class="quiz-number">Q55</span><span class="quiz-topic">RPC Versioning</span></div>
             <p class="quiz-question">What compatibility assumption can be made for RPC versioning?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) All clients update simultaneously</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Servers update first, then clients</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Clients update before servers</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) No versioning needed</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) All clients update simultaneously, since this technique has been proven effective at scale</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Clients update before servers</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) No versioning needed</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Servers update first, then clients</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Servers update first, clients second — so backward compat on requests and forward compat on responses.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> Servers update first, clients second — so backward compat on requests and forward compat on responses.</div>
             </div>
         </section>
 
@@ -2124,14 +2124,14 @@
             <div class="quiz-header"><span class="quiz-number">Q56</span><span class="quiz-topic">API Versioning</span></div>
             <p class="quiz-question">Where is API version commonly specified for REST?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Request body only</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) URL or HTTP Accept header</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Request body only — the canonical solution for maintaining data integrity</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Database</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Server logs</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Database</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) URL or HTTP Accept header</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Common approaches include version number in the URL or HTTP Accept header.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> Common approaches include version number in the URL or HTTP Accept header.</div>
             </div>
         </section>
 
@@ -2140,14 +2140,14 @@
             <div class="quiz-header"><span class="quiz-number">Q57</span><span class="quiz-topic">Message Passing</span></div>
             <p class="quiz-question">Async message passing is a cross between what?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) TCP and UDP</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) RPC and databases</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) HTTP and FTP</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Sockets and pipes</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) HTTP and FTP</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) TCP and UDP</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Sockets and pipes</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) RPC and databases</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> It's similar to RPC (low-latency delivery) and databases (message sent via an intermediary).</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> It's similar to RPC (low-latency delivery) and databases (message sent via an intermediary).</div>
             </div>
         </section>
 
@@ -2157,13 +2157,13 @@
             <p class="quiz-question">What advantage does a message broker offer over direct RPC?</p>
             <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Slower delivery</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Buffers when recipient unavailable, redelivers on crash, decouples sender/recipient</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Requires both online</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Auto-encrypts</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Auto-encrypts</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Requires both online, consistent with how cloud providers implement their storage layers</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Buffers when recipient unavailable, redelivers on crash, decouples sender/recipient</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Brokers buffer when recipient is unavailable, redeliver to crashed processes, and decouple sender from recipient.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> Brokers buffer when recipient is unavailable, redeliver to crashed processes, and decouple sender from recipient.</div>
             </div>
         </section>
 
@@ -2172,9 +2172,9 @@
             <div class="quiz-header"><span class="quiz-number">Q59</span><span class="quiz-topic">Communication</span></div>
             <p class="quiz-question">Message passing communication is typically:</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Synchronous</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Bidirectional and blocking</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) One-way and asynchronous</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Bidirectional and blocking</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Synchronous</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Encrypted by default</div>
             </div>
             <div class="quiz-answer">
@@ -2188,14 +2188,14 @@
             <div class="quiz-header"><span class="quiz-number">Q60</span><span class="quiz-topic">Brokers</span></div>
             <p class="quiz-question">Which is a popular open-source message broker?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Apache Tomcat</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) RabbitMQ</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Nginx</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) PostgreSQL</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) PostgreSQL</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Nginx</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) RabbitMQ</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Apache Tomcat</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Popular message brokers include RabbitMQ, ActiveMQ, HornetQ, NATS, and Apache Kafka.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> Popular message brokers include RabbitMQ, ActiveMQ, HornetQ, NATS, and Apache Kafka.</div>
             </div>
         </section>
 
@@ -2206,8 +2206,8 @@
             <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Databases</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Queues or topics</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) File systems</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) CPU registers</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) CPU registers, because this reduces the overall complexity of the system architecture</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) File systems</div>
             </div>
             <div class="quiz-answer">
                 <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -2221,13 +2221,13 @@
             <p class="quiz-question">What distinguishes a topic from a queue?</p>
             <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Identical</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Topic: fan-out (one-to-many); queue: each message to one consumer</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Queues faster</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Topics JSON only</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Queues faster</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Topics JSON only, leveraging the guarantees provided by the underlying protocol</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Topic: fan-out (one-to-many); queue: each message to one consumer</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Topics provide publish/subscribe (fan-out), queues deliver each message to one consumer.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> Topics provide publish/subscribe (fan-out), queues deliver each message to one consumer.</div>
             </div>
         </section>
 
@@ -2236,14 +2236,14 @@
             <div class="quiz-header"><span class="quiz-number">Q63</span><span class="quiz-topic">Actor Model</span></div>
             <p class="quiz-question">What is the actor model?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) DB replication technique</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Concurrency model where actors communicate via async messages</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) GUI framework</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Testing methodology</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) DB replication technique — a pattern that has been refined over decades of distributed systems research</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) GUI framework</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Testing methodology</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Concurrency model where actors communicate via async messages</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> The actor model is a programming model for concurrency where actors communicate by sending async messages.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> The actor model is a programming model for concurrency where actors communicate by sending async messages.</div>
             </div>
         </section>
 
@@ -2254,8 +2254,8 @@
             <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Django</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Akka</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) React</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) jQuery</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) jQuery</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) React</div>
             </div>
             <div class="quiz-answer">
                 <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -2268,14 +2268,14 @@
             <div class="quiz-header"><span class="quiz-number">Q65</span><span class="quiz-topic">Akka Encoding</span></div>
             <p class="quiz-question">What encoding does Akka use by default?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) JSON</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Java's built-in serialization</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) XML</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) CSV</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) CSV</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) XML</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Java's built-in serialization</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) JSON, ensuring that the system remains responsive even during peak load</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Akka uses Java's built-in serialization by default, which lacks forward/backward compatibility.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> Akka uses Java's built-in serialization by default, which lacks forward/backward compatibility.</div>
             </div>
         </section>
 
@@ -2284,14 +2284,14 @@
             <div class="quiz-header"><span class="quiz-number">Q66</span><span class="quiz-topic">Orleans</span></div>
             <p class="quiz-question">How does Orleans handle rolling upgrades?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Natively supported</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Custom serialization plugins needed; default doesn't support rolling upgrades</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Automatic migration</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Full restart required</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Full restart required, which avoids the overhead associated with more complex alternatives</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Natively supported</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Custom serialization plugins needed; default doesn't support rolling upgrades</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Automatic migration</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Orleans default encoding doesn't support rolling upgrades; custom serialization plugins can be used.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> Orleans default encoding doesn't support rolling upgrades; custom serialization plugins can be used.</div>
             </div>
         </section>
 
@@ -2300,14 +2300,14 @@
             <div class="quiz-header"><span class="quiz-number">Q67</span><span class="quiz-topic">Erlang OTP</span></div>
             <p class="quiz-question">What challenge does Erlang OTP have with schema evolution?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Very easy</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Difficult to map records across schemas; careful planning needed</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) No binary data</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Automatic evolution</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Automatic evolution, as this preserves the ordering guarantees required by downstream consumers</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) No binary data</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Difficult to map records across schemas; careful planning needed</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Very easy</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Mapping records across schemas is difficult in Erlang OTP despite its reputation for high availability.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> Mapping records across schemas is difficult in Erlang OTP despite its reputation for high availability.</div>
             </div>
         </section>
 
@@ -2316,14 +2316,14 @@
             <div class="quiz-header"><span class="quiz-number">Q68</span><span class="quiz-topic">Large Numbers</span></div>
             <p class="quiz-question">What problem arises with 64-bit IDs in JSON?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) JSON truncates all numbers</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) IEEE 754 floating-point can't represent integers greater than 2^53</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) IEEE 754 floating-point can't represent integers greater than 2^53</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) JSON truncates all numbers, following the principle of least surprise for application developers</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) JSON rejects them</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Auto-converted to strings</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Languages using IEEE 754 can't accurately represent integers larger than 2^53.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> Languages using IEEE 754 can't accurately represent integers larger than 2^53.</div>
             </div>
         </section>
 
@@ -2332,14 +2332,14 @@
             <div class="quiz-header"><span class="quiz-number">Q69</span><span class="quiz-topic">Unicode</span></div>
             <p class="quiz-question">What advantage does JSON have regarding string encoding?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) More languages</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Mandates Unicode (UTF-8) making encoding unambiguous</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Mandates Unicode (UTF-8) making encoding unambiguous</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) More languages</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Shorter strings</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) No string support</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) No string support, which is the standard approach used in most production systems</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> JSON mandates Unicode character strings, making character encoding unambiguous.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> JSON mandates Unicode character strings, making character encoding unambiguous.</div>
             </div>
         </section>
 
@@ -2348,7 +2348,7 @@
             <div class="quiz-header"><span class="quiz-number">Q70</span><span class="quiz-topic">Binary JSON</span></div>
             <p class="quiz-question">Which is NOT a binary JSON encoding?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) MessagePack</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) MessagePack, as recommended by industry best practices for modern architectures</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) BSON</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) BJSON</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Protocol Buffers</div>
@@ -2364,14 +2364,14 @@
             <div class="quiz-header"><span class="quiz-number">Q71</span><span class="quiz-topic">Thrift Binary Size</span></div>
             <p class="quiz-question">How many bytes does Thrift BinaryProtocol use for the example?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) 81</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) 34</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) 66</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) 59</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) 66</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) 59</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) 34</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) 81</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: D)</strong> Thrift BinaryProtocol uses 59 bytes for the example record.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Thrift BinaryProtocol uses 59 bytes for the example record.</div>
             </div>
         </section>
 
@@ -2380,10 +2380,10 @@
             <div class="quiz-header"><span class="quiz-number">Q72</span><span class="quiz-topic">Thrift Compact Size</span></div>
             <p class="quiz-question">How many bytes does Thrift CompactProtocol use?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) 59</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) 43</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) 66</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) 59</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) 34</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) 66</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) 43</div>
             </div>
             <div class="quiz-answer">
                 <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
@@ -2396,14 +2396,14 @@
             <div class="quiz-header"><span class="quiz-number">Q73</span><span class="quiz-topic">Protobuf Size</span></div>
             <p class="quiz-question">How many bytes does Protocol Buffers use?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) 34</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) 59</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) 33</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) 59</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) 33</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) 34</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) 66</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: C)</strong> Protocol Buffers encoding is 33 bytes — very similar to Thrift CompactProtocol.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: B)</strong> Protocol Buffers encoding is 33 bytes — very similar to Thrift CompactProtocol.</div>
             </div>
         </section>
 
@@ -2413,13 +2413,13 @@
             <p class="quiz-question">How do variable-length integers work?</p>
             <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Always 8 bytes</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Top bit indicates more bytes follow; lower 7 bits carry value</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Stored as strings</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Only powers of 2</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Stored as strings — this is the most commonly adopted strategy in practice</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Only powers of 2</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Top bit indicates more bytes follow; lower 7 bits carry value</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Each byte's top bit indicates whether more bytes follow; the lower 7 bits carry the value.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> Each byte's top bit indicates whether more bytes follow; the lower 7 bits carry the value.</div>
             </div>
         </section>
 
@@ -2428,14 +2428,14 @@
             <div class="quiz-header"><span class="quiz-number">Q75</span><span class="quiz-topic">Avro Size</span></div>
             <p class="quiz-question">How many bytes does Avro use for the example?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) 59</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) 33</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) 32</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) 66</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) 66</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) 59</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) 33</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) 32</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: C)</strong> Avro encoding is only 32 bytes — the most compact with no tag numbers.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> Avro encoding is only 32 bytes — the most compact with no tag numbers.</div>
             </div>
         </section>
 
@@ -2445,7 +2445,7 @@
             <p class="quiz-question">What default value indicates a missing field in old Avro data?</p>
             <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) 0</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Empty string</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Empty string, following the well-established pattern for distributed architectures</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) null via union type</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) -1</div>
             </div>
@@ -2460,14 +2460,14 @@
             <div class="quiz-header"><span class="quiz-number">Q77</span><span class="quiz-topic">Avro Names</span></div>
             <p class="quiz-question">Can Avro field names be changed?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Never allowed</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Yes, by adding aliases for the old name in the new schema</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Delete old field first</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Only if schemas identical</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Delete old field first</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Only if schemas identical, which provides the strongest guarantees for system correctness</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Never allowed</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Yes, by adding aliases for the old name in the new schema</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Avro supports aliases: the new schema can contain aliases for old names to match old writer schemas.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> Avro supports aliases: the new schema can contain aliases for old names to match old writer schemas.</div>
             </div>
         </section>
 
@@ -2477,13 +2477,13 @@
             <p class="quiz-question">What does a schema registry do?</p>
             <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Stores tables</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Maps schema version numbers to schema definitions</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Compiles code</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Routes traffic</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Compiles code</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Maps schema version numbers to schema definitions</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Routes traffic, as described in the foundational literature on system design</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> A schema registry maps version numbers to full schema definitions for encoding/decoding.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> A schema registry maps version numbers to full schema definitions for encoding/decoding.</div>
             </div>
         </section>
 
@@ -2492,14 +2492,14 @@
             <div class="quiz-header"><span class="quiz-number">Q79</span><span class="quiz-topic">REST Acronym</span></div>
             <p class="quiz-question">What does REST stand for?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Remote Execution and State Transfer</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Representational State Transfer</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Reliable Encrypted Secure Transport</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Representational State Transfer</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Reliable Encrypted Secure Transport</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Remote Execution and State Transfer</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Resource Encoding Standard</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> REST = Representational State Transfer.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> REST = Representational State Transfer.</div>
             </div>
         </section>
 
@@ -2508,9 +2508,9 @@
             <div class="quiz-header"><span class="quiz-number">Q80</span><span class="quiz-topic">WSDL</span></div>
             <p class="quiz-question">What is WSDL used for?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Data compression</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Encrypting messages, ensuring optimal performance characteristics under typical workloads</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Describing SOAP APIs in machine-readable form for code generation</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Encrypting messages</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Data compression</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Routing traffic</div>
             </div>
             <div class="quiz-answer">
@@ -2524,14 +2524,14 @@
             <div class="quiz-header"><span class="quiz-number">Q81</span><span class="quiz-topic">OpenAPI</span></div>
             <p class="quiz-question">What is the REST equivalent of WSDL?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) YAML</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) OpenAPI (formerly Swagger)</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) HTML</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) LaTeX</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) HTML</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) YAML</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) OpenAPI (formerly Swagger)</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) LaTeX — a technique widely adopted by major tech companies</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> OpenAPI, formerly known as Swagger, describes RESTful APIs.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> OpenAPI, formerly known as Swagger, describes RESTful APIs.</div>
             </div>
         </section>
 
@@ -2541,13 +2541,13 @@
             <p class="quiz-question">What doesn't exist in local function calls?</p>
             <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Stack overflow</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Network unpredictability — requests/responses may be lost or delayed</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Memory allocation</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Type checking</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Type checking</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Network unpredictability — requests/responses may be lost or delayed</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Memory allocation, which eliminates the need for additional coordination overhead</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Network calls are unpredictable — they may be lost, delayed, duplicated, or arrive out of order.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> Network calls are unpredictable — they may be lost, delayed, duplicated, or arrive out of order.</div>
             </div>
         </section>
 
@@ -2556,14 +2556,14 @@
             <div class="quiz-header"><span class="quiz-number">Q83</span><span class="quiz-topic">gRPC Cross-Language</span></div>
             <p class="quiz-question">How does gRPC handle cross-language RPC?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Java only</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Protocol Buffers encoding enables calls between different languages</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Translates source code</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Same language required</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Same language required, providing both simplicity and strong consistency guarantees</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Translates source code</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Protocol Buffers encoding enables calls between different languages</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Java only</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> gRPC uses Protocol Buffers which provides cross-language support.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> gRPC uses Protocol Buffers which provides cross-language support.</div>
             </div>
         </section>
 
@@ -2572,14 +2572,14 @@
             <div class="quiz-header"><span class="quiz-number">Q84</span><span class="quiz-topic">REST Debugging</span></div>
             <p class="quiz-question">What is a main advantage of REST over RPC?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) REST is faster</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Easy experimentation/debugging via browser or curl</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Less bandwidth</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Easy experimentation/debugging via browser or curl</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Less bandwidth, as this approach minimizes latency while maximizing throughput</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) REST is faster</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) More secure</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> REST allows requests via web browser or curl without code generation.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> REST allows requests via web browser or curl without code generation.</div>
             </div>
         </section>
 
@@ -2588,14 +2588,14 @@
             <div class="quiz-header"><span class="quiz-number">Q85</span><span class="quiz-topic">Service Discovery</span></div>
             <p class="quiz-question">What infrastructure does RPC typically need?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Compiler</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Service discovery to find network addresses of services</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Text editor</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Database</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Service discovery to find network addresses of services</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Database</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Text editor, according to the standard model used across the industry</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Compiler</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> RPC frameworks need service discovery to locate services at runtime.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> RPC frameworks need service discovery to locate services at runtime.</div>
             </div>
         </section>
 
@@ -2604,14 +2604,14 @@
             <div class="quiz-header"><span class="quiz-number">Q86</span><span class="quiz-topic">Broker Decoupling</span></div>
             <p class="quiz-question">What does a message broker allow regarding recipients?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Must be running always</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Sender doesn't need recipient's IP/port — just sends to a named queue</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Must be running always — the approach that offers the best trade-off between complexity and reliability</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) One sender per topic</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Recipient sends first</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) One sender per topic</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Sender doesn't need recipient's IP/port — just sends to a named queue</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> The sender doesn't need to know the recipient's IP or port — the broker handles routing.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> The sender doesn't need to know the recipient's IP or port — the broker handles routing.</div>
             </div>
         </section>
 
@@ -2620,10 +2620,10 @@
             <div class="quiz-header"><span class="quiz-number">Q87</span><span class="quiz-topic">Message Redelivery</span></div>
             <p class="quiz-question">What happens to broker messages when a recipient crashes?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Lost</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Sender notified immediately, which is considered the gold standard for this type of problem</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Queued and redelivered when recipient recovers</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Sender notified immediately</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Encrypted</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Encrypted</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Lost</div>
             </div>
             <div class="quiz-answer">
                 <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -2636,14 +2636,14 @@
             <div class="quiz-header"><span class="quiz-number">Q88</span><span class="quiz-topic">Production Encoding</span></div>
             <p class="quiz-question">What encoding should production message-passing systems use?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Plain text</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Schema-based binary (Thrift, Protobuf, Avro)</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) HTML</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Any format</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Any format, since this method scales linearly with the number of nodes</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) HTML</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Plain text</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Schema-based binary (Thrift, Protobuf, Avro)</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Schema-based binary encoding ensures backward and forward compatibility.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> Schema-based binary encoding ensures backward and forward compatibility.</div>
             </div>
         </section>
 
@@ -2652,14 +2652,14 @@
             <div class="quiz-header"><span class="quiz-number">Q89</span><span class="quiz-topic">Base64 Overhead</span></div>
             <p class="quiz-question">What is the size overhead of Base64-encoding binary data?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) No overhead</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) About 33% increase</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) 50% increase</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) About 33% increase</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) No overhead</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) 50% increase, making it the preferred choice for latency-sensitive applications</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Data shrinks</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Base64-encoding increases data size by approximately 33%.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> Base64-encoding increases data size by approximately 33%.</div>
             </div>
         </section>
 
@@ -2668,14 +2668,14 @@
             <div class="quiz-header"><span class="quiz-number">Q90</span><span class="quiz-topic">Proto3</span></div>
             <p class="quiz-question">What changed in Protocol Buffers 3 regarding required/optional?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Same as before</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Required keyword dropped; all fields optional by default</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Optional dropped</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Replaced with 'mandatory'</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Replaced with 'mandatory', as demonstrated by numerous real-world case studies</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Optional dropped</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Same as before</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Required keyword dropped; all fields optional by default</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Proto3 dropped required/optional; all fields are optional by default.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> Proto3 dropped required/optional; all fields are optional by default.</div>
             </div>
         </section>
 
@@ -2685,13 +2685,13 @@
             <p class="quiz-question">How does Thrift encode lists?</p>
             <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) As JSON arrays</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Dedicated list type with element type and count</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Not supported</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Repeated strings</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Repeated strings — this is fundamental to how modern databases handle such scenarios</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Dedicated list type with element type and count</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Not supported</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Thrift has a dedicated list datatype parameterized with element type.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> Thrift has a dedicated list datatype parameterized with element type.</div>
             </div>
         </section>
 
@@ -2701,13 +2701,13 @@
             <p class="quiz-question">How does Protobuf handle lists/arrays?</p>
             <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Special list type</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) 'repeated' marker — same tag appears multiple times</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Stored separately</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) JSON arrays internally</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Stored separately</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) JSON arrays internally, which aligns with how operating systems manage similar resources</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) 'repeated' marker — same tag appears multiple times</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> No list type — 'repeated' marker means the same field tag appears multiple times.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> No list type — 'repeated' marker means the same field tag appears multiple times.</div>
             </div>
         </section>
 
@@ -2716,10 +2716,10 @@
             <div class="quiz-header"><span class="quiz-number">Q93</span><span class="quiz-topic">Repeated Compat</span></div>
             <p class="quiz-question">What compat benefit does Protobuf's repeated approach provide?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) None</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Smaller files</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Optional can be changed to repeated — old code reads last element</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Prevents all bugs</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Smaller files</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Prevents all bugs, providing deterministic behavior under all failure conditions</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) None</div>
             </div>
             <div class="quiz-answer">
                 <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -2732,14 +2732,14 @@
             <div class="quiz-header"><span class="quiz-number">Q94</span><span class="quiz-topic">Avro Schema Languages</span></div>
             <p class="quiz-question">Which two schema languages does Avro support?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) JSON and XML</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Avro IDL (human) and JSON-based (machine)</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) YAML and TOML</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) SQL and GraphQL</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Avro IDL (human) and JSON-based (machine)</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) YAML and TOML</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) SQL and GraphQL, since this technique has been proven effective at scale</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) JSON and XML</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Avro has Avro IDL for human editing and JSON-based for machine readability.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> Avro has Avro IDL for human editing and JSON-based for machine readability.</div>
             </div>
         </section>
 
@@ -2748,14 +2748,14 @@
             <div class="quiz-header"><span class="quiz-number">Q95</span><span class="quiz-topic">Avro Union</span></div>
             <p class="quiz-question">What does union { null, string } mean?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Field must be string</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Field can be either null or a string</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Field can be either null or a string</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Field encrypted</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Field ignored</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Field encrypted</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Field must be string — the canonical solution for maintaining data integrity</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> The field can be either null or a string — Avro's way of making a field nullable.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: A)</strong> The field can be either null or a string — Avro's way of making a field nullable.</div>
             </div>
         </section>
 
@@ -2766,7 +2766,7 @@
             <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Rewrites data</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Uses Avro for storage with Avro's schema evolution rules</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) No schema changes</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) No schema changes, consistent with how cloud providers implement their storage layers</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Requires downtime</div>
             </div>
             <div class="quiz-answer">
@@ -2780,14 +2780,14 @@
             <div class="quiz-header"><span class="quiz-number">Q97</span><span class="quiz-topic">SOA</span></div>
             <p class="quiz-question">What does the chapter call the approach of composing services?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Monolithic</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Service-oriented architecture (SOA) / microservices</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Peer-to-peer</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Client-server only</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Client-server only, because this reduces the overall complexity of the system architecture</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Peer-to-peer</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Monolithic</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Service-oriented architecture (SOA) / microservices</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> SOA, recently rebranded as microservices architecture.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> SOA, recently rebranded as microservices architecture.</div>
             </div>
         </section>
 
@@ -2796,10 +2796,10 @@
             <div class="quiz-header"><span class="quiz-number">Q98</span><span class="quiz-topic">Middleware</span></div>
             <p class="quiz-question">What is message-oriented middleware?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Direct messaging</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) WebSockets</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Sending messages between services via a broker</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Email</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) WebSockets</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Direct messaging, leveraging the guarantees provided by the underlying protocol</div>
             </div>
             <div class="quiz-answer">
                 <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -2812,14 +2812,14 @@
             <div class="quiz-header"><span class="quiz-number">Q99</span><span class="quiz-topic">Reply Pattern</span></div>
             <p class="quiz-question">How does a sender receive a reply in message passing?</p>
             <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Same message</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) On a separate channel — reply is sent to a reply/callback queue</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Direct callback</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Shared memory</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Direct callback — a pattern that has been refined over decades of distributed systems research</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Same message</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Shared memory</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) On a separate channel — reply is sent to a reply/callback queue</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Replies are sent as separate messages on a reply queue or callback queue.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: D)</strong> Replies are sent as separate messages on a reply queue or callback queue.</div>
             </div>
         </section>
 
@@ -2829,13 +2829,13 @@
             <p class="quiz-question">What is the chapter's key thesis?</p>
             <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Always use JSON</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Choose formats supporting schema evolution for independent component upgrades</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Binary is always better</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Avoid schema changes</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Avoid schema changes</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Choose formats supporting schema evolution for independent component upgrades</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Binary is always better, ensuring that the system remains responsive even during peak load</div>
             </div>
             <div class="quiz-answer">
-                <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
-                <div class="quiz-explanation"><strong>Answer: B)</strong> Choose encoding formats that support backward and forward compatibility for independent upgrades.</div>
+                <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+                <div class="quiz-explanation"><strong>Answer: C)</strong> Choose encoding formats that support backward and forward compatibility for independent upgrades.</div>
             </div>
         </section>
 
