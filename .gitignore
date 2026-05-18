@@ -1,3 +1,9 @@
 .DS_Store
 *.m4a
 *.pdf
+*.md
+
+# Exceptions — keep these even though *.md is ignored
+!**/README.md
+!.github/**/*.md
+!notebooklm-prompt.md
