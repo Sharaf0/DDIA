@@ -1369,6 +1369,56 @@
             </div>
         </section>
 
+        <!-- ==================== INTERACTIVE ENCODING LAB ==================== -->
+
+        <section class="slide" id="encoding-lab-slide" style="padding: 15px 25px; text-align: left; align-items: stretch; justify-content: flex-start; overflow-y: auto;">
+            <h2 style="font-size: 1.6rem; margin-bottom: 8px; text-align: center;">&#x1F9EA; Encoding Lab &mdash; See It in Action</h2>
+
+            <div style="display: flex; gap: 14px; height: calc(100vh - 60px);">
+                <!-- LEFT: Inputs -->
+                <div style="flex: 0 0 260px; display: flex; flex-direction: column; gap: 4px;">
+                    <label style="font-size: 0.75rem; font-weight: 600;">userName <span style="opacity:0.5">(string)</span></label>
+                    <input type="text" id="enc-userName" value="Martin" style="padding: 6px 8px; border: 2px solid #e2e8f0; border-radius: 6px; font-size: 0.9rem; font-family: 'Inter', sans-serif;">
+
+                    <label style="font-size: 0.75rem; font-weight: 600; margin-top: 2px;">favoriteNumber <span style="opacity:0.5">(int64)</span></label>
+                    <input type="number" id="enc-favNum" value="1337" style="padding: 6px 8px; border: 2px solid #e2e8f0; border-radius: 6px; font-size: 0.9rem; font-family: 'Inter', sans-serif;">
+
+                    <label style="font-size: 0.75rem; font-weight: 600; margin-top: 2px;">interests <span style="opacity:0.5">(comma-separated)</span></label>
+                    <input type="text" id="enc-interests" value="daydreaming, hacking" style="padding: 6px 8px; border: 2px solid #e2e8f0; border-radius: 6px; font-size: 0.9rem; font-family: 'Inter', sans-serif;">
+
+                    <button onclick="runAllEncodings()" style="margin-top: 6px; padding: 8px; background: var(--accent); color: white; border: none; border-radius: 6px; font-size: 0.9rem; font-weight: 600; cursor: pointer;">Encode All &#x26A1;</button>
+
+                    <!-- Format selector tabs -->
+                    <div id="enc-tabs" style="display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px;">
+                        <button class="enc-tab active" onclick="showEncoding('json')" data-fmt="json" style="flex:1; min-width: 72px; padding: 5px 2px; border: 2px solid var(--accent); background: var(--accent); color: white; border-radius: 6px; font-size: 0.7rem; font-weight: 600; cursor: pointer;">JSON</button>
+                        <button class="enc-tab" onclick="showEncoding('msgpack')" data-fmt="msgpack" style="flex:1; min-width: 72px; padding: 5px 2px; border: 2px solid #e2e8f0; background: white; color: var(--text); border-radius: 6px; font-size: 0.7rem; font-weight: 600; cursor: pointer;">MsgPack</button>
+                        <button class="enc-tab" onclick="showEncoding('thriftBin')" data-fmt="thriftBin" style="flex:1; min-width: 72px; padding: 5px 2px; border: 2px solid #e2e8f0; background: white; color: var(--text); border-radius: 6px; font-size: 0.7rem; font-weight: 600; cursor: pointer;">Thrift Bin</button>
+                        <button class="enc-tab" onclick="showEncoding('thriftCompact')" data-fmt="thriftCompact" style="flex:1; min-width: 72px; padding: 5px 2px; border: 2px solid #e2e8f0; background: white; color: var(--text); border-radius: 6px; font-size: 0.7rem; font-weight: 600; cursor: pointer;">Thrift Compact</button>
+                        <button class="enc-tab" onclick="showEncoding('protobuf')" data-fmt="protobuf" style="flex:1; min-width: 72px; padding: 5px 2px; border: 2px solid #e2e8f0; background: white; color: var(--text); border-radius: 6px; font-size: 0.7rem; font-weight: 600; cursor: pointer;">Protobuf</button>
+                        <button class="enc-tab" onclick="showEncoding('avro')" data-fmt="avro" style="flex:1; min-width: 72px; padding: 5px 2px; border: 2px solid #e2e8f0; background: white; color: var(--text); border-radius: 6px; font-size: 0.7rem; font-weight: 600; cursor: pointer;">Avro</button>
+                    </div>
+
+                    <!-- Size comparison bar chart -->
+                    <div id="enc-sizes" style="margin-top: 8px; font-size: 0.75rem;">
+                        <div style="font-weight: 700; margin-bottom: 4px;">Byte sizes:</div>
+                        <div id="size-bars"></div>
+                    </div>
+                </div>
+
+                <!-- RIGHT: Output -->
+                <div style="flex: 1; display: flex; flex-direction: column; gap: 8px; min-width: 0;">
+                    <div id="enc-format-title" style="font-size: 1.1rem; font-weight: 700;">JSON <span id="enc-byte-count" style="font-weight: 400; opacity: 0.6;"></span></div>
+
+                    <!-- Hex dump -->
+                    <div id="enc-hex-output" style="background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 8px; padding: 12px; font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace; font-size: 0.82rem; line-height: 1.8; overflow-y: auto; flex: 0 0 auto; max-height: 30vh; word-break: break-all;"></div>
+
+                    <!-- Breakdown -->
+                    <div style="font-size: 0.95rem; font-weight: 700; margin-top: 4px;">Breakdown:</div>
+                    <div id="enc-breakdown" style="background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 8px; padding: 12px; font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace; font-size: 0.8rem; line-height: 1.7; overflow-y: auto; flex: 1; min-height: 0;"></div>
+                </div>
+            </div>
+        </section>
+
         <!-- ==================== SUMMARY ==================== -->
 
         <!-- 45. Section: Summary -->
@@ -3104,6 +3154,7 @@
         presentation.addEventListener('touchcancel', resetSwipe, { passive: true });
 
         window.addEventListener('keydown', (e) => {
+            if (e.target.matches('input, textarea, select')) return;
             if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'ArrowDown') nextSlide();
             if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') prevSlide();
             if (e.key >= '0' && e.key <= '9') {
@@ -3123,6 +3174,422 @@
             const exp = e.parentElement.querySelector('.quiz-explanation');
             if (!ok) exp.classList.add('incorrect'); else exp.classList.remove('incorrect');
         }
+
+        /* ==================== ENCODING LAB ENGINE ==================== */
+
+        // Utility helpers
+        function strToBytes(s) { return new TextEncoder().encode(s); }
+        function hex(b) { return b.toString(16).padStart(2, '0'); }
+        function hexDump(bytes) { return Array.from(bytes).map(b => hex(b)).join(' '); }
+        function int32be(n) { const a = new Uint8Array(4); const v = new DataView(a.buffer); v.setInt32(0, n); return a; }
+        function int64be(n) { const a = new Uint8Array(8); const v = new DataView(a.buffer); v.setBigInt64(0, BigInt(n)); return a; }
+
+        // Varint encoding (Protobuf-style unsigned)
+        function encodeVarint(n) {
+            const bytes = [];
+            n = Number(n);
+            if (n < 0) n = 0;
+            do { let b = n & 0x7f; n >>>= 7; if (n > 0) b |= 0x80; bytes.push(b); } while (n > 0);
+            return new Uint8Array(bytes);
+        }
+
+        // ZigZag + varint (for signed ints in Protobuf/Thrift Compact)
+        function zigzagEncode(n) {
+            n = Number(n);
+            return (n << 1) ^ (n >> 31);
+        }
+        function encodeZigzagVarint(n) {
+            return encodeVarint(zigzagEncode(Number(n)));
+        }
+
+        // Concatenate multiple Uint8Arrays
+        function concat(...arrays) {
+            const total = arrays.reduce((s, a) => s + a.length, 0);
+            const result = new Uint8Array(total);
+            let offset = 0;
+            for (const a of arrays) { result.set(a, offset); offset += a.length; }
+            return result;
+        }
+
+        // ---- FORMAT: JSON ----
+        function encodeJSON(userName, favNum, interests) {
+            const obj = { userName, favoriteNumber: favNum, interests };
+            const jsonStr = JSON.stringify(obj);
+            const bytes = strToBytes(jsonStr);
+
+            // Break down into colored segments
+            const parts = [];
+            const raw = jsonStr;
+            // {"userName":"Martin","favoriteNumber":1337,"interests":["daydreaming","hacking"]}
+            // We'll split at each key-value boundary
+            const segments = [
+                { text: '{', label: 'object start', color: '#e2e8f0' },
+                { text: `"userName":"${userName}"`, label: `key "userName" → "${userName}"`, color: '#dbeafe' },
+                { text: ',', label: 'separator', color: '#e2e8f0' },
+                { text: `"favoriteNumber":${favNum}`, label: `key "favoriteNumber" → ${favNum}`, color: '#d1fae5' },
+                { text: ',', label: 'separator', color: '#e2e8f0' },
+                { text: `"interests":${JSON.stringify(interests)}`, label: `key "interests" → [${interests.map(i=>'"'+i+'"').join(', ')}]`, color: '#fce7f3' },
+                { text: '}', label: 'object end', color: '#e2e8f0' },
+            ];
+            for (const seg of segments) {
+                const segBytes = strToBytes(seg.text);
+                parts.push({ label: seg.label, bytes: segBytes, color: seg.color });
+            }
+
+            return { bytes, parts, note: 'Human-readable text. Field names included in every record. No schema needed.' };
+        }
+
+        // ---- FORMAT: MessagePack ----
+        function encodeMsgPack(userName, favNum, interests) {
+            const parts = [];
+            let allBytes = [];
+
+            // fixmap: 0x80 | numFields (3 fields)
+            allBytes.push(0x83);
+            parts.push({ label: 'object (3 entries)', bytes: new Uint8Array([0x83]), color: '#fef3c7' });
+
+            // Field 1: "userName" -> string value
+            const key1 = strToBytes('userName');
+            const key1Header = new Uint8Array([0xa0 | key1.length]);
+            allBytes.push(...key1Header, ...key1);
+            parts.push({ label: `string key (length ${key1.length}): "userName"`, bytes: concat(key1Header, key1), color: '#e2e8f0' });
+
+            const val1 = strToBytes(userName);
+            const val1Header = new Uint8Array([0xa0 | val1.length]);
+            allBytes.push(...val1Header, ...val1);
+            parts.push({ label: `string value (length ${val1.length}): "${userName}"`, bytes: concat(val1Header, val1), color: '#dbeafe' });
+
+            // Field 2: "favoriteNumber" -> uint/int
+            const key2 = strToBytes('favoriteNumber');
+            const key2Header = new Uint8Array([0xa0 | key2.length]);
+            allBytes.push(...key2Header, ...key2);
+            parts.push({ label: `string key (length ${key2.length}): "favoriteNumber"`, bytes: concat(key2Header, key2), color: '#e2e8f0' });
+
+            // Encode number
+            if (favNum >= 0 && favNum <= 127) {
+                allBytes.push(favNum);
+                parts.push({ label: `positive fixint: ${favNum}`, bytes: new Uint8Array([favNum]), color: '#d1fae5' });
+            } else if (favNum >= 0 && favNum <= 0xFFFF) {
+                allBytes.push(0xcd, (favNum >> 8) & 0xff, favNum & 0xff);
+                parts.push({ label: `uint16: ${favNum}`, bytes: new Uint8Array([0xcd, (favNum >> 8) & 0xff, favNum & 0xff]), color: '#d1fae5' });
+            } else {
+                const numBytes = int32be(favNum);
+                allBytes.push(0xce, ...numBytes);
+                parts.push({ label: `uint32: ${favNum}`, bytes: concat(new Uint8Array([0xce]), numBytes), color: '#d1fae5' });
+            }
+
+            // Field 3: "interests" -> array of strings
+            const key3 = strToBytes('interests');
+            const key3Header = key3.length < 32 ? new Uint8Array([0xa0 | key3.length]) : new Uint8Array([0xd9, key3.length]);
+            allBytes.push(...key3Header, ...key3);
+            parts.push({ label: `string key (length ${key3.length}): "interests"`, bytes: concat(key3Header, key3), color: '#e2e8f0' });
+
+            // Array header
+            const arrHeader = new Uint8Array([0x90 | interests.length]);
+            allBytes.push(...arrHeader);
+            parts.push({ label: `array (${interests.length} entries)`, bytes: arrHeader, color: '#fef3c7' });
+
+            for (const interest of interests) {
+                const ib = strToBytes(interest);
+                const ih = ib.length < 32 ? new Uint8Array([0xa0 | ib.length]) : new Uint8Array([0xd9, ib.length]);
+                allBytes.push(...ih, ...ib);
+                parts.push({ label: `string (length ${ib.length}): "${interest}"`, bytes: concat(ih, ib), color: '#fce7f3' });
+            }
+
+            const bytes = new Uint8Array(allBytes);
+            return { bytes, parts, note: 'Binary JSON. Field names still included as strings. No schema. Modest savings over text JSON.' };
+        }
+
+        // ---- FORMAT: Thrift BinaryProtocol ----
+        function encodeThriftBinary(userName, favNum, interests) {
+            const parts = [];
+            let allBytes = [];
+
+            // Field 1: type=string(11), tag=1
+            allBytes.push(0x0b, 0x00, 0x01);
+            parts.push({ label: 'type 11 (string), field tag = 1', bytes: new Uint8Array([0x0b, 0x00, 0x01]), color: '#fef3c7' });
+
+            const s1 = strToBytes(userName);
+            const len1 = int32be(s1.length);
+            allBytes.push(...len1, ...s1);
+            parts.push({ label: `length ${s1.length}, "${userName}"`, bytes: concat(len1, s1), color: '#dbeafe' });
+
+            // Field 2: type=i64(10), tag=2
+            allBytes.push(0x0a, 0x00, 0x02);
+            parts.push({ label: 'type 10 (i64), field tag = 2', bytes: new Uint8Array([0x0a, 0x00, 0x02]), color: '#fef3c7' });
+
+            const numB = int64be(favNum);
+            allBytes.push(...numB);
+            parts.push({ label: `i64 value: ${favNum}`, bytes: numB, color: '#d1fae5' });
+
+            // Field 3: type=list(15), tag=3
+            allBytes.push(0x0f, 0x00, 0x03);
+            parts.push({ label: 'type 15 (list), field tag = 3', bytes: new Uint8Array([0x0f, 0x00, 0x03]), color: '#fef3c7' });
+
+            // List header: element type string(11), count
+            allBytes.push(0x0b);
+            const listCount = int32be(interests.length);
+            allBytes.push(...listCount);
+            parts.push({ label: `item type 11 (string), ${interests.length} items`, bytes: concat(new Uint8Array([0x0b]), listCount), color: '#e2e8f0' });
+
+            for (const interest of interests) {
+                const ib = strToBytes(interest);
+                const il = int32be(ib.length);
+                allBytes.push(...il, ...ib);
+                parts.push({ label: `length ${ib.length}, "${interest}"`, bytes: concat(il, ib), color: '#fce7f3' });
+            }
+
+            // End of struct
+            allBytes.push(0x00);
+            parts.push({ label: 'end of struct', bytes: new Uint8Array([0x00]), color: '#e2e8f0' });
+
+            const bytes = new Uint8Array(allBytes);
+            return { bytes, parts, note: 'Field names replaced by tag numbers. Types explicit (1 byte). Lengths as 4-byte big-endian ints.' };
+        }
+
+        // ---- FORMAT: Thrift CompactProtocol ----
+        function encodeThriftCompact(userName, favNum, interests) {
+            const parts = [];
+            let allBytes = [];
+            let prevTag = 0;
+
+            // Field 1: delta=1, type=string(8) -> (1<<4)|8 = 0x18
+            const delta1 = 1 - prevTag;
+            const fb1 = (delta1 << 4) | 8;
+            allBytes.push(fb1);
+            parts.push({ label: `field tag +=1, type 8 (string)`, bytes: new Uint8Array([fb1]), color: '#fef3c7' });
+            prevTag = 1;
+
+            const s1 = strToBytes(userName);
+            const len1v = encodeVarint(s1.length);
+            allBytes.push(...len1v, ...s1);
+            parts.push({ label: `length ${s1.length}, "${userName}"`, bytes: concat(len1v, s1), color: '#dbeafe' });
+
+            // Field 2: delta=1, type=i64(6) -> (1<<4)|6 = 0x16
+            const delta2 = 2 - prevTag;
+            const fb2 = (delta2 << 4) | 6;
+            allBytes.push(fb2);
+            parts.push({ label: `field tag +=1, type 6 (i64)`, bytes: new Uint8Array([fb2]), color: '#fef3c7' });
+            prevTag = 2;
+
+            const numZZ = encodeZigzagVarint(favNum);
+            allBytes.push(...numZZ);
+            parts.push({ label: `zigzag varint: ${favNum}`, bytes: numZZ, color: '#d1fae5' });
+
+            // Field 3: delta=1, type=list(9) -> (1<<4)|9 = 0x19
+            const delta3 = 3 - prevTag;
+            const fb3 = (delta3 << 4) | 9;
+            allBytes.push(fb3);
+            parts.push({ label: `field tag +=1, type 9 (list)`, bytes: new Uint8Array([fb3]), color: '#fef3c7' });
+            prevTag = 3;
+
+            // List header: (count<<4)|elemType. elemType string=8
+            const listHeader = (interests.length << 4) | 8;
+            allBytes.push(listHeader);
+            parts.push({ label: `${interests.length} items, item type 8 (string)`, bytes: new Uint8Array([listHeader]), color: '#e2e8f0' });
+
+            for (const interest of interests) {
+                const ib = strToBytes(interest);
+                const il = encodeVarint(ib.length);
+                allBytes.push(...il, ...ib);
+                parts.push({ label: `length ${ib.length}, "${interest}"`, bytes: concat(il, ib), color: '#fce7f3' });
+            }
+
+            // End of struct
+            allBytes.push(0x00);
+            parts.push({ label: 'end of struct', bytes: new Uint8Array([0x00]), color: '#e2e8f0' });
+
+            const bytes = new Uint8Array(allBytes);
+            return { bytes, parts, note: 'Field type + tag delta packed into 1 byte. Variable-length ints. Much more compact than BinaryProtocol.' };
+        }
+
+        // ---- FORMAT: Protocol Buffers ----
+        function encodeProtobuf(userName, favNum, interests) {
+            const parts = [];
+            let allBytes = [];
+
+            // Field 1: tag=1, wire type=2 (length-delimited) -> (1<<3)|2 = 0x0a
+            const key1 = (1 << 3) | 2;
+            allBytes.push(key1);
+            const s1 = strToBytes(userName);
+            const len1 = encodeVarint(s1.length);
+            allBytes.push(...len1, ...s1);
+            parts.push({ label: `field 1, type 2 (string)`, bytes: new Uint8Array([key1]), color: '#fef3c7' });
+            parts.push({ label: `length ${s1.length}, "${userName}"`, bytes: concat(len1, s1), color: '#dbeafe' });
+
+            // Field 2: tag=2, wire type=0 (varint) -> (2<<3)|0 = 0x10
+            const key2 = (2 << 3) | 0;
+            allBytes.push(key2);
+            parts.push({ label: `field 2, type 0 (varint)`, bytes: new Uint8Array([key2]), color: '#fef3c7' });
+
+            const numV = encodeVarint(Math.abs(favNum));
+            allBytes.push(...numV);
+            parts.push({ label: `varint: ${favNum}`, bytes: numV, color: '#d1fae5' });
+
+            // Field 3 (repeated): tag=3, wire type=2 (length-delimited) -> (3<<3)|2 = 0x1a
+            const key3 = (3 << 3) | 2;
+            for (const interest of interests) {
+                allBytes.push(key3);
+                const ib = strToBytes(interest);
+                const il = encodeVarint(ib.length);
+                allBytes.push(...il, ...ib);
+                parts.push({ label: `field 3, type 2 (string)`, bytes: new Uint8Array([key3]), color: '#fef3c7' });
+                parts.push({ label: `length ${ib.length}, "${interest}"`, bytes: concat(il, ib), color: '#fce7f3' });
+            }
+
+            const bytes = new Uint8Array(allBytes);
+            return { bytes, parts, note: 'Tag + wire type packed into varint. Repeated fields use same tag multiple times. No list wrapper needed.' };
+        }
+
+        // ---- FORMAT: Avro ----
+        function encodeAvro(userName, favNum, interests) {
+            const parts = [];
+            let allBytes = [];
+
+            // String: length as zigzag varint, then UTF-8 bytes
+            const s1 = strToBytes(userName);
+            const len1 = encodeZigzagVarint(s1.length);
+            allBytes.push(...len1, ...s1);
+            parts.push({ label: `string length ${s1.length} (zigzag varint)`, bytes: len1, color: '#fef3c7' });
+            parts.push({ label: `"${userName}"`, bytes: s1, color: '#dbeafe' });
+
+            // Union {null, long}: branch index (0=null, 1=long) as zigzag varint, then value
+            const branch = encodeZigzagVarint(1); // branch 1 = long
+            allBytes.push(...branch);
+            parts.push({ label: 'union branch 1 (long, not null)', bytes: branch, color: '#fef3c7' });
+
+            const numZZ = encodeZigzagVarint(favNum);
+            allBytes.push(...numZZ);
+            parts.push({ label: `long value: ${favNum} (zigzag varint)`, bytes: numZZ, color: '#d1fae5' });
+
+            // Array: block count as zigzag varint, items, then 0 to end
+            const blockCount = encodeZigzagVarint(interests.length);
+            allBytes.push(...blockCount);
+            parts.push({ label: `${interests.length} array items follow`, bytes: blockCount, color: '#fef3c7' });
+
+            for (const interest of interests) {
+                const ib = strToBytes(interest);
+                const il = encodeZigzagVarint(ib.length);
+                allBytes.push(...il, ...ib);
+                parts.push({ label: `string length ${ib.length}, "${interest}"`, bytes: concat(il, ib), color: '#fce7f3' });
+            }
+
+            // End of array block
+            allBytes.push(0x00);
+            parts.push({ label: 'end of array', bytes: new Uint8Array([0x00]), color: '#e2e8f0' });
+
+            const bytes = new Uint8Array(allBytes);
+            return { bytes, parts, note: 'No field tags or names at all! Values concatenated in schema order. The most compact. Requires schema to decode.' };
+        }
+
+        // ---- Encoding state ----
+        let encodingResults = {};
+        let currentFormat = 'json';
+
+        function getInputs() {
+            const userName = document.getElementById('enc-userName').value || '';
+            const favNum = parseInt(document.getElementById('enc-favNum').value) || 0;
+            const interestsRaw = document.getElementById('enc-interests').value || '';
+            const interests = interestsRaw.split(',').map(s => s.trim()).filter(s => s.length > 0);
+            return { userName, favNum, interests };
+        }
+
+        function runAllEncodings() {
+            const { userName, favNum, interests } = getInputs();
+            encodingResults = {
+                json: encodeJSON(userName, favNum, interests),
+                msgpack: encodeMsgPack(userName, favNum, interests),
+                thriftBin: encodeThriftBinary(userName, favNum, interests),
+                thriftCompact: encodeThriftCompact(userName, favNum, interests),
+                protobuf: encodeProtobuf(userName, favNum, interests),
+                avro: encodeAvro(userName, favNum, interests),
+            };
+            renderSizeBars();
+            showEncoding(currentFormat);
+        }
+
+        const formatNames = {
+            json: 'JSON',
+            msgpack: 'MessagePack',
+            thriftBin: 'Thrift BinaryProtocol',
+            thriftCompact: 'Thrift CompactProtocol',
+            protobuf: 'Protocol Buffers',
+            avro: 'Avro',
+        };
+
+        function showEncoding(fmt) {
+            currentFormat = fmt;
+            // Update tabs
+            document.querySelectorAll('.enc-tab').forEach(t => {
+                if (t.dataset.fmt === fmt) {
+                    t.style.background = 'var(--accent)';
+                    t.style.color = 'white';
+                    t.style.borderColor = 'var(--accent)';
+                } else {
+                    t.style.background = 'white';
+                    t.style.color = 'var(--text)';
+                    t.style.borderColor = '#e2e8f0';
+                }
+            });
+
+            const result = encodingResults[fmt];
+            if (!result) { runAllEncodings(); return; }
+
+            document.getElementById('enc-format-title').innerHTML = `${formatNames[fmt]} <span style="font-weight:400;opacity:0.6">(${result.bytes.length} bytes)</span>`;
+
+            // Hex dump with colored spans
+            let hexHtml = '';
+            let byteIndex = 0;
+            for (const part of result.parts) {
+                const partHex = Array.from(part.bytes).map(b => `<span style="background:${part.color};padding:1px 3px;border-radius:3px;margin:1px;">${hex(b)}</span>`).join(' ');
+                hexHtml += partHex + ' ';
+                byteIndex += part.bytes.length;
+            }
+            document.getElementById('enc-hex-output').innerHTML = hexHtml;
+
+            // Breakdown
+            let bdHtml = '';
+            let offset = 0;
+            for (const part of result.parts) {
+                const partHex = Array.from(part.bytes).map(b => hex(b)).join(' ');
+                bdHtml += `<div style="display:flex;gap:10px;align-items:baseline;margin-bottom:3px;">`;
+                bdHtml += `<span style="color:#64748b;min-width:40px;text-align:right;">${offset}</span>`;
+                bdHtml += `<span style="background:${part.color};padding:2px 6px;border-radius:4px;min-width:120px;">${partHex}</span>`;
+                bdHtml += `<span style="color:#334155;">${part.label}</span>`;
+                bdHtml += `</div>`;
+                offset += part.bytes.length;
+            }
+            bdHtml += `<div style="margin-top:8px;padding:8px;background:#fffbeb;border-radius:6px;font-size:0.8rem;color:#92400e;">&#x1F4A1; ${result.note}</div>`;
+            document.getElementById('enc-breakdown').innerHTML = bdHtml;
+        }
+
+        function renderSizeBars() {
+            const container = document.getElementById('size-bars');
+            if (!container) return;
+            const fmts = ['json', 'msgpack', 'thriftBin', 'thriftCompact', 'protobuf', 'avro'];
+            const maxSize = Math.max(...fmts.map(f => encodingResults[f]?.bytes.length || 0));
+
+            let html = '';
+            for (const f of fmts) {
+                const size = encodingResults[f]?.bytes.length || 0;
+                const pct = maxSize > 0 ? (size / maxSize) * 100 : 0;
+                const isActive = f === currentFormat;
+                html += `<div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;cursor:pointer;" onclick="showEncoding('${f}')">`;
+                html += `<span style="min-width:100px;font-size:0.7rem;text-align:right;${isActive ? 'font-weight:700;' : ''}">${formatNames[f]}</span>`;
+                html += `<div style="flex:1;background:#e2e8f0;border-radius:4px;height:16px;overflow:hidden;">`;
+                html += `<div style="width:${pct}%;height:100%;background:${isActive ? 'var(--accent)' : '#94a3b8'};border-radius:4px;transition:width 0.3s;"></div>`;
+                html += `</div>`;
+                html += `<span style="min-width:30px;font-size:0.75rem;font-weight:600;">${size}B</span>`;
+                html += `</div>`;
+            }
+            container.innerHTML = html;
+        }
+
+        // Auto-run on load
+        setTimeout(runAllEncodings, 100);
+
+        /* ==================== END ENCODING LAB ==================== */
+
         update();
     </script>
 
