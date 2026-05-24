@@ -1317,7 +1317,7 @@ Mr. Poons: How far into the future
  <div class="quiz-header"><span class="quiz-number">Q1</span><span class="quiz-topic">Replication</span></div>
  <p class="quiz-question">What is replication in the context of distributed data?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) Encrypting data  while maintaining a consistent and durable view of the data even when individual machines experience failures</div>
+ <div class="quiz-option" onclick="selectOption(this)">A) Synchronizing query execution across machines so each node processes requests at the same time</div>
  <div class="quiz-option" onclick="selectOption(this)">B) Compressing data</div>
  <div class="quiz-option" onclick="selectOption(this)">C) Keeping a copy of the same data on multiple machines connected via a network</div>
  <div class="quiz-option" onclick="selectOption(this)">D) Splitting data across machines</div>
@@ -1381,7 +1381,7 @@ Mr. Poons: How far into the future
  <div class="quiz-header"><span class="quiz-number">Q5</span><span class="quiz-topic">Leader-Based</span></div>
  <p class="quiz-question">In leader-based replication, who accepts writes?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) Any replica  while maintaining a consistent and durable view of the data even when individual machines experience failures</div>
+ <div class="quiz-option" onclick="selectOption(this)">A) A designated follower chosen per write request</div>
  <div class="quiz-option" onclick="selectOption(this)">B) Only the leader (primary/master)</div>
  <div class="quiz-option" onclick="selectOption(this)">C) Only followers</div>
  <div class="quiz-option" onclick="selectOption(this)">D) All replicas simultaneously</div>
@@ -1415,7 +1415,7 @@ Mr. Poons: How far into the future
  <div class="quiz-options">
  <div class="quiz-option" onclick="selectOption(this)">A) External cache only</div>
  <div class="quiz-option" onclick="selectOption(this)">B) Only the leader</div>
- <div class="quiz-option" onclick="selectOption(this)">C) Only followers  while maintaining a consistent and durable view of the data even when individual machines experience failures</div>
+ <div class="quiz-option" onclick="selectOption(this)">C) Only followers after they acknowledge the latest write</div>
  <div class="quiz-option" onclick="selectOption(this)">D) Any replica — leader or follower</div>
  </div>
  <div class="quiz-answer">
@@ -1480,7 +1480,7 @@ Mr. Poons: How far into the future
  <div class="quiz-option" onclick="selectOption(this)">A) Too many replicas</div>
  <div class="quiz-option" onclick="selectOption(this)">B) Uses too much bandwidth</div>
  <div class="quiz-option" onclick="selectOption(this)">C) If the leader fails, any unreplicated writes are lost</div>
- <div class="quiz-option" onclick="selectOption(this)">D) Too slow  while maintaining a consistent and durable view of the data even when individual machines experience failures</div>
+ <div class="quiz-option" onclick="selectOption(this)">D) Writes must wait for every follower to confirm receipt</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
@@ -1607,7 +1607,7 @@ Mr. Poons: How far into the future
  <div class="quiz-options">
  <div class="quiz-option" onclick="selectOption(this)">A) Too long means extended downtime; too short means unnecessary failovers during load spikes</div>
  <div class="quiz-option" onclick="selectOption(this)">B) Timeouts are always correct</div>
- <div class="quiz-option" onclick="selectOption(this)">C) Timeouts don't matter  while followers serve read-only traffic to reduce the query load on the primary and improve overall throughput</div>
+ <div class="quiz-option" onclick="selectOption(this)">C) Timeout length primarily determines how quickly monitoring dashboards refresh, with little direct impact on actual failover decisions</div>
  <div class="quiz-option" onclick="selectOption(this)">D) Only manual detection works</div>
  </div>
  <div class="quiz-answer">
@@ -1640,7 +1640,7 @@ Mr. Poons: How far into the future
  <div class="quiz-option" onclick="selectOption(this)">A) It's too simple</div>
  <div class="quiz-option" onclick="selectOption(this)">B) It uses too much storage</div>
  <div class="quiz-option" onclick="selectOption(this)">C) Nondeterministic functions (NOW(), RAND()), auto-incrementing columns, and side effects break it</div>
- <div class="quiz-option" onclick="selectOption(this)">D) It's too efficient — a pattern that has been refined over decades of distributed systems research</div>
+ <div class="quiz-option" onclick="selectOption(this)">D) It cannot handle any form of schema migration, requiring every table to be fully recopied after each structural change is applied</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
@@ -1670,9 +1670,9 @@ Mr. Poons: How far into the future
  <p class="quiz-question">What is the main disadvantage of WAL shipping?</p>
  <div class="quiz-options">
  <div class="quiz-option" onclick="selectOption(this)">A) The log describes data at a very low level (disk blocks/bytes), tightly coupling it to the storage engine version</div>
- <div class="quiz-option" onclick="selectOption(this)">B) Too slow  under normal operating conditions with standard workload patterns and routine maintenance procedures</div>
+ <div class="quiz-option" onclick="selectOption(this)">B) Too slow for production workloads because the write-ahead log must be fully flushed and compressed before any replica can begin processing it</div>
  <div class="quiz-option" onclick="selectOption(this)">C) Uses too much memory</div>
- <div class="quiz-option" onclick="selectOption(this)">D) It's too abstract  within the broader architecture of a distributed data-intensive application serving concurrent user requests</div>
+ <div class="quiz-option" onclick="selectOption(this)">D) It exposes row-level changes to applications, making business logic harder to isolate</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
@@ -1718,7 +1718,7 @@ Mr. Poons: How far into the future
  <p class="quiz-question">When would you use trigger-based replication?</p>
  <div class="quiz-options">
  <div class="quiz-option" onclick="selectOption(this)">A) When you need flexibility — like replicating only a subset of data or transforming data during replication</div>
- <div class="quiz-option" onclick="selectOption(this)">B) Always  while maintaining a consistent and durable view of the data even when individual machines experience failures</div>
+ <div class="quiz-option" onclick="selectOption(this)">B) When you want the database to handle replication entirely through its built-in storage engine log shipping with minimal configuration overhead</div>
  <div class="quiz-option" onclick="selectOption(this)">C) When performance is critical</div>
  <div class="quiz-option" onclick="selectOption(this)">D) For all production systems</div>
  </div>
@@ -1846,7 +1846,7 @@ Mr. Poons: How far into the future
  <p class="quiz-question">What does consistent prefix reads prevent?</p>
  <div class="quiz-options">
  <div class="quiz-option" onclick="selectOption(this)">A) Disk full errors</div>
- <div class="quiz-option" onclick="selectOption(this)">B) Data corruption — a pattern that has been refined over decades of distributed systems research</div>
+ <div class="quiz-option" onclick="selectOption(this)">B) Different replicas accidentally applying duplicate writes during recovery and retry handling</div>
  <div class="quiz-option" onclick="selectOption(this)">C) Seeing an answer before the question — causally related writes appearing out of order</div>
  <div class="quiz-option" onclick="selectOption(this)">D) Slow networks</div>
  </div>
@@ -1895,7 +1895,7 @@ Mr. Poons: How far into the future
  <div class="quiz-options">
  <div class="quiz-option" onclick="selectOption(this)">A) Small databases only</div>
  <div class="quiz-option" onclick="selectOption(this)">B) Single datacenter only</div>
- <div class="quiz-option" onclick="selectOption(this)">C) Read-only workloads  while maintaining a consistent and durable view of the data even when individual machines experience failures</div>
+ <div class="quiz-option" onclick="selectOption(this)">C) Workloads where one leader handles writes and others only serve local reads</div>
  <div class="quiz-option" onclick="selectOption(this)">D) Multi-datacenter operation where each datacenter has its own leader</div>
  </div>
  <div class="quiz-answer">
@@ -1909,7 +1909,7 @@ Mr. Poons: How far into the future
  <div class="quiz-header"><span class="quiz-number">Q38</span><span class="quiz-topic">Multi-DC Advantage</span></div>
  <p class="quiz-question">What performance advantage does multi-leader have over single-leader for multi-datacenter?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) Faster reads  while followers serve read-only traffic to reduce the query load on the primary and improve overall throughput</div>
+ <div class="quiz-option" onclick="selectOption(this)">A) Reads can be distributed to the closest datacenter automatically even when all write operations must still cross regional boundaries</div>
  <div class="quiz-option" onclick="selectOption(this)">B) Writes are processed in the local datacenter without waiting for cross-datacenter replication</div>
  <div class="quiz-option" onclick="selectOption(this)">C) Less storage</div>
  <div class="quiz-option" onclick="selectOption(this)">D) Simpler configuration</div>
@@ -1926,7 +1926,7 @@ Mr. Poons: How far into the future
  <p class="quiz-question">Why are apps like calendar clients considered multi-leader replication?</p>
  <div class="quiz-options">
  <div class="quiz-option" onclick="selectOption(this)">A) They only read data</div>
- <div class="quiz-option" onclick="selectOption(this)">B) They use SQL  while followers serve read-only traffic to reduce the query load on the primary and improve overall throughput</div>
+ <div class="quiz-option" onclick="selectOption(this)">B) They rely on a centralized coordination server to serialize all updates arriving from every device</div>
  <div class="quiz-option" onclick="selectOption(this)">C) Each device acts as a leader that accepts writes offline, syncing later</div>
  <div class="quiz-option" onclick="selectOption(this)">D) They don't store data</div>
  </div>
@@ -1941,7 +1941,7 @@ Mr. Poons: How far into the future
  <div class="quiz-header"><span class="quiz-number">Q40</span><span class="quiz-topic">Collaborative Editing</span></div>
  <p class="quiz-question">How is real-time collaborative editing (like Google Docs) related to replication?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) It's not related  while maintaining a consistent and durable view of the data even when individual machines experience failures</div>
+ <div class="quiz-option" onclick="selectOption(this)">A) It is primarily a mutual exclusion problem where only one user's edits should ever be applied to the document at any given moment</div>
  <div class="quiz-option" onclick="selectOption(this)">B) It uses single-leader</div>
  <div class="quiz-option" onclick="selectOption(this)">C) It doesn't require conflict resolution</div>
  <div class="quiz-option" onclick="selectOption(this)">D) It's similar to multi-leader replication where each user's changes are a 'write' that must be replicated</div>
@@ -1959,7 +1959,7 @@ Mr. Poons: How far into the future
  <div class="quiz-options">
  <div class="quiz-option" onclick="selectOption(this)">A) Write conflicts — two leaders may concurrently accept conflicting writes</div>
  <div class="quiz-option" onclick="selectOption(this)">B) Too many replicas</div>
- <div class="quiz-option" onclick="selectOption(this)">C) Slow reads  while followers serve read-only traffic to reduce the query load on the primary and improve overall throughput</div>
+ <div class="quiz-option" onclick="selectOption(this)">C) Every write must synchronously reach all leaders before any read can be served</div>
  <div class="quiz-option" onclick="selectOption(this)">D) High storage cost</div>
  </div>
  <div class="quiz-answer">
@@ -2149,7 +2149,7 @@ Mr. Poons: How far into the future
  <div class="quiz-header"><span class="quiz-number">Q53</span><span class="quiz-topic">Anti-Entropy</span></div>
  <p class="quiz-question">What is the anti-entropy process?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) Cooling servers  as part of a comprehensive strategy for ensuring data integrity and query performance at scale</div>
+ <div class="quiz-option" onclick="selectOption(this)">A) A background process that periodically compacts and merges replica transaction logs to reduce storage overhead and improve query latency</div>
  <div class="quiz-option" onclick="selectOption(this)">B) Encrypting data</div>
  <div class="quiz-option" onclick="selectOption(this)">C) A background process that constantly looks for differences between replicas and copies missing data</div>
  <div class="quiz-option" onclick="selectOption(this)">D) Compressing logs</div>
@@ -2197,7 +2197,7 @@ Mr. Poons: How far into the future
  <div class="quiz-header"><span class="quiz-number">Q56</span><span class="quiz-topic">Quorum Flexibility</span></div>
  <p class="quiz-question">What is the trade-off between w and r in quorum configuration?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) Both must be equal — a pattern that has been refined over decades of distributed systems research</div>
+ <div class="quiz-option" onclick="selectOption(this)">A) The write quorum should always be set larger than the read quorum so that writes dominate reads in every cluster</div>
  <div class="quiz-option" onclick="selectOption(this)">B) Smaller w means faster writes but requires larger r for reads, and vice versa</div>
  <div class="quiz-option" onclick="selectOption(this)">C) No trade-off</div>
  <div class="quiz-option" onclick="selectOption(this)">D) Only w matters</div>
@@ -2230,7 +2230,7 @@ Mr. Poons: How far into the future
  <p class="quiz-question">What is hinted handoff?</p>
  <div class="quiz-options">
  <div class="quiz-option" onclick="selectOption(this)">A) Deleting old data</div>
- <div class="quiz-option" onclick="selectOption(this)">B) Index rebuilding  within the broader architecture of a distributed data-intensive application serving concurrent user requests</div>
+ <div class="quiz-option" onclick="selectOption(this)">B) A periodic maintenance task that rebuilds secondary indexes on each replica after they exchange version vector metadata for a key range</div>
  <div class="quiz-option" onclick="selectOption(this)">C) Manual data transfer</div>
  <div class="quiz-option" onclick="selectOption(this)">D) When a sloppy quorum node that temporarily accepted writes sends them to the proper home node once it recovers</div>
  </div>
@@ -2294,7 +2294,7 @@ Mr. Poons: How far into the future
  <p class="quiz-question">What does the 'happens-before' relationship mean?</p>
  <div class="quiz-options">
  <div class="quiz-option" onclick="selectOption(this)">A) Operation A happened before B if B knew about A or depended on A</div>
- <div class="quiz-option" onclick="selectOption(this)">B) One event is faster  as part of a comprehensive strategy for ensuring data integrity and query performance at scale</div>
+ <div class="quiz-option" onclick="selectOption(this)">B) Operation A finished earlier in wall-clock time, regardless of causal dependence</div>
  <div class="quiz-option" onclick="selectOption(this)">C) Events are in different datacenters</div>
  <div class="quiz-option" onclick="selectOption(this)">D) Events are simultaneous</div>
  </div>
@@ -2357,7 +2357,7 @@ Mr. Poons: How far into the future
  <div class="quiz-header"><span class="quiz-number">Q66</span><span class="quiz-topic">WAL Examples</span></div>
  <p class="quiz-question">Which databases use WAL-based replication?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) MySQL only  while maintaining a consistent and durable view of the data even when individual machines experience failures</div>
+ <div class="quiz-option" onclick="selectOption(this)">A) MySQL and Microsoft SQL Server exclusively</div>
  <div class="quiz-option" onclick="selectOption(this)">B) MongoDB only</div>
  <div class="quiz-option" onclick="selectOption(this)">C) PostgreSQL and Oracle, among others</div>
  <div class="quiz-option" onclick="selectOption(this)">D) Redis only</div>
@@ -2408,7 +2408,7 @@ Mr. Poons: How far into the future
  <div class="quiz-option" onclick="selectOption(this)">A) NoSQL manifesto</div>
  <div class="quiz-option" onclick="selectOption(this)">B) Causal consistency and solutions like those being developed for single-node transaction behavior on replicas</div>
  <div class="quiz-option" onclick="selectOption(this)">C) SQL Standard 2.0</div>
- <div class="quiz-option" onclick="selectOption(this)">D) MapReduce  while maintaining a consistent and durable view of the data even when individual machines experience failures</div>
+ <div class="quiz-option" onclick="selectOption(this)">D) Snapshot isolation running at a global level, which completely eliminated replica lag by enforcing serial execution across all nodes</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -2453,7 +2453,7 @@ Mr. Poons: How far into the future
  <div class="quiz-header"><span class="quiz-number">Q72</span><span class="quiz-topic">Chain Replication</span></div>
  <p class="quiz-question">What is chain replication?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) Asynchronous only  while maintaining a consistent and durable view of the data even when individual machines experience failures</div>
+ <div class="quiz-option" onclick="selectOption(this)">A) A fully asynchronous replication scheme where updates are forwarded between replicas in a sequential daisy-chain pattern</div>
  <div class="quiz-option" onclick="selectOption(this)">B) A circular topology</div>
  <div class="quiz-option" onclick="selectOption(this)">C) A variant of synchronous replication used in some systems like Microsoft Azure Storage</div>
  <div class="quiz-option" onclick="selectOption(this)">D) A backup strategy</div>
@@ -2487,7 +2487,7 @@ Mr. Poons: How far into the future
  <div class="quiz-options">
  <div class="quiz-option" onclick="selectOption(this)">A) MySQL, PostgreSQL</div>
  <div class="quiz-option" onclick="selectOption(this)">B) Riak, Cassandra, Voldemort</div>
- <div class="quiz-option" onclick="selectOption(this)">C) Redis, Memcached  within the broader architecture of a distributed data-intensive application serving concurrent user requests</div>
+ <div class="quiz-option" onclick="selectOption(this)">C) Redis, HBase, and Memcached</div>
  <div class="quiz-option" onclick="selectOption(this)">D) MongoDB, CouchDB</div>
  </div>
  <div class="quiz-answer">
@@ -2519,7 +2519,7 @@ Mr. Poons: How far into the future
  <div class="quiz-options">
  <div class="quiz-option" onclick="selectOption(this)">A) Not necessarily — due to replication lag, sloppy quorums, and concurrent write conflicts</div>
  <div class="quiz-option" onclick="selectOption(this)">B) Only in Cassandra</div>
- <div class="quiz-option" onclick="selectOption(this)">C) Only with w=n — a pattern that has been refined over decades of distributed systems research</div>
+ <div class="quiz-option" onclick="selectOption(this)">C) Yes, provided that every single read and write operation uses the same fixed majority quorum and no nodes are ever missed</div>
  <div class="quiz-option" onclick="selectOption(this)">D) Always</div>
  </div>
  <div class="quiz-answer">
@@ -2616,7 +2616,7 @@ Mr. Poons: How far into the future
  <div class="quiz-option" onclick="selectOption(this)">A) Two-phase commit</div>
  <div class="quiz-option" onclick="selectOption(this)">B) Last-write-wins</div>
  <div class="quiz-option" onclick="selectOption(this)">C) Operational transformation (OT) for concurrent editing</div>
- <div class="quiz-option" onclick="selectOption(this)">D) Paxos  within the broader architecture of a distributed data-intensive application serving concurrent user requests</div>
+ <div class="quiz-option" onclick="selectOption(this)">D) Vector clocks for coordinating concurrent document edits</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
@@ -2759,7 +2759,7 @@ Mr. Poons: How far into the future
  <div class="quiz-options">
  <div class="quiz-option" onclick="selectOption(this)">A) Infinite scalability</div>
  <div class="quiz-option" onclick="selectOption(this)">B) Multi-datacenter support</div>
- <div class="quiz-option" onclick="selectOption(this)">C) Conflict resolution  while followers serve read-only traffic to reduce the query load on the primary and improve overall throughput</div>
+ <div class="quiz-option" onclick="selectOption(this)">C) Automatic conflict resolution across replicas without any application logic</div>
  <div class="quiz-option" onclick="selectOption(this)">D) A clear ordering of writes since all go through one node</div>
  </div>
  <div class="quiz-answer">
@@ -2775,7 +2775,7 @@ Mr. Poons: How far into the future
  <div class="quiz-options">
  <div class="quiz-option" onclick="selectOption(this)">A) Replication lag — followers haven't yet received/applied recent writes from the leader</div>
  <div class="quiz-option" onclick="selectOption(this)">B) Network encryption</div>
- <div class="quiz-option" onclick="selectOption(this)">C) Too many writes — a pattern that has been refined over decades of distributed systems research</div>
+ <div class="quiz-option" onclick="selectOption(this)">C) Followers are occupied with compacting their internal storage and rebuilding indexes before they can serve client read requests</div>
  <div class="quiz-option" onclick="selectOption(this)">D) Disk failures</div>
  </div>
  <div class="quiz-answer">
@@ -2838,7 +2838,7 @@ Mr. Poons: How far into the future
  <p class="quiz-question">Why is deterministic merge important for multi-leader?</p>
  <div class="quiz-options">
  <div class="quiz-option" onclick="selectOption(this)">A) All replicas must arrive at the same final state even if they process writes in different orders</div>
- <div class="quiz-option" onclick="selectOption(this)">B) Performance  while followers serve read-only traffic to reduce the query load on the primary and improve overall throughput</div>
+ <div class="quiz-option" onclick="selectOption(this)">B) It minimizes the total amount of conflict resolution metadata that replicas need to exchange during the replication process</div>
  <div class="quiz-option" onclick="selectOption(this)">C) Only for analytics</div>
  <div class="quiz-option" onclick="selectOption(this)">D) It's not important</div>
  </div>
@@ -2853,7 +2853,7 @@ Mr. Poons: How far into the future
  <div class="quiz-header"><span class="quiz-number">Q97</span><span class="quiz-topic">Read Scaling</span></div>
  <p class="quiz-question">How does leader-based replication help scale reads?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) By caching queries  while maintaining a consistent and durable view of the data even when individual machines experience failures</div>
+ <div class="quiz-option" onclick="selectOption(this)">A) By routing reads through a shared cache in front of the leader</div>
  <div class="quiz-option" onclick="selectOption(this)">B) Adding followers distributes read queries across more replicas</div>
  <div class="quiz-option" onclick="selectOption(this)">C) By compressing data</div>
  <div class="quiz-option" onclick="selectOption(this)">D) By having faster disks</div>

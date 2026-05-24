@@ -1226,7 +1226,7 @@ while (true) {
                 <div class="quiz-option" onclick="selectOption(this)">A) Distributed systems are fundamentally simpler than single-node systems to design and operate</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Database query optimization</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Everything that can go wrong in a distributed system, and why it's fundamentally different from single-node</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) How to build a network — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) How operators use testing, monitoring, and fault injection to keep distributed services running smoothly</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
@@ -1240,7 +1240,7 @@ while (true) {
  <p class="quiz-question">What happens when hardware fails on a single node?</p>
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Nothing happens</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Partial failure — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Peripheral components may fail independently while the main application usually continues operating normally</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Only software fails</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) The system either works or crashes entirely — total failure, not partial</div>
  </div>
@@ -1287,7 +1287,7 @@ while (true) {
  <div class="quiz-header"><span class="quiz-number">Q5</span><span class="quiz-topic">Supercomputers</span></div>
  <p class="quiz-question">How do supercomputers handle failure differently?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) They ignore failures — the system must continue operating correctly even when individual components become unavailable or misbehave</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) They rely on specialized hardware and careful scheduling so failures are rare enough to mostly ignore</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) They treat partial failure as total failure, checkpointing and restarting from the last checkpoint</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) They replicate everything</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) They use distributed consensus</div>
@@ -1319,7 +1319,7 @@ while (true) {
  <div class="quiz-header"><span class="quiz-number">Q7</span><span class="quiz-topic">Unreliable Networks</span></div>
  <p class="quiz-question">What kind of network do most distributed systems use?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Peer-to-peer mesh — unlike dedicated circuits where bandwidth is reserved and delays are bounded by contract</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Packet networks with reserved paths and guaranteed maximum latency between communicating nodes</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Dedicated circuits</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Asynchronous packet networks — no guarantees on timing or delivery</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Reliable synchronous networks</div>
@@ -1353,7 +1353,7 @@ while (true) {
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Timeouts provide a deterministic guarantee of fault detection under all network conditions</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) There is no way to distinguish between lost requests, crashed nodes, and slow responses — you can only wait and give up</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Timeouts never fail — the system must continue operating correctly even when individual components become unavailable or misbehave</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Timeouts work because retransmitted requests let the sender infer exactly which component failed</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Direct ping works better</div>
  </div>
  <div class="quiz-answer">
@@ -1369,7 +1369,7 @@ while (true) {
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Splitting data across nodes</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) When part of the network is cut off from the rest — nodes can't communicate with each other</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Splitting a file — the shared infrastructure introduces unpredictable queuing, retransmissions, and routing variability</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Dividing a network into subnets so traffic can be routed more efficiently between application tiers</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Dividing a database</div>
  </div>
  <div class="quiz-answer">
@@ -1384,7 +1384,7 @@ while (true) {
  <p class="quiz-question">How common are network problems in real datacenters?</p>
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Surprisingly common — one study at medium-sized datacenters found about 12 network faults per month</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Once a year — the shared infrastructure introduces unpredictable queuing, retransmissions, and routing variability</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Rare enough that operators usually treat them as unusual incidents rather than routine monthly events</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) These issues only affect academic research and never manifest in production deployments</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Network problems are so rare in modern datacenters that they can be safely ignored in practice</div>
  </div>
@@ -1401,7 +1401,7 @@ while (true) {
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) To verify that the system can tolerate and recover from network faults</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) To test users' patience</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) To reduce costs — unlike dedicated circuits where bandwidth is reserved and delays are bounded by contract</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) To rehearse traffic rerouting during migrations between availability zones and cloud providers</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) To test new hardware</div>
 </div>
  <div class="quiz-answer">
@@ -1416,7 +1416,7 @@ while (true) {
  <p class="quiz-question">Can network faults be automatically detected?</p>
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Always and perfectly</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Under no circumstances, because the system architecture prevents this scenario by design</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Yes, with heartbeat protocols and redundant links a cluster can always determine whether a peer failed</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Only with special hardware</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Sometimes — if a process crashes the OS may send a RST/FIN, but you can't count on it</div>
  </div>
@@ -1434,7 +1434,7 @@ while (true) {
                 <div class="quiz-option" onclick="selectOption(this)">A) Too short: false positives (declares nodes dead prematurely). Too long: long wait before detecting actual failure</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Only one correct value exists</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) They always work perfectly</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) No problem exists — without synchronized time, events cannot be reliably ordered across different machines using wall-clock timestamps</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) The main difficulty is choosing one timeout value that all services and programming languages can share</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
@@ -1449,7 +1449,7 @@ while (true) {
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Data is deleted</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) The node recovers faster</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) No consequence — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) The system may briefly lose redundancy, but the recovered node can simply reclaim its work afterward</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Its responsibilities are transferred unnecessarily, causing extra load and potential cascading failures</div>
  </div>
  <div class="quiz-answer">
@@ -1482,7 +1482,7 @@ while (true) {
                 <div class="quiz-option" onclick="selectOption(this)">A) TCP never retransmits</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) TCP is faster than UDP</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) When a packet is lost, TCP waits for a timeout then retransmits, adding to the overall delay</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) They don't — the shared infrastructure introduces unpredictable queuing, retransmissions, and routing variability</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Retransmissions usually hide packet loss because they occur in parallel and don't affect end-to-end delay</div>
 </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
@@ -1496,7 +1496,7 @@ while (true) {
  <p class="quiz-question">How do traditional telephone networks differ from packet networks?</p>
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Telephone networks use circuit-switching with reserved bandwidth and bounded delay — guaranteed quality</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) They're slower — the shared infrastructure introduces unpredictable queuing, retransmissions, and routing variability</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) They use the same best-effort packet delivery model as datacenters, just with older switching hardware</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) They're identical</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) They use packets</div>
  </div>
@@ -1527,7 +1527,7 @@ while (true) {
  <div class="quiz-header"><span class="quiz-number">Q20</span><span class="quiz-topic">Bounded Delay</span></div>
  <p class="quiz-question">Could we build networks with bounded delay?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Impossible — the shared infrastructure introduces unpredictable queuing, retransmissions, and routing variability</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Not really, because bursty traffic makes bounded delay fundamentally unattainable on packet networks</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Possible with QoS and admission control, but currently not enabled in most multi-tenant datacenters</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Only for voice</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Networks with bounded delay and guaranteed quality of service are already universally deployed</div>
@@ -1545,7 +1545,7 @@ while (true) {
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Digital and analog clocks</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Time-of-day clocks and monotonic clocks</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Fast and slow clocks — a monotonically increasing token ensures that delayed or reawakened processes cannot overwrite newer state</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Hardware clocks and software-adjusted clocks</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Local and remote clocks</div>
  </div>
  <div class="quiz-answer">
@@ -1561,7 +1561,7 @@ while (true) {
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Elapsed time since boot</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Temperature</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) CPU cycles — without synchronized time, events cannot be reliably ordered across different machines using wall-clock timestamps</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) A globally comparable timestamp that can be used to order events across all machines</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) The current date and time according to a calendar (e.g., seconds since epoch)</div>
  </div>
  <div class="quiz-answer">
@@ -1578,7 +1578,7 @@ while (true) {
                 <div class="quiz-option" onclick="selectOption(this)">A) They can jump forward or backward when synced with NTP</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) They're monotonic</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) They never need sync</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Always accurate — a monotonically increasing token ensures that delayed or reawakened processes cannot overwrite newer state</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) They drift gradually, but they never jump because NTP always corrects them smoothly</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
@@ -1593,7 +1593,7 @@ while (true) {
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Network synchronization</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Telling the current time</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Setting alarms — the resource server checks the token on every request and rejects any operation carrying an outdated value</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Coordinating timestamps across machines so the cluster agrees on the current wall-clock time</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Measuring elapsed time (duration) — it always moves forward</div>
  </div>
  <div class="quiz-answer">
@@ -1609,7 +1609,7 @@ while (true) {
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Measure duration</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Compare values between different machines — each machine's monotonic clock starts at different values</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Use them at all — the resource server checks the token on every request and rejects any operation carrying an outdated value</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Use one monotonic timestamp as a shared ordering signal across replicas on different machines</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Measure milliseconds</div>
  </div>
  <div class="quiz-answer">
@@ -1624,7 +1624,7 @@ while (true) {
  <p class="quiz-question">What is NTP?</p>
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Network Transfer Protocol</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Node Transport Protocol — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Network Trace Protocol - a service for measuring end-to-end latency between hosts</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Network Time Protocol — synchronizes machine clocks with time servers</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Networked Timestamp Protocol</div>
 </div>
@@ -1642,7 +1642,7 @@ while (true) {
                 <div class="quiz-option" onclick="selectOption(this)">A) Only within hours</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Nanosecond precision</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) At best within tens of milliseconds over the internet; better on local networks but still limited</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Always exact — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Usually within a few microseconds in production, as long as clients use nearby time servers</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
@@ -1657,7 +1657,7 @@ while (true) {
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Only when powered off</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Exactly 1 second per year</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Never drifts — without synchronized time, events cannot be reliably ordered across different machines using wall-clock timestamps</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Drift is negligible in modern servers because quartz oscillators are temperature-compensated in hardware</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Up to 200 ppm (parts per million) — about 6 seconds per day for a typical server</div>
  </div>
  <div class="quiz-answer">
@@ -1672,7 +1672,7 @@ while (true) {
  <p class="quiz-question">Why shouldn't you use timestamps for ordering events?</p>
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Timestamps are always ordered</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Timestamps are too precise — each machine's quartz oscillator drifts independently, and NTP corrections can cause jumps forward or backward</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Timestamps can be too coarse, so simultaneous updates may tie even when clocks are aligned</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Only databases use timestamps</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Clock skew between machines means a 'later' timestamp on one machine may be earlier in real time</div>
  </div>
@@ -1687,7 +1687,7 @@ while (true) {
  <div class="quiz-header"><span class="quiz-number">Q30</span><span class="quiz-topic">LWW Clocks</span></div>
  <p class="quiz-question">What danger exists in using last-write-wins (LWW) with timestamps?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) No danger — without synchronized time, events cannot be reliably ordered across different machines using wall-clock timestamps</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) The main risk is extra storage usage, because conflicting writes must be retained until clocks converge</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) A write with a lagging clock is silently dropped, even though it happened later in reality</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Clocks are always synchronized</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Both writes are kept</div>
@@ -1703,7 +1703,7 @@ while (true) {
  <div class="quiz-header"><span class="quiz-number">Q31</span><span class="quiz-topic">Logical Clocks</span></div>
  <p class="quiz-question">What are logical clocks?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) GPS clocks — without synchronized time, events cannot be reliably ordered across different machines using wall-clock timestamps</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Timestamp services that assign synchronized wall-clock values from a trusted central authority</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Atomic clocks</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Counters (like Lamport timestamps) that track relative ordering of events rather than wall-clock time</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Hardware clocks</div>
@@ -1721,7 +1721,7 @@ while (true) {
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Network hops</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Event ordering</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) CPU cycles — a monotonically increasing token ensures that delayed or reawakened processes cannot overwrite newer state</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) The exact causal order of distributed events, independent of network delay or clock skew</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Actual elapsed time (wall-clock time), subject to synchronization issues</div>
  </div>
  <div class="quiz-answer">
@@ -1735,7 +1735,7 @@ while (true) {
  <div class="quiz-header"><span class="quiz-number">Q33</span><span class="quiz-topic">Confidence Interval</span></div>
  <p class="quiz-question">What should timestamps really be?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) A hash value — without synchronized time, events cannot be reliably ordered across different machines using wall-clock timestamps</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) A single authoritative timestamp from a trusted time server so every node can agree on one value</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) A random number</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) A range/confidence interval, not a single point — the true time lies within the range</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) An exact point in time</div>
@@ -1753,7 +1753,7 @@ while (true) {
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) A confidence interval [earliest, latest] for the current time</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) A Unix timestamp</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) GPS coordinates — each machine's quartz oscillator drifts independently, and NTP corrections can cause jumps forward or backward</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) A globally synchronized timestamp together with the measured drift rate of the local oscillator</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) A logical clock value</div>
  </div>
  <div class="quiz-answer">
@@ -1785,7 +1785,7 @@ while (true) {
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) They don't affect computers</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) They're always smooth</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Nothing happens because the remaining nodes continue operating as if nothing changed</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) They mostly affect calendars and log formatting, while distributed protocols still see smooth time</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) They can cause time to jump or repeat, and NTP servers may handle them differently</div>
 </div>
  <div class="quiz-answer">
@@ -1801,7 +1801,7 @@ while (true) {
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Pauses are always short</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Processes never pause</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) No effect — these pauses are transparent to the application, making it impossible to measure elapsed time purely from within</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) The main effect is lower throughput, while pause-aware runtimes keep lease and timeout logic correct</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) A process may be paused for an arbitrary length of time (GC, VM migration, swap, scheduling) and not know it</div>
 </div>
  <div class="quiz-answer">
@@ -1815,7 +1815,7 @@ while (true) {
  <div class="quiz-header"><span class="quiz-number">Q38</span><span class="quiz-topic">GC Pauses</span></div>
  <p class="quiz-question">How long can garbage collection pauses last?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Always under 100ms — these pauses are transparent to the application, making it impossible to measure elapsed time purely from within</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Usually under a few hundred milliseconds in modern runtimes because collectors avoid long stop-the-world pauses</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Never more than 1ms</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Sometimes several minutes, especially for large heaps — 'stop-the-world' GC freezes all threads</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Only in interpreted languages</div>
@@ -1833,7 +1833,7 @@ while (true) {
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) The process may think its lease is still valid after being paused, but the lease actually expired</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Pauses extend leases</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) No problem — these pauses are transparent to the application, making it impossible to measure elapsed time purely from within</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) The lease service accounts for pauses automatically, so the client can safely continue after it resumes</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Leases never expire</div>
 </div>
  <div class="quiz-answer">
@@ -1848,7 +1848,7 @@ while (true) {
  <p class="quiz-question">What is a fencing token?</p>
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) A network address</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) A firewall rule — a monotonically increasing token ensures that delayed or reawakened processes cannot overwrite newer state</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) A version number on a replicated object that clients compare locally before renewing the lease</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) A monotonically increasing number attached to each lock/lease grant; the storage server rejects writes with old tokens</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) An encryption key</div>
 </div>
@@ -1863,7 +1863,7 @@ while (true) {
  <div class="quiz-header"><span class="quiz-number">Q41</span><span class="quiz-topic">Fencing Mechanism</span></div>
  <p class="quiz-question">How does fencing prevent stale lock holders?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) It revokes the lease — a monotonically increasing token ensures that delayed or reawakened processes cannot overwrite newer state</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) By revoking leases quickly enough that delayed clients never get a chance to reach the storage server</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Fencing tokens work by immediately killing any process that holds an expired lock or lease</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) If a delayed process sends a write with an old token, the storage server rejects it because a higher token was already seen</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) The fencing mechanism prevents stale writes by blocking all network traffic from the old leader</div>
@@ -1881,7 +1881,7 @@ while (true) {
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) All nodes have perfect knowledge</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Only the leader has limitations</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) None — everything is knowable — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Enough monitoring and message exchange can give each node a complete and accurate system view</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) A node cannot know anything for certain — it can only rely on messages, which may be delayed, lost, or fake</div>
  </div>
  <div class="quiz-answer">
@@ -1895,7 +1895,7 @@ while (true) {
  <div class="quiz-header"><span class="quiz-number">Q43</span><span class="quiz-topic">Node Liveness</span></div>
  <p class="quiz-question">How do distributed systems determine if a node is alive?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) By asking the node — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) By waiting for direct acknowledgments from the node itself, since only it knows whether it is healthy</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) By checking CPU temperature</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) By majority vote among nodes — if a quorum declares a node dead, it is considered dead</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Ping with instant response</div>
@@ -1912,7 +1912,7 @@ while (true) {
  <p class="quiz-question">Why is majority-based decision making used?</p>
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) A single node can't be trusted (it may be paused, stopped, or lying) — the majority opinion is used as truth</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) It's the simplest — a majority of nodes must independently arrive at the same decision before it takes effect in the system</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) It lowers coordination overhead because a majority can act without preserving one consistent system view</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Majority-based decision making is used primarily because democratic principles apply to distributed nodes</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Quorum voting is an optional feature used mainly for debugging and observability purposes</div>
 </div>
@@ -1927,7 +1927,7 @@ while (true) {
  <div class="quiz-header"><span class="quiz-number">Q45</span><span class="quiz-topic">Byzantine Faults</span></div>
  <p class="quiz-question">What is a Byzantine fault?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) A slow query — the system must continue operating correctly even when individual components become unavailable or misbehave</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) A node that stays responsive but runs so slowly that other nodes repeatedly time it out and replace it</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) A node that lies, sends corrupted or contradictory messages to other nodes</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) A disk failure</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) A network partition</div>
@@ -1975,10 +1975,10 @@ while (true) {
  <div class="quiz-header"><span class="quiz-number">Q48</span><span class="quiz-topic">When BFT Matters</span></div>
  <p class="quiz-question">When is Byzantine fault tolerance actually needed?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Under no circumstances, because the system architecture prevents this scenario by design</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Mainly in military and aerospace systems where radiation may corrupt hardware but operators control all nodes</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Byzantine fault tolerance is exclusively used for encrypting data at rest in storage systems</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) In systems without central trust — peer-to-peer networks, blockchain, or when nodes may have bugs</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) In every database — the system must continue operating correctly even when individual components become unavailable or misbehave</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) In any system that uses consensus, because agreement protocols assume some nodes will behave maliciously</div>
 </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
@@ -1991,7 +1991,7 @@ while (true) {
  <div class="quiz-header"><span class="quiz-number">Q49</span><span class="quiz-topic">Weak Lies</span></div>
  <p class="quiz-question">What are 'weak forms of lying' that non-BFT systems should guard against?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Outright malice — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Minor timing differences between replicas that cause retries, duplicate work, or temporarily stale reads</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Encrypted messages</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Password guessing</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Corrupted packets (checksums), invalid inputs (validation), NTP misconfiguration (multiple servers)</div>
@@ -2009,7 +2009,7 @@ while (true) {
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) A hardware specification</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) A network diagram</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) A UML diagram — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) A reference architecture showing node roles, message flows, and storage layout for a distributed service</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) An abstraction describing what faults can and cannot happen, used for algorithm design</div>
  </div>
  <div class="quiz-answer">
@@ -2025,7 +2025,7 @@ while (true) {
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Synchronous (bounded delay), partially synchronous (bounded most of the time), asynchronous (no timing assumptions)</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Online, offline, hybrid</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Fast, medium, slow — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Deterministic, probabilistic, and adaptive models based on how often delays exceed observed production baselines</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Real-time, near-real-time, batch</div>
 </div>
  <div class="quiz-answer">
@@ -2041,7 +2041,7 @@ while (true) {
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Exact microsecond precision</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) No timing guarantees ever</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Perfect timing — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Timing bounds are known but may vary by node, so protocols can assume every timeout is eventually correct</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) The system behaves like a synchronous system most of the time, but sometimes exceeds bounds</div>
  </div>
  <div class="quiz-answer">
@@ -2087,7 +2087,7 @@ while (true) {
  <div class="quiz-header"><span class="quiz-number">Q55</span><span class="quiz-topic">Realistic Model</span></div>
  <p class="quiz-question">What system model is most realistic for real distributed systems?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Synchronous with no faults — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Fully asynchronous with crash-recovery faults</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Asynchronous with Byzantine faults</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Synchronous with crash-stop</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Partially synchronous with crash-recovery</div>
@@ -2103,7 +2103,7 @@ while (true) {
  <div class="quiz-header"><span class="quiz-number">Q56</span><span class="quiz-topic">Correctness</span></div>
  <p class="quiz-question">How is algorithm correctness defined for distributed systems?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) By code review — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) By proving every operation terminates within bounded time under the assumed failure conditions</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) By describing its properties (safety and liveness) that must hold in all situations the system model allows</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) By benchmark performance</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) It works in all tests</div>
@@ -2121,7 +2121,7 @@ while (true) {
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Something eventually happens</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Performance guarantee</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Security — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) A guarantee that confidential data cannot be read by unauthorized nodes</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Nothing bad happens — if violated, we can point to a specific moment when it was broken</div>
  </div>
  <div class="quiz-answer">
@@ -2137,7 +2137,7 @@ while (true) {
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Something good eventually happens — a request eventually receives a response</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Nothing bad happens</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) The system is fast — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) The system preserves durable state across crashes and restarts</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) The system never crashes</div>
  </div>
  <div class="quiz-answer">
@@ -2151,7 +2151,7 @@ while (true) {
  <div class="quiz-header"><span class="quiz-number">Q59</span><span class="quiz-topic">Safety vs Liveness</span></div>
  <p class="quiz-question">What is the key difference between safety and liveness?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) They're the same — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Safety prevents crashes, while liveness guarantees the system runs quickly under load</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Safety must hold at all times (no violation allowed); liveness must hold eventually (may be deferred)</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Safety is faster</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Liveness is stronger</div>
@@ -2167,7 +2167,7 @@ while (true) {
  <div class="quiz-header"><span class="quiz-number">Q60</span><span class="quiz-topic">Algorithm Guarantees</span></div>
  <p class="quiz-question">What do distributed algorithms typically guarantee?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Instant responses — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Bounded response times for every operation, even during partitions, pauses, and machine failures</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Perfect performance</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Safety properties are always met (even under all faults); liveness properties hold with caveats (e.g., if enough nodes are up)</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) No faults possible</div>
@@ -2183,7 +2183,7 @@ while (true) {
  <div class="quiz-header"><span class="quiz-number">Q61</span><span class="quiz-topic">Shared Nothing</span></div>
  <p class="quiz-question">What architecture do distributed systems in this book use?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Shared CPU — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Message-passing nodes coordinated through a shared storage layer</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Shared memory</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Shared disk</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Shared-nothing — each node has its own CPU, memory, and disk</div>
@@ -2231,7 +2231,7 @@ while (true) {
  <div class="quiz-header"><span class="quiz-number">Q64</span><span class="quiz-topic">Error Handling</span></div>
  <p class="quiz-question">How should distributed systems handle uncertainty?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Ignore it — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Mask it with aggressive caching so users rarely notice inconsistent behavior</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Use timeouts, retries, quorums, and consensus algorithms to cope with unreliable components</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Use larger servers</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Hope for the best</div>
@@ -2250,7 +2250,7 @@ while (true) {
                 <div class="quiz-option" onclick="selectOption(this)">A) A system with guaranteed response time within a specified deadline — common in safety-critical systems</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) A database with fast queries</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) A system with real-time analytics</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Any fast system — without synchronized time, events cannot be reliably ordered across different machines using wall-clock timestamps</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) A system optimized for low average latency, even if occasional requests miss deadlines</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
@@ -2282,7 +2282,7 @@ while (true) {
                 <div class="quiz-option" onclick="selectOption(this)">A) HPC has more faults</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Cloud embraces partial failure (always-on, commodity hardware); HPC treats any failure as total failure (checkpoint/restart)</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Cloud has no faults</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) They're the same — the system must continue operating correctly even when individual components become unavailable or misbehave</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Both rely on checkpointing whole jobs when a node fails, differing mainly in scale and cost</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -2295,10 +2295,10 @@ while (true) {
  <div class="quiz-header"><span class="quiz-number">Q68</span><span class="quiz-topic">Network Assumptions</span></div>
  <p class="quiz-question">What can you NOT assume about the network?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Everything is guaranteed — the shared infrastructure introduces unpredictable queuing, retransmissions, and routing variability</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) That most messages arrive soon enough for timeout values to be treated as hard bounds</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Only bandwidth is unlimited</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) You cannot assume bounded latency, reliable delivery, or ordered delivery in asynchronous networks</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Nothing happens because the remaining nodes continue operating as if nothing changed</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) That failed links are immediately visible to every node through the operating system</div>
 </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
@@ -2314,7 +2314,7 @@ while (true) {
                 <div class="quiz-option" onclick="selectOption(this)">A) Bounded latency</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Instant delivery</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Reliable, ordered delivery at the application level (via retransmissions) but not bounded latency</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) No guarantees — unlike dedicated circuits where bandwidth is reserved and delays are bounded by contract</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Guaranteed bandwidth reservations and fixed upper bounds on end-to-end packet latency</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
@@ -2328,7 +2328,7 @@ while (true) {
  <p class="quiz-question">What do unbounded network delays mean for failure detection?</p>
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) No detection needed</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Perfect detection — unlike dedicated circuits where bandwidth is reserved and delays are bounded by contract</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) They let you choose a timeout that cleanly separates healthy nodes from failed nodes</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) You cannot distinguish a slow node from a dead one within a fixed time — any timeout is a guess</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Failures are instant</div>
  </div>
@@ -2344,7 +2344,7 @@ while (true) {
  <p class="quiz-question">What technique helps when network congestion causes timeouts?</p>
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Retry immediately</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Shorter timeouts — unlike dedicated circuits where bandwidth is reserved and delays are bounded by contract</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Reduce the retry interval so queued requests clear before the next timeout fires</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Exponential backoff — increase the timeout interval on each retry to avoid overloading</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Give up after one try</div>
  </div>
@@ -2362,7 +2362,7 @@ while (true) {
                 <div class="quiz-option" onclick="selectOption(this)">A) Only affects networking</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) VMs don't pause</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Live migration can pause a VM for seconds without the guest OS being aware</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) VMs are faster — these pauses are transparent to the application, making it impossible to measure elapsed time purely from within</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) A paused VM can resume after its leases and timeouts have already expired</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
@@ -2376,7 +2376,7 @@ while (true) {
  <p class="quiz-question">What happens when an OS pages memory to disk (swapping)?</p>
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Processes may be paused for extended periods while waiting for pages to be loaded from disk</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Only affects reads — these pauses are transparent to the application, making it impossible to measure elapsed time purely from within</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Only affects writes, since cached reads can proceed while swap is in progress</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Faster performance</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) No effect on processes</div>
 </div>
@@ -2391,7 +2391,7 @@ while (true) {
  <div class="quiz-header"><span class="quiz-number">Q74</span><span class="quiz-topic">Thread Scheduling</span></div>
  <p class="quiz-question">How does OS thread scheduling cause problems?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) It doesn't — these pauses are transparent to the application, making it impossible to measure elapsed time purely from within</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Scheduling only changes throughput, not the correctness of timeout-based decisions</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Only affects single-core</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Threads always run</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) A thread can be preempted and not resume for milliseconds or longer, creating unexpected pauses</div>
@@ -2407,7 +2407,7 @@ while (true) {
  <div class="quiz-header"><span class="quiz-number">Q75</span><span class="quiz-topic">SIGSTOP</span></div>
  <p class="quiz-question">What can cause an unexpected process pause?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Nothing happens because the remaining nodes continue operating as if nothing changed</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) An overloaded NIC driver can pause the entire process until its buffers are flushed</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) A SIGSTOP signal, hitting Ctrl-Z, or being suspended by the OS for resource management</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Keyboard input only</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Network failure — the operating system or runtime may suspend a process at any time without the process being aware of the gap</div>
@@ -2423,10 +2423,10 @@ while (true) {
  <div class="quiz-header"><span class="quiz-number">Q76</span><span class="quiz-topic">Lock Problem</span></div>
  <p class="quiz-question">In the chapter's storage lock example, what goes wrong?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Lock is never acquired — the resource server checks the token on every request and rejects any operation carrying an outdated value</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Both clients fail — a monotonically increasing token ensures that delayed or reawakened processes cannot overwrite newer state — a design choice that reflects the fundamental trade-offs inherent in all distributed systems architectures</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Client 1 keeps retrying the lock request, but acquisition keeps timing out before either client can write</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Both clients notice the lease timing issue and back off, leaving the file temporarily unavailable</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Client 1 gets a lock, has a GC pause, lock expires, Client 2 gets the lock and writes, Client 1 resumes and writes with an expired lock</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Lock works perfectly — a monotonically increasing token ensures that delayed or reawakened processes cannot overwrite newer state</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) The lock service serializes both clients' writes through the lease, so the file is updated safely in sequence</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
@@ -2439,7 +2439,7 @@ while (true) {
  <div class="quiz-header"><span class="quiz-number">Q77</span><span class="quiz-topic">Fencing Need</span></div>
  <p class="quiz-question">Why is a fencing token needed in addition to a lock?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) For authentication — the resource server checks the token on every request and rejects any operation carrying an outdated value</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) To let the lock service verify which client originally acquired the lease after a restart</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Locks are sufficient</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Packet checksums are a mechanism for encrypting the payload of network messages end-to-end</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) A process holding a lock may not realize the lock has expired (due to pauses), so the resource must check the token</div>
@@ -2455,7 +2455,7 @@ while (true) {
  <div class="quiz-header"><span class="quiz-number">Q78</span><span class="quiz-topic">Clock Sources</span></div>
  <p class="quiz-question">What feeds the time-of-day clock on a computer?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) GPS always — the resource server checks the token on every request and rejects any operation carrying an outdated value</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) A battery-backed RTC chip, with no need for network correction</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) A quartz crystal oscillator, periodically adjusted by NTP</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Network only</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Manual setting only</div>
@@ -2471,9 +2471,9 @@ while (true) {
  <div class="quiz-header"><span class="quiz-number">Q79</span><span class="quiz-topic">NTP Problems</span></div>
  <p class="quiz-question">What can go wrong with NTP synchronization?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Only clock speedup — each machine's quartz oscillator drifts independently, and NTP corrections can cause jumps forward or backward</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Only minor drift between syncs; NTP cannot step the clock or use bad sources</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Firewall blocking NTP, misconfigured servers, quartz drift between syncs, network delay uncertainty</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Nothing happens because the remaining nodes continue operating as if nothing changed</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Only network latency changes; clock readings remain exact once synchronization succeeds</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) NTP is always perfect</div>
 </div>
  <div class="quiz-answer">
@@ -2488,7 +2488,7 @@ while (true) {
  <p class="quiz-question">What happens when NTP detects a large time difference?</p>
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) The system shuts down</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) NTP stops working — without synchronized time, events cannot be reliably ordered across different machines using wall-clock timestamps</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) The daemon ignores the offset and leaves the local clock unchanged until reboot</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Gradual adjustment</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) The clock may be forcibly reset (stepped), causing a sudden jump forward or backward</div>
  </div>
@@ -2506,7 +2506,7 @@ while (true) {
                 <div class="quiz-option" onclick="selectOption(this)">A) It resets it to zero</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) It can speed up or slow down the monotonic clock (slewing) but never makes it jump backward</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) It doesn't affect it</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) It stops it — without synchronized time, events cannot be reliably ordered across different machines using wall-clock timestamps</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) It can periodically restart the monotonic clock from the current wall-clock time</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -2520,7 +2520,7 @@ while (true) {
  <p class="quiz-question">What is the correct way to order events in a distributed system?</p>
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Logical clocks (e.g., Lamport timestamps, version vectors) that don't depend on synchronized clocks</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Random ordering — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Use tightly synchronized wall-clock timestamps plus a random tiebreaker on conflicts</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Wall-clock timestamps</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Alphabetical order</div>
  </div>
@@ -2538,7 +2538,7 @@ while (true) {
                 <div class="quiz-option" onclick="selectOption(this)">A) Snapshot isolation needs a monotonically increasing transaction ID; in distributed DBs, this requires synchronized clocks</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) It uses logical clocks only</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) It doesn't need ordering</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) No relation — without synchronized time, events cannot be reliably ordered across different machines using wall-clock timestamps</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) It only matters for backup scheduling; transaction visibility does not depend on ordering</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
@@ -2551,7 +2551,7 @@ while (true) {
  <div class="quiz-header"><span class="quiz-number">Q84</span><span class="quiz-topic">Spanner Clock Wait</span></div>
  <p class="quiz-question">Why does Google Spanner wait before committing?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) For performance — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) To give replicas time to apply the write before users can observe the commit timestamp</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) For network stability</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) For user experience</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) To ensure that the commit timestamp's confidence interval doesn't overlap with any concurrent transaction</div>
@@ -2585,7 +2585,7 @@ while (true) {
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Globally consistent snapshots, true event ordering, and causal consistency based on timestamps</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Faster networks</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Nothing new — each machine's quartz oscillator drifts independently, and NTP corrections can cause jumps forward or backward</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Only simpler timeout tuning; logical clocks and snapshots would still behave the same</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) No need for consensus</div>
  </div>
  <div class="quiz-answer">
@@ -2601,7 +2601,7 @@ while (true) {
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) At least 3f+1 nodes to tolerate f Byzantine-faulty nodes</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) f+1</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) n+1 — the system must continue operating correctly even when individual components become unavailable or misbehave</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) At least 2f+1 nodes, since a simple majority can outvote faulty replicas</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) 2f+1</div>
 </div>
  <div class="quiz-answer">
@@ -2615,7 +2615,7 @@ while (true) {
  <div class="quiz-header"><span class="quiz-number">Q88</span><span class="quiz-topic">Hardware Errors</span></div>
  <p class="quiz-question">What hardware issue can mimic a Byzantine fault?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) None — the system must continue operating correctly even when individual components become unavailable or misbehave</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Clock drift large enough to reorder messages can make an honest node appear Byzantine</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Memory corruption (e.g., flipped bits from cosmic rays or faulty RAM) can cause a node to return wrong results</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) A slow disk is the most common hardware failure that mimics a Byzantine fault in distributed systems</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) A faulty network cable is the only hardware issue that can produce Byzantine-like symptoms</div>
@@ -2664,7 +2664,7 @@ while (true) {
  <p class="quiz-question">Why should you configure multiple NTP servers?</p>
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) One is always enough</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) For performance — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) To reduce synchronization latency by letting clients pick the fastest responding server</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) To detect and tolerate a misconfigured or unreliable NTP server by cross-referencing multiple sources</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) For redundancy only</div>
  </div>
@@ -2681,7 +2681,7 @@ while (true) {
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Clocks are reliable</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) There is no algorithm that can reach consensus in an asynchronous system if even one node may crash</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Consensus is easy — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Consensus is impossible only when the network loses messages permanently, not when nodes crash</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Networks always work</div>
 </div>
  <div class="quiz-answer">
@@ -2698,7 +2698,7 @@ while (true) {
                 <div class="quiz-option" onclick="selectOption(this)">A) Real systems are partially synchronous, not purely asynchronous — timeouts and clocks allow practical consensus</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) It only applies to theory</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) It was disproven</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) It's wrong — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) It matters only for lock services; ordinary consensus protocols are unaffected by asynchrony</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
@@ -2714,7 +2714,7 @@ while (true) {
                 <div class="quiz-option" onclick="selectOption(this)">A) Network speed</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) The variability in network packet delay — some packets arrive quickly, others are delayed</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Network bandwidth</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Packet size — the shared infrastructure introduces unpredictable queuing, retransmissions, and routing variability</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) The maximum packet size a network can carry before fragmentation becomes necessary</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -2727,7 +2727,7 @@ while (true) {
  <div class="quiz-header"><span class="quiz-number">Q95</span><span class="quiz-topic">Phi Accrual</span></div>
  <p class="quiz-question">What is the Phi Accrual failure detector?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) A type of lock — the system must continue operating correctly even when individual components become unavailable or misbehave</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) A lease mechanism that hands leadership to another node after a fixed expiration interval</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) A clock synchronization protocol</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) An adaptive failure detector that estimates the probability a node has crashed based on observed response times</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) A consensus algorithm</div>
@@ -2745,7 +2745,7 @@ while (true) {
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Use the smallest possible value</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Measure response time distribution experimentally and adjust timeouts based on observed delays</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) A fixed value — each machine's quartz oscillator drifts independently, and NTP corrections can cause jumps forward or backward</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Use one conservative timeout for all nodes, since clock drift dominates network variation</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Use the largest possible value</div>
  </div>
  <div class="quiz-answer">
@@ -2777,7 +2777,7 @@ while (true) {
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) To reduce storage</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Because no single node's perspective can be trusted — the majority opinion is used for correctness</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) For simplicity — this ensures that the system can make progress even when a minority of nodes have failed or are unreachable</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) To ensure every decision is recorded on all nodes before any client sees the result</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) For performance</div>
 </div>
  <div class="quiz-answer">
@@ -2791,7 +2791,7 @@ while (true) {
  <div class="quiz-header"><span class="quiz-number">Q99</span><span class="quiz-topic">Chapter Connection</span></div>
  <p class="quiz-question">How does Chapter 8 connect to Chapter 9?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) No connection — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Chapter 9 mainly revisits network hardware assumptions rather than introducing new algorithms</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) They cover different topics</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Chapter 9 repeats Chapter 8</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Chapter 8 identifies the problems; Chapter 9 presents algorithms (consensus, etc.) that solve them</div>
@@ -2808,9 +2808,9 @@ while (true) {
  <p class="quiz-question">What is the chapter's main message?</p>
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) The most reliable approach for distributed systems is to consolidate everything onto a single machine — this property is essential for maintaining correctness under the fault assumptions of the system model</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Distributed systems are simple — the broker durably stores messages and delivers them to consumers, enabling asynchronous communication patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Distributed systems become manageable once message brokers hide timing uncertainty and decouple every component</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Distributed systems face fundamental challenges (unreliable networks, clocks, and processes) that can't be engineered away — only tolerated through careful algorithm design</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Networks are reliable — producers and consumers are decoupled, allowing them to operate at different speeds and be deployed independently</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Most failures can be eliminated with enough redundancy and monitoring, making careful distributed algorithms largely unnecessary</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>

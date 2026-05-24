@@ -1235,14 +1235,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q1</span><span class="quiz-topic">Transactions</span></div>
  <p class="quiz-question">What is a transaction?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) A periodic backup process that creates consistent snapshots of the entire database</div>
- <div class="quiz-option" onclick="selectOption(this)">B) A network protocol that guarantees ordered delivery of write operations</div>
- <div class="quiz-option" onclick="selectOption(this)">C) A way for an application to group several reads and writes into a logical unit</div>
- <div class="quiz-option" onclick="selectOption(this)">D) A single database query that reads or writes exactly one row at a time</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) A way for an application to group several reads and writes into a logical unit</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) A network protocol that guarantees ordered delivery of write operations</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) A single database query that reads or writes exactly one row at a time</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) A periodic backup process that creates consistent snapshots of the entire database</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: C)</strong> A transaction groups several reads and writes into a logical unit — they all either succeed (commit) or fail (abort/rollback).</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: A)</strong> A transaction groups several reads and writes into a logical unit — they all either succeed (commit) or fail (abort/rollback).</div>
  </div>
  </section>
 
@@ -1251,14 +1251,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q2</span><span class="quiz-topic">Transaction Purpose</span></div>
  <p class="quiz-question">What safety guarantee do transactions provide?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) If an error occurs, the application can safely retry without partial failure</div>
- <div class="quiz-option" onclick="selectOption(this)">B) Automatic performance optimization through parallel query execution plans</div>
- <div class="quiz-option" onclick="selectOption(this)">C) End-to-end network encryption that protects data in transit between client and server</div>
- <div class="quiz-option" onclick="selectOption(this)">D) Transparent data compression that reduces storage footprint without application changes</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Transparent data compression that reduces storage footprint without application changes</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) End-to-end network encryption that protects data in transit between client and server</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) If an error occurs, the application can safely retry without partial failure</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Automatic performance optimization through parallel query execution plans</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: A)</strong> Transactions simplify error handling: if something goes wrong, the application can safely retry without partial failure.</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: C)</strong> Transactions simplify error handling: if something goes wrong, the application can safely retry without partial failure.</div>
  </div>
  </section>
 
@@ -1267,10 +1267,10 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q3</span><span class="quiz-topic">ACID</span></div>
  <p class="quiz-question">What does ACID stand for?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) Automated, Concurrent, Independent, Distributed</div>
- <div class="quiz-option" onclick="selectOption(this)">B) Abstract, Consistent, Isolated, Durable</div>
- <div class="quiz-option" onclick="selectOption(this)">C) Atomicity, Consistency, Isolation, Durability</div>
- <div class="quiz-option" onclick="selectOption(this)">D) Active, Cached, Indexed, Distributed</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Abstract, Consistent, Isolated, Durable</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Active, Cached, Indexed, Distributed</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Atomicity, Consistency, Isolation, Durability</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Automated, Concurrent, Independent, Distributed</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
@@ -1283,10 +1283,10 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q4</span><span class="quiz-topic">Atomicity</span></div>
  <p class="quiz-question">In ACID, what does Atomicity mean?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) Operations happen simultaneously</div>
- <div class="quiz-option" onclick="selectOption(this)">B) Data is split into indivisible atomic units that cannot be partially modified</div>
- <div class="quiz-option" onclick="selectOption(this)">C) Each operation within the transaction must complete in under a millisecond</div>
- <div class="quiz-option" onclick="selectOption(this)">D) If a transaction fails partway, all changes are rolled back — all-or-nothing</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Data is split into indivisible atomic units that cannot be partially modified</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Each operation within the transaction must complete in under a millisecond</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Operations happen simultaneously</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) If a transaction fails partway, all changes are rolled back — all-or-nothing</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
@@ -1299,14 +1299,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q5</span><span class="quiz-topic">Consistency ACID</span></div>
  <p class="quiz-question">In ACID, what does Consistency mean?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) The database guarantees that no duplicate rows exist for the same primary key</div>
- <div class="quiz-option" onclick="selectOption(this)">B) Application-specific invariants about the data must always be true</div>
- <div class="quiz-option" onclick="selectOption(this)">C) Data is replicated across multiple nodes so all replicas contain identical copies</div>
- <div class="quiz-option" onclick="selectOption(this)">D) All nodes in the cluster must agree on the outcome before a transaction can commit</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Application-specific invariants about the data must always be true</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Data is replicated across multiple nodes so all replicas contain identical copies</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) All nodes in the cluster must agree on the outcome before a transaction can commit</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) The database guarantees that no duplicate rows exist for the same primary key</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: B)</strong> Consistency means certain invariants about the data must always hold. This is an application-level property, not a database guarantee.</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: A)</strong> Consistency means certain invariants about the data must always hold. This is an application-level property, not a database guarantee.</div>
  </div>
  </section>
 
@@ -1315,10 +1315,10 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q6</span><span class="quiz-topic">Isolation</span></div>
  <p class="quiz-question">In ACID, what does Isolation mean?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) The network is segmented so transactions on different subnets cannot interfere</div>
- <div class="quiz-option" onclick="selectOption(this)">B) Data is encrypted so that concurrent transactions cannot read each other's writes</div>
- <div class="quiz-option" onclick="selectOption(this)">C) Concurrently executing transactions don't interfere with each other</div>
- <div class="quiz-option" onclick="selectOption(this)">D) Each database instance is physically separated to prevent resource contention</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Data is encrypted so that concurrent transactions cannot read each other's writes</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Each database instance is physically separated to prevent resource contention</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Concurrently executing transactions don't interfere with each other</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) The network is segmented so transactions on different subnets cannot interfere</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
@@ -1331,10 +1331,10 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q7</span><span class="quiz-topic">Durability</span></div>
  <p class="quiz-question">In ACID, what does Durability mean?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) The underlying hardware is assumed to never fail during normal operation within the broader architecture of a distributed data-intensive application serving concurrent user requests</div>
- <div class="quiz-option" onclick="selectOption(this)">B) Network connections between the application and database are guaranteed to stay up</div>
- <div class="quiz-option" onclick="selectOption(this)">C) Committed data is cached indefinitely in memory and never needs to be written to disk</div>
- <div class="quiz-option" onclick="selectOption(this)">D) Once a transaction commits, its data won't be lost even if there's a hardware fault or crash</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Committed data is cached indefinitely in memory and never needs to be written to disk</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Network connections between the application and database are guaranteed to stay up</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) A transaction is durable only after its changes have been replicated to every node in the cluster</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Once a transaction commits, its data won't be lost even if there's a hardware fault or crash</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
@@ -1347,14 +1347,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q8</span><span class="quiz-topic">BASE</span></div>
  <p class="quiz-question">What does BASE stand for (the NoSQL alternative to ACID)?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) Binary Asynchronous Synchronization Engine</div>
- <div class="quiz-option" onclick="selectOption(this)">B) Batch Aggregate Search Engine</div>
- <div class="quiz-option" onclick="selectOption(this)">C) Basic Availability, Soft state, Eventual consistency</div>
- <div class="quiz-option" onclick="selectOption(this)">D) Backup And Secure Encryption as part of a comprehensive strategy for ensuring data integrity and query performance at scale</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Batch Aggregate Search Engine</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Best-effort Availability, Shared state, Event-driven updates</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Binary Asynchronous Synchronization Engine</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Basic Availability, Soft state, Eventual consistency</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: C)</strong> BASE = Basically Available, Soft state, Eventual consistency — a vague term used to contrast with ACID.</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: D)</strong> BASE = Basically Available, Soft state, Eventual consistency — a vague term used to contrast with ACID.</div>
  </div>
  </section>
 
@@ -1363,10 +1363,10 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q9</span><span class="quiz-topic">Single vs Multi Object</span></div>
  <p class="quiz-question">What is the difference between single-object and multi-object transactions?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) Single-object: atomicity/isolation for one write; multi-object: group writes to multiple objects</div>
- <div class="quiz-option" onclick="selectOption(this)">B) Single-object writes are faster because they bypass the transaction coordinator entirely</div>
- <div class="quiz-option" onclick="selectOption(this)">C) Multi-object transactions are simpler because they don't require explicit conflict resolution</div>
- <div class="quiz-option" onclick="selectOption(this)">D) There is no practical difference — the database handles both cases identically while ensuring that partial failures or concurrent modifications do not leave the database in an inconsistent state</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Single-object: atomicity/isolation for one write; multi-object: group writes to multiple objects</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Multi-object transactions are simpler because they don't require explicit conflict resolution</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Single-object writes are faster because they bypass the transaction coordinator entirely</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Multi-object transactions are mainly about batching many writes together for speed, not consistency</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
@@ -1379,14 +1379,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q10</span><span class="quiz-topic">Multi-Object Need</span></div>
  <p class="quiz-question">When are multi-object transactions needed?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) Only for read-only queries that need to scan across multiple partitions concurrently</div>
- <div class="quiz-option" onclick="selectOption(this)">B) Only for cascading deletes that must remove related rows across several tables through mechanisms that coordinate multiple reads and writes across different database objects within a single logical unit</div>
- <div class="quiz-option" onclick="selectOption(this)">C) Never — single-object operations are always sufficient for any application workload</div>
- <div class="quiz-option" onclick="selectOption(this)">D) When updating multiple related objects that must stay in sync (e.g., foreign keys, denormalized data, secondary indexes)</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Never — single-object operations are always sufficient for any application workload</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) When updating multiple related objects that must stay in sync (e.g., foreign keys, denormalized data, secondary indexes)</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Only for read-only queries that need to scan across multiple partitions concurrently</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Only for cascading deletes that must remove related rows across several tables through mechanisms that coordinate multiple reads and writes across different database objects within a single logical unit</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: D)</strong> Multi-object transactions are needed when updating related data that must stay consistent, like foreign key references or secondary indexes.</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: B)</strong> Multi-object transactions are needed when updating related data that must stay consistent, like foreign key references or secondary indexes.</div>
  </div>
  </section>
 
@@ -1395,14 +1395,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q11</span><span class="quiz-topic">Dirty Reads</span></div>
  <p class="quiz-question">What is a dirty read?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) Reading a committed value that was subsequently overwritten by a later committed transaction</div>
- <div class="quiz-option" onclick="selectOption(this)">B) Reading data from a page that was partially written due to a crash before checksum verification</div>
- <div class="quiz-option" onclick="selectOption(this)">C) Reading data written by a transaction that has not yet committed</div>
- <div class="quiz-option" onclick="selectOption(this)">D) Reading data that was encrypted by another transaction and cannot be decrypted yet</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Reading data written by a transaction that has not yet committed</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Reading data from a page that was partially written due to a crash before checksum verification</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Reading data that was encrypted by another transaction and cannot be decrypted yet</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Reading a committed value that was subsequently overwritten by a later committed transaction</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: C)</strong> A dirty read is when a transaction sees data that another transaction has written but not yet committed.</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: A)</strong> A dirty read is when a transaction sees data that another transaction has written but not yet committed.</div>
  </div>
  </section>
 
@@ -1411,14 +1411,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q12</span><span class="quiz-topic">Dirty Writes</span></div>
  <p class="quiz-question">What is a dirty write?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) Writing data that violates an integrity constraint, such as a foreign key reference to a missing row</div>
- <div class="quiz-option" onclick="selectOption(this)">B) Overwriting a value that another transaction has written but not yet committed</div>
- <div class="quiz-option" onclick="selectOption(this)">C) Attempting to write when the disk is full and the storage engine cannot allocate new pages</div>
- <div class="quiz-option" onclick="selectOption(this)">D) Writing data at a rate that exceeds the disk's sustainable sequential write throughput</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Writing data at a rate that exceeds the disk's sustainable sequential write throughput</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Attempting to write when the disk is full and the storage engine cannot allocate new pages</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Overwriting a value that another transaction has written but not yet committed</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Writing data that violates an integrity constraint, such as a foreign key reference to a missing row</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: B)</strong> A dirty write occurs when a transaction overwrites data that was written by another not-yet-committed transaction.</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: C)</strong> A dirty write occurs when a transaction overwrites data that was written by another not-yet-committed transaction.</div>
  </div>
  </section>
 
@@ -1427,14 +1427,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q13</span><span class="quiz-topic">Read Committed</span></div>
  <p class="quiz-question">What two guarantees does Read Committed provide?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) No phantom reads</div>
- <div class="quiz-option" onclick="selectOption(this)">B) The database rejects all reads and writes, forcing clients to retry with exponential backoff</div>
- <div class="quiz-option" onclick="selectOption(this)">C) Serializable isolation</div>
- <div class="quiz-option" onclick="selectOption(this)">D) No dirty reads and no dirty writes</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) No dirty reads and no dirty writes</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) The database rejects all reads and writes, forcing clients to retry with exponential backoff</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) No phantom reads</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Serializable isolation</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: D)</strong> Read committed provides: 1) no dirty reads — only read committed data, 2) no dirty writes — only overwrite committed data.</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: A)</strong> Read committed provides: 1) no dirty reads — only read committed data, 2) no dirty writes — only overwrite committed data.</div>
  </div>
  </section>
 
@@ -1443,14 +1443,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q14</span><span class="quiz-topic">Read Committed Default</span></div>
  <p class="quiz-question">Which databases use read committed as the default isolation level?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) Oracle 11g, PostgreSQL, SQL Server, and many others</div>
- <div class="quiz-option" onclick="selectOption(this)">B) None through mechanisms that coordinate multiple reads and writes across different database objects within a single logical unit</div>
- <div class="quiz-option" onclick="selectOption(this)">C) Only Redis</div>
- <div class="quiz-option" onclick="selectOption(this)">D) Only MySQL</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Only Redis</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Only MySQL</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) None through mechanisms that coordinate multiple reads and writes across different database objects within a single logical unit</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Oracle 11g, PostgreSQL, SQL Server, and many others</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: A)</strong> Read committed is the default setting in Oracle 11g, PostgreSQL, SQL Server, and many others.</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: D)</strong> Read committed is the default setting in Oracle 11g, PostgreSQL, SQL Server, and many others.</div>
  </div>
  </section>
 
@@ -1459,14 +1459,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q15</span><span class="quiz-topic">Row-Level Locks</span></div>
  <p class="quiz-question">How are dirty writes typically prevented?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) By using checksums</div>
- <div class="quiz-option" onclick="selectOption(this)">B) By deleting duplicates</div>
- <div class="quiz-option" onclick="selectOption(this)">C) By using row-level locks — a transaction must acquire a lock before writing a row</div>
- <div class="quiz-option" onclick="selectOption(this)">D) By copying data through a coordinated protocol that guarantees atomic visibility of every committed modification</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) By using checksums</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) By deleting duplicates</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) By copying data through a coordinated protocol that guarantees atomic visibility of every committed modification</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) By using row-level locks — a transaction must acquire a lock before writing a row</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: C)</strong> Row-level locks prevent dirty writes: a transaction acquires a lock before modifying a row and holds it until commit/abort.</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: D)</strong> Row-level locks prevent dirty writes: a transaction acquires a lock before modifying a row and holds it until commit/abort.</div>
  </div>
  </section>
 
@@ -1475,14 +1475,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q16</span><span class="quiz-topic">Read Locks Problem</span></div>
  <p class="quiz-question">Why don't databases use read locks for preventing dirty reads?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) They do use them by routing the request to the specific partition or replica that holds the requested data based on the partitioning scheme by routing the request to the specific partition or replica that holds the requested data based on the partitioning scheme</div>
- <div class="quiz-option" onclick="selectOption(this)">B) Read locks cause data loss by routing the request to the specific partition or replica that holds the requested data based on the partitioning scheme</div>
- <div class="quiz-option" onclick="selectOption(this)">C) Read locks are insecure by routing the request to the specific partition or replica that holds the requested data based on the partitioning scheme</div>
- <div class="quiz-option" onclick="selectOption(this)">D) Read locks prevent concurrent transactions from accessing the same object simultaneously harm performance — one long write transaction can block many read-only transactions</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Read locks prevent concurrent transactions from accessing the same object simultaneously harm performance — one long write transaction can block many read-only transactions</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) They do use them by routing the request to the specific partition or replica that holds the requested data based on the partitioning scheme by routing the request to the specific partition or replica that holds the requested data based on the partitioning scheme</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Read locks are insecure by routing the request to the specific partition or replica that holds the requested data based on the partitioning scheme</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Read locks cause data loss by routing the request to the specific partition or replica that holds the requested data based on the partitioning scheme</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: D)</strong> Requiring read locks would mean a long-running write transaction blocks all reads, harming response times.</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: A)</strong> Requiring read locks would mean a long-running write transaction blocks all reads, harming response times.</div>
  </div>
  </section>
 
@@ -1491,14 +1491,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q17</span><span class="quiz-topic">MVCC for RC</span></div>
  <p class="quiz-question">How do databases implement read committed without read locks?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) By caching by routing the request to the specific partition or replica that holds the requested data based on the partitioning scheme</div>
- <div class="quiz-option" onclick="selectOption(this)">B) By delaying reads</div>
- <div class="quiz-option" onclick="selectOption(this)">C) By duplicating tables</div>
- <div class="quiz-option" onclick="selectOption(this)">D) The database remembers both the old and new value; reads see the old value until the write commits</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) By delaying reads</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) The database remembers both the old and new value; reads see the old value until the write commits</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) By duplicating tables</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) By caching by routing the request to the specific partition or replica that holds the requested data based on the partitioning scheme</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: D)</strong> For every write, the database remembers both old committed value and new uncommitted value. Reads return the old value until commit.</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: B)</strong> For every write, the database remembers both old committed value and new uncommitted value. Reads return the old value until commit.</div>
  </div>
  </section>
 
@@ -1507,14 +1507,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q18</span><span class="quiz-topic">Read Skew</span></div>
  <p class="quiz-question">What is read skew (nonrepeatable read)?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) Data corruption</div>
- <div class="quiz-option" onclick="selectOption(this)">B) Reads from wrong table</div>
- <div class="quiz-option" onclick="selectOption(this)">C) Slow reads without needing to scan the entire dataset because the index narrows down the set of relevant records efficiently</div>
- <div class="quiz-option" onclick="selectOption(this)">D) A transaction sees different parts of the database at different points in time</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Reads from wrong table</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) A transaction sees different parts of the database at different points in time</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Data corruption</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Slow reads without needing to scan the entire dataset because the index narrows down the set of relevant records efficiently</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: D)</strong> Read skew occurs when a transaction reads two related pieces of data at different times and sees an inconsistent state.</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: B)</strong> Read skew occurs when a transaction reads two related pieces of data at different times and sees an inconsistent state.</div>
  </div>
  </section>
 
@@ -1523,14 +1523,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q19</span><span class="quiz-topic">Read Skew Example</span></div>
  <p class="quiz-question">In the chapter's bank account example of read skew, what does Alice see?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) $0 in both without needing to scan the entire dataset because the index narrows down the set of relevant records efficiently</div>
- <div class="quiz-option" onclick="selectOption(this)">B) Correct balances</div>
- <div class="quiz-option" onclick="selectOption(this)">C) $600 in both</div>
- <div class="quiz-option" onclick="selectOption(this)">D) $500 in one account and $400 in another (missing $100) because she reads during a transfer</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) $500 in one account and $400 in another (missing $100) because she reads during a transfer</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) $600 in both</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Correct balances</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) $0 in both without needing to scan the entire dataset because the index narrows down the set of relevant records efficiently</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: D)</strong> Alice sees an inconsistent state because her reads straddle a concurrent transfer transaction.</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: A)</strong> Alice sees an inconsistent state because her reads straddle a concurrent transfer transaction.</div>
  </div>
  </section>
 
@@ -1539,10 +1539,10 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q20</span><span class="quiz-topic">Snapshot Isolation</span></div>
  <p class="quiz-question">What does snapshot isolation provide?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) Each transaction reads from a consistent snapshot of the database at the start of the transaction</div>
- <div class="quiz-option" onclick="selectOption(this)">B) Write performance</div>
- <div class="quiz-option" onclick="selectOption(this)">C) No writes allowed</div>
- <div class="quiz-option" onclick="selectOption(this)">D) Instant queries while ensuring that partial failures or concurrent modifications do not leave the database in an inconsistent state</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Each transaction reads from a consistent snapshot of the database at the start of the transaction</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Write performance</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) No writes allowed</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Each query sees the most recently committed data, even if later statements in the same transaction differ</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
@@ -1555,14 +1555,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q21</span><span class="quiz-topic">SI Implementation</span></div>
  <p class="quiz-question">How is snapshot isolation typically implemented?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) Delayed writes</div>
- <div class="quiz-option" onclick="selectOption(this)">B) Multi-Version Concurrency Control (MVCC) — maintaining multiple versions of each object</div>
- <div class="quiz-option" onclick="selectOption(this)">C) Data duplication</div>
- <div class="quiz-option" onclick="selectOption(this)">D) Locks while ensuring that partial failures or concurrent modifications do not leave the database in an inconsistent state</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Delayed writes</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Data duplication</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) By taking shared locks on every row a transaction reads and holding them until the transaction commits</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Multi-Version Concurrency Control (MVCC) — maintaining multiple versions of each object</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: B)</strong> Snapshot isolation uses MVCC: the database keeps multiple versions of objects so each transaction sees a consistent snapshot.</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: D)</strong> Snapshot isolation uses MVCC: the database keeps multiple versions of objects so each transaction sees a consistent snapshot.</div>
  </div>
  </section>
 
@@ -1571,10 +1571,10 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q22</span><span class="quiz-topic">Transaction IDs</span></div>
  <p class="quiz-question">What role do transaction IDs play in MVCC?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) Each transaction gets an always-increasing ID; each row is tagged with the creating/deleting transaction ID</div>
- <div class="quiz-option" onclick="selectOption(this)">B) Authentication</div>
- <div class="quiz-option" onclick="selectOption(this)">C) Logging through mechanisms that coordinate multiple reads and writes across different database objects within a single logical unit</div>
- <div class="quiz-option" onclick="selectOption(this)">D) Compression</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Each transaction gets an always-increasing ID; each row is tagged with the creating/deleting transaction ID</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Compression</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Logging through mechanisms that coordinate multiple reads and writes across different database objects within a single logical unit</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Authentication</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
@@ -1587,14 +1587,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q23</span><span class="quiz-topic">Visibility Rules</span></div>
  <p class="quiz-question">When is a row visible to a transaction in MVCC?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) Created by an already-committed transaction and not deleted (or deleted by a not-yet-committed transaction)</div>
- <div class="quiz-option" onclick="selectOption(this)">B) Created by the same transaction</div>
- <div class="quiz-option" onclick="selectOption(this)">C) If it's the newest version</div>
- <div class="quiz-option" onclick="selectOption(this)">D) Always visible while ensuring that partial failures or concurrent modifications do not leave the database in an inconsistent state</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Created by the same transaction</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) A row is visible only if it is the latest committed version at the exact moment each individual statement begins execution</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) If it's the newest version</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Created by an already-committed transaction and not deleted (or deleted by a not-yet-committed transaction)</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: A)</strong> An object is visible if: (1) the creating transaction was committed before the reading transaction started, and (2) it's not marked as deleted by any committed transaction.</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: D)</strong> An object is visible if: (1) the creating transaction was committed before the reading transaction started, and (2) it's not marked as deleted by any committed transaction.</div>
  </div>
  </section>
 
@@ -1603,14 +1603,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q24</span><span class="quiz-topic">SI Names</span></div>
  <p class="quiz-question">What do different databases call snapshot isolation?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) PostgreSQL/MySQL: repeatable read; Oracle: serializable (despite differences)</div>
- <div class="quiz-option" onclick="selectOption(this)">B) All call it snapshot isolation</div>
- <div class="quiz-option" onclick="selectOption(this)">C) All call it MVCC while ensuring that partial failures or concurrent modifications do not leave the database in an inconsistent state</div>
- <div class="quiz-option" onclick="selectOption(this)">D) All call it strong consistency</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Most systems label it read committed, though they implement it with versioned rows underneath</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) All call it strong consistency</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) PostgreSQL/MySQL: repeatable read; Oracle: serializable (despite differences)</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) All call it snapshot isolation</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: A)</strong> There is inconsistent naming: Oracle calls it 'serializable' and PostgreSQL/MySQL call it 'repeatable read,' even though they differ from the standard definitions.</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: C)</strong> There is inconsistent naming: Oracle calls it 'serializable' and PostgreSQL/MySQL call it 'repeatable read,' even though they differ from the standard definitions.</div>
  </div>
  </section>
 
@@ -1619,10 +1619,10 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q25</span><span class="quiz-topic">Indexes in MVCC</span></div>
  <p class="quiz-question">How do indexes work with MVCC?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) One index per version</div>
- <div class="quiz-option" onclick="selectOption(this)">B) Indexes are disabled to accelerate lookup performance for commonly queried fields without scanning every row in the table</div>
- <div class="quiz-option" onclick="selectOption(this)">C) Separate index per transaction</div>
- <div class="quiz-option" onclick="selectOption(this)">D) Index points to all versions of a row; the index query filters to the version visible to the current transaction</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Separate index per transaction</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) One index per version</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Indexes are disabled to accelerate lookup performance for commonly queried fields without scanning every row in the table</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Index points to all versions of a row; the index query filters to the version visible to the current transaction</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
@@ -1635,14 +1635,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q26</span><span class="quiz-topic">Lost Updates</span></div>
  <p class="quiz-question">What is the lost update problem?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) Two transactions read-modify-write the same value concurrently; one overwrites the other's update</div>
- <div class="quiz-option" onclick="selectOption(this)">B) Log file deleted under normal operating conditions with standard workload patterns and routine maintenance procedures</div>
- <div class="quiz-option" onclick="selectOption(this)">C) Data deleted by mistake</div>
- <div class="quiz-option" onclick="selectOption(this)">D) Network packet loss</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Log file deleted under normal operating conditions with standard workload patterns and routine maintenance procedures</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Network packet loss</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Two transactions read-modify-write the same value concurrently; one overwrites the other's update</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Data deleted by mistake</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: A)</strong> The lost update occurs when two concurrent read-modify-write cycles result in one overwriting the other's change.</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: C)</strong> The lost update occurs when two concurrent read-modify-write cycles result in one overwriting the other's change.</div>
  </div>
  </section>
 
@@ -1651,14 +1651,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q27</span><span class="quiz-topic">Lost Update Examples</span></div>
  <p class="quiz-question">Which scenario is a lost update example?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) Two users editing a wiki page simultaneously — one update is lost</div>
- <div class="quiz-option" onclick="selectOption(this)">B) Creating an index in a typical production deployment with multiple interconnected nodes spanning several availability zones</div>
- <div class="quiz-option" onclick="selectOption(this)">C) Reading a web page</div>
- <div class="quiz-option" onclick="selectOption(this)">D) Adding a new table</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Adding a new table</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Reading a web page</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Creating an index in a typical production deployment with multiple interconnected nodes spanning several availability zones</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Two users editing a wiki page simultaneously — one update is lost</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: A)</strong> Two wiki editors saving changes simultaneously can cause one edit to be overwritten — a classic lost update.</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: D)</strong> Two wiki editors saving changes simultaneously can cause one edit to be overwritten — a classic lost update.</div>
  </div>
  </section>
 
@@ -1667,14 +1667,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q28</span><span class="quiz-topic">Atomic Operations</span></div>
  <p class="quiz-question">How do atomic operations prevent lost updates?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) By locking the entire database</div>
- <div class="quiz-option" onclick="selectOption(this)">B) The database performs the read-modify-write as a single operation (e.g., UPDATE counters SET value = value + 1)</div>
- <div class="quiz-option" onclick="selectOption(this)">C) By deleting old values in a typical production deployment with multiple interconnected nodes spanning several availability zones</div>
- <div class="quiz-option" onclick="selectOption(this)">D) By disabling concurrency</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) The database performs the read-modify-write as a single operation (e.g., UPDATE counters SET value = value + 1)</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) By disabling concurrency</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) By locking the entire database</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) By deleting old values in a typical production deployment with multiple interconnected nodes spanning several availability zones</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: B)</strong> Atomic operations let the database do the read-modify-write in one step, eliminating the race condition.</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: A)</strong> Atomic operations let the database do the read-modify-write in one step, eliminating the race condition.</div>
  </div>
  </section>
 
@@ -1683,14 +1683,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q29</span><span class="quiz-topic">Cursor Stability</span></div>
  <p class="quiz-question">How are atomic operations typically implemented?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) By taking an exclusive lock on the object (cursor stability) or forcing single-threaded execution</div>
- <div class="quiz-option" onclick="selectOption(this)">B) By replication</div>
- <div class="quiz-option" onclick="selectOption(this)">C) In application code</div>
- <div class="quiz-option" onclick="selectOption(this)">D) By caching under normal operating conditions with standard workload patterns and routine maintenance procedures</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) By caching under normal operating conditions with standard workload patterns and routine maintenance procedures</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) By replication</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) By taking an exclusive lock on the object (cursor stability) or forcing single-threaded execution</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) In application code</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: A)</strong> Atomic operations are usually implemented by taking an exclusive lock on the object when it is read (cursor stability).</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: C)</strong> Atomic operations are usually implemented by taking an exclusive lock on the object when it is read (cursor stability).</div>
  </div>
  </section>
 
@@ -1699,10 +1699,10 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q30</span><span class="quiz-topic">Explicit Locking</span></div>
  <p class="quiz-question">What does SELECT ... FOR UPDATE do?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) Creates a backup within the broader architecture of a distributed data-intensive application serving concurrent user requests</div>
- <div class="quiz-option" onclick="selectOption(this)">B) Selects for deletion</div>
- <div class="quiz-option" onclick="selectOption(this)">C) Explicitly locks the returned rows so other transactions must wait to modify them</div>
- <div class="quiz-option" onclick="selectOption(this)">D) Updates selected rows</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Creates a savepoint so the selected rows can be rolled back without aborting the transaction</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Selects for deletion</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Explicitly locks the returned rows so other transactions must wait to modify them</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Updates selected rows</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
@@ -1715,14 +1715,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q31</span><span class="quiz-topic">Compare-and-Set</span></div>
  <p class="quiz-question">How does compare-and-set work?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) Compares schemas</div>
- <div class="quiz-option" onclick="selectOption(this)">B) Only allows an update if the current value matches the expected old value — otherwise retries</div>
- <div class="quiz-option" onclick="selectOption(this)">C) Sets a timer in a typical production deployment with multiple interconnected nodes spanning several availability zones</div>
- <div class="quiz-option" onclick="selectOption(this)">D) Compares two databases</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Sets a timer in a typical production deployment with multiple interconnected nodes spanning several availability zones</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Compares schemas</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Compares two databases</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Only allows an update if the current value matches the expected old value — otherwise retries</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: B)</strong> Compare-and-set: the update only proceeds if the current value hasn't changed since you last read it.</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: D)</strong> Compare-and-set: the update only proceeds if the current value hasn't changed since you last read it.</div>
  </div>
  </section>
 
@@ -1731,10 +1731,10 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q32</span><span class="quiz-topic">CAS Limitation</span></div>
  <p class="quiz-question">Why might compare-and-set not work with snapshot isolation?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) The 'current value' check may read from an old snapshot, allowing concurrent writes to succeed</div>
- <div class="quiz-option" onclick="selectOption(this)">B) It requires locks</div>
- <div class="quiz-option" onclick="selectOption(this)">C) It always works</div>
- <div class="quiz-option" onclick="selectOption(this)">D) It's too slow while ensuring that partial failures or concurrent modifications do not leave the database in an inconsistent state</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) The 'current value' check may read from an old snapshot, allowing concurrent writes to succeed</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) The compare step can be serialized atomically, but the set step may still be delayed until a lock is finally released</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) It always works</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) It requires locks</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
@@ -1747,10 +1747,10 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q33</span><span class="quiz-topic">Automatic Detection</span></div>
  <p class="quiz-question">How do some databases handle lost updates?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) They log warnings</div>
- <div class="quiz-option" onclick="selectOption(this)">B) They ignore them as part of a comprehensive strategy for ensuring data integrity and query performance at scale</div>
- <div class="quiz-option" onclick="selectOption(this)">C) The database automatically detects lost updates and aborts the offending transaction, forcing a retry</div>
- <div class="quiz-option" onclick="selectOption(this)">D) They merge values</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) They log warnings</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) They keep both conflicting writes and expose the newest committed value to readers without ever resolving the conflict</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) The database automatically detects lost updates and aborts the offending transaction, forcing a retry</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) They merge values</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
@@ -1763,14 +1763,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q34</span><span class="quiz-topic">MySQL Gap</span></div>
  <p class="quiz-question">Which popular database does NOT automatically detect lost updates?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) PostgreSQL</div>
- <div class="quiz-option" onclick="selectOption(this)">B) Oracle in a typical production deployment with multiple interconnected nodes spanning several availability zones</div>
- <div class="quiz-option" onclick="selectOption(this)">C) SQL Server</div>
- <div class="quiz-option" onclick="selectOption(this)">D) MySQL/InnoDB</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Oracle in a typical production deployment with multiple interconnected nodes spanning several availability zones</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) MySQL/InnoDB</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) PostgreSQL</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) SQL Server</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: D)</strong> MySQL/InnoDB's repeatable read does not detect lost updates, unlike PostgreSQL and Oracle.</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: B)</strong> MySQL/InnoDB's repeatable read does not detect lost updates, unlike PostgreSQL and Oracle.</div>
  </div>
  </section>
 
@@ -1779,10 +1779,10 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q35</span><span class="quiz-topic">Write Skew</span></div>
  <p class="quiz-question">What is write skew?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) Writing corrupted data</div>
- <div class="quiz-option" onclick="selectOption(this)">B) Writing to the wrong table</div>
- <div class="quiz-option" onclick="selectOption(this)">C) Writing too slowly; and propagating the change through the replication log to all follower nodes for consistent durability</div>
- <div class="quiz-option" onclick="selectOption(this)">D) Two transactions each read a condition, decide to act, but their combined writes violate the condition</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Writing to the wrong table</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Writing too slowly; and propagating the change through the replication log to all follower nodes for consistent durability</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Writing corrupted data</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Two transactions each read a condition, decide to act, but their combined writes violate the condition</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
@@ -1795,14 +1795,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q36</span><span class="quiz-topic">Write Skew Example</span></div>
  <p class="quiz-question">In the doctors on-call example, what write skew occurs?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) No doctors on shift; and propagating the change through the replication log to all follower nodes for consistent durability</div>
- <div class="quiz-option" onclick="selectOption(this)">B) Wrong schedule posted</div>
- <div class="quiz-option" onclick="selectOption(this)">C) Both doctors see 2 are on-call and each decides to go off-call, leaving zero on-call</div>
- <div class="quiz-option" onclick="selectOption(this)">D) Too many doctors added</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Wrong schedule posted</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Both doctors see 2 are on-call and each decides to go off-call, leaving zero on-call</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Too many doctors added</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) No doctors on shift; and propagating the change through the replication log to all follower nodes for consistent durability</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: C)</strong> Both transactions check that at least 2 doctors are on call, then each removes one — together they violate the minimum requirement.</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: B)</strong> Both transactions check that at least 2 doctors are on call, then each removes one — together they violate the minimum requirement.</div>
  </div>
  </section>
 
@@ -1811,14 +1811,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q37</span><span class="quiz-topic">Phantom</span></div>
  <p class="quiz-question">What is a phantom in the context of transactions?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) A null value through mechanisms that coordinate multiple reads and writes across different database objects within a single logical unit</div>
- <div class="quiz-option" onclick="selectOption(this)">B) A write in one transaction changes the result set of a search query in another transaction</div>
- <div class="quiz-option" onclick="selectOption(this)">C) A ghost process</div>
- <div class="quiz-option" onclick="selectOption(this)">D) A deleted record</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) A write in one transaction changes the result set of a search query in another transaction</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) A null value through mechanisms that coordinate multiple reads and writes across different database objects within a single logical unit</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) A ghost process</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) A deleted record</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: B)</strong> A phantom is when a write in one transaction changes the results of a search query in another concurrent transaction.</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: A)</strong> A phantom is when a write in one transaction changes the results of a search query in another concurrent transaction.</div>
  </div>
  </section>
 
@@ -1827,14 +1827,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q38</span><span class="quiz-topic">Phantom Pattern</span></div>
  <p class="quiz-question">What is the common pattern in phantom-caused issues?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) Only deletes</div>
- <div class="quiz-option" onclick="selectOption(this)">B) SELECT checks a condition, application decides to act, then INSERT/UPDATE changes the condition's result</div>
- <div class="quiz-option" onclick="selectOption(this)">C) Only reads under normal operating conditions with standard workload patterns and routine maintenance procedures</div>
- <div class="quiz-option" onclick="selectOption(this)">D) Write-then-read</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Only deletes</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Only reads under normal operating conditions with standard workload patterns and routine maintenance procedures</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) SELECT checks a condition, application decides to act, then INSERT/UPDATE changes the condition's result</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Write-then-read</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: B)</strong> The pattern: 1) a SELECT checks a condition, 2) application decides based on the result, 3) a write (INSERT/UPDATE/DELETE) changes the precondition.</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: C)</strong> The pattern: 1) a SELECT checks a condition, 2) application decides based on the result, 3) a write (INSERT/UPDATE/DELETE) changes the precondition.</div>
  </div>
  </section>
 
@@ -1843,14 +1843,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q39</span><span class="quiz-topic">Materializing Conflicts</span></div>
  <p class="quiz-question">What is materializing conflicts?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) Creating concrete rows in the database to represent abstract concepts that can be locked</div>
- <div class="quiz-option" onclick="selectOption(this)">B) Compressing lock metadata to reduce the memory overhead of tracking active locks</div>
- <div class="quiz-option" onclick="selectOption(this)">C) Physical data storage</div>
- <div class="quiz-option" onclick="selectOption(this)">D) Creating indexes; when multiple clients attempt to modify the same data item without coordinating their operations with each other</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Compressing lock metadata to reduce the memory overhead of tracking active locks</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Creating concrete rows in the database to represent abstract concepts that can be locked</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Creating indexes; when multiple clients attempt to modify the same data item without coordinating their operations with each other</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Physical data storage</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: A)</strong> Materializing conflicts turns a phantom into a lock conflict on concrete rows. For example, creating time-slot rows that can be locked.</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: B)</strong> Materializing conflicts turns a phantom into a lock conflict on concrete rows. For example, creating time-slot rows that can be locked.</div>
  </div>
  </section>
 
@@ -1859,14 +1859,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q40</span><span class="quiz-topic">Materializing Problem</span></div>
  <p class="quiz-question">Why is materializing conflicts a last resort?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) It's too fast; and the system must resolve them through application-level merge logic or automatic convergence to a single agreed-upon value</div>
- <div class="quiz-option" onclick="selectOption(this)">B) It doesn't work</div>
- <div class="quiz-option" onclick="selectOption(this)">C) It uses too much memory</div>
- <div class="quiz-option" onclick="selectOption(this)">D) It's ugly, error-prone, and leaks concurrency control concerns into the application data model</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) It's ugly, error-prone, and leaks concurrency control concerns into the application data model</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) It doesn't work</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) It uses too much memory</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) It's too fast; and the system must resolve them through application-level merge logic or automatic convergence to a single agreed-upon value</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: D)</strong> Materializing conflicts is considered a last resort because it's ugly and error-prone, leaking a concurrency control mechanism into the data model.</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: A)</strong> Materializing conflicts is considered a last resort because it's ugly and error-prone, leaking a concurrency control mechanism into the data model.</div>
  </div>
  </section>
 
@@ -1875,14 +1875,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q41</span><span class="quiz-topic">Serializability</span></div>
  <p class="quiz-question">What does serializability guarantee?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) The result of concurrent transactions is the same as if they ran one at a time, in some serial order</div>
- <div class="quiz-option" onclick="selectOption(this)">B) Parallel execution</div>
- <div class="quiz-option" onclick="selectOption(this)">C) No locks needed</div>
- <div class="quiz-option" onclick="selectOption(this)">D) Fast execution within the broader architecture of a distributed data-intensive application serving concurrent user requests</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) All transactions execute concurrently without restriction, and the database later validates they can be serialized</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Parallel execution</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) The result of concurrent transactions is the same as if they ran one at a time, in some serial order</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) No locks needed</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: A)</strong> Serializability guarantees that the result is equivalent to some serial execution of the transactions, even though they ran concurrently.</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: C)</strong> Serializability guarantees that the result is equivalent to some serial execution of the transactions, even though they ran concurrently.</div>
  </div>
  </section>
 
@@ -1891,14 +1891,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q42</span><span class="quiz-topic">Serial Execution</span></div>
  <p class="quiz-question">What approach uses literal serial execution of transactions?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) Distributed processing</div>
- <div class="quiz-option" onclick="selectOption(this)">B) GPU acceleration</div>
- <div class="quiz-option" onclick="selectOption(this)">C) Execute each transaction on a single thread, one at a time, eliminating concurrency entirely</div>
- <div class="quiz-option" onclick="selectOption(this)">D) Multi-threading through mechanisms that coordinate multiple reads and writes across different database objects within a single logical unit</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Execute each transaction on a single thread, one at a time, eliminating concurrency entirely</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) GPU acceleration</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Distributed processing</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Multi-threading through mechanisms that coordinate multiple reads and writes across different database objects within a single logical unit</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: C)</strong> Some databases (VoltDB, Redis, Datomic) execute transactions serially on a single thread.</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: A)</strong> Some databases (VoltDB, Redis, Datomic) execute transactions serially on a single thread.</div>
  </div>
  </section>
 
@@ -1907,10 +1907,10 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q43</span><span class="quiz-topic">Serial Feasibility</span></div>
  <p class="quiz-question">What two developments made serial execution feasible?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) Cloud computing and containers</div>
- <div class="quiz-option" onclick="selectOption(this)">B) Moore's law and GPUs within the broader architecture of a distributed data-intensive application serving concurrent user requests</div>
- <div class="quiz-option" onclick="selectOption(this)">C) RAM became cheap enough to keep data in memory, and OLTP transactions are short enough</div>
- <div class="quiz-option" onclick="selectOption(this)">D) Faster networks and bigger disks</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Faster networks and bigger disks</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Disk bandwidth improved enough to replay all transactions after conflicts were detected</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) RAM became cheap enough to keep data in memory, and OLTP transactions are short enough</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Cloud computing and containers</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
@@ -1923,14 +1923,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q44</span><span class="quiz-topic">Stored Procedures</span></div>
  <p class="quiz-question">Why are stored procedures important for serial execution?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) They're faster to write</div>
- <div class="quiz-option" onclick="selectOption(this)">B) They add security under normal operating conditions with standard workload patterns and routine maintenance procedures</div>
- <div class="quiz-option" onclick="selectOption(this)">C) They're optional as part of a comprehensive strategy for ensuring data integrity and query performance at scale</div>
- <div class="quiz-option" onclick="selectOption(this)">D) They avoid interactive multi-statement transactions that would block the single thread waiting for network round-trips</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) They avoid interactive multi-statement transactions that would block the single thread waiting for network round-trips</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) They're faster to write</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) They let the application hold locks across user think time without stalling the database thread</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) They add security under normal operating conditions with standard workload patterns and routine maintenance procedures</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: D)</strong> Interactive transactions would stall the single thread. Stored procedures submit the entire transaction as one request, avoiding network waits.</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: A)</strong> Interactive transactions would stall the single thread. Stored procedures submit the entire transaction as one request, avoiding network waits.</div>
  </div>
  </section>
 
@@ -1939,14 +1939,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q45</span><span class="quiz-topic">Stored Procedure Problems</span></div>
  <p class="quiz-question">Why have stored procedures historically had a bad reputation?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) Each DB vendor has its own language, code is harder to manage/test/debug, and performs poorly</div>
- <div class="quiz-option" onclick="selectOption(this)">B) Too easy to use</div>
- <div class="quiz-option" onclick="selectOption(this)">C) Too secure</div>
- <div class="quiz-option" onclick="selectOption(this)">D) Too fast within the broader architecture of a distributed data-intensive application serving concurrent user requests</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Too easy to use</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Each DB vendor has its own language, code is harder to manage/test/debug, and performs poorly</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) They encouraged databases to run all business logic centrally on the server, increasing vendor lock-in and dependence</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Too secure</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: A)</strong> Stored procedures had bad languages, poor tooling, difficulty in version control and testing, and performance concerns.</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: B)</strong> Stored procedures had bad languages, poor tooling, difficulty in version control and testing, and performance concerns.</div>
  </div>
  </section>
 
@@ -1955,14 +1955,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q46</span><span class="quiz-topic">Modern Stored Procedures</span></div>
  <p class="quiz-question">How do modern databases improve stored procedures?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) SQL only in a typical production deployment with multiple interconnected nodes spanning several availability zones</div>
- <div class="quiz-option" onclick="selectOption(this)">B) VoltDB uses Java/Groovy, Datomic uses Java/Clojure, Redis uses Lua — general-purpose languages</div>
- <div class="quiz-option" onclick="selectOption(this)">C) They don't use them</div>
- <div class="quiz-option" onclick="selectOption(this)">D) Assembly language</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) They don't use them</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) SQL only in a typical production deployment with multiple interconnected nodes spanning several availability zones</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Assembly language</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) VoltDB uses Java/Groovy, Datomic uses Java/Clojure, Redis uses Lua — general-purpose languages</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: B)</strong> Modern databases use general-purpose languages for stored procedures: VoltDB uses Java/Groovy, Redis uses Lua.</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: D)</strong> Modern databases use general-purpose languages for stored procedures: VoltDB uses Java/Groovy, Redis uses Lua.</div>
  </div>
  </section>
 
@@ -1971,14 +1971,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q47</span><span class="quiz-topic">Partitioned Serial</span></div>
  <p class="quiz-question">How can serial execution scale beyond a single CPU core?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) Reduce data</div>
- <div class="quiz-option" onclick="selectOption(this)">B) Use faster CPUs</div>
- <div class="quiz-option" onclick="selectOption(this)">C) It can't within the broader architecture of a distributed data-intensive application serving concurrent user requests</div>
- <div class="quiz-option" onclick="selectOption(this)">D) Partition the data so each partition has its own thread — transactions that access one partition run independently</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Partition the data so each partition has its own thread — transactions that access one partition run independently</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Use faster CPUs</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Run multiple worker threads against the same partition simultaneously and rely on fine-grained row-level locking to prevent data conflicts</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Reduce data</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: D)</strong> Each partition can have its own transaction processing thread. Cross-partition transactions are slower but single-partition ones scale linearly.</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: A)</strong> Each partition can have its own transaction processing thread. Cross-partition transactions are slower but single-partition ones scale linearly.</div>
  </div>
  </section>
 
@@ -1987,14 +1987,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q48</span><span class="quiz-topic">Cross-Partition Serial</span></div>
  <p class="quiz-question">What is the cost of cross-partition transactions in serial execution?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) No cost so that each subset of the data can be managed, queried, and replicated independently by a dedicated node</div>
- <div class="quiz-option" onclick="selectOption(this)">B) They're free</div>
- <div class="quiz-option" onclick="selectOption(this)">C) They require coordination across all partitions, drastically reducing throughput</div>
- <div class="quiz-option" onclick="selectOption(this)">D) They're faster</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) They're free</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) They require coordination across all partitions, drastically reducing throughput</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) They only add one extra network hop because each partition can decide independently</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) They're faster</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: C)</strong> Cross-partition transactions require coordination across all partitions touched, which is orders of magnitude slower.</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: B)</strong> Cross-partition transactions require coordination across all partitions touched, which is orders of magnitude slower.</div>
  </div>
  </section>
 
@@ -2003,14 +2003,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q49</span><span class="quiz-topic">2PL</span></div>
  <p class="quiz-question">What is Two-Phase Locking (2PL)?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) Two commit phases in a typical production deployment with multiple interconnected nodes spanning several availability zones</div>
- <div class="quiz-option" onclick="selectOption(this)">B) Transactions hold locks: readers block writers and writers block readers (unlike snapshot isolation)</div>
- <div class="quiz-option" onclick="selectOption(this)">C) Two database phases</div>
- <div class="quiz-option" onclick="selectOption(this)">D) Two network phases</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Two network phases</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Two commit phases in a typical production deployment with multiple interconnected nodes spanning several availability zones</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Transactions hold locks: readers block writers and writers block readers (unlike snapshot isolation)</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Two database phases</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: B)</strong> In 2PL, several transactions can concurrently read, but as soon as writing is involved, exclusive access is required.</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: C)</strong> In 2PL, several transactions can concurrently read, but as soon as writing is involved, exclusive access is required.</div>
  </div>
  </section>
 
@@ -2019,14 +2019,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q50</span><span class="quiz-topic">2PL vs Locks</span></div>
  <p class="quiz-question">How does 2PL differ from regular row-level locks?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) 2PL: readers block writers AND writers block readers. Normal locks: only writers block writers</div>
- <div class="quiz-option" onclick="selectOption(this)">B) They're the same</div>
- <div class="quiz-option" onclick="selectOption(this)">C) 2PL is faster within the broader architecture of a distributed data-intensive application serving concurrent user requests</div>
- <div class="quiz-option" onclick="selectOption(this)">D) 2PL uses no locks</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) They're the same</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) 2PL only locks rows that are updated, while ordinary row locks also restrict read access to all committed data</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) 2PL uses no locks</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) 2PL: readers block writers AND writers block readers. Normal locks: only writers block writers</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: A)</strong> In 2PL, not only do writers block writers (like normal locks), but readers also block writers and writers block readers.</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: D)</strong> In 2PL, not only do writers block writers (like normal locks), but readers also block writers and writers block readers.</div>
  </div>
  </section>
 
@@ -2035,10 +2035,10 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q51</span><span class="quiz-topic">Shared vs Exclusive</span></div>
  <p class="quiz-question">What two lock modes does 2PL use?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) Local and remote</div>
- <div class="quiz-option" onclick="selectOption(this)">B) Shared mode (multiple readers OK) and exclusive mode (single writer, blocks everyone)</div>
- <div class="quiz-option" onclick="selectOption(this)">C) Fast and slow under normal operating conditions with standard workload patterns and routine maintenance procedures</div>
- <div class="quiz-option" onclick="selectOption(this)">D) Read and write</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Read and write</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Shared mode (multiple readers OK) and exclusive mode (single writer, blocks everyone)</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Fast and slow under normal operating conditions with standard workload patterns and routine maintenance procedures</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Local and remote</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -2051,14 +2051,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q52</span><span class="quiz-topic">Lock Upgrade</span></div>
  <p class="quiz-question">When a read transaction wants to write, what happens?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) It creates a new transaction</div>
- <div class="quiz-option" onclick="selectOption(this)">B) It aborts through mechanisms that coordinate multiple reads and writes across different database objects within a single logical unit</div>
- <div class="quiz-option" onclick="selectOption(this)">C) It copies the data</div>
- <div class="quiz-option" onclick="selectOption(this)">D) It must upgrade its shared lock to an exclusive lock, waiting for other shared locks to release</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) It aborts through mechanisms that coordinate multiple reads and writes across different database objects within a single logical unit</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) It must upgrade its shared lock to an exclusive lock, waiting for other shared locks to release</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) It copies the data</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) It creates a new transaction</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: D)</strong> If a transaction first reads and then writes, it must upgrade its shared lock to an exclusive lock.</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: B)</strong> If a transaction first reads and then writes, it must upgrade its shared lock to an exclusive lock.</div>
  </div>
  </section>
 
@@ -2067,14 +2067,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q53</span><span class="quiz-topic">2PL Performance</span></div>
  <p class="quiz-question">What is the main problem with 2PL?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) Data duplication</div>
- <div class="quiz-option" onclick="selectOption(this)">B) Data corruption within the broader architecture of a distributed data-intensive application serving concurrent user requests</div>
- <div class="quiz-option" onclick="selectOption(this)">C) Network overhead</div>
- <div class="quiz-option" onclick="selectOption(this)">D) Significantly worse performance due to reduced concurrency and potential deadlocks</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Data duplication</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Significantly worse performance due to reduced concurrency and potential deadlocks</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Network overhead</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) It can miss conflicts between transactions that read overlapping but non-identical sets of rows</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: D)</strong> Transaction throughput and response times are significantly worse under 2PL due to reduced concurrency.</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: B)</strong> Transaction throughput and response times are significantly worse under 2PL due to reduced concurrency.</div>
  </div>
  </section>
 
@@ -2083,14 +2083,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q54</span><span class="quiz-topic">Deadlocks</span></div>
  <p class="quiz-question">What happens more frequently under 2PL?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) Corruption</div>
- <div class="quiz-option" onclick="selectOption(this)">B) Deadlocks — transactions waiting for each other's locks indefinitely</div>
- <div class="quiz-option" onclick="selectOption(this)">C) Risk of data loss because the index entries may reference rows that no longer exist</div>
- <div class="quiz-option" onclick="selectOption(this)">D) Replication lag</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Corruption</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Risk of data loss because the index entries may reference rows that no longer exist</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Replication lag</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Deadlocks — transactions waiting for each other's locks indefinitely</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: B)</strong> Deadlocks happen much more frequently under 2PL. The database detects them and aborts one of the transactions.</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: D)</strong> Deadlocks happen much more frequently under 2PL. The database detects them and aborts one of the transactions.</div>
  </div>
  </section>
 
@@ -2099,14 +2099,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q55</span><span class="quiz-topic">Predicate Locks</span></div>
  <p class="quiz-question">What do predicate locks protect against?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) Data corruption</div>
- <div class="quiz-option" onclick="selectOption(this)">B) Phantoms — they lock all objects matching a search condition, including objects that don't yet exist</div>
- <div class="quiz-option" onclick="selectOption(this)">C) Disk failures within the broader architecture of a distributed data-intensive application serving concurrent user requests</div>
- <div class="quiz-option" onclick="selectOption(this)">D) Network failures</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Network failures</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Data corruption</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Lost updates that occur between transactions which independently read and then overwrite the same existing row with new computed values</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Phantoms — they lock all objects matching a search condition, including objects that don't yet exist</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: B)</strong> A predicate lock applies to all objects matching a search condition, including future objects that might be inserted.</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: D)</strong> A predicate lock applies to all objects matching a search condition, including future objects that might be inserted.</div>
  </div>
  </section>
 
@@ -2115,14 +2115,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q56</span><span class="quiz-topic">Index-Range Locks</span></div>
  <p class="quiz-question">What are index-range locks (next-key locking)?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) Locks on CPU cores to accelerate lookup performance for commonly queried fields without scanning every row in the table</div>
- <div class="quiz-option" onclick="selectOption(this)">B) Locks on network ports</div>
- <div class="quiz-option" onclick="selectOption(this)">C) Locks on file indexes</div>
- <div class="quiz-option" onclick="selectOption(this)">D) An approximation of predicate locks that attaches locks to index entries, covering a larger range</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Locks on CPU cores to accelerate lookup performance for commonly queried fields without scanning every row in the table</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) An approximation of predicate locks that attaches locks to index entries, covering a larger range</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Locks on network ports</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Locks on file indexes</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: D)</strong> Index-range locks are a simplified approximation of predicate locks. They lock a broader range via the index, which is less precise but much more efficient.</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: B)</strong> Index-range locks are a simplified approximation of predicate locks. They lock a broader range via the index, which is less precise but much more efficient.</div>
  </div>
  </section>
 
@@ -2131,10 +2131,10 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q57</span><span class="quiz-topic">Index-Range Tradeoff</span></div>
  <p class="quiz-question">What is the trade-off of index-range locks vs predicate locks?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) Index-range are more precise</div>
- <div class="quiz-option" onclick="selectOption(this)">B) Same performance to accelerate lookup performance for commonly queried fields without scanning every row in the table</div>
- <div class="quiz-option" onclick="selectOption(this)">C) Index-range locks are less precise (may lock more than needed) but have much lower overhead</div>
- <div class="quiz-option" onclick="selectOption(this)">D) Predicate locks are faster</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Index-range are more precise</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Same performance to accelerate lookup performance for commonly queried fields without scanning every row in the table</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Index-range locks are less precise (may lock more than needed) but have much lower overhead</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Predicate locks are faster</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
@@ -2147,14 +2147,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q58</span><span class="quiz-topic">SSI</span></div>
  <p class="quiz-question">What is Serializable Snapshot Isolation (SSI)?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) A type of lock while ensuring that partial failures or concurrent modifications do not leave the database in an inconsistent state</div>
- <div class="quiz-option" onclick="selectOption(this)">B) An optimistic concurrency control that runs transactions against a snapshot, then checks for conflicts at commit</div>
- <div class="quiz-option" onclick="selectOption(this)">C) A network protocol for synchronizing transaction logs between the primary and standby nodes</div>
- <div class="quiz-option" onclick="selectOption(this)">D) A backup strategy</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) An optimistic concurrency control that runs transactions against a snapshot, then checks for conflicts at commit</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) A network protocol for synchronizing transaction logs between the primary and standby nodes</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) A backup strategy</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) A locking scheme that prevents readers from seeing old versions of data while writers hold exclusive partition-level locks on the data</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: B)</strong> SSI is an optimistic approach: transactions proceed without blocking, and the database checks for serialization conflicts at commit time.</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: A)</strong> SSI is an optimistic approach: transactions proceed without blocking, and the database checks for serialization conflicts at commit time.</div>
  </div>
  </section>
 
@@ -2163,14 +2163,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q59</span><span class="quiz-topic">Optimistic vs Pessimistic</span></div>
  <p class="quiz-question">How does SSI differ from 2PL?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) SSI is slower in a typical production deployment with multiple interconnected nodes spanning several availability zones</div>
- <div class="quiz-option" onclick="selectOption(this)">B) No difference</div>
- <div class="quiz-option" onclick="selectOption(this)">C) SSI is optimistic (proceeds and checks later), 2PL is pessimistic (blocks upfront)</div>
- <div class="quiz-option" onclick="selectOption(this)">D) SSI uses more locks</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) SSI is optimistic (proceeds and checks later), 2PL is pessimistic (blocks upfront)</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) SSI uses more locks</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) No difference</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) SSI is slower in a typical production deployment with multiple interconnected nodes spanning several availability zones</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: C)</strong> 2PL is pessimistic: it blocks if anything might go wrong. SSI is optimistic: it lets transactions proceed and checks for conflicts at commit.</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: A)</strong> 2PL is pessimistic: it blocks if anything might go wrong. SSI is optimistic: it lets transactions proceed and checks for conflicts at commit.</div>
  </div>
  </section>
 
@@ -2179,14 +2179,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q60</span><span class="quiz-topic">SSI Advantage</span></div>
  <p class="quiz-question">When does optimistic concurrency (SSI) perform best?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) Low contention — when most transactions don't conflict, most succeed without retry</div>
- <div class="quiz-option" onclick="selectOption(this)">B) Write-heavy workloads</div>
- <div class="quiz-option" onclick="selectOption(this)">C) High contention in a typical production deployment with multiple interconnected nodes spanning several availability zones</div>
- <div class="quiz-option" onclick="selectOption(this)">D) Read-only workloads</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Read-only workloads</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Low contention — when most transactions don't conflict, most succeed without retry</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) High contention in a typical production deployment with multiple interconnected nodes spanning several availability zones</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Write-heavy workloads</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: A)</strong> SSI performs well when contention is low and most transactions complete without needing to abort.</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: B)</strong> SSI performs well when contention is low and most transactions complete without needing to abort.</div>
  </div>
  </section>
 
@@ -2195,14 +2195,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q61</span><span class="quiz-topic">SSI Detection</span></div>
  <p class="quiz-question">What does SSI detect at commit time?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) Disk errors in a typical production deployment with multiple interconnected nodes spanning several availability zones</div>
- <div class="quiz-option" onclick="selectOption(this)">B) Memory leaks</div>
- <div class="quiz-option" onclick="selectOption(this)">C) Network failures</div>
- <div class="quiz-option" onclick="selectOption(this)">D) Whether the premises (data read at the start) have been violated by concurrent writes</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Memory leaks</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Network failures</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Whether the premises (data read at the start) have been violated by concurrent writes</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Disk errors in a typical production deployment with multiple interconnected nodes spanning several availability zones</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: D)</strong> SSI detects whether the snapshot data that a transaction read has been concurrently modified, invalidating its decisions.</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: C)</strong> SSI detects whether the snapshot data that a transaction read has been concurrently modified, invalidating its decisions.</div>
  </div>
  </section>
 
@@ -2211,14 +2211,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q62</span><span class="quiz-topic">Stale MVCC Read</span></div>
  <p class="quiz-question">How does SSI detect stale MVCC reads?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) By comparing hashes</div>
- <div class="quiz-option" onclick="selectOption(this)">B) Tracking when transactions ignore another transaction's writes, then checking at commit if those writes committed</div>
- <div class="quiz-option" onclick="selectOption(this)">C) By re-reading data by routing the request to the specific partition or replica that holds the requested data based on the partitioning scheme</div>
- <div class="quiz-option" onclick="selectOption(this)">D) By checking timestamps</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) By checking timestamps</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) By re-reading data by routing the request to the specific partition or replica that holds the requested data based on the partitioning scheme</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) By comparing hashes</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Tracking when transactions ignore another transaction's writes, then checking at commit if those writes committed</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: B)</strong> The database tracks when a transaction's snapshot ignores writes from another (uncommitted at read time) transaction. At commit, it checks if those writes have since committed.</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: D)</strong> The database tracks when a transaction's snapshot ignores writes from another (uncommitted at read time) transaction. At commit, it checks if those writes have since committed.</div>
  </div>
  </section>
 
@@ -2227,14 +2227,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q63</span><span class="quiz-topic">Write After Read</span></div>
  <p class="quiz-question">How does SSI detect writes that affect prior reads?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) By locking rows; and propagating the change through the replication log to all follower nodes for consistent durability</div>
- <div class="quiz-option" onclick="selectOption(this)">B) Indexing structures track which transactions have read affected data; writes notify those transactions</div>
- <div class="quiz-option" onclick="selectOption(this)">C) By delaying writes</div>
- <div class="quiz-option" onclick="selectOption(this)">D) By counting reads</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Indexing structures track which transactions have read affected data; writes notify those transactions</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) By counting reads</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) By locking rows; and propagating the change through the replication log to all follower nodes for consistent durability</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) By delaying writes</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: B)</strong> When a transaction writes, the database checks the indexes for any other transactions that have recently read the affected data.</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: A)</strong> When a transaction writes, the database checks the indexes for any other transactions that have recently read the affected data.</div>
  </div>
  </section>
 
@@ -2243,10 +2243,10 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q64</span><span class="quiz-topic">SSI Abort</span></div>
  <p class="quiz-question">In SSI, when is a transaction aborted?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) At read time while ensuring that partial failures or concurrent modifications do not leave the database in an inconsistent state</div>
- <div class="quiz-option" onclick="selectOption(this)">B) At commit time — if a conflict is detected, the transaction is aborted and must be retried</div>
- <div class="quiz-option" onclick="selectOption(this)">C) After commit</div>
- <div class="quiz-option" onclick="selectOption(this)">D) Never aborted</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) As soon as a transaction performs a conflicting read, before the conflicting write is even attempted</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) At commit time — if a conflict is detected, the transaction is aborted and must be retried</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Never aborted</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) After commit</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -2259,14 +2259,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q65</span><span class="quiz-topic">SSI Granularity</span></div>
  <p class="quiz-question">What affects SSI's performance?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) The granularity of conflict detection — tracking at row level is more precise than table level</div>
- <div class="quiz-option" onclick="selectOption(this)">B) Network speed</div>
- <div class="quiz-option" onclick="selectOption(this)">C) Number of tables</div>
- <div class="quiz-option" onclick="selectOption(this)">D) Disk speed within the broader architecture of a distributed data-intensive application serving concurrent user requests</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) How many transactions are active at once, since SSI performance degrades as concurrency rises beyond a threshold</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) The granularity of conflict detection — tracking at row level is more precise than table level</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Number of tables</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Network speed</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: A)</strong> The granularity of tracking determines the performance: detailed tracking reduces false positives but adds overhead.</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: B)</strong> The granularity of tracking determines the performance: detailed tracking reduces false positives but adds overhead.</div>
  </div>
  </section>
 
@@ -2275,14 +2275,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q66</span><span class="quiz-topic">SSI Databases</span></div>
  <p class="quiz-question">Which database pioneered SSI?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) MySQL as part of a comprehensive strategy for ensuring data integrity and query performance at scale</div>
- <div class="quiz-option" onclick="selectOption(this)">B) Oracle</div>
- <div class="quiz-option" onclick="selectOption(this)">C) PostgreSQL (since version 9.1, based on research by Cahill and Fekete)</div>
- <div class="quiz-option" onclick="selectOption(this)">D) MongoDB</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) PostgreSQL (since version 9.1, based on research by Cahill and Fekete)</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Oracle</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) MySQL/InnoDB, after adding next-key locks to emulate serializable snapshots</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) MongoDB</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: C)</strong> PostgreSQL's serializable isolation since version 9.1 is based on SSI, from Cahill's 2008 PhD thesis.</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: A)</strong> PostgreSQL's serializable isolation since version 9.1 is based on SSI, from Cahill's 2008 PhD thesis.</div>
  </div>
  </section>
 
@@ -2291,14 +2291,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q67</span><span class="quiz-topic">FoundationDB</span></div>
  <p class="quiz-question">Which distributed database uses SSI?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) FoundationDB uses a similar algorithm (SSI-like) for serializable transactions</div>
- <div class="quiz-option" onclick="selectOption(this)">B) MySQL Cluster</div>
- <div class="quiz-option" onclick="selectOption(this)">C) Redis Cluster</div>
- <div class="quiz-option" onclick="selectOption(this)">D) Cassandra under normal operating conditions with standard workload patterns and routine maintenance procedures</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) MySQL Cluster</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Redis Cluster</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) FoundationDB uses a similar algorithm (SSI-like) for serializable transactions</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Cassandra under normal operating conditions with standard workload patterns and routine maintenance procedures</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: A)</strong> FoundationDB uses a similar algorithm to SSI for distributed serializable transactions.</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: C)</strong> FoundationDB uses a similar algorithm to SSI for distributed serializable transactions.</div>
  </div>
  </section>
 
@@ -2307,10 +2307,10 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q68</span><span class="quiz-topic">Retry Logic</span></div>
  <p class="quiz-question">What must the application handle when using SSI?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) Locking within the broader architecture of a distributed data-intensive application serving concurrent user requests</div>
- <div class="quiz-option" onclick="selectOption(this)">B) Rollback manually</div>
- <div class="quiz-option" onclick="selectOption(this)">C) Retrying aborted transactions — the database aborts conflicting transactions, the app must retry</div>
- <div class="quiz-option" onclick="selectOption(this)">D) Nothing extra — any isolation level can detect write skew without additional mechanisms</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Nothing extra is required — any standard isolation level can detect write skew without additional application-level constraints</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Rollback manually</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Retrying aborted transactions — the database aborts conflicting transactions, the app must retry</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Choosing which transaction IDs to reserve ahead of time so conflicts can be ordered</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
@@ -2323,14 +2323,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q69</span><span class="quiz-topic">Weak Isolation</span></div>
  <p class="quiz-question">Why do most databases use weak isolation levels?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) Strong isolation is impossible</div>
- <div class="quiz-option" onclick="selectOption(this)">B) Weak isolation is simpler to understand</div>
- <div class="quiz-option" onclick="selectOption(this)">C) They're more correct while ensuring that partial failures or concurrent modifications do not leave the database in an inconsistent state</div>
- <div class="quiz-option" onclick="selectOption(this)">D) Serializability has a performance cost, and many applications tolerate weaker guarantees</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Strong isolation is impossible</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Serializability has a performance cost, and many applications tolerate weaker guarantees</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Weak isolation is simpler to understand</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) They map more closely to real application semantics, so anomalies are significantly less likely to occur in practice</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: D)</strong> Serializable isolation has a performance cost. Many applications use weaker levels for better performance, accepting some anomalies.</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: B)</strong> Serializable isolation has a performance cost. Many applications use weaker levels for better performance, accepting some anomalies.</div>
  </div>
  </section>
 
@@ -2339,14 +2339,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q70</span><span class="quiz-topic">Concurrency Bugs</span></div>
  <p class="quiz-question">Why are concurrency bugs from weak isolation levels dangerous?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) They are hard to reproduce, test for, and may only appear under specific timing conditions in production</div>
- <div class="quiz-option" onclick="selectOption(this)">B) They're easy to find through mechanisms that coordinate multiple reads and writes across different database objects within a single logical unit</div>
- <div class="quiz-option" onclick="selectOption(this)">C) They're always caught in testing</div>
- <div class="quiz-option" onclick="selectOption(this)">D) They crash the database</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) They're easy to find through mechanisms that coordinate multiple reads and writes across different database objects within a single logical unit</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) They are hard to reproduce, test for, and may only appear under specific timing conditions in production</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) They're always caught in testing</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) They crash the database</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: A)</strong> Concurrency bugs are difficult to find by testing because they depend on timing, which is usually nondeterministic.</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: B)</strong> Concurrency bugs are difficult to find by testing because they depend on timing, which is usually nondeterministic.</div>
  </div>
  </section>
 
@@ -2355,10 +2355,10 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q71</span><span class="quiz-topic">Autocommit</span></div>
  <p class="quiz-question">What does autocommit mode do?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) Auto-saves data under normal operating conditions with standard workload patterns and routine maintenance procedures</div>
- <div class="quiz-option" onclick="selectOption(this)">B) Each statement is automatically its own transaction, committed immediately</div>
- <div class="quiz-option" onclick="selectOption(this)">C) Automatic backups</div>
- <div class="quiz-option" onclick="selectOption(this)">D) Disables transactions</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Automatic backups</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Each statement is automatically its own transaction, committed immediately</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Disables transactions</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Auto-saves data under normal operating conditions with standard workload patterns and routine maintenance procedures</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -2371,14 +2371,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q72</span><span class="quiz-topic">BEGIN/COMMIT</span></div>
  <p class="quiz-question">How do you define a multi-statement transaction in SQL?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) START/STOP while ensuring that partial failures or concurrent modifications do not leave the database in an inconsistent state</div>
- <div class="quiz-option" onclick="selectOption(this)">B) LOCK/UNLOCK</div>
- <div class="quiz-option" onclick="selectOption(this)">C) BEGIN TRANSACTION ... COMMIT (or ROLLBACK for abort)</div>
- <div class="quiz-option" onclick="selectOption(this)">D) OPEN/CLOSE</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) LOCK/UNLOCK</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) OPEN/CLOSE</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) START TRANSACTION ... END TRANSACTION with implicit savepoints</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) BEGIN TRANSACTION ... COMMIT (or ROLLBACK for abort)</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: C)</strong> SQL uses BEGIN TRANSACTION to start and COMMIT or ROLLBACK to end a multi-statement transaction.</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: D)</strong> SQL uses BEGIN TRANSACTION to start and COMMIT or ROLLBACK to end a multi-statement transaction.</div>
  </div>
  </section>
 
@@ -2387,14 +2387,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q73</span><span class="quiz-topic">Retryable Transactions</span></div>
  <p class="quiz-question">What is a limitation of automatic transaction retry?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) If the abort was due to overload, retrying can make the problem worse</div>
- <div class="quiz-option" onclick="selectOption(this)">B) No limitations while ensuring that partial failures or concurrent modifications do not leave the database in an inconsistent state</div>
- <div class="quiz-option" onclick="selectOption(this)">C) Retries are free</div>
- <div class="quiz-option" onclick="selectOption(this)">D) Retries always succeed</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Retries are free</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Retries always succeed</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) If the abort was due to overload, retrying can make the problem worse</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Retries can violate foreign-key constraints if the database has changed schema</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: A)</strong> If the transaction was aborted due to overload, retrying just adds more load, potentially causing a thundering herd.</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: C)</strong> If the transaction was aborted due to overload, retrying just adds more load, potentially causing a thundering herd.</div>
  </div>
  </section>
 
@@ -2403,14 +2403,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q74</span><span class="quiz-topic">Side Effects</span></div>
  <p class="quiz-question">What problem can transaction retries cause with side effects?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) Side effects prevent retries</div>
- <div class="quiz-option" onclick="selectOption(this)">B) Side effects are rolled back</div>
- <div class="quiz-option" onclick="selectOption(this)">C) Side effects like sending emails may execute multiple times if the transaction is retried</div>
- <div class="quiz-option" onclick="selectOption(this)">D) No problem while ensuring that partial failures or concurrent modifications do not leave the database in an inconsistent state</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Side effects like sending emails may execute multiple times if the transaction is retried</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Side effects prevent retries</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Side effects are delayed until commit, so the user may only see them after the final transaction acknowledgment</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Side effects are rolled back</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: C)</strong> If the transaction has side effects (e.g., sending an email), those may happen multiple times on retry.</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: A)</strong> If the transaction has side effects (e.g., sending an email), those may happen multiple times on retry.</div>
  </div>
  </section>
 
@@ -2419,14 +2419,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q75</span><span class="quiz-topic">Read-Only Transactions</span></div>
  <p class="quiz-question">What optimization do databases provide for read-only transactions?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) No optimization</div>
- <div class="quiz-option" onclick="selectOption(this)">B) They're slower without needing to scan the entire dataset because the index narrows down the set of relevant records efficiently</div>
- <div class="quiz-option" onclick="selectOption(this)">C) They require locks</div>
- <div class="quiz-option" onclick="selectOption(this)">D) The database can optimize read-only transactions since it knows no writes will occur</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) The database can optimize read-only transactions since it knows no writes will occur</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) No optimization</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) They're slower without needing to scan the entire dataset because the index narrows down the set of relevant records efficiently</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) They require locks</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: D)</strong> Databases can optimize read-only transactions, e.g., not tracking write sets or checking write conflicts.</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: A)</strong> Databases can optimize read-only transactions, e.g., not tracking write sets or checking write conflicts.</div>
  </div>
  </section>
 
@@ -2435,14 +2435,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q76</span><span class="quiz-topic">MVCC Garbage</span></div>
  <p class="quiz-question">In MVCC, when can old versions be garbage collected?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) Never — serializable snapshot isolation guarantees zero aborts under any workload</div>
- <div class="quiz-option" onclick="selectOption(this)">B) When no running transaction can access that version anymore</div>
- <div class="quiz-option" onclick="selectOption(this)">C) After 24 hours</div>
- <div class="quiz-option" onclick="selectOption(this)">D) Immediately after write</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) After 24 hours</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Immediately after write</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) When no running transaction can access that version anymore</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Never — serializable snapshot isolation guarantees zero aborts under any workload</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: B)</strong> Old versions can be removed once no transaction that could possibly need them is still running.</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: C)</strong> Old versions can be removed once no transaction that could possibly need them is still running.</div>
  </div>
  </section>
 
@@ -2451,14 +2451,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q77</span><span class="quiz-topic">Long Transactions</span></div>
  <p class="quiz-question">Why are long-running read transactions problematic for MVCC?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) They prevent old versions from being garbage collected, causing the database to grow large</div>
- <div class="quiz-option" onclick="selectOption(this)">B) They block writes</div>
- <div class="quiz-option" onclick="selectOption(this)">C) They use too much CPU</div>
- <div class="quiz-option" onclick="selectOption(this)">D) They're not by routing the request to the specific partition or replica that holds the requested data based on the partitioning scheme</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) They block writes</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) They're not by routing the request to the specific partition or replica that holds the requested data based on the partitioning scheme</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) They use too much CPU</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) They prevent old versions from being garbage collected, causing the database to grow large</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: A)</strong> Long-running transactions prevent garbage collection of old MVCC versions, potentially causing database bloat.</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: D)</strong> Long-running transactions prevent garbage collection of old MVCC versions, potentially causing database bloat.</div>
  </div>
  </section>
 
@@ -2467,14 +2467,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q78</span><span class="quiz-topic">Repeatable Read</span></div>
  <p class="quiz-question">Why is the SQL standard's definition of 'repeatable read' problematic?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) It's too clear without needing to scan the entire dataset because the index narrows down the set of relevant records efficiently</div>
- <div class="quiz-option" onclick="selectOption(this)">B) It's identical everywhere</div>
- <div class="quiz-option" onclick="selectOption(this)">C) It's deprecated</div>
- <div class="quiz-option" onclick="selectOption(this)">D) It's ambiguously defined, and different databases implement it differently — some provide snapshot isolation, some don't</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) It's identical everywhere</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) It's deprecated</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) It's ambiguously defined, and different databases implement it differently — some provide snapshot isolation, some don't</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) It's too clear without needing to scan the entire dataset because the index narrows down the set of relevant records efficiently</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: D)</strong> The SQL standard's definition of repeatable read is flawed and ambiguous, leading IBM DB2, MySQL, and PostgreSQL to implement it very differently.</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: C)</strong> The SQL standard's definition of repeatable read is flawed and ambiguous, leading IBM DB2, MySQL, and PostgreSQL to implement it very differently.</div>
  </div>
  </section>
 
@@ -2483,14 +2483,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q79</span><span class="quiz-topic">Anomaly Hierarchy</span></div>
  <p class="quiz-question">What is the hierarchy of transaction anomalies (least to most serious)?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) All equally bad while ensuring that partial failures or concurrent modifications do not leave the database in an inconsistent state</div>
- <div class="quiz-option" onclick="selectOption(this)">B) Phantoms → dirty reads → write skew</div>
- <div class="quiz-option" onclick="selectOption(this)">C) Dirty reads → nonrepeatable reads → phantom reads → write skew → serialization anomaly</div>
- <div class="quiz-option" onclick="selectOption(this)">D) Only one type exists</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Dirty writes, deadlocks, stale replicas, lost backups, corrupted indexes, and phantom reads</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Dirty reads → nonrepeatable reads → phantom reads → write skew → serialization anomaly</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Phantoms → dirty reads → write skew</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Only one type exists</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: C)</strong> The anomalies form a hierarchy from less serious (dirty reads) to the most restrictive (any non-serializable behavior).</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: B)</strong> The anomalies form a hierarchy from less serious (dirty reads) to the most restrictive (any non-serializable behavior).</div>
  </div>
  </section>
 
@@ -2499,14 +2499,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q80</span><span class="quiz-topic">Meeting Room</span></div>
  <p class="quiz-question">What is the meeting room booking write skew example?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) Double booking is fine</div>
- <div class="quiz-option" onclick="selectOption(this)">B) Two users concurrently check a room is free and both book it, resulting in double booking</div>
- <div class="quiz-option" onclick="selectOption(this)">C) Wrong room booked; and propagating the change through the replication log to all follower nodes for consistent durability</div>
- <div class="quiz-option" onclick="selectOption(this)">D) Room capacity exceeded</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Wrong room booked; and propagating the change through the replication log to all follower nodes for consistent durability</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Double booking is fine</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Room capacity exceeded</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Two users concurrently check a room is free and both book it, resulting in double booking</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: B)</strong> Both users check that the room is free (SELECT), then both INSERT a booking. Neither sees the other's write.</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: D)</strong> Both users check that the room is free (SELECT), then both INSERT a booking. Neither sees the other's write.</div>
  </div>
  </section>
 
@@ -2515,14 +2515,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q81</span><span class="quiz-topic">Username Uniqueness</span></div>
  <p class="quiz-question">How can unique usernames be enforced to prevent write skew?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) Application-level check only</div>
- <div class="quiz-option" onclick="selectOption(this)">B) A unique constraint in the database — the database enforces it atomically</div>
- <div class="quiz-option" onclick="selectOption(this)">C) First-come-first-served without checks</div>
- <div class="quiz-option" onclick="selectOption(this)">D) Manual review through a coordinated protocol that guarantees atomic visibility of every committed modification</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) First-come-first-served without checks</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Application-level check only</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Manual review through a coordinated protocol that guarantees atomic visibility of every committed modification</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) A unique constraint in the database — the database enforces it atomically</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: B)</strong> A uniqueness constraint in the database is a simple and effective way to prevent this particular kind of write skew.</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: D)</strong> A uniqueness constraint in the database is a simple and effective way to prevent this particular kind of write skew.</div>
  </div>
  </section>
 
@@ -2531,14 +2531,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q82</span><span class="quiz-topic">Account Balance</span></div>
  <p class="quiz-question">What is the write skew in checking account balance?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) Balance goes up</div>
- <div class="quiz-option" onclick="selectOption(this)">B) Wrong account debited</div>
- <div class="quiz-option" onclick="selectOption(this)">C) Two concurrent withdrawals each check sufficient balance but together overdraw the account</div>
- <div class="quiz-option" onclick="selectOption(this)">D) Deposit fails through a coordinated protocol that guarantees atomic visibility of every committed modification</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Balance goes up</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Two concurrent withdrawals each check sufficient balance but together overdraw the account</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Wrong account debited</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Deposit fails through a coordinated protocol that guarantees atomic visibility of every committed modification</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: C)</strong> Two withdrawals each see sufficient balance, but the combined effect is an overdraft.</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: B)</strong> Two withdrawals each see sufficient balance, but the combined effect is an overdraft.</div>
  </div>
  </section>
 
@@ -2547,14 +2547,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q83</span><span class="quiz-topic">2PL Deadlock Resolution</span></div>
  <p class="quiz-question">How does a database resolve deadlocks in 2PL?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) Waits forever</div>
- <div class="quiz-option" onclick="selectOption(this)">B) Kills both</div>
- <div class="quiz-option" onclick="selectOption(this)">C) Ignores it within the broader architecture of a distributed data-intensive application serving concurrent user requests</div>
- <div class="quiz-option" onclick="selectOption(this)">D) Detects the deadlock and aborts one of the transactions</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Waits forever</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Detects the deadlock and aborts one of the transactions</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Kills both</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Raises the lock timeout and lets the application decide which session to cancel</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: D)</strong> The database's deadlock detector notices the cycle of waiting transactions and aborts one to break the cycle.</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: B)</strong> The database's deadlock detector notices the cycle of waiting transactions and aborts one to break the cycle.</div>
  </div>
  </section>
 
@@ -2563,14 +2563,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q84</span><span class="quiz-topic">Serializable Options</span></div>
  <p class="quiz-question">What are the three techniques for serializable isolation?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) Read lock, write lock, upgrade lock</div>
- <div class="quiz-option" onclick="selectOption(this)">B) Actual serial execution, 2PL, and SSI (serializable snapshot isolation)</div>
- <div class="quiz-option" onclick="selectOption(this)">C) Optimistic, pessimistic, hybrid</div>
- <div class="quiz-option" onclick="selectOption(this)">D) Locks, versions, snapshots through mechanisms that coordinate multiple reads and writes across different database objects within a single logical unit</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Optimistic, pessimistic, hybrid</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Locks, versions, snapshots through mechanisms that coordinate multiple reads and writes across different database objects within a single logical unit</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Read lock, write lock, upgrade lock</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Actual serial execution, 2PL, and SSI (serializable snapshot isolation)</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: B)</strong> Three approaches: 1) literal serial execution, 2) two-phase locking, 3) serializable snapshot isolation (SSI).</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: D)</strong> Three approaches: 1) literal serial execution, 2) two-phase locking, 3) serializable snapshot isolation (SSI).</div>
  </div>
  </section>
 
@@ -2579,14 +2579,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q85</span><span class="quiz-topic">VoltDB</span></div>
  <p class="quiz-question">What notable characteristic does VoltDB have?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) Read-only within the broader architecture of a distributed data-intensive application serving concurrent user requests</div>
- <div class="quiz-option" onclick="selectOption(this)">B) Disk-based only</div>
- <div class="quiz-option" onclick="selectOption(this)">C) In-memory, serial execution database with stored procedures for OLTP</div>
- <div class="quiz-option" onclick="selectOption(this)">D) No transactions</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) No transactions</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) In-memory, serial execution database with stored procedures for OLTP</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Disk-backed analytics engine optimized for long scans and ad hoc SQL workloads</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Disk-based only</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: C)</strong> VoltDB executes transactions serially in memory using stored procedures.</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: B)</strong> VoltDB executes transactions serially in memory using stored procedures.</div>
  </div>
  </section>
 
@@ -2595,14 +2595,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q86</span><span class="quiz-topic">Transaction Throughput</span></div>
  <p class="quiz-question">For serial execution, what limits throughput?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) Single CPU core speed — every transaction must execute on one core</div>
- <div class="quiz-option" onclick="selectOption(this)">B) Disk I/O in a typical production deployment with multiple interconnected nodes spanning several availability zones</div>
- <div class="quiz-option" onclick="selectOption(this)">C) Memory capacity</div>
- <div class="quiz-option" onclick="selectOption(this)">D) Network bandwidth</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Disk I/O in a typical production deployment with multiple interconnected nodes spanning several availability zones</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Network bandwidth</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Single CPU core speed — every transaction must execute on one core</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Memory capacity</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: A)</strong> Throughput is limited to a single CPU core since transactions execute sequentially on one thread.</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: C)</strong> Throughput is limited to a single CPU core since transactions execute sequentially on one thread.</div>
  </div>
  </section>
 
@@ -2611,14 +2611,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q87</span><span class="quiz-topic">Interactive Txn</span></div>
  <p class="quiz-question">Why are interactive transactions problematic for serial execution?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) The database idles waiting for the application to issue the next statement (network round-trip)</div>
- <div class="quiz-option" onclick="selectOption(this)">B) They're fine while ensuring that partial failures or concurrent modifications do not leave the database in an inconsistent state</div>
- <div class="quiz-option" onclick="selectOption(this)">C) They corrupt data</div>
- <div class="quiz-option" onclick="selectOption(this)">D) They use too much memory</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) They allow the database to prefetch the next statement and overlap client think time with execution</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) The database idles waiting for the application to issue the next statement (network round-trip)</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) They corrupt data</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) They use too much memory</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: A)</strong> In an interactive transaction, the database wastes time waiting for each application round-trip over the network.</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: B)</strong> In an interactive transaction, the database wastes time waiting for each application round-trip over the network.</div>
  </div>
  </section>
 
@@ -2627,14 +2627,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q88</span><span class="quiz-topic">Abort Rate</span></div>
  <p class="quiz-question">What is a concern with SSI under high contention?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) It's too slow to detect conflicts</div>
- <div class="quiz-option" onclick="selectOption(this)">B) No concerns under normal operating conditions with standard workload patterns and routine maintenance procedures</div>
- <div class="quiz-option" onclick="selectOption(this)">C) It can't handle writes</div>
- <div class="quiz-option" onclick="selectOption(this)">D) A high proportion of transactions may be aborted and need to retry, wasting effort</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) No concerns under normal operating conditions with standard workload patterns and routine maintenance procedures</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) A high proportion of transactions may be aborted and need to retry, wasting effort</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) It can't handle writes</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) It's too slow to detect conflicts</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: D)</strong> Under high contention, the proportion of transactions that need to be retried can be high, reducing effective throughput.</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: B)</strong> Under high contention, the proportion of transactions that need to be retried can be high, reducing effective throughput.</div>
  </div>
  </section>
 
@@ -2643,14 +2643,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q89</span><span class="quiz-topic">Read-Only Txn SI</span></div>
  <p class="quiz-question">Why is snapshot isolation perfect for read-only transactions?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) Read-only transactions never conflict, so they always see a consistent snapshot without blocking</div>
- <div class="quiz-option" onclick="selectOption(this)">B) It eliminates all anomalies</div>
- <div class="quiz-option" onclick="selectOption(this)">C) It's faster than reading without a transaction</div>
- <div class="quiz-option" onclick="selectOption(this)">D) It provides serializability by routing the request to the specific partition or replica that holds the requested data based on the partitioning scheme</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) It provides serializability by routing the request to the specific partition or replica that holds the requested data based on the partitioning scheme</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) It's faster than reading without a transaction</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Read-only transactions never conflict, so they always see a consistent snapshot without blocking</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) It eliminates all anomalies</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: A)</strong> Read-only transactions on snapshot isolation see a consistent snapshot and never need to block or abort.</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: C)</strong> Read-only transactions on snapshot isolation see a consistent snapshot and never need to block or abort.</div>
  </div>
  </section>
 
@@ -2659,14 +2659,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q90</span><span class="quiz-topic">Phantom Concrete</span></div>
  <p class="quiz-question">Give an example where a phantom causes problems beyond meeting rooms.</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) None exist within the broader architecture of a distributed data-intensive application serving concurrent user requests</div>
- <div class="quiz-option" onclick="selectOption(this)">B) Reading a file</div>
- <div class="quiz-option" onclick="selectOption(this)">C) Printing a report</div>
- <div class="quiz-option" onclick="selectOption(this)">D) Multiplayer game: two players move to same position simultaneously, each checking 'is position occupied?'</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Printing a report</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Online banking: one transaction reads an account balance while another concurrently deducts money from that same account</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Multiplayer game: two players move to same position simultaneously, each checking 'is position occupied?'</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Reading a file</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: D)</strong> Any check-then-act pattern where the check is a query and the act is a write affecting future check results can suffer from phantoms.</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: C)</strong> Any check-then-act pattern where the check is a query and the act is a write affecting future check results can suffer from phantoms.</div>
  </div>
  </section>
 
@@ -2675,10 +2675,10 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q91</span><span class="quiz-topic">Index Range Fallback</span></div>
  <p class="quiz-question">What happens if there is no suitable index for index-range locking?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) No locking occurs</div>
- <div class="quiz-option" onclick="selectOption(this)">B) Only the first row is locked</div>
- <div class="quiz-option" onclick="selectOption(this)">C) The database can fall back to locking the entire table — safe but bad for performance</div>
- <div class="quiz-option" onclick="selectOption(this)">D) Error thrown to accelerate lookup performance for commonly queried fields without scanning every row in the table</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Error thrown to accelerate lookup performance for commonly queried fields without scanning every row in the table</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) No locking occurs</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) The database can fall back to locking the entire table — safe but bad for performance</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Only the first row is locked</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
@@ -2691,14 +2691,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q92</span><span class="quiz-topic">SSI Read-Write</span></div>
  <p class="quiz-question">Under SSI, what happens if only reads are involved?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) Read-only transactions never conflict and never need to abort</div>
- <div class="quiz-option" onclick="selectOption(this)">B) Reads are blocked</div>
- <div class="quiz-option" onclick="selectOption(this)">C) Reads are slow by routing the request to the specific partition or replica that holds the requested data based on the partitioning scheme</div>
- <div class="quiz-option" onclick="selectOption(this)">D) Same as reads and writes</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Same as reads and writes</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Reads are slow by routing the request to the specific partition or replica that holds the requested data based on the partitioning scheme</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Reads are blocked</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Read-only transactions never conflict and never need to abort</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: A)</strong> Since SSI is optimistic, read-only transactions can run freely without any risk of being aborted.</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: D)</strong> Since SSI is optimistic, read-only transactions can run freely without any risk of being aborted.</div>
  </div>
  </section>
 
@@ -2707,14 +2707,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q93</span><span class="quiz-topic">Write-Only Txn</span></div>
  <p class="quiz-question">Are write-only transactions safe with weak isolation?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) Writes never conflict</div>
- <div class="quiz-option" onclick="selectOption(this)">B) Always safe through a coordinated protocol that guarantees atomic visibility of every committed modification</div>
- <div class="quiz-option" onclick="selectOption(this)">C) Only reads have issues</div>
- <div class="quiz-option" onclick="selectOption(this)">D) Not necessarily — dirty writes and lost updates can still occur with write-only transactions</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Not necessarily — dirty writes and lost updates can still occur with write-only transactions</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Always safe through a coordinated protocol that guarantees atomic visibility of every committed modification</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Writes never conflict</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Only reads have issues</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: D)</strong> Even write-only transactions face dirty writes and lost update issues under weak isolation levels.</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: A)</strong> Even write-only transactions face dirty writes and lost update issues under weak isolation levels.</div>
  </div>
  </section>
 
@@ -2723,10 +2723,10 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q94</span><span class="quiz-topic">Real Serial</span></div>
  <p class="quiz-question">Which real-world constraint made serial execution viable around 2007?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) OLTP transactions are short and make few reads/writes, so executing them serially is feasible</div>
- <div class="quiz-option" onclick="selectOption(this)">B) Faster networks</div>
- <div class="quiz-option" onclick="selectOption(this)">C) SSDs eliminated I/O wait</div>
- <div class="quiz-option" onclick="selectOption(this)">D) Multi-core CPUs under normal operating conditions with standard workload patterns and routine maintenance procedures</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) OLTP transactions are short and make few reads/writes, so executing them serially is feasible</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) SSDs eliminated I/O wait</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Multi-core CPUs under normal operating conditions with standard workload patterns and routine maintenance procedures</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Faster networks</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
@@ -2739,14 +2739,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q95</span><span class="quiz-topic">Single Thread Limit</span></div>
  <p class="quiz-question">What is the fundamental limitation of single-threaded serial execution?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) No limitation by routing the request to the specific partition or replica that holds the requested data based on the partitioning scheme</div>
- <div class="quiz-option" onclick="selectOption(this)">B) Cannot store data</div>
- <div class="quiz-option" onclick="selectOption(this)">C) Cannot handle reads</div>
- <div class="quiz-option" onclick="selectOption(this)">D) Cannot use more than one CPU core's worth of throughput for writes</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) No limitation by routing the request to the specific partition or replica that holds the requested data based on the partitioning scheme</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Cannot use more than one CPU core's worth of throughput for writes</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Cannot handle reads</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Cannot store data</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: D)</strong> Serial execution is inherently limited to the throughput of a single CPU core for transactions.</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: B)</strong> Serial execution is inherently limited to the throughput of a single CPU core for transactions.</div>
  </div>
  </section>
 
@@ -2755,14 +2755,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q96</span><span class="quiz-topic">Pessimistic Lock</span></div>
  <p class="quiz-question">2PL is an example of which concurrency control philosophy?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) No control</div>
- <div class="quiz-option" onclick="selectOption(this)">B) Pessimistic — it acquires locks upfront to prevent conflicts</div>
- <div class="quiz-option" onclick="selectOption(this)">C) Optimistic as part of a comprehensive strategy for ensuring data integrity and query performance at scale</div>
- <div class="quiz-option" onclick="selectOption(this)">D) Probabilistic</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Optimistic - it lets conflicts happen and repairs them after commit</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) No control</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Pessimistic — it acquires locks upfront to prevent conflicts</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Probabilistic</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: B)</strong> 2PL is pessimistic: it prevents conflicts from happening by acquiring locks before accessing data.</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: C)</strong> 2PL is pessimistic: it prevents conflicts from happening by acquiring locks before accessing data.</div>
  </div>
  </section>
 
@@ -2771,14 +2771,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q97</span><span class="quiz-topic">Optimistic Lock</span></div>
  <p class="quiz-question">SSI is an example of which concurrency control philosophy?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) Pessimistic</div>
- <div class="quiz-option" onclick="selectOption(this)">B) Random under normal operating conditions with standard workload patterns and routine maintenance procedures</div>
- <div class="quiz-option" onclick="selectOption(this)">C) Optimistic — it allows transactions to proceed and checks for conflicts at commit</div>
- <div class="quiz-option" onclick="selectOption(this)">D) No control</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Optimistic — it allows transactions to proceed and checks for conflicts at commit</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) No control</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Random under normal operating conditions with standard workload patterns and routine maintenance procedures</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Pessimistic</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: C)</strong> SSI is optimistic: transactions proceed without blocking, and conflicts are detected at commit time.</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: A)</strong> SSI is optimistic: transactions proceed without blocking, and conflicts are detected at commit time.</div>
  </div>
  </section>
 
@@ -2787,10 +2787,10 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q98</span><span class="quiz-topic">Transactions Debate</span></div>
  <p class="quiz-question">What is the ongoing debate about transactions?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) No debate exists while ensuring that partial failures or concurrent modifications do not leave the database in an inconsistent state</div>
- <div class="quiz-option" onclick="selectOption(this)">B) Whether to use NoSQL</div>
- <div class="quiz-option" onclick="selectOption(this)">C) Whether the performance and complexity costs of strong isolation are worth the safety guarantees</div>
- <div class="quiz-option" onclick="selectOption(this)">D) Whether to use SQL</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Whether to use NoSQL</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Whether to use SQL</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Whether the performance and complexity costs of strong isolation are worth the safety guarantees</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Whether modern hardware advances have made transaction isolation essentially free at any concurrency level</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
@@ -2803,14 +2803,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q99</span><span class="quiz-topic">Application Burden</span></div>
  <p class="quiz-question">What burden do weak isolation levels place on application developers?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) None through mechanisms that coordinate multiple reads and writes across different database objects within a single logical unit</div>
- <div class="quiz-option" onclick="selectOption(this)">B) Developers must write faster code</div>
- <div class="quiz-option" onclick="selectOption(this)">C) Developers must understand subtle concurrency issues and write code to handle or prevent anomalies</div>
- <div class="quiz-option" onclick="selectOption(this)">D) Developers must use specific languages</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Developers must use specific languages</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Developers must write faster code</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) None through mechanisms that coordinate multiple reads and writes across different database objects within a single logical unit</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Developers must understand subtle concurrency issues and write code to handle or prevent anomalies</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: C)</strong> With weak isolation, the burden is on the developer to understand which anomalies can occur and guard against them.</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: D)</strong> With weak isolation, the burden is on the developer to understand which anomalies can occur and guard against them.</div>
  </div>
  </section>
 
@@ -2819,14 +2819,14 @@ AND content='old';</div>
  <div class="quiz-header"><span class="quiz-number">Q100</span><span class="quiz-topic">Chapter Summary</span></div>
  <p class="quiz-question">What is the chapter's key takeaway?</p>
  <div class="quiz-options">
- <div class="quiz-option" onclick="selectOption(this)">A) Understand the trade-offs between isolation levels; serializable isolation is ideal but has performance costs</div>
- <div class="quiz-option" onclick="selectOption(this)">B) Never use transactions</div>
- <div class="quiz-option" onclick="selectOption(this)">C) Always use read committed</div>
- <div class="quiz-option" onclick="selectOption(this)">D) Only use NoSQL in a typical production deployment with multiple interconnected nodes spanning several availability zones</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Always use read committed</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Never use transactions</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Only use NoSQL in a typical production deployment with multiple interconnected nodes spanning several availability zones</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Understand the trade-offs between isolation levels; serializable isolation is ideal but has performance costs</div>
  </div>
  <div class="quiz-answer">
- <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
- <div class="quiz-explanation"><strong>Answer: A)</strong> Understanding isolation level trade-offs is crucial. Serializable isolation prevents all anomalies but at a cost; weaker levels trade safety for performance.</div>
+ <button class="reveal-btn" onclick="checkAnswer(this, ['D'])">Check Answer</button>
+ <div class="quiz-explanation"><strong>Answer: D)</strong> Understanding isolation level trade-offs is crucial. Serializable isolation prevents all anomalies but at a cost; weaker levels trade safety for performance.</div>
  </div>
  </section>
 

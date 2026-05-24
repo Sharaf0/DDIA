@@ -1284,7 +1284,7 @@
  <p class="quiz-question">What is the key difference between batch and stream processing?</p>
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Stream uses more memory</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Speed — the output is materialized only after the entire input has been processed, enabling deterministic retries on failure</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Stream prioritizes low-latency updates, while batch prioritizes high-throughput scheduled computation</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Batch processes bounded (finite) datasets; stream processes unbounded (never-ending) data</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Batch is distributed</div>
  </div>
@@ -1299,7 +1299,7 @@
  <div class="quiz-header"><span class="quiz-number">Q2</span><span class="quiz-topic">Event</span></div>
  <p class="quiz-question">What is an event in stream processing?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) A database row — the output is materialized only after the entire input has been processed, enabling deterministic retries on failure</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) A mutable row snapshot that gets overwritten in place whenever new data arrives</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) A small, self-contained, immutable record — typically with a timestamp — representing something that happened</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) A network packet</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) A function call</div>
@@ -1315,7 +1315,7 @@
  <div class="quiz-header"><span class="quiz-number">Q3</span><span class="quiz-topic">Event Generation</span></div>
  <p class="quiz-question">Who generates events?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Consumers — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Consumers create new events after they finish processing records from a topic</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) The database</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Producers (publishers/senders) generate events; consumers (subscribers/recipients) process them</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) The broker</div>
@@ -1333,7 +1333,7 @@
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Polling only</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Through a messaging system — the producer sends events to a topic and consumers subscribe</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Manual check — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Through synchronous callback requests sent directly from each producer to each consumer</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) File scanning</div>
  </div>
  <div class="quiz-answer">
@@ -1349,7 +1349,7 @@
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Pull and push</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Direct messaging (producer to consumer) and message broker (via an intermediary)</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) TCP and UDP — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Topic fan-out and queue load-balancing are the two foundational messaging styles</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Sync and async</div>
  </div>
  <div class="quiz-answer">
@@ -1366,7 +1366,7 @@
                 <div class="quiz-option" onclick="selectOption(this)">A) A load balancer</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) A web server</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) An intermediary that receives messages from producers, stores them, and delivers them to consumers</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) A database — the broker durably stores messages and delivers them to consumers, enabling asynchronous communication patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) A routing service that forwards messages immediately and does not persist them to disk</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
@@ -1382,7 +1382,7 @@
                 <div class="quiz-option" onclick="selectOption(this)">A) Load balancers</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Brokers that assign messages to consumers, delete after acknowledgment, support routing patterns</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) File systems</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Databases — the broker durably stores messages and delivers them to consumers, enabling asynchronous communication patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Databases optimized for SQL querying, indexes, and long-term transactional record storage</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -1398,7 +1398,7 @@
                 <div class="quiz-option" onclick="selectOption(this)">A) A logging tool</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) A broker that stores messages in an append-only log (like Kafka), retaining them for replay</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) A syslog server</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) A file logger — producers and consumers are decoupled, allowing them to operate at different speeds and be deployed independently</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) A broker that removes each message right after the first successful consumer acknowledgment</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -1411,7 +1411,7 @@
  <div class="quiz-header"><span class="quiz-number">Q9</span><span class="quiz-topic">Kafka</span></div>
  <p class="quiz-question">What is Apache Kafka?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) A database — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) A centralized AMQP queue manager focused on short-lived delivery rather than durable replay</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) A distributed, log-based message broker (event streaming platform) that retains messages durably</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) A web server</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) A monitoring tool</div>
@@ -1427,7 +1427,7 @@
  <div class="quiz-header"><span class="quiz-number">Q10</span><span class="quiz-topic">Topic</span></div>
  <p class="quiz-question">What is a topic in a message broker?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) A file name — the broker durably stores messages and delivers them to consumers, enabling asynchronous communication patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) A physical log file path that producers append to directly on the broker filesystem</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) A database table</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) A conversation</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) A named channel/category where related events are published and subscribers can consume them</div>
@@ -1445,7 +1445,7 @@
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Bigger servers</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Compression</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Caching — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Increasing replica count for existing partitions so throughput rises without repartitioning</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Partitioning the topic across multiple broker nodes — each partition is an ordered, append-only log</div>
  </div>
  <div class="quiz-answer">
@@ -1460,8 +1460,8 @@
  <p class="quiz-question">What is a consumer group in Kafka?</p>
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) A set of consumers that divide the partitions of a topic among themselves — each partition goes to one consumer in the group</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) A backup group — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) A monitoring group — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) A standby set of consumers that stays idle and activates only when primary consumers fail</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) A monitoring-only group that tracks lag metrics without actively consuming topic records</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) A team of developers</div>
  </div>
  <div class="quiz-answer">
@@ -1476,7 +1476,7 @@
  <p class="quiz-question">What is an offset in Kafka?</p>
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) A byte count</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) A hash value — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) A partition identifier used to decide which broker node receives each produced message</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) A time value</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) The position of a message within a partition — consumers track their offset to know which messages they've processed</div>
 </div>
@@ -1493,7 +1493,7 @@
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) One message is delivered to multiple independent consumers (each gets a copy)</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Data compression</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Load balancing — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Distributing messages so each record is handled by one consumer rather than all consumers</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Cooling servers</div>
  </div>
  <div class="quiz-answer">
@@ -1510,7 +1510,7 @@
                 <div class="quiz-option" onclick="selectOption(this)">A) Hardware balancer</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Round-robin IP</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Multiple consumers in a consumer group share the work — each message goes to one consumer</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) DNS rotation — the broker durably stores messages and delivers them to consumers, enabling asynchronous communication patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Publishing duplicate messages to multiple queues and letting DNS spread clients across them</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
@@ -1525,7 +1525,7 @@
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Messages are never delivered</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Messages may be lost</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Exactly one delivery — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Each message is delivered once unless the consumer crashes before acknowledging processing</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Every message is delivered at least once — but may be delivered multiple times (duplicates possible)</div>
  </div>
  <div class="quiz-answer">
@@ -1542,7 +1542,7 @@
                 <div class="quiz-option" onclick="selectOption(this)">A) Networks are reliable</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Failures can cause duplicates or loss; achieving exactly-once requires idempotency or transactional guarantees</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Brokers handle it automatically</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) It's easy — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Because brokers enforce strict ordering and acking, duplicates are naturally impossible</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -1558,7 +1558,7 @@
                 <div class="quiz-option" onclick="selectOption(this)">A) Capturing every change made to a database and streaming it as events to other systems</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Caching strategy</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Network monitoring</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Disk compression — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Compressing transaction logs periodically so older database changes occupy less storage</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
@@ -1574,7 +1574,7 @@
                 <div class="quiz-option" onclick="selectOption(this)">A) Security logging</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Database optimization</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Keeping derived systems (search indexes, caches, data warehouses) in sync with the source database</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Backup only — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Creating periodic full backups so all downstream systems can be restored after outages</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
@@ -1590,7 +1590,7 @@
                 <div class="quiz-option" onclick="selectOption(this)">A) Polling the database</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) File system monitoring</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Reading the database's replication log (WAL/binlog) and streaming changes to a message broker like Kafka</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Application code — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Embedding dual writes in application services to update every downstream system directly</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
@@ -1606,7 +1606,7 @@
                 <div class="quiz-option" onclick="selectOption(this)">A) Retaining only the latest value for each key, discarding older values — like an update-in-place for the log</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Compressing log files</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Deleting all logs</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Archiving logs — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Merging adjacent log segments into a larger file to improve sequential scan performance</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
@@ -1620,7 +1620,7 @@
  <p class="quiz-question">Why is log compaction useful for CDC?</p>
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Faster writes</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Saves CPU — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) It keeps only recent partitions, reducing storage, but prevents rebuilding full current state</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Better security</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) A new consumer can rebuild the entire dataset from the compacted log without replaying all history</div>
 </div>
@@ -1638,7 +1638,7 @@
                 <div class="quiz-option" onclick="selectOption(this)">A) Source code management</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Storing every state change as an immutable event — the application state is derived by replaying events</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Network event monitoring</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Log file analysis — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Saving periodic state snapshots and deleting intermediate business events to reduce replay</div>
 </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -1652,9 +1652,9 @@
  <p class="quiz-question">How does event sourcing differ from CDC?</p>
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Event sourcing captures DB changes</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) They're identical — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) They are equivalent terms for reading, parsing, and replaying database WAL entries</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) CDC captures changes at the database level (low-level); event sourcing captures domain events at the application level (high-level)</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) CDC is event sourcing — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) CDC defines domain-level business events first, then databases persist those commands</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
@@ -1669,7 +1669,7 @@
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Better compression</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Events are facts that happened — they can never be wrong. You can always add correcting events but never delete history</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Uses less disk — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Immutability improves performance by updating existing events in place instead of appending</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Faster processing</div>
 </div>
  <div class="quiz-answer">
@@ -1684,7 +1684,7 @@
  <p class="quiz-question">In event sourcing, how is current state determined?</p>
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Database query</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Cache lookup — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Reading the latest snapshot alone, without applying any later events, defines current state</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Reading the latest event</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Replaying all events from the beginning (or from a snapshot) to compute the current state</div>
  </div>
@@ -1699,7 +1699,7 @@
  <div class="quiz-header"><span class="quiz-number">Q27</span><span class="quiz-topic">CQRS</span></div>
  <p class="quiz-question">What is CQRS?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) A database type — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) A database engine that stores commands and queries in separate physical partitions</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Command Query Responsibility Segregation — separating the write model (events) from the read model (derived views)</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) A low-level network protocol that handles message framing and delivery between nodes</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) A testing framework</div>
@@ -1717,7 +1717,7 @@
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Read and write models can be optimized independently — reads use denormalized views, writes use append-only events</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Simpler application code because each node only handles a fraction of the total query volume</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Less storage — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) It removes the need for read models by serving all queries directly from raw event logs</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Faster writes</div>
  </div>
  <div class="quiz-answer">
@@ -1734,7 +1734,7 @@
                 <div class="quiz-option" onclick="selectOption(this)">A) Hash, merge, nested</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Stream-stream, stream-table, and table-table joins</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Inner, outer, cross</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Left, right, full — processing data in bulk amortizes the overhead of coordination and I/O across many records in a single pass</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Inner, outer, and anti joins between bounded relational datasets processed offline</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -1748,7 +1748,7 @@
  <p class="quiz-question">What is a stream-stream join?</p>
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Joining network streams</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Joining files — the output is materialized only after the entire input has been processed, enabling deterministic retries on failure</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Combining two batch output files only after both inputs have fully completed processing</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Joining two databases</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Joining two event streams — matching events that arrive within a time window (e.g., search and click within 1 hour)</div>
  </div>
@@ -1766,7 +1766,7 @@
                 <div class="quiz-option" onclick="selectOption(this)">A) Enriching a stream event with data from a database/table — e.g., looking up user profile for each activity event</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Joining stream to a file</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Joining to an index</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Joining two tables — the output is materialized only after the entire input has been processed, enabling deterministic retries on failure</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Joining two CDC tables so a materialized view updates whenever either table changes</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
@@ -1780,7 +1780,7 @@
  <p class="quiz-question">What is a table-table join?</p>
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Joining spreadsheets</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Joining indexes — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Joining each incoming stream event with an index lookup from a mutable reference table</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Standard SQL join</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Both inputs are CDC streams from databases — the join result is a materialized view that updates as either input changes</div>
 </div>
@@ -1797,7 +1797,7 @@
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Memory regions</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Time intervals used to group and aggregate events — tumbling, hopping, sliding, and session windows</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) GUI frames — the output is materialized only after the entire input has been processed, enabling deterministic retries on failure</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Dashboard panes used to visualize operator metrics, lag, and throughput in production</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Operating system windows</div>
  </div>
  <div class="quiz-answer">
@@ -1814,7 +1814,7 @@
                 <div class="quiz-option" onclick="selectOption(this)">A) A fixed-size time window with no overlap — each event belongs to exactly one window</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) A rotating display</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) A session window</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) A sliding window — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) A continuously moving interval whose boundaries shift forward on nearly every new event</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
@@ -1827,7 +1827,7 @@
  <div class="quiz-header"><span class="quiz-number">Q35</span><span class="quiz-topic">Hopping Window</span></div>
  <p class="quiz-question">What is a hopping window?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) A moving window — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) A moving interval that always contains the most recent N events from the stream</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) A fixed-size window that advances by a hop interval — windows overlap, so events may appear in multiple windows</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) A session window</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) A tumbling window</div>
@@ -1843,7 +1843,7 @@
  <div class="quiz-header"><span class="quiz-number">Q36</span><span class="quiz-topic">Sliding Window</span></div>
  <p class="quiz-question">What is a sliding window?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) A batch window — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Fixed non-overlapping time buckets where each event belongs to exactly one interval</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) A tumbling window</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Contains all events within a fixed duration of each other — it slides continuously with each event</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) A fixed window</div>
@@ -1860,7 +1860,7 @@
  <p class="quiz-question">What is a session window?</p>
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Groups events from the same user that occur close together in time, with gaps indicating session boundaries</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) A login session — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) A fixed window aligned to wall-clock boundaries, such as every 30 minutes exactly</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) A hopping window</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) A fixed-size window</div>
  </div>
@@ -1878,7 +1878,7 @@
                 <div class="quiz-option" onclick="selectOption(this)">A) Current time</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) The time when the event actually occurred (according to the producer's clock)</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Processing time</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Broker time — each machine's quartz oscillator drifts independently, and NTP corrections can cause jumps forward or backward</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) The timestamp assigned by the broker when a record is appended to a partition log</div>
 </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -1892,7 +1892,7 @@
  <p class="quiz-question">What is processing time?</p>
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) The time when the event is processed by the stream processor — may be much later than event time</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Event creation time — each machine's quartz oscillator drifts independently, and NTP corrections can cause jumps forward or backward</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) The original timestamp attached by the producer when the real-world event occurred</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Broker receipt time</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Network transmission time</div>
  </div>
@@ -1908,7 +1908,7 @@
  <p class="quiz-question">What are straggler events?</p>
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Events that arrive late — after the window they belong to has already been closed and processed</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Fast events — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Events that arrive too early and cause windows to close before later records appear</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Error events</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Duplicate events</div>
  </div>
@@ -1924,7 +1924,7 @@
  <p class="quiz-question">How can straggler events be handled?</p>
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Ignore them always</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Delete the window — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Raise watermark delay until late events disappear, then avoid emitting corrected outputs</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Drop them (with a metric), or publish a correction/updated result for the affected window</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Reprocess everything</div>
 </div>
@@ -1940,7 +1940,7 @@
  <p class="quiz-question">What is a watermark in stream processing?</p>
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) A visual mark</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) A checksum — the output is materialized only after the entire input has been processed, enabling deterministic retries on failure</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) A hash generated per window payload to detect duplicate aggregates before publishing</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) A security feature</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) A declaration by the system that no more events with a timestamp earlier than the watermark are expected</div>
  </div>
@@ -1957,7 +1957,7 @@
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Discard all data</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Manual restart</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Ignore them — processing data in bulk amortizes the overhead of coordination and I/O across many records in a single pass</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) By relying on broker replication alone and skipping operator state checkpoint recovery</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Checkpointing (Flink), microbatching (Spark Streaming), or idempotent writes</div>
  </div>
  <div class="quiz-answer">
@@ -1973,7 +1973,7 @@
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Small file writes</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Spark Streaming's approach — breaking the stream into small batch jobs (e.g., 1-second batches)</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Mini transactions — the output is materialized only after the entire input has been processed, enabling deterministic retries on failure</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Processing each event as an individual transaction while preserving a continuous stream</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Small database batches</div>
 </div>
  <div class="quiz-answer">
@@ -1990,7 +1990,7 @@
                 <div class="quiz-option" onclick="selectOption(this)">A) Ignoring failures</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Reprocessing everything</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Periodic checkpoints of operator state; on failure, restore from the last checkpoint and replay from that point</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Duplicate outputs — the system must continue operating correctly even when individual components become unavailable or misbehave</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Writing each output record twice so one copy remains available after task failure</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
@@ -2005,7 +2005,7 @@
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) A write that always fails</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) A read-only operation</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) An encrypted write — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) A write protected by deterministic encryption so retries can be recognized afterward</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) A write that produces the same effect whether performed once or multiple times — safe to retry</div>
 </div>
  <div class="quiz-answer">
@@ -2022,7 +2022,7 @@
                 <div class="quiz-option" onclick="selectOption(this)">A) No duplicates possible</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Checkpointing + replaying from offset + idempotent outputs — appearing to process each event exactly once</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Manual deduplication</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Perfect network — the output is materialized only after the entire input has been processed, enabling deterministic retries on failure</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Using perfectly synchronized clocks so replay, retries, and deduplication are unnecessary</div>
 </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -2037,7 +2037,7 @@
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Permanently always</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Configurable — by time (e.g., 7 days) or by size, independent of consumption</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Only 1 hour — producers and consumers are decoupled, allowing them to operate at different speeds and be deployed independently</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Until every consumer group commits offsets past the partition head of the topic</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Until consumed</div>
 </div>
  <div class="quiz-answer">
@@ -2054,7 +2054,7 @@
                 <div class="quiz-option" onclick="selectOption(this)">A) Kafka retains messages in a durable log; RabbitMQ deletes after acknowledgment</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Kafka deletes messages after consumption</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Kafka has no topics</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) RabbitMQ is faster — the broker durably stores messages and delivers them to consumers, enabling asynchronous communication patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) RabbitMQ keeps immutable logs for replay, while Kafka deletes messages after ack</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
@@ -2070,7 +2070,7 @@
                 <div class="quiz-option" onclick="selectOption(this)">A) Better compression</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Consumers can re-read past messages — useful for debugging, reprocessing, and adding new consumers</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Faster delivery</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Uses more disk — producers and consumers are decoupled, allowing them to operate at different speeds and be deployed independently</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Retention mainly increases throughput by forcing consumers to stay close to real time</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -2083,7 +2083,7 @@
  <div class="quiz-header"><span class="quiz-number">Q51</span><span class="quiz-topic">Derived Data</span></div>
  <p class="quiz-question">What is a derived data system?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) A backup — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) A secondary copy kept for disaster recovery, intended for restore operations rather than continuously transformed query serving</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) The primary database</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) A system whose data is computed from another system's data — search indexes, caches, materialized views</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) The source of truth</div>
@@ -2099,7 +2099,7 @@
  <div class="quiz-header"><span class="quiz-number">Q52</span><span class="quiz-topic">Materialized View</span></div>
  <p class="quiz-question">What is a materialized view in stream processing?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) A cache — the output is materialized only after the entire input has been processed, enabling deterministic retries on failure</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) A cached query result refreshed on a schedule instead of being updated for each incoming event</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) A precomputed, continuously updated query result derived from event streams</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) A database view</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) A UI component</div>
@@ -2117,7 +2117,7 @@
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Only counting</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Only filtering</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Only joining — processing data in bulk amortizes the overhead of coordination and I/O across many records in a single pass</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Only joining streams from multiple topics, without rolling metrics, anomaly checks, or alerting behavior</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Measuring rates, rolling averages, comparing current stats to historical, alerting on anomalies</div>
  </div>
  <div class="quiz-answer">
@@ -2131,7 +2131,7 @@
  <div class="quiz-header"><span class="quiz-number">Q54</span><span class="quiz-topic">CEP</span></div>
  <p class="quiz-question">What is Complex Event Processing (CEP)?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) A programming language — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) A rule engine that validates schema constraints before events are accepted into a topic</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) A low-level network protocol that handles message framing and delivery between nodes</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) A single read or write operation that targets exactly one row or document at a time</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Searching for patterns in event streams — like regex for events — triggering actions on matches</div>
@@ -2147,9 +2147,9 @@
  <div class="quiz-header"><span class="quiz-number">Q55</span><span class="quiz-topic">Actor Model vs Stream</span></div>
  <p class="quiz-question">How do actor frameworks differ from stream processing?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) They're identical — the output is materialized only after the entire input has been processed, enabling deterministic retries on failure</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Actors are better — the output is materialized only after the entire input has been processed, enabling deterministic retries on failure</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Stream processors have no state — processing data in bulk amortizes the overhead of coordination and I/O across many records in a single pass</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) They are identical in design goals and implementation approach; both provide exactly the same fault tolerance, state management, and reprocessing</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Actors are strictly better because they provide built-in checkpointing, ordered delivery guarantees, and deterministic replay of messages on failure</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Stream processors have no state at all; they rely entirely on external databases for maintaining intermediate computation results between steps</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Actors handle individual messages without fault tolerance guarantees; stream processors provide checkpointing, state management, and reprocessing</div>
  </div>
  <div class="quiz-answer">
@@ -2163,7 +2163,7 @@
  <div class="quiz-header"><span class="quiz-number">Q56</span><span class="quiz-topic">Kafka Partitions</span></div>
  <p class="quiz-question">How does Kafka partition data?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) By time — the shared infrastructure introduces unpredictable queuing, retransmissions, and routing variability</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) By round-robin across partitions, so even identical keys are spread to maximize balance</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Randomly always</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) By message key hash — messages with the same key go to the same partition, preserving order within a key</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) By message size</div>
@@ -2179,7 +2179,7 @@
  <div class="quiz-header"><span class="quiz-number">Q57</span><span class="quiz-topic">Ordering Guarantee</span></div>
  <p class="quiz-question">What ordering guarantee does Kafka provide?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) No ordering — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Ordering only by broker receive time, which may reorder records even within one partition</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Alphabetical ordering</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Ordering within a partition — messages in the same partition are delivered in order</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Global ordering across all partitions</div>
@@ -2196,7 +2196,7 @@
  <p class="quiz-question">How does a Kafka consumer track progress?</p>
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) The consumer periodically commits its offset — the position of the last processed message</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) No tracking — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Per-message acknowledgments are mandatory, and offsets are inferred from acknowledgment order</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Broker tracks it</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Per-message acknowledgment</div>
 </div>
@@ -2214,7 +2214,7 @@
                 <div class="quiz-option" onclick="selectOption(this)">A) Slowing down the producer when the consumer can't keep up, preventing buffer overflow</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Network congestion</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Data compression</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Disk pressure — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Disk pressure caused by long retention windows and slow cleanup of old log segments</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
@@ -2230,7 +2230,7 @@
                 <div class="quiz-option" onclick="selectOption(this)">A) Not traditional backpressure — consumers pull at their own pace; if slow, messages accumulate in the log</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) No, and it's a problem</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Yes, via TCP</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Yes, always — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Yes, brokers send slowdown signals to producers whenever any consumer group starts lagging</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
@@ -2245,7 +2245,7 @@
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) By querying SQL</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) By reading tables</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) You can't — processing data in bulk amortizes the overhead of coordination and I/O across many records in a single pass</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Only append-only databases expose streams; relational databases cannot emit ordered change events</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) The database's changelog (WAL/binlog) is a stream of events — each write is an event</div>
 </div>
  <div class="quiz-answer">
@@ -2261,7 +2261,7 @@
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) By deleting events</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) By sorting events</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Writing SQL — processing data in bulk amortizes the overhead of coordination and I/O across many records in a single pass</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) By running periodic SQL snapshots and replacing the full table each interval instead of accumulating ordered updates</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) By applying all events in the stream to build a materialized table — the table is the accumulated state</div>
  </div>
  <div class="quiz-answer">
@@ -2275,7 +2275,7 @@
  <div class="quiz-header"><span class="quiz-number">Q63</span><span class="quiz-topic">Table to Stream</span></div>
  <p class="quiz-question">How does a table become a stream?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) By indexing — the output is materialized only after the entire input has been processed, enabling deterministic retries on failure</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) By emitting periodic full-table snapshots at fixed intervals, without capturing row-level updates and deletes</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) By capturing every change (insert/update/delete) made to the table — CDC turns a table into a stream</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Exporting to CSV</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) By partitioning</div>
@@ -2291,7 +2291,7 @@
  <div class="quiz-header"><span class="quiz-number">Q64</span><span class="quiz-topic">Duality</span></div>
  <p class="quiz-question">What is the stream-table duality?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Tables are faster — the output is materialized only after the entire input has been processed, enabling deterministic retries on failure</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Tables are static query results, while streams are transient transport pipes that cannot represent durable state</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Streams are better</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) A stream and a table are two sides of the same thing — a stream is the changelog of a table, and a table is the accumulation of a stream</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) They're different concepts</div>
@@ -2307,7 +2307,7 @@
  <div class="quiz-header"><span class="quiz-number">Q65</span><span class="quiz-topic">Debezium</span></div>
  <p class="quiz-question">What is Debezium?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) A database — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) A stream processing framework for building and deploying Kafka aggregations inside Java services</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) A stream processor</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) An open-source CDC platform that captures database changes and streams them to Kafka</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) A monitoring tool</div>
@@ -2324,7 +2324,7 @@
  <p class="quiz-question">How does LinkedIn use CDC?</p>
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) For security</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) For logging — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) For auditing database activity, without propagating those updates to downstream indexes and caches</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Databus captures database changes and streams them to derived systems (search indexes, caches)</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) For backups only</div>
  </div>
@@ -2341,7 +2341,7 @@
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) A database</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) A compression tool</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) A drink — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) A PostgreSQL backup utility that snapshots tables to object storage on a recurring schedule</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) A CDC tool that decodes PostgreSQL's WAL and streams changes to Kafka in Avro format</div>
 </div>
  <div class="quiz-answer">
@@ -2356,7 +2356,7 @@
  <p class="quiz-question">Why is an initial snapshot needed for CDC?</p>
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Checksums on network packets are primarily used for data compression rather than integrity verification</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) For backups — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) To reduce producer latency by preloading hot rows into broker memory before CDC begins</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) For testing</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) The log doesn't go back to the beginning of time — a snapshot provides the baseline state for a new consumer</div>
  </div>
@@ -2373,7 +2373,7 @@
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) A retail store</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Local storage maintained by a stream processor for keeping intermediate state (e.g., counters, windows, join tables)</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) A database — processing data in bulk amortizes the overhead of coordination and I/O across many records in a single pass</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) A replicated OLTP database used by all operators for every read and write during processing</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) A file system</div>
  </div>
  <div class="quiz-answer">
@@ -2387,7 +2387,7 @@
  <div class="quiz-header"><span class="quiz-number">Q70</span><span class="quiz-topic">State Recovery</span></div>
  <p class="quiz-question">How is stream processor state recovered after a failure?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) It's lost — processing data in bulk amortizes the overhead of coordination and I/O across many records in a single pass</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) It is rebuilt only from external database dumps; the input stream itself cannot be replayed safely</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Asking other nodes</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) By replaying the input stream from the last checkpoint, or by restoring from a state snapshot plus replaying</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Manual recreation</div>
@@ -2403,7 +2403,7 @@
  <div class="quiz-header"><span class="quiz-number">Q71</span><span class="quiz-topic">Kafka Streams</span></div>
  <p class="quiz-question">What is Kafka Streams?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) A database — the output is materialized only after the entire input has been processed, enabling deterministic retries on failure</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) A standalone distributed database engine that stores events without requiring Kafka topics</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) A separate cluster</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) A batch processor</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) A stream processing library that runs within a Java application, using Kafka for input/output and state stores</div>
@@ -2422,7 +2422,7 @@
                 <div class="quiz-option" onclick="selectOption(this)">A) A stream processing framework originally developed at LinkedIn, built on Kafka and YARN</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) A file system</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) A web server</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) A database — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) A document database optimized for retaining long-lived event archives and periodic snapshots</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
@@ -2437,7 +2437,7 @@
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) A distributed real-time stream processing system — one of the earliest open-source stream processors</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) A batch processor</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) A database — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) A distributed SQL database focused on OLTP transactions with strict consistency guarantees</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) A message broker</div>
  </div>
  <div class="quiz-answer">
@@ -2453,7 +2453,7 @@
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) They're separate binaries</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Separate systems</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Batch-first — the output is materialized only after the entire input has been processed, enabling deterministic retries on failure</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Batch-first: streaming jobs are periodically micro-batched and compiled into bounded batch plans</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Stream-first: batch is treated as processing a bounded stream; stream processing is the core abstraction</div>
  </div>
  <div class="quiz-answer">
@@ -2468,7 +2468,7 @@
  <p class="quiz-question">Why is event time preferred over processing time for windowing?</p>
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Processing time is more accurate</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Event time is easier — each machine's quartz oscillator drifts independently, and NTP corrections can cause jumps forward or backward</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Event time is harder to debug, so teams usually standardize on processing-time windows in production</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Event time reflects when the event actually happened; processing time can be skewed by delays and reprocessing</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Processing time is faster</div>
  </div>
@@ -2484,7 +2484,7 @@
  <p class="quiz-question">What happens when an event arrives after its window has closed?</p>
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) It's either dropped (counted as late) or triggers an updated/corrected result for the affected window</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) The window reopens — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) The framework extends the watermark deadline indefinitely so every late event is still included once</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) It's always processed normally</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) All windows are recalculated</div>
  </div>
@@ -2501,7 +2501,7 @@
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) A framework for connecting Kafka to external systems — providing standardized CDC source and sink connectors</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) A low-level network protocol that handles message framing and delivery between nodes</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) A cable — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) A dedicated cluster manager that auto-scales Kafka brokers based on aggregate topic throughput</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) A monitoring tool</div>
  </div>
  <div class="quiz-answer">
@@ -2515,7 +2515,7 @@
  <div class="quiz-header"><span class="quiz-number">Q78</span><span class="quiz-topic">Schema Registry</span></div>
  <p class="quiz-question">Why is a schema registry important for stream processing?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) For storage — processing data in bulk amortizes the overhead of coordination and I/O across many records in a single pass</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) It stores connector configs and offset checkpoints, replacing the need for Kafka internal topics</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) It manages event schemas, ensuring producers and consumers agree on data format — enabling schema evolution</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Network packet checksums are used mainly to determine the optimal routing path through the network</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) For authentication</div>
@@ -2534,7 +2534,7 @@
                 <div class="quiz-option" onclick="selectOption(this)">A) A compressed topic</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) A topic where Kafka retains only the latest value for each key — serving as a lightweight key-value store</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) A deleted topic</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) A small topic — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) A topic with very short retention where old segments are deleted quickly to limit disk usage</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -2549,7 +2549,7 @@
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) A message with a null value — tells log compaction to delete the key entirely</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) A large message</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) A gravestone — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) A marker record used to indicate the start of a new compaction cycle for a partition</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) An error message</div>
 </div>
  <div class="quiz-answer">
@@ -2564,7 +2564,7 @@
  <p class="quiz-question">How does Kafka support exactly-once processing?</p>
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Transactions — atomically write to multiple partitions and commit offsets together</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) At-most-once only — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) At-most-once semantics by committing offsets before processing to avoid duplicate downstream writes</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) By ignoring errors</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) By deleting duplicates</div>
  </div>
@@ -2582,7 +2582,7 @@
                 <div class="quiz-option" onclick="selectOption(this)">A) A producer that deduplicates retried sends — each message is delivered exactly once to the broker</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) A producer that never writes</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) A compressed producer</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) A read-only producer — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) A producer restricted to reading schemas and metadata without publishing any event records</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
@@ -2613,7 +2613,7 @@
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Network delays, consumer lag, buffering, clock skew on producer devices</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Fast networks</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Nothing happens because the remaining nodes continue operating as if nothing changed</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Skew appears only after node failures; healthy pipelines process in perfectly aligned event time</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Perfect clocks</div>
 </div>
  <div class="quiz-answer">
@@ -2629,7 +2629,7 @@
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) It's not challenging</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) State must survive failures, be efficiently accessible, and consistently updated — requiring careful management</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) No state is needed — the output is materialized only after the entire input has been processed, enabling deterministic retries on failure</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) State can be recomputed cheaply on every event, so durable checkpoints are rarely necessary</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) State is always in memory</div>
 </div>
  <div class="quiz-answer">
@@ -2644,7 +2644,7 @@
  <p class="quiz-question">Why do stream processors prefer local state over remote databases?</p>
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Remote is always consistent</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Local is cheaper — processing data in bulk amortizes the overhead of coordination and I/O across many records in a single pass</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Local state is cheaper to replicate globally, so every update is synchronously copied to peers</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Remote is better</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Local state avoids network round-trips for each event, providing much better throughput</div>
  </div>
@@ -2675,7 +2675,7 @@
  <div class="quiz-header"><span class="quiz-number">Q88</span><span class="quiz-topic">RocksDB</span></div>
  <p class="quiz-question">Why do some stream processors use RocksDB for state?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) It's a SQL database — processing data in bulk amortizes the overhead of coordination and I/O across many records in a single pass</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) A distributed SQL store used as a remote state backend for all streaming operators</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) It only works in memory</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) RocksDB provides an embedded key-value store that can handle state larger than memory (spills to disk)</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) It's a network database</div>
@@ -2691,7 +2691,7 @@
  <div class="quiz-header"><span class="quiz-number">Q89</span><span class="quiz-topic">Reprocessing</span></div>
  <p class="quiz-question">Why is reprocessing a key benefit of log-based streams?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) For fun — the output is materialized only after the entire input has been processed, enabling deterministic retries on failure</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) To rebalance partitions across consumers after scaling events in the processing cluster</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) It's not useful</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Only for testing</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) You can fix bugs or deploy new logic and replay historical events to recompute derived data correctly</div>
@@ -2709,7 +2709,7 @@
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Running both a batch system (for accuracy) and a stream system (for speed), merging their outputs</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) A serverless framework</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) An AWS service — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) A cloud-native deployment model for running serverless jobs triggered by Kafka event traffic</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) A functional programming pattern</div>
  </div>
  <div class="quiz-answer">
@@ -2723,7 +2723,7 @@
  <div class="quiz-header"><span class="quiz-number">Q91</span><span class="quiz-topic">Lambda Problem</span></div>
  <p class="quiz-question">What is the problem with lambda architecture?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Too fast — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) It adds latency because every query must wait for both the batch and speed layers to agree</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Too expensive</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Maintaining two separate systems (batch + stream) with the same logic is complex and error-prone</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Too simple</div>
@@ -2741,7 +2741,7 @@
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Using only stream processing (with a replayable log) for both real-time and historical reprocessing</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Two systems</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Only batch — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) A batch-only model that periodically exports stream outputs into immutable daily snapshot tables</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Three systems</div>
  </div>
  <div class="quiz-answer">
@@ -2757,7 +2757,7 @@
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Only Connect</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Broker, Connect, Streams, Schema Registry, ksqlDB, and client libraries</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Only Streams — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Only Streams plus ZooKeeper are required; connectors and schema tooling are optional extras</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Just the broker</div>
  </div>
  <div class="quiz-answer">
@@ -2771,7 +2771,7 @@
  <div class="quiz-header"><span class="quiz-number">Q94</span><span class="quiz-topic">ksqlDB</span></div>
  <p class="quiz-question">What is ksqlDB?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) A file system — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) A metadata service that tracks topic ownership and broker health across Kafka clusters</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) A traditional SQL database</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) A monitoring tool</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) A SQL engine for Kafka that lets you define stream processing queries using SQL-like syntax</div>
@@ -2790,7 +2790,7 @@
                 <div class="quiz-option" onclick="selectOption(this)">A) A filter</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) A connector that reads from a Kafka topic and writes to an external system (database, search index, etc.)</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) A producer</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) A drain — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) A connector that drains broker logs to cold storage without interpreting record-level schemas</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -2803,7 +2803,7 @@
  <div class="quiz-header"><span class="quiz-number">Q96</span><span class="quiz-topic">Source Connector</span></div>
  <p class="quiz-question">What is a Kafka Connect source connector?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) A router — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) A routing plugin that reassigns partitions between brokers during maintenance and upgrades</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) A code editor</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) A connector that reads from an external system (database, file) and writes events to a Kafka topic</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) A consumer</div>
@@ -2819,10 +2819,10 @@
  <div class="quiz-header"><span class="quiz-number">Q97</span><span class="quiz-topic">Stream Processing vs Batch</span></div>
  <p class="quiz-question">When should you use stream over batch processing?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Under no circumstances, because the system architecture prevents this scenario by design</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) When workloads are mostly offline and hourly latency is acceptable for reporting pipelines</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) When you need low-latency results on continuously arriving data — real-time analytics, monitoring, alerting</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) When accuracy matters most</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) When data is finite — the output is materialized only after the entire input has been processed, enabling deterministic retries on failure</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) When inputs arrive in fixed daily files that are complete before processing begins</div>
 </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -2836,7 +2836,7 @@
  <p class="quiz-question">What is the modern recommendation for stream + batch?</p>
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Separate systems always</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Only batch — the output is materialized only after the entire input has been processed, enabling deterministic retries on failure</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Prefer pure batch pipelines with periodic micro-batch jobs for all near-real-time requirements</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Use a unified system (like Flink or Spark) that handles both batch and stream with the same API</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Only stream</div>
  </div>
@@ -2854,7 +2854,7 @@
                 <div class="quiz-option" onclick="selectOption(this)">A) The entire pipeline — from source through processing to sink — delivers each event's effect exactly once</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Broker-level guarantee only</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Only within the processor</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Only for reads — processing data in bulk amortizes the overhead of coordination and I/O across many records in a single pass</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Each stage may process duplicates, as long as dashboards eventually converge to close estimates</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
@@ -2870,7 +2870,7 @@
                 <div class="quiz-option" onclick="selectOption(this)">A) Avoid stream processing</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Batch is always better</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Stream processing enables real-time derived data, with CDC, event sourcing, and log-based brokers as key building blocks</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Use only databases — the broker durably stores messages and delivers them to consumers, enabling asynchronous communication patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Rely on a single operational database and avoid event logs whenever possible to reduce architectural complexity</div>
 </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>

@@ -7,3 +7,4 @@
 !**/README.md
 !.github/**/*.md
 !notebooklm-prompt.md
+__pycache__/

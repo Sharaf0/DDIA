@@ -1334,7 +1334,7 @@ COMMIT;</pre>
  <p class="quiz-question">What is the main theme of Chapter 12?</p>
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Database internals</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Hardware design — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) How to design custom hardware and firmware stacks for ultra-low-latency storage engines at scale</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Network protocols</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) How to combine tools and technologies to build reliable, scalable, and maintainable data systems</div>
  </div>
@@ -1352,7 +1352,7 @@ COMMIT;</pre>
                 <div class="quiz-option" onclick="selectOption(this)">A) Ensuring that data reaches all the right places, in the right form — the most important thing to get right</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Data compression</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Database migration</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Data deletion — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Moving data between systems in scheduled migrations to keep schemas and formats aligned over time</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
@@ -1366,7 +1366,7 @@ COMMIT;</pre>
  <p class="quiz-question">What does the chapter argue about using a single data tool?</p>
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) One tool is enough</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Use only SQL — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Use a single relational database with extensions so one platform handles every workload pattern</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) No single tool can serve all data needs — you must combine specialized tools for different access patterns</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Use only NoSQL</div>
 </div>
@@ -1383,7 +1383,7 @@ COMMIT;</pre>
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Original source data</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Data computed from other data — search indexes, materialized views, ML model predictions, caches</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Encrypted data — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Data retained mainly for compliance audits, without serving active queries or powering derived views</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Compressed data</div>
  </div>
  <div class="quiz-answer">
@@ -1398,7 +1398,7 @@ COMMIT;</pre>
  <p class="quiz-question">What is the write path?</p>
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) The pipeline that processes data eagerly as it's written — updating derived views and indexes immediately</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Network route — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) The route write requests take through load balancers and proxies before reaching storage replicas</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Disk write speed</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Memory allocation</div>
 </div>
@@ -1414,7 +1414,7 @@ COMMIT;</pre>
  <p class="quiz-question">What is the read path?</p>
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Processing that happens lazily when a user makes a query — reading and transforming data on demand</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) CPU scheduling — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) The process that prioritizes CPU threads while queries wait in the operating system scheduler</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Disk read speed</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Network download</div>
  </div>
@@ -1432,7 +1432,7 @@ COMMIT;</pre>
                 <div class="quiz-option" onclick="selectOption(this)">A) More work on the write path (precomputation) means less work on the read path (faster queries), and vice versa</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) There is no trade-off because both parameters can be set to maximum for optimal results</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Write is always better</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Read is always better — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Read optimization always lowers both write cost and query latency when indexes are added aggressively</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
@@ -1446,7 +1446,7 @@ COMMIT;</pre>
  <p class="quiz-question">How can a full-text search index be viewed?</p>
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) As derived data — an index built from source documents that can be rebuilt anytime</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) As a backup — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) As an independent datastore that accepts direct writes and becomes the canonical source for documents</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) As source data</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) As a primary database</div>
  </div>
@@ -1462,7 +1462,7 @@ COMMIT;</pre>
  <p class="quiz-question">What does 'unbundling the database' mean?</p>
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Breaking hardware</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Deleting tables — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Splitting one database cluster into smaller shards while keeping storage and indexing tightly coupled</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Decomposing database functionality into separate specialized components connected by data flows</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Removing indexes</div>
  </div>
@@ -1493,7 +1493,7 @@ COMMIT;</pre>
  <div class="quiz-header"><span class="quiz-number">Q11</span><span class="quiz-topic">Event Log</span></div>
  <p class="quiz-question">What role does the event log play in data integration?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Only for backups — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) A durable feed used to replay system changes after failures, but not the primary source of truth</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) The central, ordered sequence of events that feeds all derived systems — the system of record</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Only for debugging</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Only for auditing</div>
@@ -1542,7 +1542,7 @@ COMMIT;</pre>
  <p class="quiz-question">Why is idempotence important in data integration?</p>
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) For security</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) For speed — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) It reduces processing latency by skipping duplicate checks and accepting occasional conflicts</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) It makes retries safe — applying the same event twice produces the same result as once</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) For storage</div>
  </div>
@@ -1557,7 +1557,7 @@ COMMIT;</pre>
  <div class="quiz-header"><span class="quiz-number">Q15</span><span class="quiz-topic">End-to-End Argument</span></div>
  <p class="quiz-question">What is the end-to-end argument?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Always use encryption — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Security features in lower network layers are sufficient to guarantee correctness without app checks</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) A low-level network protocol that handles message framing and delivery between nodes</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Always use compression</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Low-level reliability mechanisms are not sufficient — the application must implement end-to-end checks for correctness</div>
@@ -1574,7 +1574,7 @@ COMMIT;</pre>
  <p class="quiz-question">Why can't TCP alone guarantee exactly-once processing?</p>
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) TCP adds duplicates</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) TCP is perfect — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) TCP guarantees exactly-once effects across retries because packets are globally deduplicated between sessions</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) TCP is stateless</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) TCP eliminates duplicates within a connection, but not across retried application requests or database transactions</div>
  </div>
@@ -1592,7 +1592,7 @@ COMMIT;</pre>
                 <div class="quiz-option" onclick="selectOption(this)">A) By timestamps</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) By encryption</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) By including a unique request ID — the server deduplicates based on this ID</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) By TCP — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) By replaying all requests after failures and trusting downstream systems to ignore duplicates automatically</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
@@ -1608,7 +1608,7 @@ COMMIT;</pre>
                 <div class="quiz-option" onclick="selectOption(this)">A) A unique token generated by the client that identifies a specific end-to-end operation for deduplication</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) A session token</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) A database ID</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) An API key — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) A rotating API credential used by services to authenticate clients during each request attempt</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
@@ -1621,7 +1621,7 @@ COMMIT;</pre>
  <div class="quiz-header"><span class="quiz-number">Q19</span><span class="quiz-topic">Timeliness</span></div>
  <p class="quiz-question">What is timeliness in data systems?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Using timestamps — without synchronized time, events cannot be reliably ordered across different machines using wall-clock timestamps</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Assigning precise timestamps to each event so histories can always be reconstructed consistently</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Users see an up-to-date state — read-after-write consistency, ensuring recent writes are visible</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Clock synchronization</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Batch processing speed</div>
@@ -1638,7 +1638,7 @@ COMMIT;</pre>
  <p class="quiz-question">What is integrity in data systems?</p>
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) No data corruption — no data loss, no contradictions, no false data — the system's promises are upheld</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Encryption — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Guaranteeing only authorized users can modify data, regardless of whether the data itself is correct</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Authentication</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Authorization</div>
  </div>
@@ -1653,7 +1653,7 @@ COMMIT;</pre>
  <div class="quiz-header"><span class="quiz-number">Q21</span><span class="quiz-topic">Timeliness vs Integrity</span></div>
  <p class="quiz-question">What is the relationship between timeliness and integrity?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) They're the same — without synchronized time, events cannot be reliably ordered across different machines using wall-clock timestamps</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Timeliness should always be prioritized over integrity because stale reads permanently corrupt systems</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Integrity doesn't matter</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Timeliness is more important</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Violations of timeliness are annoying but temporary; violations of integrity can be catastrophic and permanent</div>
@@ -1670,7 +1670,7 @@ COMMIT;</pre>
  <p class="quiz-question">How does the chapter relate ACID to these concepts?</p>
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) They're unrelated</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) ACID is obsolete — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) ACID focuses only on storage durability, leaving both timeliness and integrity to application code</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Traditional ACID bundles timeliness and integrity; the chapter argues they can be separated for better scalability</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) ACID replaces both</div>
  </div>
@@ -1685,7 +1685,7 @@ COMMIT;</pre>
  <div class="quiz-header"><span class="quiz-number">Q23</span><span class="quiz-topic">Exactly-Once</span></div>
  <p class="quiz-question">How does the chapter frame exactly-once semantics?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Impossible — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Exactly-once is mainly a messaging guarantee that network protocols provide without app involvement</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) As end-to-end integrity — ensuring the net effect of each operation is correct despite faults</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Guaranteed by networks</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Only within one system</div>
@@ -1701,7 +1701,7 @@ COMMIT;</pre>
  <div class="quiz-header"><span class="quiz-number">Q24</span><span class="quiz-topic">Apology Workflow</span></div>
  <p class="quiz-question">What is the 'apology and compensation' approach?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Delete all data — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Reject uncertain operations immediately and never apply compensating actions after user-visible mistakes</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Restart the system</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Customer service training</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) If something goes wrong, detect the error and take compensating action (e.g., refund, apologize)</div>
@@ -1718,7 +1718,7 @@ COMMIT;</pre>
  <p class="quiz-question">Why is auditing important for data systems?</p>
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Performance monitoring</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) User tracking — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Providing a historical record for compliance reports, even if it cannot verify derived data correctness</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Detecting data corruption and integrity violations — verifying that derived data matches the event log</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Legal compliance only</div>
 </div>
@@ -1734,7 +1734,7 @@ COMMIT;</pre>
  <p class="quiz-question">How do event-sourced systems support auditing?</p>
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Through checksums only</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) They don't — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) They rely on periodic snapshots, so old events can be discarded once summary reports are produced</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) The immutable event log provides a complete, verifiable audit trail of everything that happened</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Through backups only</div>
 </div>
@@ -1751,7 +1751,7 @@ COMMIT;</pre>
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Using cryptographic hashing (like Merkle trees) to make the event log tamper-evident</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Passwords</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Firewalls — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) By keeping audit logs in a private subnet so unauthorized users cannot view them directly</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Encryption only</div>
  </div>
  <div class="quiz-answer">
@@ -1767,7 +1767,7 @@ COMMIT;</pre>
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Blockchains are only for currency</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Blockchains replace databases</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Blockchains are irrelevant — a monotonically increasing token ensures that delayed or reawakened processes cannot overwrite newer state</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Blockchains mainly improve transaction throughput in trusted environments where databases are too strict</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Blockchains provide tamper-evident integrity via cryptographic audit trails, useful where mutual distrust exists</div>
  </div>
  <div class="quiz-answer">
@@ -1781,7 +1781,7 @@ COMMIT;</pre>
  <div class="quiz-header"><span class="quiz-number">Q29</span><span class="quiz-topic">Ethics</span></div>
  <p class="quiz-question">Why does the chapter discuss ethics?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) For marketing — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) To show that ethical guidelines can be deferred until systems reach product-market fit at scale</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) For performance</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Legal requirement</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Data systems affect people's lives — engineers must consider the ethical implications of their work</div>
@@ -1800,7 +1800,7 @@ COMMIT;</pre>
                 <div class="quiz-option" onclick="selectOption(this)">A) Data collection is harmless</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Only government collects data</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Mass data collection enables surveillance — even if collected for analytics, it can be repurposed for monitoring individuals</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Data is always good — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Collecting larger datasets always reduces misuse risk because patterns become fully anonymized</div>
 </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
@@ -1813,7 +1813,7 @@ COMMIT;</pre>
  <div class="quiz-header"><span class="quiz-number">Q31</span><span class="quiz-topic">Predictive Analytics</span></div>
  <p class="quiz-question">What ethical concern exists with predictive analytics?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) None — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Bias concerns disappear when models are trained on sufficiently large and frequently refreshed data</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Predictions may be biased, discriminatory, or used to make decisions that harm individuals unfairly</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Only beneficial uses exist</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Predictions are always accurate</div>
@@ -1832,7 +1832,7 @@ COMMIT;</pre>
                 <div class="quiz-option" onclick="selectOption(this)">A) System output influences future input — e.g., a recommendation algorithm reinforcing biases through its own selections</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) A network loop</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) A hardware loop</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) A coding loop — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) A maintenance cycle where models are retrained on a fixed schedule to keep latency predictable</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
@@ -1846,7 +1846,7 @@ COMMIT;</pre>
  <p class="quiz-question">What is the chapter's stance on privacy?</p>
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Privacy is important — individuals should have control over their data, and 'consented' collection often isn't truly informed</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Privacy is outdated — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Privacy expectations must adapt to modern services, so broad collection is fine if terms are disclosed</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Only health data needs privacy</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Privacy slows innovation</div>
  </div>
@@ -1864,7 +1864,7 @@ COMMIT;</pre>
                 <div class="quiz-option" onclick="selectOption(this)">A) Data is both an asset AND a liability — more data means more risk of breaches, misuse, and regulatory issues</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Data is only an asset</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Collect everything forever</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Data has no value — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Long-term retention is mostly beneficial because historical data rarely creates legal or security exposure</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
@@ -1878,7 +1878,7 @@ COMMIT;</pre>
  <p class="quiz-question">What does the right to be forgotten require?</p>
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) The ability to truly delete all of a person's data, including from derived systems, logs, and backups</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Nothing practical — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Deleting user data from the primary store is sufficient, since downstream systems can keep aggregates</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Only delete from the main database</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Only hide the data</div>
  </div>
@@ -1896,7 +1896,7 @@ COMMIT;</pre>
                 <div class="quiz-option" onclick="selectOption(this)">A) Only one copy exists</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Data propagates to many places — search indexes, caches, ML models, analytics — all must be updated</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Derived systems don't store data</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) It's easy — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Derived stores can be cleared independently, because source deletions auto-invalidate downstream artifacts</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -1911,7 +1911,7 @@ COMMIT;</pre>
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Only US laws</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) GDPR, EU data protection regulation requiring data minimization, purpose limitation, and right to erasure</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) None — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Sector-specific policies are mentioned, but no major privacy regulation is discussed as a core model</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Only UK laws</div>
 </div>
  <div class="quiz-answer">
@@ -1926,7 +1926,7 @@ COMMIT;</pre>
  <p class="quiz-question">How does batch processing contribute to integrity?</p>
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Only for speed</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) It doesn't — processing data in bulk amortizes the overhead of coordination and I/O across many records in a single pass</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Batch jobs prioritize throughput, so they cannot detect corruption in previously materialized views</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Only for storage</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Batch can periodically recompute derived data from scratch, detecting and correcting inconsistencies</div>
  </div>
@@ -1941,7 +1941,7 @@ COMMIT;</pre>
  <div class="quiz-header"><span class="quiz-number">Q39</span><span class="quiz-topic">Stream Integrity</span></div>
  <p class="quiz-question">How does stream processing contribute to integrity?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) It doesn't — the output is materialized only after the entire input has been processed, enabling deterministic retries on failure</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Integrity mainly comes from delaying outputs until full recomputation, not idempotent event handling</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Only for latency</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Exactly-once processing with transactions and idempotence ensures each event's effect is applied correctly</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Only for speed</div>
@@ -1958,7 +1958,7 @@ COMMIT;</pre>
  <p class="quiz-question">How does the chapter improve on lambda architecture?</p>
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Same approach</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) More layers — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Lambda is improved by adding more specialized layers so each latency target has its own pipeline</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Fewer layers</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Unified stream processing with reprocessing capability replaces the need for separate batch and stream layers</div>
 </div>
@@ -1974,7 +1974,7 @@ COMMIT;</pre>
  <p class="quiz-question">What does the chapter call the approach of thinking in terms of data flows?</p>
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Event-driven architecture</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Microservices — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) A microservices model where each service owns data and coordinates through synchronous API boundaries</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Service-oriented architecture</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) A dataflow architecture — data flowing through transformations from source of truth to derived views</div>
 </div>
@@ -1989,7 +1989,7 @@ COMMIT;</pre>
  <div class="quiz-header"><span class="quiz-number">Q42</span><span class="quiz-topic">Reads as Events</span></div>
  <p class="quiz-question">How does the chapter suggest treating reads?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Ignore reads — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Reads are side effects that need not be captured, since only writes influence correctness</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Cache all reads</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) As events themselves — capturing the read request and its result for audit, optimization, and tracking</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Same as writes</div>
@@ -2005,7 +2005,7 @@ COMMIT;</pre>
  <div class="quiz-header"><span class="quiz-number">Q43</span><span class="quiz-topic">Subscribe Pattern</span></div>
  <p class="quiz-question">What pattern does the chapter propose for reads in a dataflow system?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Polling — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Issue one-off read requests repeatedly from clients and reconcile conflicting responses locally</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Subscribing to changes — the read query becomes a standing query that pushes updates when results change</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Batch queries</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Caching only</div>
@@ -2021,7 +2021,7 @@ COMMIT;</pre>
  <div class="quiz-header"><span class="quiz-number">Q44</span><span class="quiz-topic">Materialized View Maintenance</span></div>
  <p class="quiz-question">How does stream processing relate to materialized view maintenance?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) No relation — the output is materialized only after the entire input has been processed, enabling deterministic retries on failure</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Materialized views should be rebuilt only in nightly batches because streaming updates add inconsistency</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Views are static</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Only batch can do this</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Stream processing continuously updates materialized views as new events arrive — real-time view maintenance</div>
@@ -2040,7 +2040,7 @@ COMMIT;</pre>
                 <div class="quiz-option" onclick="selectOption(this)">A) On the client side</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) In stored procedures only</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) In stream processors, treating application code as a first-class citizen in the data pipeline</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) In the database — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Inside database triggers and stored procedures, so transformations stay tightly coupled to schemas</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
@@ -2056,7 +2056,7 @@ COMMIT;</pre>
                 <div class="quiz-option" onclick="selectOption(this)">A) Separating the source of truth (event log) from derived data views — each can evolve independently</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Frontend and backend</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Network and storage</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Code and data — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Separating business logic from infrastructure code while keeping source and derived data together</div>
 </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
@@ -2069,7 +2069,7 @@ COMMIT;</pre>
  <div class="quiz-header"><span class="quiz-number">Q47</span><span class="quiz-topic">Schema Evolution</span></div>
  <p class="quiz-question">How does the chapter handle schema changes?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) All at once — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Through one coordinated cutover where old schemas are dropped before new-format events are accepted</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Never change schemas</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Stop the system</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Gradually: new code writes new format, old data coexists, reprocessing migrates old data when needed</div>
@@ -2085,7 +2085,7 @@ COMMIT;</pre>
  <div class="quiz-header"><span class="quiz-number">Q48</span><span class="quiz-topic">Constraints</span></div>
  <p class="quiz-question">How does the chapter handle uniqueness and other constraints?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Ignore constraints — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) By enforcing constraints synchronously in one central validator before events enter streams</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Only ACID transactions</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Using stream processing with conflict detection and asynchronous enforcement</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Only at the application level</div>
@@ -2101,7 +2101,7 @@ COMMIT;</pre>
  <div class="quiz-header"><span class="quiz-number">Q49</span><span class="quiz-topic">Async Constraints</span></div>
  <p class="quiz-question">What is the advantage of asynchronous constraint enforcement?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Faster rejection — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Asynchronous checks improve UX but usually need stricter prewrite validation to avoid compensation</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Stronger guarantees</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Simpler application code because each node only handles a fraction of the total query volume</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Better scalability — constraints are checked without blocking writes, with compensating actions for violations</div>
@@ -2117,9 +2117,9 @@ COMMIT;</pre>
  <div class="quiz-header"><span class="quiz-number">Q50</span><span class="quiz-topic">Synchronous Constraints</span></div>
  <p class="quiz-question">When are synchronous constraints necessary?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Under no circumstances, because the system architecture prevents this scenario by design</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Whenever eventual correction is acceptable, since delayed validation always yields the same outcome</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) In every deployment regardless of configuration, because it is guaranteed by the protocol</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Only for reads — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Only for reads that join multiple services, where synchronous replies simplify caching consistency</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) When violation would be catastrophic — like double-spending money — and immediate rejection is required</div>
  </div>
  <div class="quiz-answer">
@@ -2136,7 +2136,7 @@ COMMIT;</pre>
                 <div class="quiz-option" onclick="selectOption(this)">A) Lock all partitions</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Route all events for the constrained value through a single partition using the constrained field as the partition key</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Ignore cross-partition issues</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Use a global lock — the shared infrastructure introduces unpredictable queuing, retransmissions, and routing variability</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Hash the constrained value and verify uniqueness across all partitions before accepting each write</div>
 </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -2152,7 +2152,7 @@ COMMIT;</pre>
                 <div class="quiz-option" onclick="selectOption(this)">A) Reducing concurrency</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Designing systems so that most operations don't require cross-partition or cross-system coordination</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Avoiding all coordination</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Using more locks — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Serializing every write through a global coordinator to prevent conflicting updates</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -2168,7 +2168,7 @@ COMMIT;</pre>
                 <div class="quiz-option" onclick="selectOption(this)">A) Verify before writing</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Accept writes optimistically but continuously audit and verify derived data against the event log</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Always trust input</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Never trust input — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Reject writes unless every downstream derived view has been synchronously validated first</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -2183,7 +2183,7 @@ COMMIT;</pre>
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Hardware repair</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) A system that detects inconsistencies between derived and source data and automatically corrects them</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Auto-scaling — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) An autoscaling pipeline that adds compute nodes when event throughput increases</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Self-documenting code</div>
  </div>
  <div class="quiz-answer">
@@ -2197,7 +2197,7 @@ COMMIT;</pre>
  <div class="quiz-header"><span class="quiz-number">Q55</span><span class="quiz-topic">Incremental vs Full</span></div>
  <p class="quiz-question">What are the two approaches to maintaining derived data?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Fast and slow — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Synchronous dual writes to every derived index, plus asynchronous retries after conflicts are detected</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Incremental (stream-process each change) and full recomputation (batch rebuild from scratch)</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Sync and async</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Local and remote</div>
@@ -2214,7 +2214,7 @@ COMMIT;</pre>
  <p class="quiz-question">What is the benefit of periodic full recomputation?</p>
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Uses less storage</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Faster — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) It guarantees recomputation runs faster than incremental processing on every workload and data shape</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Catches bugs in incremental processing — any accumulated errors are corrected when the view is rebuilt from scratch</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) More real-time</div>
  </div>
@@ -2231,7 +2231,7 @@ COMMIT;</pre>
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Loose coupling, clear data flow, rebuildable derived views, and better separation of concerns</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Simpler than CRUD</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Less code — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Fewer schema migrations because each service owns one database and avoids shared event streams</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Faster hardware</div>
  </div>
  <div class="quiz-answer">
@@ -2248,7 +2248,7 @@ COMMIT;</pre>
                 <div class="quiz-option" onclick="selectOption(this)">A) Dataflow connects services through event streams rather than synchronous API calls, improving decoupling</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Microservices replace dataflow</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Dataflow replaces microservices</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) They're unrelated — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Microservices should communicate only through synchronous RPC so event streams stay internal</div>
 </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
@@ -2261,7 +2261,7 @@ COMMIT;</pre>
  <div class="quiz-header"><span class="quiz-number">Q59</span><span class="quiz-topic">Async vs Sync Services</span></div>
  <p class="quiz-question">What advantage do async data flows have over sync service calls?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Sync is better — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Synchronous calls improve resilience because each request waits for downstream confirmation</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) No cascading failures, temporal decoupling, and better fault tolerance — services don't need to be up simultaneously</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Less data movement</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Simpler debugging</div>
@@ -2280,7 +2280,7 @@ COMMIT;</pre>
                 <div class="quiz-option" onclick="selectOption(this)">A) Too fast</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Tight coupling: caller blocks waiting for response; if callee is slow or down, the caller is impacted</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Too simple</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) None — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Request-response has no structural downsides because retries remove latency and outage coupling</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -2294,7 +2294,7 @@ COMMIT;</pre>
  <p class="quiz-question">What does the chapter envision for client-side applications?</p>
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Clients maintaining local state that subscribes to server-side data changes, receiving push updates</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) No client state — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Clients should remain stateless and fetch full views from the server on every interaction</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Stateless clients only</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Clients only read</div>
 </div>
@@ -2311,7 +2311,7 @@ COMMIT;</pre>
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Local state can accept writes offline, syncing changes (as events) when connectivity returns</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Disables offline mode</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) It doesn't — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Offline-first requires rejecting local writes until connectivity is restored to preserve consistency</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Requires constant internet</div>
  </div>
  <div class="quiz-answer">
@@ -2326,7 +2326,7 @@ COMMIT;</pre>
  <p class="quiz-question">What analogy does the chapter use for derived data?</p>
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Spreadsheet formulas — cells (derived data) automatically update when input cells (source data) change</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Calculator — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) A calculator metaphor where computations run once and do not react to later input changes</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Filing cabinet</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Word processor</div>
 </div>
@@ -2341,7 +2341,7 @@ COMMIT;</pre>
  <div class="quiz-header"><span class="quiz-number">Q64</span><span class="quiz-topic">Differential Dataflow</span></div>
  <p class="quiz-question">What is the concept behind differential dataflow?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) A file format — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) A storage approach that rewrites full snapshots whenever any small input change arrives</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) A database type</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Efficiently propagating small changes through a computation graph, rather than recomputing everything</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) A low-level network protocol that handles message framing and delivery between nodes</div>
@@ -2357,7 +2357,7 @@ COMMIT;</pre>
  <div class="quiz-header"><span class="quiz-number">Q65</span><span class="quiz-topic">Multi-Model Data</span></div>
  <p class="quiz-question">What does the chapter say about combining data models?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Only document — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Each event stream should map into one universal schema, making graph and document views unnecessary</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Use one model</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Different views of the same data can use different models — graph, relational, document — all derived from the same events</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Only relational</div>
@@ -2375,7 +2375,7 @@ COMMIT;</pre>
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Only for DevOps</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Only for production</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Marketing — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) A KPI reporting practice focused on dashboards rather than tracing data movement and transformations</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Understanding what's happening in the system — monitoring, debugging, auditing data flow through pipelines</div>
  </div>
  <div class="quiz-answer">
@@ -2389,7 +2389,7 @@ COMMIT;</pre>
  <div class="quiz-header"><span class="quiz-number">Q67</span><span class="quiz-topic">Data Lineage</span></div>
  <p class="quiz-question">What is data lineage?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Data age — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) A retention metric showing how long records stay in storage before archival or deletion</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Data size history</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Tracking where data comes from, how it was transformed, and where it flows — provenance tracking</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Family tree</div>
@@ -2405,7 +2405,7 @@ COMMIT;</pre>
  <div class="quiz-header"><span class="quiz-number">Q68</span><span class="quiz-topic">Accountability</span></div>
  <p class="quiz-question">Why does the chapter emphasize accountability in data systems?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) For billing — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Assigning usage budgets so teams can be billed back for the data infrastructure they consume</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) For performance</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Engineers and organizations should be accountable for how data is used and the consequences of automated decisions</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) For compliance only</div>
@@ -2421,7 +2421,7 @@ COMMIT;</pre>
  <div class="quiz-header"><span class="quiz-number">Q69</span><span class="quiz-topic">Algorithmic Decisions</span></div>
  <p class="quiz-question">What concern exists with automated decision-making?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) It's always fair — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Automated decisions are objective by default because machine learning removes human judgment</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Algorithms are perfect</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Algorithms can encode biases, be opaque, and make consequential decisions about people without transparency</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Only helps people</div>
@@ -2440,7 +2440,7 @@ COMMIT;</pre>
                 <div class="quiz-option" onclick="selectOption(this)">A) Only for financial systems</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) People affected by automated decisions may have a right to an explanation of how the decision was made</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Only for medical systems</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Not needed — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Explainability is optional if model accuracy is high and appeals are handled by support teams</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -2453,7 +2453,7 @@ COMMIT;</pre>
  <div class="quiz-header"><span class="quiz-number">Q71</span><span class="quiz-topic">Informed Consent</span></div>
  <p class="quiz-question">What does the chapter argue about data consent?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Consent is unnecessary — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Broad terms-of-service acceptance is sufficient, even when downstream data uses stay undefined</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Only verbal consent counts</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) True informed consent requires meaningful understanding of how data will be used — most consent mechanisms fall short</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Click-through consent is sufficient</div>
@@ -2472,7 +2472,7 @@ COMMIT;</pre>
                 <div class="quiz-option" onclick="selectOption(this)">A) Users have more power</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Organizations collecting data have vastly more power than the individuals whose data is collected</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Government has all power</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Equal power — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Individuals and data-collecting organizations generally have equal negotiating power and visibility</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -2488,7 +2488,7 @@ COMMIT;</pre>
                 <div class="quiz-option" onclick="selectOption(this)">A) Applying compression to reduce storage footprint across the distributed dataset</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Collecting only the minimum data necessary for the stated purpose — a GDPR principle</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Reducing file size</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Deleting old data — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Archiving records to cheaper storage tiers while keeping the same collection scope and purpose</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -2504,7 +2504,7 @@ COMMIT;</pre>
                 <div class="quiz-option" onclick="selectOption(this)">A) Limiting database queries</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Using collected data only for the specific purpose for which it was collected — not repurposing it</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Limiting access speed</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Limiting data size — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Restricting dataset size to reduce processing cost, regardless of why data was collected</div>
 </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -2517,7 +2517,7 @@ COMMIT;</pre>
  <div class="quiz-header"><span class="quiz-number">Q75</span><span class="quiz-topic">Regulation</span></div>
  <p class="quiz-question">What does the chapter say about regulation of data systems?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) No regulation needed — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Industry self-governance and market pressure are usually enough to prevent harmful data practices</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Full government control</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Only voluntary standards</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Self-regulation by the tech industry is insufficient — meaningful external regulation is necessary</div>
@@ -2535,7 +2535,7 @@ COMMIT;</pre>
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Ethics don't matter in engineering</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Like doctors and lawyers, software engineers should develop professional ethics about the systems they build</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Only security matters — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Ethics can be delegated to legal teams while engineers focus exclusively on reliability and speed</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Ethics are management's concern</div>
 </div>
  <div class="quiz-answer">
@@ -2552,7 +2552,7 @@ COMMIT;</pre>
                 <div class="quiz-option" onclick="selectOption(this)">A) Do no harm — consider the potential negative consequences of data systems before building them</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Collect all data possible</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Move fast and break things</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Optimize for speed — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Prioritize shipping velocity first and address social side effects only after incidents are reported</div>
 </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
@@ -2567,7 +2567,7 @@ COMMIT;</pre>
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) It's always complete</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) It's always clean</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) It's always fair — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Historical datasets become neutral after preprocessing, so models stop inheriting social bias</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Historical data contains historical biases — ML models trained on it will perpetuate and amplify those biases</div>
  </div>
  <div class="quiz-answer">
@@ -2583,7 +2583,7 @@ COMMIT;</pre>
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) The tendency for humans to over-trust computer decisions, even when the computer is wrong</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Faster processing</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Bias in code — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Bias caused by coding style conventions that make automated decisions harder to interpret</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Preference for manual work</div>
  </div>
  <div class="quiz-answer">
@@ -2600,7 +2600,7 @@ COMMIT;</pre>
                 <div class="quiz-option" onclick="selectOption(this)">A) It only helps people</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Automated credit scoring can discriminate, be opaque, and trap people in cycles of poor scores</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) It's perfectly accurate</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) It's always fair — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Credit scoring is largely self-correcting because lenders quickly remove biased variables</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -2614,7 +2614,7 @@ COMMIT;</pre>
  <p class="quiz-question">What does the chapter reference from Cathy O'Neil's work?</p>
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Algorithms that are opaque, widespread, and destructive — affecting millions without accountability or recourse</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Math is dangerous — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) A warning that complex mathematical models should be avoided in public-sector decisions</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Calculators are biased</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Statistics are wrong</div>
  </div>
@@ -2630,7 +2630,7 @@ COMMIT;</pre>
  <p class="quiz-question">How does the chapter suggest building more ethical systems?</p>
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Collect more data</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Use more AI — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Use larger foundation models so ethical behavior emerges automatically without governance</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Don't build them</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Transparency, accountability, fairness checks, human oversight, and the ability to appeal automated decisions</div>
 </div>
@@ -2645,7 +2645,7 @@ COMMIT;</pre>
  <div class="quiz-header"><span class="quiz-number">Q83</span><span class="quiz-topic">Data Flow Integrity</span></div>
  <p class="quiz-question">How does the dataflow approach improve integrity?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) More locks — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Enforcing serializable transactions across every service boundary to keep all copies synchronized</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) More transactions</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) More replicas</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) The event log is the single source of truth; derived data can always be verified against it or rebuilt</div>
@@ -2663,8 +2663,8 @@ COMMIT;</pre>
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) An accurate, tamper-resistant history — events that happened cannot be erased or altered</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Faster processing</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Less storage — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Nothing happens because the remaining nodes continue operating as if nothing changed</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Lower storage growth by compacting old events into periodic snapshots and discarding history details</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Guaranteed legal compliance, since immutable logs automatically enforce all privacy requirements</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['A'])">Check Answer</button>
@@ -2677,7 +2677,7 @@ COMMIT;</pre>
  <div class="quiz-header"><span class="quiz-number">Q85</span><span class="quiz-topic">Practical Immutability</span></div>
  <p class="quiz-question">Is the event log truly immutable in practice?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Always mutable — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Logs should be routinely rewritten during maintenance so old records can be reorganized for query speed</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Always immutable</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Practically immutable for most purposes, but privacy laws may require the ability to purge certain events (GDPR erasure)</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Depends on hardware</div>
@@ -2693,7 +2693,7 @@ COMMIT;</pre>
  <div class="quiz-header"><span class="quiz-number">Q86</span><span class="quiz-topic">Encryption for Privacy</span></div>
  <p class="quiz-question">How can cryptography help with privacy in event logs?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) It can't — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Encryption protects data in transit, but cannot support selective erasure in append-only logs</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Only for storage</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Only for network</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Encrypting events with per-user keys — deleting the key makes the data unreadable without deleting the events</div>
@@ -2709,9 +2709,9 @@ COMMIT;</pre>
  <div class="quiz-header"><span class="quiz-number">Q87</span><span class="quiz-topic">Correctness Argument</span></div>
  <p class="quiz-question">What is the chapter's argument for correctness?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Trust the database — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Manual verification — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Use more testing — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Trust the database vendor's guarantees and assume transactions will always ensure correctness without additional application-level verification</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Perform exhaustive manual verification of every data record at regular intervals to detect inconsistencies before they propagate through the system</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Rely primarily on comprehensive end-to-end testing suites that simulate all possible failure modes to verify system correctness before deployment</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Design systems so correctness can be verified from first principles — event log as ground truth, derived data as provably correct transformations</div>
  </div>
  <div class="quiz-answer">
@@ -2725,7 +2725,7 @@ COMMIT;</pre>
  <div class="quiz-header"><span class="quiz-number">Q88</span><span class="quiz-topic">Formal Verification</span></div>
  <p class="quiz-question">Does the chapter advocate for formal verification?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Only for safety-critical systems — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Formal verification should be mandatory for every production service before release, regardless of criticality</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Formal verification is impossible</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Yes, all code should be formally verified</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Not necessarily — but designing systems with clear correctness properties makes informal reasoning and testing more effective</div>
@@ -2741,7 +2741,7 @@ COMMIT;</pre>
  <div class="quiz-header"><span class="quiz-number">Q89</span><span class="quiz-topic">Culture of Accountability</span></div>
  <p class="quiz-question">What cultural change does the chapter advocate?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) More management — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Stronger executive oversight and approval chains are enough to ensure accountability across teams</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) No change needed</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) A shift from 'move fast and break things' to carefully considering consequences and accepting responsibility</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Slower development</div>
@@ -2759,7 +2759,7 @@ COMMIT;</pre>
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Return to mainframes</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Simpler systems only</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Less data — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Future systems will process less data as organizations move away from streaming and event logs</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Unbundled databases, stream-based integration, event sourcing, and stronger emphasis on correctness and ethics</div>
  </div>
  <div class="quiz-answer">
@@ -2775,7 +2775,7 @@ COMMIT;</pre>
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Building complex data systems by combining simple, well-defined components connected by data flows</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Data compression</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Code compilation — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) Composability is mainly compiling services into one deployable binary for easier operations</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Musical composition</div>
 </div>
  <div class="quiz-answer">
@@ -2791,7 +2791,7 @@ COMMIT;</pre>
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) APIs should be implicit</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) APIs don't matter</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Use any format — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) APIs can evolve safely without versioning if teams follow the same deployment schedule</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) APIs between components should be well-defined, with clear contracts about data format and semantics</div>
  </div>
  <div class="quiz-answer">
@@ -2806,7 +2806,7 @@ COMMIT;</pre>
  <p class="quiz-question">How should organizations adopt new architectures?</p>
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Big bang cutover</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) All at once — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Migrate in one coordinated cutover so parallel systems do not introduce temporary inconsistency</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Gradually — running old and new systems in parallel, migrating piece by piece</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Never migrate</div>
  </div>
@@ -2824,7 +2824,7 @@ COMMIT;</pre>
                 <div class="quiz-option" onclick="selectOption(this)">A) Only cloud computing</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Better consistency models, improved stream processing, differential dataflow, and privacy-preserving analytics</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Faster hardware only</div>
-                <div class="quiz-option" onclick="selectOption(this)">D) Only blockchain — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">D) Research should prioritize blockchain adoption over consistency semantics, streaming, and privacy</div>
  </div>
  <div class="quiz-answer">
  <button class="reveal-btn" onclick="checkAnswer(this, ['B'])">Check Answer</button>
@@ -2838,7 +2838,7 @@ COMMIT;</pre>
  <p class="quiz-question">What is the system of record in the dataflow approach?</p>
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) The event log — the authoritative, immutable record from which all derived data is computed</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) The cache — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) The cache should be the source of truth because it reflects the most recent access patterns</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) The search index</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) The database</div>
  </div>
@@ -2854,7 +2854,7 @@ COMMIT;</pre>
  <p class="quiz-question">Why is rebuilding derived data important?</p>
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) It enables schema changes, bug fixes, and algorithm improvements without losing data — just reprocess from the log</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Wastes time — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Rebuilds are mostly unnecessary once pipelines stabilize, except during major infrastructure outages</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) For compliance only</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) For backup only</div>
 </div>
@@ -2869,7 +2869,7 @@ COMMIT;</pre>
  <div class="quiz-header"><span class="quiz-number">Q97</span><span class="quiz-topic">Cross-Functional Responsibility</span></div>
  <p class="quiz-question">Who is responsible for data ethics?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Only users — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Ethical responsibility belongs mainly to end users because they choose how to use digital services</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Only governments</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Everyone — engineers, product managers, executives — not just compliance departments</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Only lawyers</div>
@@ -2887,7 +2887,7 @@ COMMIT;</pre>
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Cautiously optimistic — great tools and techniques exist, but they must be used responsibly</div>
                 <div class="quiz-option" onclick="selectOption(this)">B) Purely pessimistic</div>
-                <div class="quiz-option" onclick="selectOption(this)">C) Indifferent — an approach that has proven effective across a wide range of production deployments and workload patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">C) The chapter is neutral, focusing on tooling details instead of societal consequences</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Purely optimistic</div>
  </div>
  <div class="quiz-answer">
@@ -2902,7 +2902,7 @@ COMMIT;</pre>
  <p class="quiz-question">How does the dataflow approach handle legacy systems?</p>
  <div class="quiz-options">
                 <div class="quiz-option" onclick="selectOption(this)">A) Rewrite from scratch</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Replace everything — this design pattern addresses the fundamental tension between correctness guarantees and operational pragmatism</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Legacy systems should be isolated behind nightly ETL exports rather than event-stream adapters</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Wrap legacy systems with CDC or event adapters, integrating them into the event-driven data flow</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) Ignore legacy systems</div>
  </div>
@@ -2917,8 +2917,8 @@ COMMIT;</pre>
  <div class="quiz-header"><span class="quiz-number">Q100</span><span class="quiz-topic">Final Message</span></div>
  <p class="quiz-question">What is the book's ultimate message?</p>
  <div class="quiz-options">
-                <div class="quiz-option" onclick="selectOption(this)">A) Use the newest technology — the broker durably stores messages and delivers them to consumers, enabling asynchronous communication patterns</div>
-                <div class="quiz-option" onclick="selectOption(this)">B) Technology solves all problems — the broker durably stores messages and delivers them to consumers, enabling asynchronous communication patterns</div>
+                <div class="quiz-option" onclick="selectOption(this)">A) Adopt the newest platform stack first, then refine reliability and ethics once scale pressure appears</div>
+                <div class="quiz-option" onclick="selectOption(this)">B) Technical architecture alone can solve social and organizational problems if designed well enough</div>
                 <div class="quiz-option" onclick="selectOption(this)">C) Building reliable, scalable, maintainable data systems requires understanding fundamentals, making informed trade-offs, and acting responsibly</div>
                 <div class="quiz-option" onclick="selectOption(this)">D) There's one perfect architecture</div>
  </div>
