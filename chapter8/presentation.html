@@ -1225,6 +1225,35 @@ while (true) {
   </div>
  </div>
  </section>
+ <!-- Lab: Clock Skew & LWW Demonstrator -->
+ <section class="slide content-slide" id="clock-lab-slide">
+ <h2 style="margin-bottom:4px;">🕐 Clock Skew &amp; Last-Write-Wins — When Timestamps Lie</h2>
+ <div style="display:flex;gap:10px;align-items:center;margin:4px 0;flex-wrap:wrap;font-size:0.85rem;">
+ <b>Clock skew:</b> <input type="range" id="clk-skew" min="0" max="500" value="0" oninput="clkUpdate()" style="width:120px;vertical-align:middle;"> <span id="clk-skew-val">0ms</span>
+ <button onclick="clkRun()" style="padding:6px 16px;background:#1565c0;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:700;font-size:0.85rem;">Run Scenario ▶</button>
+ <button onclick="clkReset()" style="padding:6px 12px;background:#eee;border:1px solid #ccc;border-radius:8px;cursor:pointer;font-size:0.85rem;">Reset 🔄</button>
+ </div>
+ <div style="display:flex;gap:12px;margin-top:4px;">
+ <div style="flex:1;text-align:center;padding:10px;border-radius:10px;border:2px solid #1565c0;background:#e3f2fd;">
+ <div style="font-size:1.5rem;">🖥️</div><b>Node A</b>
+ <div id="clk-a-clock" style="font-family:monospace;font-size:1.1rem;margin:4px 0;">Clock: 1000</div>
+ <div id="clk-a-write" style="font-size:0.8rem;color:#666;">—</div>
+ </div>
+ <div style="flex:0.5;display:flex;align-items:center;justify-content:center;font-size:0.8rem;color:#999;flex-direction:column;">
+ <div>Network</div><div style="font-size:1.5rem;">⇄</div>
+ <div id="clk-skew-indicator" style="font-size:0.75rem;color:#e65100;">skew: 0ms</div>
+ </div>
+ <div style="flex:1;text-align:center;padding:10px;border-radius:10px;border:2px solid #c62828;background:#ffebee;">
+ <div style="font-size:1.5rem;">🖥️</div><b>Node B</b>
+ <div id="clk-b-clock" style="font-family:monospace;font-size:1.1rem;margin:4px 0;">Clock: 1000</div>
+ <div id="clk-b-write" style="font-size:0.8rem;color:#666;">—</div>
+ </div>
+ </div>
+ <div id="clk-result" style="display:none;margin-top:6px;padding:10px 14px;border-radius:8px;font-size:0.85rem;line-height:1.5;"></div>
+ <div style="background:#e3f2fd;border:1px solid #90caf9;border-radius:8px;padding:5px 10px;margin-top:3px;font-size:0.75rem;">
+ 💡 Based on <b>Fig 8-3</b>. Node A writes x=1, then Node B causally writes x=2 (200ms later). With LWW, the <em>higher timestamp wins</em>. If B's clock is behind, B's write gets a <em>lower</em> timestamp — and LWW discards the <b>causally later</b> write!
+ </div>
+ </section>
 
  <!-- 35. Section: Summary -->
  <section class="slide section-header">
@@ -3048,6 +3077,39 @@ while (true) {
  }
 
  fenceReset();
+
+ // --- Clock Skew & LWW Lab ---
+ function clkUpdate(){
+ const skew=+document.getElementById('clk-skew').value;
+ document.getElementById('clk-skew-val').textContent=skew+'ms';
+ document.getElementById('clk-skew-indicator').textContent='skew: '+skew+'ms';
+ document.getElementById('clk-skew-indicator').style.color=skew>150?'#c62828':'#e65100';
+ }
+ function clkReset(){
+ clkUpdate();
+ document.getElementById('clk-a-clock').textContent='Clock: 1000';
+ document.getElementById('clk-b-clock').textContent='Clock: 1000';
+ document.getElementById('clk-a-write').innerHTML='—';
+ document.getElementById('clk-b-write').innerHTML='—';
+ document.getElementById('clk-result').style.display='none';
+ }
+ function clkRun(){
+ const skew=+document.getElementById('clk-skew').value;
+ const tA=1000;const tB=1000-skew;
+ const writeA_t=tA+100;const writeB_t=tB+300;
+ document.getElementById('clk-a-clock').textContent='Clock: '+writeA_t;
+ document.getElementById('clk-b-clock').textContent='Clock: '+writeB_t;
+ document.getElementById('clk-a-write').innerHTML='✏️ write(<b>x=1</b>) @ t='+writeA_t;
+ document.getElementById('clk-b-write').innerHTML='✏️ write(<b>x=2</b>) @ t='+writeB_t+' <span style="font-size:0.7rem;color:#999;">(200ms after A, causally later)</span>';
+ const r=document.getElementById('clk-result');r.style.display='block';
+ const lwwWinner=writeA_t>writeB_t?'x=1 (Node A)':'x=2 (Node B)';
+ const correct=writeB_t>=writeA_t;
+ if(correct){r.style.background='#e8f5e9';r.style.border='2px solid #66bb6a';
+ r.innerHTML=`✅ <b>LWW picks: ${lwwWinner}</b> — Correct! Node B's timestamp (${writeB_t}) ≥ Node A's (${writeA_t}). The causally later write wins.`;}
+ else{r.style.background='#ffebee';r.style.border='2px solid #ef5350';
+ r.innerHTML=`💥 <b>LWW picks: ${lwwWinner}</b> — WRONG! Node A's timestamp (${writeA_t}) > Node B's (${writeB_t}) because B's clock is ${skew}ms behind. The causally later write (x=2) is <b>silently dropped!</b> This is data loss.`;}
+ }
+ clkReset();
 
  update();
  </script>

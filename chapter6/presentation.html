@@ -1033,6 +1033,32 @@ hash(key) = 123456
   </div>
  </div>
  </section>
+ <!-- Lab: Rebalancing Simulator -->
+ <section class="slide content-slide" id="rebalancing-lab-slide">
+ <h2 style="margin-bottom:4px;">🔄 Rebalancing Simulator — What Happens When You Add a Node?</h2>
+ <div style="display:flex;gap:10px;align-items:center;margin:4px 0;flex-wrap:wrap;font-size:0.85rem;">
+ <label><b>Strategy:</b></label>
+ <select id="rb-strategy" onchange="rbRender()" style="padding:5px 8px;border-radius:6px;border:2px solid #0277bd;font-size:0.82rem;">
+ <option value="hashMod">hash mod N (BAD)</option>
+ <option value="fixed" selected>Fixed # partitions</option>
+ <option value="dynamic">Dynamic partitioning</option>
+ </select>
+ <button onclick="rbAddNode()" style="padding:6px 14px;background:#2e7d32;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:700;font-size:0.85rem;">+ Add Node</button>
+ <button onclick="rbRemoveNode()" style="padding:6px 14px;background:#c62828;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:700;font-size:0.85rem;">− Remove Node</button>
+ <button onclick="rbReset()" style="padding:6px 12px;background:#eee;border:1px solid #ccc;border-radius:8px;cursor:pointer;font-size:0.85rem;">Reset 🔄</button>
+ <span id="rb-node-count" style="color:#666;font-size:0.82rem;">Nodes: 4</span>
+ </div>
+ <div style="display:flex;gap:10px;margin-top:4px;">
+ <div style="flex:2;">
+ <div id="rb-nodes" style="display:flex;gap:6px;flex-wrap:wrap;"></div>
+ <div id="rb-moved" style="margin-top:6px;padding:8px 12px;border-radius:8px;font-size:0.82rem;background:#fff3e0;border:1px solid #ffcc80;display:none;"></div>
+ </div>
+ <div id="rb-explain" style="flex:1;background:#f5f5f5;border:1px solid #e0e0e0;border-radius:8px;padding:8px 10px;font-size:0.75rem;line-height:1.5;"></div>
+ </div>
+ <div style="background:#e1f5fe;border:1px solid #81d4fa;border-radius:8px;padding:5px 10px;margin-top:3px;font-size:0.75rem;">
+ 💡 Based on <b>Ch6 "Rebalancing Partitions"</b>. <b>hash mod N</b> moves most keys when N changes. <b>Fixed partitions</b> pre-splits data and moves whole partitions. <b>Dynamic</b> splits/merges partitions as data grows.
+ </div>
+ </section>
 
  <!-- 24. Section: Summary -->
  <section class="slide section-header">
@@ -2920,6 +2946,47 @@ hash(key) = 123456
  }
 
  pGenerate();
+
+ // --- Rebalancing Simulator Lab ---
+ const rbColors=['#e3f2fd','#e8f5e9','#fff3e0','#f3e5f5','#fce4ec','#e0f2f1','#fff9c4','#f1f8e9'];
+ const rbBorders=['#1565c0','#2e7d32','#e65100','#6a1b9a','#c62828','#00695c','#f9a825','#558b2f'];
+ const rbTotalKeys=24;let rbNodes=4,rbPrevAssign=null;
+ function rbHash(k,n){return((k*2654435761)>>>0)%n;}
+ function rbAssign(){
+ const s=document.getElementById('rb-strategy').value;const a=new Array(rbTotalKeys);
+ if(s==='hashMod'){for(let k=0;k<rbTotalKeys;k++)a[k]=rbHash(k,rbNodes)%rbNodes;}
+ else if(s==='fixed'){const np=12;for(let k=0;k<rbTotalKeys;k++){const p=rbHash(k,np)%np;a[k]=Math.floor(p*rbNodes/np);}}
+ else{const perNode=Math.ceil(rbTotalKeys/rbNodes);for(let k=0;k<rbTotalKeys;k++)a[k]=Math.min(Math.floor(k/perNode),rbNodes-1);}
+ return a;
+ }
+ function rbRender(){
+ const a=rbAssign();const nodeData=Array.from({length:rbNodes},()=>[]);
+ a.forEach((n,k)=>nodeData[n].push(k));
+ let moved=0;if(rbPrevAssign)a.forEach((n,k)=>{if(rbPrevAssign[k]!==undefined&&rbPrevAssign[k]!==n)moved++;});
+ let html='';nodeData.forEach((keys,i)=>{
+ const ci=i%rbColors.length;
+ html+=`<div style="flex:1;min-width:100px;padding:6px;border-radius:8px;border:2px solid ${rbBorders[ci]};background:${rbColors[ci]};font-size:0.72rem;text-align:center;">`;
+ html+=`<b>Node ${i}</b><br><span style="font-size:0.7rem;color:#666;">${keys.length} keys</span><br>`;
+ html+=`<div style="display:flex;flex-wrap:wrap;gap:2px;justify-content:center;margin-top:4px;">`;
+ keys.forEach(k=>{const wasMoved=rbPrevAssign&&rbPrevAssign[k]!==undefined&&rbPrevAssign[k]!==i;
+ html+=`<span style="display:inline-block;width:18px;height:18px;line-height:18px;text-align:center;border-radius:4px;font-size:0.65rem;${wasMoved?'background:#ff8a80;color:#b71c1c;font-weight:bold;':'background:#e0e0e0;color:#555;'}">${k}</span>`;});
+ html+='</div></div>';});
+ document.getElementById('rb-nodes').innerHTML=html;
+ document.getElementById('rb-node-count').textContent='Nodes: '+rbNodes;
+ const mv=document.getElementById('rb-moved');
+ if(rbPrevAssign){mv.style.display='block';const pct=Math.round(moved/rbTotalKeys*100);
+ mv.innerHTML=moved>0?`🔄 <b>${moved}/${rbTotalKeys}</b> keys moved (${pct}%) — <span style="color:${pct>50?'#c62828':'#2e7d32'}">${pct>50?'Excessive!':'Minimal movement ✓'}</span>`:'✅ No keys moved.';}
+ else mv.style.display='none';
+ const s=document.getElementById('rb-strategy').value;
+ const explains={hashMod:'<b>hash mod N:</b> Each key assigned to <code>hash(key) % N</code>. When N changes, <em>most keys</em> get reassigned to different nodes. This is terrible for rebalancing — almost everything moves!',
+ fixed:'<b>Fixed partitions:</b> Create many more partitions than nodes (e.g., 12 partitions for 4 nodes). When a node is added, it "steals" whole partitions from existing nodes. Only the stolen partitions move — much better!',
+ dynamic:'<b>Dynamic partitioning:</b> Partitions split when they get too large, merge when too small. New nodes receive whole partitions. Keys are range-assigned so neighboring keys stay together.'};
+ document.getElementById('rb-explain').innerHTML=explains[s];
+ }
+ function rbAddNode(){if(rbNodes>=8)return;rbPrevAssign=rbAssign();rbNodes++;rbRender();}
+ function rbRemoveNode(){if(rbNodes<=2)return;rbPrevAssign=rbAssign();rbNodes--;rbRender();}
+ function rbReset(){rbNodes=4;rbPrevAssign=null;rbRender();}
+ rbReset();
 
  update();
  </script>

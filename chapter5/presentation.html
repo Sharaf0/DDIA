@@ -1284,6 +1284,34 @@ Mr. Poons: How far into the future
   </div>
  </div>
  </section>
+ <!-- Lab: Replication Lag Anomaly Lab -->
+ <section class="slide content-slide" id="lag-lab-slide">
+ <h2 style="margin-bottom:4px;">⏱️ Replication Lag Anomaly Lab</h2>
+ <div style="display:flex;gap:10px;align-items:center;margin:4px 0;flex-wrap:wrap;font-size:0.85rem;">
+ <select id="lag-scenario" onchange="lagReset()" style="padding:5px 8px;border-radius:6px;border:2px solid #e65100;font-size:0.82rem;">
+ <option value="readYourWrites">1. Reading Your Own Writes</option>
+ <option value="monotonicReads">2. Moving Backward in Time</option>
+ <option value="consistentPrefix">3. Violation of Causality</option>
+ </select>
+ <label style="background:#fff3e0;padding:4px 10px;border-radius:6px;border:1px solid #ffcc80;cursor:pointer;"><input type="checkbox" id="lag-fix" onchange="lagReset()" style="margin-right:4px;"> 🔧 Apply Fix</label>
+ <button id="lag-step-btn" onclick="lagStep()" style="padding:6px 16px;background:#e65100;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:700;font-size:0.85rem;">Step ▶</button>
+ <button onclick="lagReset()" style="padding:6px 12px;background:#eee;border:1px solid #ccc;border-radius:8px;cursor:pointer;font-size:0.85rem;">Reset 🔄</button>
+ </div>
+ <div style="display:flex;gap:10px;margin-top:4px;">
+ <div style="flex:1.2;">
+ <div style="display:flex;gap:8px;margin-bottom:6px;">
+ <div id="lag-n0" style="flex:1;padding:8px;border-radius:8px;border:2px solid #1565c0;background:#e3f2fd;text-align:center;font-size:0.75rem;min-height:55px;"><b>Leader</b><br>Ready</div>
+ <div id="lag-n1" style="flex:1;padding:8px;border-radius:8px;border:2px solid #2e7d32;background:#e8f5e9;text-align:center;font-size:0.75rem;min-height:55px;"><b>Follower 1</b><br>lag: 1s</div>
+ <div id="lag-n2" style="flex:1;padding:8px;border-radius:8px;border:2px solid #6a1b9a;background:#f3e5f5;text-align:center;font-size:0.75rem;min-height:55px;"><b>Follower 2</b><br>lag: 5s</div>
+ </div>
+ <div id="lag-result" style="display:none;padding:8px 12px;border-radius:8px;font-size:0.82rem;font-weight:700;text-align:center;"></div>
+ </div>
+ <div id="lag-log" style="flex:1;background:#fafafa;border:1px solid #e0e0e0;border-radius:8px;padding:6px 10px;font-size:0.73rem;font-family:monospace;max-height:180px;overflow-y:auto;line-height:1.6;">Click <b>Step ▶</b> to begin</div>
+ </div>
+ <div style="background:#fff3e0;border:1px solid #ffcc80;border-radius:8px;padding:5px 10px;margin-top:3px;font-size:0.75rem;">
+ 💡 Based on <b>Ch5 "Problems with Replication Lag"</b>. Three anomalies that occur when reading from asynchronous followers. Toggle the fix to see how each guarantee resolves it.
+ </div>
+ </section>
 
  <!-- 40. Section: Summary -->
  <section class="slide section-header">
@@ -3221,6 +3249,83 @@ Mr. Poons: How far into the future
 
  // Initialize quorum explorer on load
  qUpdate();
+
+ // --- Replication Lag Anomaly Lab ---
+ const lagScenarios={
+ readYourWrites:{nodes:['Leader','Follower 1','Follower 2'],
+ noFix:[
+ {t:'✏️ User updates profile: bio = "Hello!"',n0:'<b>Leader</b><br>bio: "Hello!"',n1:'<b>Follower 1</b><br>bio: ""',n2:'<b>Follower 2</b><br>bio: ""'},
+ {t:'✅ Write saved to Leader',n0:'<b>Leader</b><br>✅ bio: "Hello!"'},
+ {t:'📡 Replication starts... Follower 2 has 5s lag',n2:'<b>Follower 2</b><br>⏳ lag: 5s'},
+ {t:'🔵 User refreshes → routed to <b>Follower 2</b>',n2:'<b>Follower 2</b><br>← READ<br>bio: ""'},
+ {t:'<span style="color:#e53935">😱 User sees EMPTY bio! "Where\'s my update?"</span>',danger:true}],
+ withFix:[
+ {t:'✏️ User updates profile: bio = "Hello!"',n0:'<b>Leader</b><br>bio: "Hello!"',n1:'<b>Follower 1</b><br>bio: ""',n2:'<b>Follower 2</b><br>bio: ""'},
+ {t:'✅ Write saved to Leader',n0:'<b>Leader</b><br>✅ bio: "Hello!"'},
+ {t:'🔧 <b>Fix:</b> Read-after-write → route user\'s own reads to Leader'},
+ {t:'🔵 User refreshes → routed to <b>Leader</b> (own data)',n0:'<b>Leader</b><br>← READ<br>✅ bio: "Hello!"'},
+ {t:'<span style="color:#2e7d32">✅ User sees updated bio!</span>',success:true}],
+ explain:'<b>Read-after-write consistency:</b> always read from leader when accessing data the user just modified.'},
+ monotonicReads:{nodes:['Leader','Follower 1','Follower 2'],
+ noFix:[
+ {t:'💬 New comment posted → replicated to F1, <b>not yet</b> F2',n0:'<b>Leader</b><br>💬 comment ✓',n1:'<b>Follower 1</b><br>💬 comment ✓',n2:'<b>Follower 2</b><br>(no comment)'},
+ {t:'🔵 User reads from Follower 1 → sees comment',n1:'<b>Follower 1</b><br>← READ<br>💬 comment ✓'},
+ {t:'🔵 User refreshes → routed to <b>Follower 2</b> this time',n2:'<b>Follower 2</b><br>← READ<br>(no comment)'},
+ {t:'<span style="color:#e53935">😱 Comment DISAPPEARED! Time went backward.</span>',danger:true}],
+ withFix:[
+ {t:'💬 New comment posted → replicated to F1, not yet F2',n0:'<b>Leader</b><br>💬 comment ✓',n1:'<b>Follower 1</b><br>💬 comment ✓',n2:'<b>Follower 2</b><br>(no comment)'},
+ {t:'🔵 User reads from Follower 1 → sees comment',n1:'<b>Follower 1</b><br>← READ<br>💬 comment ✓'},
+ {t:'🔧 <b>Fix:</b> Monotonic reads → sticky session, always same follower'},
+ {t:'🔵 User refreshes → routed to <b>Follower 1 again</b>',n1:'<b>Follower 1</b><br>← READ<br>💬 comment ✓'},
+ {t:'<span style="color:#2e7d32">✅ Comment still there! No time travel.</span>',success:true}],
+ explain:'<b>Monotonic reads:</b> once you\'ve seen data at time t, subsequent reads never return data from before t. Fix: sticky sessions (hash user ID to replica).'},
+ consistentPrefix:{nodes:['Partition A','Partition B','Observer'],
+ noFix:[
+ {t:'🧑 Mr. Poons: "How\'s the cake?" → Partition A',n0:'<b>Partition A</b><br>"How\'s the cake?"',n1:'<b>Partition B</b><br>(empty)',n2:'<b>Observer</b><br>watching...'},
+ {t:'👩 Mrs. Cake: "Delicious!" → Partition B',n1:'<b>Partition B</b><br>"Delicious!"'},
+ {t:'📡 Partition B replicates faster than A!',n1:'<b>Partition B</b><br>✅ replicated',n0:'<b>Partition A</b><br>⏳ slow...'},
+ {t:'🔵 Observer reads both partitions...',n2:'<b>Observer</b><br>"Delicious!"<br>then "How\'s the cake?"'},
+ {t:'<span style="color:#e53935">😱 Answer appears BEFORE the question! Causality violated.</span>',danger:true}],
+ withFix:[
+ {t:'🧑 Mr. Poons: "How\'s the cake?" → Partition A',n0:'<b>Partition A</b><br>"How\'s the cake?"',n1:'<b>Partition B</b><br>(empty)',n2:'<b>Observer</b><br>watching...'},
+ {t:'👩 Mrs. Cake: "Delicious!" → same partition (causal dep)',n0:'<b>Partition A</b><br>"How\'s the cake?"<br>"Delicious!"'},
+ {t:'🔧 <b>Fix:</b> Consistent prefix → causally related writes to same partition'},
+ {t:'🔵 Observer reads partition A...',n2:'<b>Observer</b><br>"How\'s the cake?"<br>"Delicious!"'},
+ {t:'<span style="color:#2e7d32">✅ Question before answer! Causality preserved.</span>',success:true}],
+ explain:'<b>Consistent prefix reads:</b> if writes have causal order, reads must see them in that order. Fix: route causally related writes to the same partition.'}
+ };
+ let lagIdx=-1,lagSteps=[];
+ function lagReset(){
+ lagIdx=-1;const sc=lagScenarios[document.getElementById('lag-scenario').value];
+ lagSteps=document.getElementById('lag-fix').checked?sc.withFix:sc.noFix;
+ document.getElementById('lag-step-btn').disabled=false;
+ document.getElementById('lag-n0').innerHTML='<b>'+sc.nodes[0]+'</b><br>Ready';
+ document.getElementById('lag-n1').innerHTML='<b>'+sc.nodes[1]+'</b><br>Ready';
+ document.getElementById('lag-n2').innerHTML='<b>'+sc.nodes[2]+'</b><br>Ready';
+ document.getElementById('lag-log').innerHTML='Click <b>Step ▶</b> to begin';
+ const r=document.getElementById('lag-result');r.style.display='none';
+ ['lag-n0','lag-n1','lag-n2'].forEach(id=>{const el=document.getElementById(id);el.style.borderColor=id==='lag-n0'?'#1565c0':id==='lag-n1'?'#2e7d32':'#6a1b9a';});
+ }
+ function lagStep(){
+ if(lagIdx>=lagSteps.length-1)return;lagIdx++;
+ const s=lagSteps[lagIdx],log=document.getElementById('lag-log');
+ if(lagIdx===0)log.innerHTML='';
+ const bg=s.danger?'#ffebee':s.success?'#e8f5e9':'transparent';
+ log.innerHTML+=`<div style="padding:2px 4px;margin:1px 0;border-radius:4px;background:${bg}">${s.t}</div>`;
+ log.scrollTop=log.scrollHeight;
+ if(s.n0)document.getElementById('lag-n0').innerHTML=s.n0;
+ if(s.n1)document.getElementById('lag-n1').innerHTML=s.n1;
+ if(s.n2)document.getElementById('lag-n2').innerHTML=s.n2;
+ if(lagIdx>=lagSteps.length-1){
+ document.getElementById('lag-step-btn').disabled=true;
+ const sc=lagScenarios[document.getElementById('lag-scenario').value];
+ const r=document.getElementById('lag-result');r.style.display='block';
+ const fixed=document.getElementById('lag-fix').checked;
+ r.style.background=fixed?'#e8f5e9':'#ffebee';r.style.border=fixed?'2px solid #66bb6a':'2px solid #ef5350';
+ r.innerHTML=(fixed?'✅ ':'❌ ')+sc.explain;
+ }
+ }
+ lagReset();
 
  update();
  </script>

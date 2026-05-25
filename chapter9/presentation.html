@@ -1153,6 +1153,30 @@
  💡 Based on <b>Figs 9-1 to 9-4</b>. A system is <em>linearizable</em> if every operation appears to take effect atomically at some point between its invocation and response. Orange dots show valid linearization points.
  </div>
  </section>
+ <!-- Lab: 2PC Breakdown -->
+ <section class="slide content-slide" id="twopc-lab-slide">
+ <h2 style="margin-bottom:4px;">🤝 Two-Phase Commit (2PC) Breakdown</h2>
+ <div style="display:flex;gap:10px;align-items:center;margin:4px 0;flex-wrap:wrap;font-size:0.85rem;">
+ <select id="tpc-mode" onchange="tpcReset()" style="padding:5px 8px;border-radius:6px;border:2px solid #0277bd;font-size:0.82rem;">
+ <option value="happy">Happy Path (all commit)</option>
+ <option value="participantCrash">Participant crashes after PREPARE</option>
+ <option value="coordinatorCrash">Coordinator crashes after PREPARE</option>
+ </select>
+ <button id="tpc-step-btn" onclick="tpcStep()" style="padding:6px 16px;background:#0277bd;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:700;font-size:0.85rem;">Step ▶</button>
+ <button onclick="tpcReset()" style="padding:6px 12px;background:#eee;border:1px solid #ccc;border-radius:8px;cursor:pointer;font-size:0.85rem;">Reset 🔄</button>
+ </div>
+ <div style="display:flex;gap:8px;margin-top:4px;">
+ <div id="tpc-coord" style="flex:1;padding:8px;border-radius:8px;border:2px solid #0277bd;background:#e1f5fe;text-align:center;font-size:0.75rem;min-height:60px;"><b>Coordinator</b><br>idle</div>
+ <div id="tpc-p0" style="flex:1;padding:8px;border-radius:8px;border:2px solid #2e7d32;background:#e8f5e9;text-align:center;font-size:0.75rem;min-height:60px;"><b>DB 1</b><br>idle</div>
+ <div id="tpc-p1" style="flex:1;padding:8px;border-radius:8px;border:2px solid #e65100;background:#fff3e0;text-align:center;font-size:0.75rem;min-height:60px;"><b>DB 2</b><br>idle</div>
+ <div id="tpc-p2" style="flex:1;padding:8px;border-radius:8px;border:2px solid #6a1b9a;background:#f3e5f5;text-align:center;font-size:0.75rem;min-height:60px;"><b>DB 3</b><br>idle</div>
+ </div>
+ <div id="tpc-log" style="background:#fafafa;border:1px solid #e0e0e0;border-radius:8px;padding:6px 10px;margin-top:4px;font-size:0.73rem;font-family:monospace;max-height:120px;overflow-y:auto;line-height:1.6;">Click <b>Step ▶</b></div>
+ <div id="tpc-result" style="display:none;margin-top:4px;padding:8px 12px;border-radius:8px;font-size:0.82rem;"></div>
+ <div style="background:#e1f5fe;border:1px solid #81d4fa;border-radius:8px;padding:5px 10px;margin-top:3px;font-size:0.75rem;">
+ 💡 Based on <b>Figs 9-9, 9-10</b>. Once a participant votes YES in the prepare phase, it <em>cannot unilaterally abort</em>. If the coordinator crashes, participants are stuck <b>"in doubt"</b> holding locks until the coordinator recovers.
+ </div>
+ </section>
  <!-- 35. Section: Summary -->
  <section class="slide section-header">
  <h2>Summary</h2>
@@ -2978,6 +3002,66 @@
  svg.innerHTML = h;
  }
  linReset();
+
+ // --- 2PC Breakdown Lab ---
+ const tpcModes={
+ happy:[
+ {t:'📝 Coordinator: BEGIN distributed transaction',co:'<b>Coordinator</b><br>BEGIN',p0:'<b>DB 1</b><br>working...',p1:'<b>DB 2</b><br>working...',p2:'<b>DB 3</b><br>working...'},
+ {t:'📤 Phase 1: Coordinator sends PREPARE to all participants',co:'<b>Coordinator</b><br>→ PREPARE'},
+ {t:'✅ DB 1 votes YES (writes to WAL, locks rows)',p0:'<b>DB 1</b><br>✅ YES<br>🔒 rows locked'},
+ {t:'✅ DB 2 votes YES',p1:'<b>DB 2</b><br>✅ YES<br>🔒 rows locked'},
+ {t:'✅ DB 3 votes YES',p2:'<b>DB 3</b><br>✅ YES<br>🔒 rows locked'},
+ {t:'📝 Coordinator writes COMMIT decision to its log',co:'<b>Coordinator</b><br>📝 COMMIT logged'},
+ {t:'📤 Phase 2: Coordinator sends COMMIT to all',co:'<b>Coordinator</b><br>→ COMMIT'},
+ {t:'✅ All participants commit and release locks',p0:'<b>DB 1</b><br>✅ COMMITTED<br>🔓 unlocked',p1:'<b>DB 2</b><br>✅ COMMITTED<br>🔓 unlocked',p2:'<b>DB 3</b><br>✅ COMMITTED<br>🔓 unlocked'},
+ {t:'<span style="color:#2e7d32">✅ Transaction complete! All nodes consistent.</span>',success:true}],
+ participantCrash:[
+ {t:'📝 Coordinator: BEGIN distributed transaction',co:'<b>Coordinator</b><br>BEGIN',p0:'<b>DB 1</b><br>working...',p1:'<b>DB 2</b><br>working...',p2:'<b>DB 3</b><br>working...'},
+ {t:'📤 Phase 1: Coordinator sends PREPARE',co:'<b>Coordinator</b><br>→ PREPARE'},
+ {t:'✅ DB 1 votes YES',p0:'<b>DB 1</b><br>✅ YES<br>🔒 locked'},
+ {t:'✅ DB 2 votes YES',p1:'<b>DB 2</b><br>✅ YES<br>🔒 locked'},
+ {t:'<span style="color:#e53935">💥 DB 3 CRASHES before voting!</span>',p2:'<b>DB 3</b><br>💥 CRASHED',danger:true},
+ {t:'⏰ Coordinator times out waiting for DB 3',co:'<b>Coordinator</b><br>⏰ timeout'},
+ {t:'📝 Coordinator decides: ABORT (missing vote)',co:'<b>Coordinator</b><br>📝 ABORT logged'},
+ {t:'📤 Coordinator sends ABORT to DB 1 and DB 2',p0:'<b>DB 1</b><br>❌ ABORTED<br>🔓 unlocked',p1:'<b>DB 2</b><br>❌ ABORTED<br>🔓 unlocked'},
+ {t:'<span style="color:#e65100">⚠️ Transaction aborted safely. All-or-nothing preserved.</span>',success:true}],
+ coordinatorCrash:[
+ {t:'📝 Coordinator: BEGIN distributed transaction',co:'<b>Coordinator</b><br>BEGIN',p0:'<b>DB 1</b><br>working...',p1:'<b>DB 2</b><br>working...',p2:'<b>DB 3</b><br>working...'},
+ {t:'📤 Phase 1: Coordinator sends PREPARE',co:'<b>Coordinator</b><br>→ PREPARE'},
+ {t:'✅ DB 1 votes YES',p0:'<b>DB 1</b><br>✅ YES<br>🔒 locked'},
+ {t:'✅ DB 2 votes YES',p1:'<b>DB 2</b><br>✅ YES<br>🔒 locked'},
+ {t:'✅ DB 3 votes YES',p2:'<b>DB 3</b><br>✅ YES<br>🔒 locked'},
+ {t:'<span style="color:#e53935">💥 Coordinator CRASHES before sending decision!</span>',co:'<b>Coordinator</b><br>💥 CRASHED',danger:true},
+ {t:'<span style="color:#e53935">😱 All participants are IN DOUBT — they voted YES but don\'t know the decision!</span>',p0:'<b>DB 1</b><br>❓ IN DOUBT<br>🔒 LOCKED!',p1:'<b>DB 2</b><br>❓ IN DOUBT<br>🔒 LOCKED!',p2:'<b>DB 3</b><br>❓ IN DOUBT<br>🔒 LOCKED!',danger:true},
+ {t:'<span style="color:#e53935">🔒 Rows stay locked! Other transactions BLOCKED! Cannot commit or abort without coordinator.</span>',danger:true},
+ {t:'⏳ Must wait for coordinator recovery to read its transaction log and resolve...',co:'<b>Coordinator</b><br>⏳ recovering...'}]
+ };
+ let tpcIdx=-1,tpcSteps=[];
+ function tpcReset(){
+ tpcIdx=-1;tpcSteps=tpcModes[document.getElementById('tpc-mode').value];
+ document.getElementById('tpc-step-btn').disabled=false;
+ document.getElementById('tpc-coord').innerHTML='<b>Coordinator</b><br>idle';
+ document.getElementById('tpc-p0').innerHTML='<b>DB 1</b><br>idle';
+ document.getElementById('tpc-p1').innerHTML='<b>DB 2</b><br>idle';
+ document.getElementById('tpc-p2').innerHTML='<b>DB 3</b><br>idle';
+ document.getElementById('tpc-log').innerHTML='Click <b>Step ▶</b>';
+ document.getElementById('tpc-result').style.display='none';
+ ['tpc-coord','tpc-p0','tpc-p1','tpc-p2'].forEach(id=>{document.getElementById(id).style.borderColor=id==='tpc-coord'?'#0277bd':id==='tpc-p0'?'#2e7d32':id==='tpc-p1'?'#e65100':'#6a1b9a';});
+ }
+ function tpcStep(){
+ if(tpcIdx>=tpcSteps.length-1)return;tpcIdx++;
+ const s=tpcSteps[tpcIdx],log=document.getElementById('tpc-log');
+ if(tpcIdx===0)log.innerHTML='';
+ const bg=s.danger?'#ffebee':s.success?'#e8f5e9':'transparent';
+ log.innerHTML+=`<div style="padding:2px 4px;margin:1px 0;border-radius:4px;background:${bg}">${s.t}</div>`;
+ log.scrollTop=log.scrollHeight;
+ if(s.co){document.getElementById('tpc-coord').innerHTML=s.co;if(s.co.includes('CRASH'))document.getElementById('tpc-coord').style.borderColor='#e53935';}
+ if(s.p0){document.getElementById('tpc-p0').innerHTML=s.p0;if(s.p0.includes('CRASH'))document.getElementById('tpc-p0').style.borderColor='#e53935';if(s.p0.includes('DOUBT'))document.getElementById('tpc-p0').style.borderColor='#ff6f00';}
+ if(s.p1){document.getElementById('tpc-p1').innerHTML=s.p1;if(s.p1.includes('DOUBT'))document.getElementById('tpc-p1').style.borderColor='#ff6f00';}
+ if(s.p2){document.getElementById('tpc-p2').innerHTML=s.p2;if(s.p2.includes('CRASH'))document.getElementById('tpc-p2').style.borderColor='#e53935';if(s.p2.includes('DOUBT'))document.getElementById('tpc-p2').style.borderColor='#ff6f00';}
+ if(tpcIdx>=tpcSteps.length-1)document.getElementById('tpc-step-btn').disabled=true;
+ }
+ tpcReset();
 
  update();
  </script>
