@@ -1263,6 +1263,31 @@ end</div>
 </div>
  <p style="margin-top: 10px;">In the end, they're all just systems for <strong>storing and processing data</strong>.</p>
  </section>
+ <!-- Lab: Unix → MapReduce Pipeline Visualizer -->
+ <section class="slide content-slide" id="mapreduce-lab-slide">
+ <h2 style="margin-bottom:4px;">🔧 Unix → MapReduce Pipeline Visualizer</h2>
+ <div style="display:flex;gap:10px;align-items:center;margin:4px 0;">
+ <button id="mr-step-btn" onclick="mrStep()" style="padding:7px 18px;background:#1976d2;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:700;font-size:0.85rem;">Step ▶</button>
+ <button onclick="mrReset()" style="padding:7px 12px;background:#eee;border:1px solid #ccc;border-radius:8px;cursor:pointer;font-size:0.85rem;">Reset 🔄</button>
+ <span id="mr-stage-label" style="font-size:0.85rem;color:#666;">Stage 0 / 6</span>
+ </div>
+ <div style="display:flex;gap:12px;margin-top:4px;">
+ <div style="flex:1;background:#1a1a2e;border-radius:10px;padding:10px;color:#e0e0e0;font-family:monospace;font-size:0.75rem;">
+ <h3 style="color:#7ecfff;margin:0 0 6px;font-size:0.9rem;">🐧 Unix Pipeline</h3>
+ <div id="mr-unix-stages"></div>
+ <div id="mr-unix-data" style="margin-top:6px;padding:6px;background:#0d1117;border-radius:6px;min-height:40px;max-height:130px;overflow-y:auto;line-height:1.5;"></div>
+ </div>
+ <div style="flex:1;background:#faf6f0;border-radius:10px;padding:10px;font-family:monospace;font-size:0.75rem;">
+ <h3 style="color:#b71c1c;margin:0 0 6px;font-size:0.9rem;">🗺️ MapReduce Equivalent</h3>
+ <div id="mr-mr-stages"></div>
+ <div id="mr-mr-data" style="margin-top:6px;padding:6px;background:#fff;border:1px solid #e8e0d0;border-radius:6px;min-height:40px;max-height:130px;overflow-y:auto;line-height:1.5;"></div>
+ </div>
+ </div>
+ <div id="mr-insight" style="display:none;margin-top:4px;padding:8px 12px;background:#e3f2fd;border:1px solid #90caf9;border-radius:8px;font-size:0.8rem;line-height:1.4;"></div>
+ <div style="background:#f0f7e6;border:1px solid #c5e1a5;border-radius:8px;padding:5px 10px;margin-top:3px;font-size:0.75rem;">
+ 💡 Based on <b>Ch10 opening example</b>. The same URL-counting task expressed as a Unix pipe chain and as a MapReduce workflow.
+ </div>
+ </section>
  <!-- 37. Section: Summary -->
  <section class="slide section-header">
  <h2>Summary</h2>
@@ -3019,6 +3044,7 @@ end</div>
 
  presentation.addEventListener('touchcancel', resetSwipe, { passive: true });
  window.addEventListener('keydown', (e) => {
+ if (e.target.matches('input, textarea, select')) return;
  if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'ArrowDown') nextSlide();
  if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') prevSlide();
  if (e.key >= '0' && e.key <= '9') { currentSlide = Math.floor(totalSlides * (parseInt(e.key) / 10)); update(); }
@@ -3033,6 +3059,40 @@ end</div>
  const exp = e.parentElement.querySelector('.quiz-explanation');
  if (!ok) exp.classList.add('incorrect'); else exp.classList.remove('incorrect');
  }
+
+ // --- Unix → MapReduce Pipeline Lab ---
+ const mrLogs=['216.58.210.78 GET /about','54.231.32.0 GET /home','216.58.210.78 GET /home','13.107.42.14 GET /about','54.231.32.0 GET /about','216.58.210.78 GET /contact','54.231.32.0 GET /home'];
+ const mrPipeline=[
+ {ucmd:'cat access.log',mcmd:'Input Splits',udata:mrLogs,mdata:['Split 1: lines 1–3','Split 2: lines 4–5','Split 3: lines 6–7'],insight:'📥 <b>Input:</b> Unix reads one file sequentially. MapReduce splits input across workers for <em>parallel</em> processing.'},
+ {ucmd:"awk '{print $3}'",mcmd:'Map Phase',udata:['/about','/home','/home','/about','/about','/contact','/home'],mdata:['M1: (/about,1) (/home,1) (/home,1)','M2: (/about,1) (/about,1)','M3: (/contact,1) (/home,1)'],insight:'🔄 <b>Transform:</b> Both extract the URL. Mappers emit (key,value) pairs — stateless, parallelizable, no ordering needed.'},
+ {ucmd:'sort',mcmd:'Shuffle &amp; Sort',udata:['/about','/about','/about','/contact','/home','/home','/home'],mdata:['/about → [1, 1, 1]','/contact → [1]','/home → [1, 1, 1]'],insight:'⚠️ <b>Materialization barrier:</b> <code>sort</code> must read ALL input before producing output. Shuffle sends records to reducers by key hash — both require <em>full materialization</em>.'},
+ {ucmd:'uniq -c',mcmd:'Reduce Phase',udata:['&nbsp;&nbsp; 3 /about','&nbsp;&nbsp; 1 /contact','&nbsp;&nbsp; 3 /home'],mdata:['R1: /about → sum(1,1,1) = <b>3</b>','R2: /contact → sum(1) = <b>1</b>','R3: /home → sum(1,1,1) = <b>3</b>'],insight:'📊 <b>Aggregate:</b> <code>uniq -c</code> counts consecutive identical lines (needs sorted input). Each Reducer sums values for its assigned key.'},
+ {ucmd:'sort -rn',mcmd:'2nd Job / Single Reducer',udata:['&nbsp;&nbsp; 3 /about','&nbsp;&nbsp; 3 /home','&nbsp;&nbsp; 1 /contact'],mdata:['Global sort: 3 /about, 3 /home, 1 /contact'],insight:'🔢 <b>Final sort:</b> Unix just pipes to another <code>sort</code>. MapReduce needs a <em>second job</em> or a single reducer for global ordering — a chained workflow.'},
+ {ucmd:'head -3',mcmd:'Output',udata:['&nbsp;&nbsp; 3 /about','&nbsp;&nbsp; 3 /home','&nbsp;&nbsp; 1 /contact'],mdata:['✅ Top URLs:','&nbsp;&nbsp; 3 /about','&nbsp;&nbsp; 3 /home','&nbsp;&nbsp; 1 /contact'],insight:'✅ <b>Same result!</b> Unix is simpler for single-machine data. MapReduce scales to terabytes across clusters — but requires more ceremony (explicit shuffle, fault-tolerant storage between stages).'}
+ ];
+ let mrStage=-1;
+ function mrReset(){mrStage=-1;document.getElementById('mr-step-btn').disabled=false;mrRender();}
+ function mrStep(){if(mrStage<mrPipeline.length-1)mrStage++;if(mrStage>=mrPipeline.length-1)document.getElementById('mr-step-btn').disabled=true;mrRender();}
+ function mrRender(){
+ document.getElementById('mr-stage-label').textContent='Stage '+(mrStage+1)+' / '+mrPipeline.length;
+ let us='',ms='';
+ mrPipeline.forEach((s,i)=>{
+ const ua=i<mrStage,uc=i===mrStage;
+ us+='<div style="margin:2px 0;'+(ua?'color:#7ecfff;opacity:0.5;':uc?'color:#7ecfff;font-weight:bold;background:#2a2a4e;padding:2px 6px;border-radius:4px;':'color:#555;')+'">'+(ua?'✓':uc?'→':'&nbsp;')+' '+s.ucmd+'</div>';
+ ms+='<div style="margin:2px 0;'+(ua?'color:#888;opacity:0.5;':uc?'color:#b71c1c;font-weight:bold;background:#f5e6d0;padding:2px 6px;border-radius:4px;':'color:#bbb;')+'">'+(ua?'✓':uc?'→':'&nbsp;')+' '+s.mcmd+'</div>';
+ });
+ document.getElementById('mr-unix-stages').innerHTML=us;
+ document.getElementById('mr-mr-stages').innerHTML=ms;
+ if(mrStage>=0){const s=mrPipeline[mrStage];
+ document.getElementById('mr-unix-data').innerHTML=s.udata.map(l=>'<div>'+l+'</div>').join('');
+ document.getElementById('mr-mr-data').innerHTML=s.mdata.map(l=>'<div>'+l+'</div>').join('');
+ const ins=document.getElementById('mr-insight');ins.innerHTML=s.insight;ins.style.display='block';
+ }else{document.getElementById('mr-unix-data').innerHTML='<div style="color:#666;">Click Step ▶ to begin</div>';
+ document.getElementById('mr-mr-data').innerHTML='<div style="color:#999;">Click Step ▶ to begin</div>';
+ document.getElementById('mr-insight').style.display='none';}
+ }
+ mrReset();
+
  update();
  </script>
 </body>
