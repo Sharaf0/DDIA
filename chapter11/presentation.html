@@ -1223,6 +1223,36 @@
  💡 Based on <b>Ch11 "Types of Windows"</b>. <b>Tumbling:</b> fixed-size, non-overlapping. <b>Hopping:</b> fixed-size, overlapping (hop &lt; size). <b>Session:</b> dynamic, grouped by activity with configurable inactivity gap.
  </div>
  </section>
+
+ <section class="slide" id="cdc-lab-slide" style="padding: 12px 20px; text-align: left; align-items: stretch; justify-content: flex-start;">
+ <div style="max-width: 1100px; margin: 0 auto; width: 100%;">
+  <h2 style="margin: 0 0 8px 0;">📡 CDC & Event Sourcing — Derived Data in Action</h2>
+  <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 10px; flex-wrap: wrap;">
+   <button onclick="cdcAdd()" style="padding: 5px 12px; background: #22c55e; color: white; border: none; border-radius: 6px; font-size: 0.72rem; font-weight: 700; cursor: pointer;">+ Add User</button>
+   <button onclick="cdcUpd()" style="padding: 5px 12px; background: #3b82f6; color: white; border: none; border-radius: 6px; font-size: 0.72rem; font-weight: 700; cursor: pointer;">✏️ Update Random</button>
+   <button onclick="cdcDel()" style="padding: 5px 12px; background: #ef4444; color: white; border: none; border-radius: 6px; font-size: 0.72rem; font-weight: 700; cursor: pointer;">🗑️ Delete Last</button>
+   <button onclick="cdcReset()" style="padding: 5px; background: #f1f5f9; color: var(--text); border: 2px solid #e2e8f0; border-radius: 6px; font-size: 0.72rem; font-weight: 600; cursor: pointer;">Reset 🔄</button>
+  </div>
+  <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
+   <div style="border: 2px solid #e2e8f0; border-radius: 10px; padding: 8px;">
+    <div style="font-weight: 700; font-size: 0.78rem; margin-bottom: 6px;">🗄️ Source Database</div>
+    <div id="cdc-db" style="font-size: 0.65rem; max-height: 160px; overflow-y: auto;"></div>
+   </div>
+   <div style="border: 2px solid #f59e0b; border-radius: 10px; padding: 8px; background: #fffbeb;">
+    <div style="font-weight: 700; font-size: 0.78rem; margin-bottom: 6px;">📜 Event Log (append-only)</div>
+    <div id="cdc-log" style="font-size: 0.62rem; max-height: 160px; overflow-y: auto;"></div>
+   </div>
+   <div>
+    <div id="cdc-c0" style="border: 2px solid #22c55e; border-radius: 10px; padding: 8px; margin-bottom: 8px; background: #f0fdf4; min-height: 60px;"></div>
+    <div id="cdc-c1" style="border: 2px solid #22c55e; border-radius: 10px; padding: 8px; background: #f0fdf4; min-height: 60px;"></div>
+   </div>
+  </div>
+  <div style="margin-top: 8px; padding: 8px 12px; background: #e0f2fe; border-left: 4px solid #0284c7; border-radius: 0 8px 8px 0; font-size: 0.7rem;" class="tip-box">
+   💡 Based on <b>§11.3 "Change Data Capture."</b> Every DB change produces an event in an append-only log. Derived consumers (search index, analytics) subscribe at their own pace. <b>Crash a consumer</b>, add events, then <b>recover</b> — it replays from its last offset, eventually catching up.
+  </div>
+ </div>
+ </section>
+
  <!-- 35. Section: Summary -->
  <section class="slide section-header">
  <h2>Summary</h2>
@@ -3052,7 +3082,81 @@
  if(type==='session')stats+=` | Sessions split by inactivity gaps &gt; ${document.getElementById('win-gap').value}s`;
  document.getElementById('win-stats').innerHTML=stats;
  }
+ // === CDC & Event Sourcing Lab ===
+ let cdcUsers=[],cdcLog=[],cdcNxt=4,cdcCons=[];
+ function cdcReset(){
+  cdcUsers=[{id:1,name:'Alice',email:'alice@x.com'},{id:2,name:'Bob',email:'bob@x.com'},{id:3,name:'Carol',email:'carol@x.com'}];
+  cdcLog=[];cdcNxt=4;
+  cdcCons=[{name:'🔍 Search Index',offset:0,crashed:false,state:{}},{name:'📊 Analytics',offset:0,crashed:false,state:{inserts:0,updates:0,deletes:0}}];
+  cdcProcess();cdcRender();
+ }
+ function cdcAdd(){
+  const ns=['Dave','Eve','Frank','Grace','Hank','Ivy','Jack','Kate','Leo','Mia'];
+  const n=ns[(cdcNxt-4)%ns.length];
+  const u={id:cdcNxt++,name:n,email:n.toLowerCase()+'@x.com'};
+  cdcUsers.push(u);
+  cdcLog.push({offset:cdcLog.length,type:'INSERT',data:{...u}});
+  cdcProcess();cdcRender();
+ }
+ function cdcUpd(){
+  if(!cdcUsers.length)return;
+  const i=Math.floor(Math.random()*cdcUsers.length),u=cdcUsers[i];
+  u.email=u.name.toLowerCase()+(Math.floor(Math.random()*99))+'@y.com';
+  cdcLog.push({offset:cdcLog.length,type:'UPDATE',data:{...u}});
+  cdcProcess();cdcRender();
+ }
+ function cdcDel(){
+  if(!cdcUsers.length)return;
+  const u=cdcUsers.pop();
+  cdcLog.push({offset:cdcLog.length,type:'DELETE',data:{id:u.id,name:u.name}});
+  cdcProcess();cdcRender();
+ }
+ function cdcCrash(i){cdcCons[i].crashed=true;cdcRender();}
+ function cdcRecover(i){cdcCons[i].crashed=false;cdcProcess();cdcRender();}
+ function cdcProcess(){
+  for(const c of cdcCons){
+   if(c.crashed)continue;
+   while(c.offset<cdcLog.length){
+    const e=cdcLog[c.offset];
+    if(c.name.includes('Search')){
+     if(e.type==='DELETE')delete c.state[e.data.id];else c.state[e.data.id]=e.data.name;
+    }else{
+     const k=e.type.toLowerCase()+'s';c.state[k]=(c.state[k]||0)+1;
+    }
+    c.offset++;
+   }
+  }
+ }
+ function cdcRender(){
+  let db='<table style="width:100%;font-size:0.62rem;border-collapse:collapse;"><tr style="background:#e2e8f0;"><th style="padding:2px 4px;">ID</th><th style="padding:2px 4px;">Name</th><th style="padding:2px 4px;">Email</th></tr>';
+  for(const u of cdcUsers)db+='<tr><td style="padding:2px 4px;">'+u.id+'</td><td style="padding:2px 4px;">'+u.name+'</td><td style="padding:2px 4px;">'+u.email+'</td></tr>';
+  db+='</table>';if(!cdcUsers.length)db='<div style="color:#999;font-size:0.65rem;">No users</div>';
+  document.getElementById('cdc-db').innerHTML=db;
+  const colors={INSERT:'#dcfce7',UPDATE:'#dbeafe',DELETE:'#fee2e2'};
+  let lg='';const start=Math.max(0,cdcLog.length-8);
+  for(let i=start;i<cdcLog.length;i++){
+   const e=cdcLog[i];
+   lg+='<div style="padding:2px 4px;background:'+colors[e.type]+';border-radius:3px;margin:2px 0;">['+e.offset+'] '+e.type+' '+e.data.name+'</div>';
+  }
+  if(!cdcLog.length)lg='<div style="color:#999;">No events yet</div>';
+  document.getElementById('cdc-log').innerHTML=lg;
+  for(let i=0;i<2;i++){
+   const c=cdcCons[i],el=document.getElementById('cdc-c'+i);
+   let st;
+   if(c.name.includes('Search')){const v=Object.values(c.state);st=v.length?v.join(', '):'(empty)';}
+   else st='INS:'+c.state.inserts+' UPD:'+c.state.updates+' DEL:'+c.state.deletes;
+   const behind=cdcLog.length-c.offset;
+   el.innerHTML='<div style="font-weight:700;font-size:0.72rem;">'+c.name+'</div>'+
+    '<div style="font-size:0.62rem;">Offset: '+c.offset+'/'+cdcLog.length+(c.crashed?' 💥 <b>CRASHED</b>':behind>0?' ⏳ '+behind+' behind':' ✅ caught up')+'</div>'+
+    '<div style="font-size:0.6rem;margin-top:3px;color:#555;">'+st+'</div>'+
+    '<button onclick="cdc'+(c.crashed?'Recover':'Crash')+'('+i+')" style="margin-top:4px;padding:2px 8px;font-size:0.6rem;border:1px solid #e2e8f0;border-radius:4px;cursor:pointer;background:'+(c.crashed?'#dcfce7':'#fee2e2')+';">'+(c.crashed?'🔄 Recover':'💥 Crash')+'</button>';
+   el.style.borderColor=c.crashed?'#ef4444':'#22c55e';
+   el.style.background=c.crashed?'#fef2f2':'#f0fdf4';
+  }
+ }
+
  winGenerate();
+ cdcReset();
 
  update();
  </script>

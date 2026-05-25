@@ -1294,6 +1294,39 @@ COMMIT;</pre>
  💡 Based on <b>Ch12 "End-to-End Argument"</b>. TCP retries and DB transactions ensure reliability <em>within</em> each layer — but the gap between COMMIT and client acknowledgment is where duplicates sneak in. Only <b>application-level idempotency</b> solves it end-to-end.
  </div>
  </section>
+
+ <section class="slide" id="wrpath-lab-slide" style="padding: 12px 20px; text-align: left; align-items: stretch; justify-content: flex-start;">
+ <div style="max-width: 1100px; margin: 0 auto; width: 100%;">
+  <h2 style="margin: 0 0 8px 0;">⚖️ Write Path vs Read Path — Where Should the Work Happen?</h2>
+  <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 10px; flex-wrap: wrap;">
+   <b>Strategy:</b>
+   <select id="wr-strategy" onchange="wrUpdate()" style="padding: 4px; border: 2px solid #e2e8f0; border-radius: 6px; font-size: 0.76rem;">
+    <option value="write">Fan-out on Write (push)</option>
+    <option value="read">Fan-out on Read (pull)</option>
+    <option value="hybrid" selected>Hybrid (Twitter approach)</option>
+   </select>
+   <b style="margin-left: 8px;">Followers:</b>
+   <input id="wr-followers" type="range" min="100" max="10000000" value="500" oninput="wrUpdate()" style="width: 100px;">
+   <span id="wr-followers-val" style="min-width: 50px; font-size: 0.75rem;">500</span>
+  </div>
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 10px;">
+   <div id="wr-write" style="border: 3px solid #3b82f6; border-radius: 10px; padding: 10px; background: #eff6ff;">
+    <div style="font-weight: 700; font-size: 0.82rem; margin-bottom: 6px;">📝 Write Path (user posts a tweet)</div>
+    <div id="wr-write-detail" style="font-size: 0.72rem;"></div>
+   </div>
+   <div id="wr-read" style="border: 3px solid #22c55e; border-radius: 10px; padding: 10px; background: #f0fdf4;">
+    <div style="font-weight: 700; font-size: 0.82rem; margin-bottom: 6px;">👁️ Read Path (follower opens timeline)</div>
+    <div id="wr-read-detail" style="font-size: 0.72rem;"></div>
+   </div>
+  </div>
+  <div id="wr-meters" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;"></div>
+  <div id="wr-verdict" style="margin-top: 8px; padding: 6px 12px; border-radius: 6px; font-size: 0.78rem; text-align: center;"></div>
+  <div style="margin-top: 8px; padding: 8px 12px; background: #e0f2fe; border-left: 4px solid #0284c7; border-radius: 0 8px 8px 0; font-size: 0.7rem;" class="tip-box">
+   💡 Based on <b>§12.1 "Derived Data."</b> Twitter's home timeline is a cache of tweets precomputed at write time for most users. But celebrities with millions of followers use fan-out on read — the write cost would be too high. This <b>hybrid</b> approach is the sweet spot.
+  </div>
+ </div>
+ </section>
+
  <!-- 41. Section: Summary -->
  <section class="slide section-header">
  <h2>Summary</h2>
@@ -3108,7 +3141,52 @@ COMMIT;</pre>
  else{r.style.background='#ffebee';r.style.border='2px solid #ef5350';r.innerHTML='💥 Alice: $78, Bob: $22 — WRONG! $11 was transferred twice. DB transactions didn\'t help.';}
  }
  }
+ // === Write Path vs Read Path ===
+ function wrUpdate(){
+  const s=document.getElementById('wr-strategy').value;
+  const f=parseInt(document.getElementById('wr-followers').value);
+  const following=200; // fixed: user follows 200 people
+  document.getElementById('wr-followers-val').textContent=f>=1000000?(f/1000000).toFixed(1)+'M':f>=1000?(f/1000).toFixed(0)+'K':f;
+  let wOps,rOps,wDesc,rDesc,wLat,rLat,storage;
+  if(s==='write'){
+   wOps=1+f;rOps=1;
+   wDesc='Write tweet → push copy to <b>'+wrFmt(f)+'</b> followers\' timeline caches';
+   rDesc='Read pre-built timeline cache — <b>1 lookup</b>';
+   wLat=f>100000?'⚠️ Very High':'Low';rLat='⚡ Very Fast';
+   storage=f;
+  }else if(s==='read'){
+   wOps=1;rOps=following;
+   wDesc='Write tweet to own posts table — <b>1 write</b>';
+   rDesc='Fetch latest from <b>'+following+'</b> followed users, merge & sort';
+   wLat='⚡ Very Fast';rLat='🐢 Slow ('+following+' reads + merge)';
+   storage=1;
+  }else{
+   const celeb=f>10000;
+   if(celeb){wOps=1;rOps=1+1;wDesc='Celebrity detected ('+wrFmt(f)+' followers) → write to own posts only, <b>1 write</b>';rDesc='Read timeline cache + merge <b>celebrity feeds</b> on the fly';wLat='⚡ Fast';rLat='Fast (cache + small merge)';}
+   else{wOps=1+f;rOps=1;wDesc='Normal user ('+wrFmt(f)+' followers) → push to <b>'+wrFmt(f)+'</b> timeline caches';rDesc='Read pre-built timeline — <b>1 lookup</b>';wLat='Low';rLat='⚡ Very Fast';}
+   storage=celeb?1:f;
+  }
+  document.getElementById('wr-write-detail').innerHTML='<div>'+wDesc+'</div><div style="margin-top:6px;"><b>Operations:</b> '+wrFmt(wOps)+'</div><div><b>Latency:</b> '+wLat+'</div>';
+  document.getElementById('wr-read-detail').innerHTML='<div>'+rDesc+'</div><div style="margin-top:6px;"><b>Operations:</b> '+wrFmt(rOps)+'</div><div><b>Latency:</b> '+rLat+'</div>';
+  // Meters
+  const maxOps=Math.max(wOps,rOps,1);
+  const wPct=Math.min(wOps/maxOps*100,100),rPct=Math.min(rOps/maxOps*100,100);
+  document.getElementById('wr-meters').innerHTML=
+   '<div style="text-align:center;"><div style="font-size:0.7rem;font-weight:700;margin-bottom:4px;">Write Cost</div><div style="background:#e2e8f0;border-radius:6px;height:24px;overflow:hidden;"><div style="width:'+wPct+'%;height:100%;background:#3b82f6;transition:width 0.3s;border-radius:6px;"></div></div><div style="font-size:0.65rem;margin-top:2px;">'+wrFmt(wOps)+' ops</div></div>'+
+   '<div style="text-align:center;"><div style="font-size:0.7rem;font-weight:700;margin-bottom:4px;">Read Cost</div><div style="background:#e2e8f0;border-radius:6px;height:24px;overflow:hidden;"><div style="width:'+rPct+'%;height:100%;background:#22c55e;transition:width 0.3s;border-radius:6px;"></div></div><div style="font-size:0.65rem;margin-top:2px;">'+wrFmt(rOps)+' ops</div></div>'+
+   '<div style="text-align:center;"><div style="font-size:0.7rem;font-weight:700;margin-bottom:4px;">Storage Copies</div><div style="background:#e2e8f0;border-radius:6px;height:24px;overflow:hidden;"><div style="width:'+Math.min(storage/maxOps*100,100)+'%;height:100%;background:#f59e0b;transition:width 0.3s;border-radius:6px;"></div></div><div style="font-size:0.65rem;margin-top:2px;">'+wrFmt(storage)+' copies</div></div>';
+  const isCeleb=f>10000;
+  const v=document.getElementById('wr-verdict');
+  if(s==='write'&&isCeleb){v.innerHTML='⚠️ Fan-out on write with <b>'+wrFmt(f)+'</b> followers is extremely expensive — one tweet triggers '+wrFmt(f)+' writes!';v.style.background='#fee2e2';}
+  else if(s==='read'){v.innerHTML='🐢 Fan-out on read: writes are cheap but <b>every timeline read</b> must fetch and merge '+following+' feeds';v.style.background='#fef3c7';}
+  else if(s==='hybrid'&&isCeleb){v.innerHTML='✅ Hybrid: celebrity tweets are <b>not fanned out</b> — merged at read time only for followers who open their timeline';v.style.background='#dcfce7';}
+  else if(s==='hybrid'){v.innerHTML='✅ Hybrid: normal user tweets pushed to '+wrFmt(f)+' followers — fast reads, manageable write cost';v.style.background='#dcfce7';}
+  else{v.innerHTML='✅ Fan-out on write with '+wrFmt(f)+' followers — fast reads, reasonable write cost';v.style.background='#dcfce7';}
+ }
+ function wrFmt(n){return n>=1000000?(n/1000000).toFixed(1)+'M':n>=1000?(n/1000).toFixed(0)+'K':n.toString();}
+
  dupReset();
+ wrUpdate();
 
  update();
  </script>

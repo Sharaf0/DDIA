@@ -1213,7 +1213,40 @@ AND content='old';</div>
  </div>
  </section>
 
- <!-- 37. Section: Summary -->
+ <section class="slide" id="writeskew-lab-slide" style="padding: 12px 20px; text-align: left; align-items: stretch; justify-content: flex-start;">
+ <div style="max-width: 1100px; margin: 0 auto; width: 100%;">
+  <h2 style="margin: 0 0 8px 0;">✍️ Write Skew — The Sneakiest Anomaly</h2>
+  <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 10px; flex-wrap: wrap;">
+   <b>Isolation:</b>
+   <select id="ws-mode" onchange="wsReset()" style="padding: 4px; border: 2px solid #e2e8f0; border-radius: 6px; font-size: 0.76rem;">
+    <option value="snapshot">Snapshot Isolation</option>
+    <option value="serializable">Serializable (SSI)</option>
+   </select>
+   <button id="ws-step-btn" onclick="wsDoStep()" style="padding: 5px 14px; background: var(--accent); color: white; border: none; border-radius: 6px; font-size: 0.75rem; font-weight: 700; cursor: pointer;">Step ▶</button>
+   <button onclick="wsReset()" style="padding: 5px; background: #f1f5f9; color: var(--text); border: 2px solid #e2e8f0; border-radius: 6px; font-size: 0.75rem; font-weight: 600; cursor: pointer;">Reset 🔄</button>
+  </div>
+  <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 10px;">
+   <div id="ws-t1" style="border: 3px solid #3b82f6; border-radius: 10px; padding: 10px; background: #eff6ff; text-align: center;">
+    <div style="font-weight: 700; font-size: 0.85rem;">🩺 T1: Dr. Alice</div>
+    <div id="ws-t1-status" style="font-family: monospace; font-size: 0.72rem; margin-top: 6px; min-height: 36px;"></div>
+   </div>
+   <div id="ws-db" style="border: 3px solid #e2e8f0; border-radius: 10px; padding: 10px; background: #f8fafc; text-align: center;">
+    <div style="font-weight: 700; font-size: 0.85rem;">🏥 On-Call Roster</div>
+    <div id="ws-db-state" style="margin-top: 6px;"></div>
+   </div>
+   <div id="ws-t2" style="border: 3px solid #8b5cf6; border-radius: 10px; padding: 10px; background: #f5f3ff; text-align: center;">
+    <div style="font-weight: 700; font-size: 0.85rem;">🩺 T2: Dr. Bob</div>
+    <div id="ws-t2-status" style="font-family: monospace; font-size: 0.72rem; margin-top: 6px; min-height: 36px;"></div>
+   </div>
+  </div>
+  <div id="ws-log" style="background: #1e293b; color: #e2e8f0; border-radius: 8px; padding: 8px 12px; font-family: monospace; font-size: 0.72rem; min-height: 60px; max-height: 140px; overflow-y: auto;"></div>
+  <div style="margin-top: 8px; padding: 8px 12px; background: #e0f2fe; border-left: 4px solid #0284c7; border-radius: 0 8px 8px 0; font-size: 0.7rem;" class="tip-box">
+   💡 Based on the <b>hospital on-call</b> example (§7.2.4). Write skew: two transactions read the same rows, then update <i>different</i> rows based on what they read. Neither write conflicts with the other, so snapshot isolation allows both. Only <b>serializable</b> isolation (SSI or 2PL) prevents this.
+  </div>
+ </div>
+ </section>
+
+ <!-- 38. Section: Summary -->
  <section class="slide section-header">
  <h2>Summary</h2>
  <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">Race conditions, isolation levels, and serializability</p>
@@ -3228,7 +3261,55 @@ AND content='old';</div>
   }
  }
 
+ // === Write Skew Lab ===
+ let wsIdx=0,wsData=[];
+ function wsReset(){
+  wsIdx=0;
+  const ser=document.getElementById('ws-mode').value==='serializable';
+  wsData=[
+   {t1:'🟡 BEGIN',t2:'⏳ idle',a:true,b:true,log:'📝 T1 (Dr. Alice): BEGIN transaction'},
+   {t1:'📖 SELECT count(*) WHERE on_call=true → <b>2</b>',t2:'⏳ idle',a:true,b:true,log:'📖 T1 reads: 2 doctors on call — "safe for me to leave"'},
+   {t1:'✓ count=2',t2:'🟡 BEGIN',a:true,b:true,log:'📝 T2 (Dr. Bob): BEGIN transaction'},
+   {t1:'✓ count=2',t2:'📖 SELECT count(*) WHERE on_call=true → <b>2</b>',a:true,b:true,log:'📖 T2 reads: 2 doctors on call — same snapshot! "safe for me to leave"'},
+   {t1:'✏️ UPDATE alice SET on_call=false',t2:'✓ count=2',a:false,b:true,log:'✏️ T1: sets Alice = off call (count was 2, still ≥ 1 remaining)'},
+  ];
+  if(!ser){
+   wsData.push(
+    {t1:'✅ COMMIT',t2:'✏️ UPDATE bob SET on_call=false',a:false,b:false,log:'✏️ T2: sets Bob = off call (snapshot still shows count=2)'},
+    {t1:'✅ done',t2:'✅ COMMIT',a:false,b:false,log:'💥 Both committed! 0 doctors on call! Nobody covers emergencies!'}
+   );
+  } else {
+   wsData.push(
+    {t1:'✅ COMMIT',t2:'✏️ UPDATE bob SET on_call=false',a:false,b:true,log:'🔍 SSI: T2\'s read (count=2) conflicts with T1\'s committed write on same rows'},
+    {t1:'✅ done',t2:'❌ ABORT — stale read!',a:false,b:true,log:'❌ T2 aborted! SSI detected the premise "count ≥ 2" is no longer true'},
+    {t1:'✅ done',t2:'🔄 Retry: count=1 → must stay!',a:false,b:true,log:'✅ T2 retries: reads count=1 → "I\'m the only one — I must stay!" Hospital safe.'}
+   );
+  }
+  wsRender();
+ }
+ function wsDoStep(){if(wsIdx<wsData.length)wsIdx++;wsRender();}
+ function wsRender(){
+  const s=wsIdx>0?wsData[wsIdx-1]:{a:true,b:true,t1:'⏳ idle',t2:'⏳ idle'};
+  document.getElementById('ws-t1-status').innerHTML=s.t1;
+  document.getElementById('ws-t2-status').innerHTML=s.t2;
+  const cnt=(s.a?1:0)+(s.b?1:0);
+  document.getElementById('ws-db-state').innerHTML=
+   '<div style="margin:4px 0;font-size:0.95rem;">'+(s.a?'🟢':'🔴')+' Alice: <b>'+(s.a?'ON CALL':'off call')+'</b></div>'+
+   '<div style="margin:4px 0;font-size:0.95rem;">'+(s.b?'🟢':'🔴')+' Bob: <b>'+(s.b?'ON CALL':'off call')+'</b></div>'+
+   '<div style="margin-top:6px;padding:4px 8px;background:'+(cnt===0?'#fee2e2':cnt===1?'#fef3c7':'#dcfce7')+';border-radius:4px;font-weight:bold;">On call: '+cnt+'</div>';
+  let lg='';
+  for(let i=0;i<wsIdx;i++){
+   const c=wsData[i].log;const bg=c.includes('💥')?'#fee2e2':c.includes('❌')?'#fef3c7':(c.includes('safe')||c.includes('Safe'))?'#dcfce7':'';
+   lg+='<div style="padding:2px 6px;'+(bg?'background:'+bg+';border-radius:4px;':'')+'">'+c+'</div>';
+  }
+  document.getElementById('ws-log').innerHTML=lg;
+  document.getElementById('ws-step-btn').disabled=wsIdx>=wsData.length;
+  const done=wsIdx>=wsData.length,bad=done&&document.getElementById('ws-mode').value==='snapshot';
+  document.getElementById('ws-db').style.borderColor=done?(bad?'#ef4444':'#22c55e'):'#e2e8f0';
+ }
+
  isoReset();
+ wsReset();
 
  update();
  </script>

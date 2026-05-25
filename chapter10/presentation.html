@@ -1288,6 +1288,25 @@ end</div>
  💡 Based on <b>Ch10 opening example</b>. The same URL-counting task expressed as a Unix pipe chain and as a MapReduce workflow.
  </div>
  </section>
+
+ <section class="slide" id="straggler-lab-slide" style="padding: 12px 20px; text-align: left; align-items: stretch; justify-content: flex-start;">
+ <div style="max-width: 1100px; margin: 0 auto; width: 100%;">
+  <h2 style="margin: 0 0 8px 0;">⏱️ Straggler — When One Reducer Ruins Everything</h2>
+  <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 10px; flex-wrap: wrap;">
+   <b>Hot key %:</b>
+   <input id="sg-skew" type="range" min="0" max="80" value="60" oninput="sgRun()" style="width: 120px;">
+   <span id="sg-skew-val" style="min-width: 32px;">60%</span>
+   <label style="font-size: 0.75rem; margin-left: 10px; cursor: pointer;"><input id="sg-fix" type="checkbox" onchange="sgRun()"> 🔧 Hot key mitigation (split across reducers)</label>
+   <button onclick="sgRun()" style="padding: 5px 14px; background: var(--accent); color: white; border: none; border-radius: 6px; font-size: 0.75rem; font-weight: 700; cursor: pointer;">Run Job 🚀</button>
+  </div>
+  <div id="sg-gantt" style="background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 10px; padding: 12px;"></div>
+  <div id="sg-result" style="margin-top: 8px; padding: 6px 12px; border-radius: 6px; font-family: monospace; text-align: center;"></div>
+  <div style="margin-top: 8px; padding: 8px 12px; background: #e0f2fe; border-left: 4px solid #0284c7; border-radius: 0 8px 8px 0; font-size: 0.7rem;" class="tip-box">
+   💡 Based on <b>§10.3 "Handling Skew."</b> A celebrity's key can route most records to one reducer, making it a <b>straggler</b> — the entire job waits for the slowest task. Mitigation: split the hot key across multiple reducers with random suffixes, then merge results in a second pass.
+  </div>
+ </div>
+ </section>
+
  <!-- 37. Section: Summary -->
  <section class="slide section-header">
  <h2>Summary</h2>
@@ -3091,7 +3110,47 @@ end</div>
  document.getElementById('mr-mr-data').innerHTML='<div style="color:#999;">Click Step ▶ to begin</div>';
  document.getElementById('mr-insight').style.display='none';}
  }
+ // === Straggler Simulator ===
+ function sgRun(){
+  const skew=parseInt(document.getElementById('sg-skew').value);
+  const fix=document.getElementById('sg-fix').checked;
+  document.getElementById('sg-skew-val').textContent=skew+'%';
+  const total=1000,nR=4;
+  const hot=Math.floor(total*skew/100),cold=total-hot;
+  let loads;
+  if(!fix){
+   const perR=Math.floor(cold/nR);
+   loads=[hot+perR,perR,perR,perR];
+   loads[0]+=cold-perR*nR;
+  } else {
+   const perR=Math.floor(total/nR);
+   loads=[perR,perR,perR,perR];
+   loads[0]+=total-perR*nR;
+  }
+  const maxL=Math.max(...loads);
+  const colors=['#ef4444','#3b82f6','#22c55e','#f59e0b'];
+  let html='';
+  for(let i=0;i<nR;i++){
+   const pct=maxL>0?(loads[i]/maxL*100):0;
+   const strag=!fix&&i===0&&skew>20;
+   html+='<div style="display:flex;align-items:center;margin:6px 0;">'+
+    '<span style="width:90px;font-size:0.78rem;font-weight:600;">Reducer '+i+'</span>'+
+    '<div style="flex:1;background:#f1f5f9;border-radius:6px;height:32px;position:relative;overflow:hidden;">'+
+    '<div style="width:'+pct+'%;height:100%;background:'+colors[i]+';border-radius:6px;transition:width 0.5s;opacity:0.8;"></div>'+
+    '<span style="position:absolute;right:8px;top:6px;font-size:0.72rem;font-weight:600;">'+loads[i]+' records</span>'+
+    '</div>'+(strag?'<span style="margin-left:8px;font-size:0.85rem;">🐢 straggler!</span>':'')+'</div>';
+  }
+  document.getElementById('sg-gantt').innerHTML=html;
+  const wall=maxL,ideal=Math.ceil(total/nR);
+  const ratio=(wall/ideal).toFixed(1);
+  const bad=parseFloat(ratio)>1.5;
+  document.getElementById('sg-result').innerHTML=
+   '<span style="font-size:0.82rem;">Wall time: <b>'+wall+'</b> units | Ideal: <b>'+ideal+'</b> units | Slowdown: <b style="color:'+(bad?'#ef4444':'#22c55e')+'">'+ratio+'x</b> '+(bad?'— 🐢 Job bottlenecked by straggler!':'— ✅ Well balanced')+'</span>';
+  document.getElementById('sg-result').style.background=bad?'#fee2e2':'#dcfce7';
+ }
+
  mrReset();
+ sgRun();
 
  update();
  </script>
