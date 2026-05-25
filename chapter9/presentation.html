@@ -1130,6 +1130,29 @@
 </div>
  <p style="margin-top: 15px;">ZooKeeper runs on 3-5 nodes, supports thousands of clients. Don't implement consensus yourself — use ZooKeeper/etcd!</p>
  </section>
+ <!-- Lab: Linearizability Inspector -->
+ <section class="slide content-slide" id="linearizability-lab-slide">
+ <h2 style="margin-bottom:4px;">🔬 Linearizability Inspector — Spot the Violation</h2>
+ <div style="display:flex;gap:10px;align-items:center;margin:6px 0;flex-wrap:wrap;">
+ <label><b>Scenario:</b></label>
+ <select id="lin-scenario" onchange="linReset()" style="padding:5px 8px;border-radius:6px;border:2px solid #1976d2;font-size:0.82rem;">
+ <option value="sequential">1. Sequential Reads</option>
+ <option value="concurrent">2. Concurrent Overlap</option>
+ <option value="recency">3. Recency Violation</option>
+ <option value="aliceBob">4. Alice &amp; Bob World Cup (Fig 9-1)</option>
+ </select>
+ <button onclick="linCheck()" style="padding:7px 16px;background:#43a047;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:700;font-size:0.85rem;">Check Linearizability ✓</button>
+ <button onclick="linReset()" style="padding:7px 12px;background:#eee;border:1px solid #ccc;border-radius:8px;cursor:pointer;font-size:0.85rem;">Reset 🔄</button>
+ </div>
+ <div style="background:#f5f5f5;padding:6px 12px;border-radius:8px;display:inline-block;font-size:0.85rem;">Register <b>x</b> initially = <span id="lin-init-val" style="font-family:monospace;color:#1976d2;font-weight:700;">0</span></div>
+ <div style="background:#fff;border:2px solid #e0e0e0;border-radius:10px;padding:8px;margin-top:4px;overflow-x:auto;">
+ <svg id="lin-svg" width="100%" height="230" style="display:block;"></svg>
+ </div>
+ <div id="lin-result" style="display:none;margin-top:6px;padding:10px 14px;border-radius:8px;font-size:0.85rem;line-height:1.5;"></div>
+ <div style="background:#f0f7e6;border:1px solid #c5e1a5;border-radius:8px;padding:6px 10px;margin-top:4px;font-size:0.78rem;">
+ 💡 Based on <b>Figs 9-1 to 9-4</b>. A system is <em>linearizable</em> if every operation appears to take effect atomically at some point between its invocation and response. Orange dots show valid linearization points.
+ </div>
+ </section>
  <!-- 35. Section: Summary -->
  <section class="slide section-header">
  <h2>Summary</h2>
@@ -2875,6 +2898,7 @@
 
  presentation.addEventListener('touchcancel', resetSwipe, { passive: true });
  window.addEventListener('keydown', (e) => {
+ if (e.target.matches('input, textarea, select')) return;
  if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'ArrowDown') nextSlide();
  if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') prevSlide();
  if (e.key >= '0' && e.key <= '9') { currentSlide = Math.floor(totalSlides * (parseInt(e.key) / 10)); update(); }
@@ -2889,6 +2913,72 @@
  const exp = e.parentElement.querySelector('.quiz-explanation');
  if (!ok) exp.classList.add('incorrect'); else exp.classList.remove('incorrect');
  }
+
+ // --- Linearizability Inspector Lab ---
+ const linScenarios = {
+ sequential: { title:'Sequential Reads', init:0, clients:['Writer','Reader A','Reader B'],
+ ops:[{cl:0,type:'w',s:20,e:40,label:'write(x, 1)'},{cl:1,type:'r',s:5,e:15,label:'read(x) → 0'},{cl:2,type:'r',s:45,e:60,label:'read(x) → 1'}],
+ ok:true, points:[{op:1,t:10},{op:0,t:30},{op:2,t:52}],
+ explanation:'All operations are sequential (non-overlapping). Reader A finishes before the write starts; Reader B starts after the write completes. Valid order: <b>read(A)→0, write(1), read(B)→1</b>.' },
+ concurrent: { title:'Concurrent Overlap', init:0, clients:['Writer','Reader A','Reader B'],
+ ops:[{cl:0,type:'w',s:15,e:45,label:'write(x, 1)'},{cl:1,type:'r',s:10,e:32,label:'read(x) → 0'},{cl:2,type:'r',s:28,e:52,label:'read(x) → 1'}],
+ ok:true, points:[{op:1,t:18},{op:0,t:35},{op:2,t:48}],
+ explanation:'Both reads overlap with the write, but each result is consistent. Reader A linearizes <em>before</em> the write takes effect; Reader B linearizes <em>after</em>. Valid order: <b>read(A)→0, write(1), read(B)→1</b>.' },
+ recency: { title:'Recency Violation', init:0, clients:['Writer','Reader A','Reader B','Reader C'],
+ ops:[{cl:0,type:'w',s:10,e:30,label:'write(x, 1)'},{cl:1,type:'r',s:18,e:35,label:'read(x) → 1'},{cl:2,type:'r',s:25,e:42,label:'read(x) → 1'},{cl:3,type:'r',s:44,e:60,label:'read(x) → 0'}],
+ ok:false, violationIdx:[3],
+ explanation:'Readers A and B both return x=1. Reader C starts at t=44 — <em>after</em> the write and all prior reads completed — yet returns x=0. <b>Once any read returns the new value, all subsequent reads must too.</b> No valid linearization exists.' },
+ aliceBob: { title:'Alice & Bob (Fig 9-1)', init:'"0-0"', clients:['Referee','Alice','Bob'],
+ ops:[{cl:0,type:'w',s:5,e:25,label:'set(score, "1-0")'},{cl:1,type:'r',s:15,e:30,label:'get(score) → "1-0"'},{cl:2,type:'r',s:35,e:55,label:'get(score) → "0-0"'}],
+ ok:false, violationIdx:[2],
+ explanation:'Alice sees "1-0" and tells Bob. Bob\'s read starts at t=35, <em>after</em> Alice\'s response at t=30. Under linearizability Bob must see "1-0" or later. Returning "0-0" means the database is <b>not linearizable</b> — Bob likely hit a stale replica.' }
+ };
+ let linChecked = false;
+ function linReset() {
+ linChecked = false;
+ const r = document.getElementById('lin-result'); r.style.display='none'; r.innerHTML='';
+ linDraw();
+ }
+ function linCheck() {
+ linChecked = true;
+ const sc = linScenarios[document.getElementById('lin-scenario').value];
+ const r = document.getElementById('lin-result'); r.style.display='block';
+ if (sc.ok) { r.style.background='#e8f5e9'; r.style.border='2px solid #66bb6a'; r.innerHTML='✅ <b>Linearizable!</b> '+sc.explanation; }
+ else { r.style.background='#ffebee'; r.style.border='2px solid #ef5350'; r.innerHTML='❌ <b>NOT Linearizable!</b> '+sc.explanation; }
+ linDraw();
+ }
+ function linDraw() {
+ const sc = linScenarios[document.getElementById('lin-scenario').value];
+ document.getElementById('lin-init-val').textContent = sc.init;
+ const svg = document.getElementById('lin-svg');
+ const W = svg.clientWidth || 900;
+ const ML=110,MR=20,MT=8,MB=24,rowH=48,barH=30;
+ const H = MT + sc.clients.length*rowH + MB;
+ svg.setAttribute('height', H);
+ const plotW = W-ML-MR, maxT = Math.max(...sc.ops.map(o=>o.e))+5;
+ const sx = t => ML+(t/maxT)*plotW;
+ let h = '<defs><marker id="linarr" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#999"/></marker></defs>';
+ for(let t=0;t<=maxT;t+=10){const x=sx(t);h+=`<line x1="${x}" y1="${MT}" x2="${x}" y2="${H-MB}" stroke="#f0f0f0"/>`;h+=`<text x="${x}" y="${H-6}" text-anchor="middle" font-size="10" fill="#aaa">t=${t}</text>`;}
+ h+=`<line x1="${ML}" y1="${H-MB}" x2="${W-MR}" y2="${H-MB}" stroke="#bbb" marker-end="url(#linarr)"/>`;
+ sc.clients.forEach((name,i)=>{const y=MT+i*rowH+rowH/2;h+=`<text x="${ML-8}" y="${y+4}" text-anchor="end" font-size="12" font-weight="bold" fill="#444">${name}</text>`;h+=`<line x1="${ML}" y1="${y}" x2="${W-MR}" y2="${y}" stroke="#f5f5f5" stroke-dasharray="4,3"/>`;});
+ sc.ops.forEach((op,idx)=>{
+ const cy=MT+op.cl*rowH+rowH/2, y=cy-barH/2, x1=sx(op.s), x2=sx(op.e), w=x2-x1;
+ const isV=linChecked&&!sc.ok&&sc.violationIdx&&sc.violationIdx.includes(idx);
+ let fill,stroke;
+ if(isV){fill='#ffcdd2';stroke='#e53935';}else if(op.type==='w'){fill='#e3f2fd';stroke='#1565c0';}else{fill='#e8f5e9';stroke='#2e7d32';}
+ h+=`<rect x="${x1}" y="${y}" width="${w}" height="${barH}" rx="6" fill="${fill}" stroke="${stroke}" stroke-width="2"/>`;
+ h+=`<text x="${x1+w/2}" y="${cy+4}" text-anchor="middle" font-size="11" fill="#333" font-family="monospace">${op.label}</text>`;
+ h+=`<circle cx="${x1}" cy="${cy}" r="3.5" fill="${stroke}"/><circle cx="${x2}" cy="${cy}" r="3.5" fill="${stroke}"/>`;
+ if(isV) h+=`<text x="${x2+6}" y="${cy+5}" font-size="15">❌</text>`;
+ });
+ if(linChecked&&sc.ok&&sc.points){
+ sc.points.forEach(pt=>{const op=sc.ops[pt.op],cy=MT+op.cl*rowH+rowH/2,y=cy-barH/2,px=sx(pt.t);h+=`<line x1="${px}" y1="${y-2}" x2="${px}" y2="${y+barH+2}" stroke="#ef6c00" stroke-width="2" stroke-dasharray="4,2"/>`;h+=`<circle cx="${px}" cy="${cy}" r="5" fill="#ef6c00" stroke="#fff" stroke-width="1.5"/>`;});
+ const sorted=[...sc.points].sort((a,b)=>a.t-b.t);
+ for(let i=0;i<sorted.length-1;i++){const a=sorted[i],b=sorted[i+1];h+=`<line x1="${sx(a.t)}" y1="${MT+sc.ops[a.op].cl*rowH+rowH/2}" x2="${sx(b.t)}" y2="${MT+sc.ops[b.op].cl*rowH+rowH/2}" stroke="#ef6c00" stroke-width="1.5" stroke-dasharray="6,3" opacity="0.5"/>`;}}
+ svg.innerHTML = h;
+ }
+ linReset();
+
  update();
  </script>
 </body>
