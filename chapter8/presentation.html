@@ -1172,6 +1172,60 @@ while (true) {
 </div>
 </div>
  </section>
+
+ <!-- Fencing Token Simulator -->
+ <section class="slide" id="fencing-lab-slide" style="padding: 12px 20px; text-align: left; align-items: stretch; justify-content: flex-start;">
+ <h2 style="font-size: 1.35rem; margin-bottom: 4px; text-align: center;">🔬 Fencing Token Simulator — Process Pauses & Stale Locks</h2>
+ <div style="display: flex; gap: 12px; height: calc(100vh - 55px);">
+  <!-- Controls -->
+  <div style="flex: 0 0 180px; display: flex; flex-direction: column; gap: 5px; font-size: 0.76rem;">
+   <label style="font-weight: 700;">Mode:</label>
+   <select id="fence-mode" onchange="fenceReset()" style="padding: 4px; border: 2px solid #e2e8f0; border-radius: 6px; font-size: 0.78rem;">
+    <option value="noFencing" selected>❌ Without Fencing</option>
+    <option value="withFencing">✅ With Fencing Tokens</option>
+   </select>
+
+   <button onclick="fenceStep()" id="fence-step-btn" style="margin-top: 6px; padding: 7px; background: var(--accent); color: white; border: none; border-radius: 6px; font-size: 0.8rem; font-weight: 600; cursor: pointer;">Step ▶</button>
+   <button onclick="fenceReset()" style="padding: 5px; background: #f1f5f9; color: var(--text); border: 2px solid #e2e8f0; border-radius: 6px; font-size: 0.75rem; font-weight: 600; cursor: pointer;">Reset 🔄</button>
+
+   <div id="fence-result" style="margin-top: 4px; padding: 8px; border-radius: 8px; font-size: 0.76rem; font-weight: 600; text-align: center; min-height: 38px;"></div>
+
+   <div id="fence-explain" style="margin-top: 2px; background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 8px; padding: 7px; font-size: 0.7rem; line-height: 1.45; flex: 1; overflow-y: auto;"></div>
+
+   <div style="margin-top: auto; font-size: 0.68rem; line-height: 1.5; background: #fffbeb; border: 1px solid #fcd34d; border-radius: 6px; padding: 7px;">
+    💡 Based on <strong>Figs 8-4 & 8-5</strong>. A GC pause makes Client 1 think it still holds the lock, but the lease has expired.
+   </div>
+  </div>
+
+  <!-- Main visualization -->
+  <div style="flex: 1; display: flex; flex-direction: column; gap: 6px; min-width: 0;">
+   <!-- Components row -->
+   <div style="display: flex; gap: 8px;">
+    <div style="flex: 1; background: #dbeafe; border: 2px solid #3b82f6; border-radius: 8px; padding: 6px 10px; text-align: center;">
+     <div style="font-weight: 700; font-size: 0.85rem;">Client 1</div>
+     <div id="fence-c1" style="font-size: 0.72rem; margin-top: 3px;"></div>
+    </div>
+    <div style="flex: 1; background: #d1fae5; border: 2px solid #10b981; border-radius: 8px; padding: 6px 10px; text-align: center;">
+     <div style="font-weight: 700; font-size: 0.85rem;">Client 2</div>
+     <div id="fence-c2" style="font-size: 0.72rem; margin-top: 3px;"></div>
+    </div>
+    <div style="flex: 1; background: #fef3c7; border: 2px solid #f59e0b; border-radius: 8px; padding: 6px 10px; text-align: center;">
+     <div style="font-weight: 700; font-size: 0.85rem;">Lock Service</div>
+     <div id="fence-lock" style="font-size: 0.72rem; margin-top: 3px;"></div>
+    </div>
+    <div style="flex: 1; background: #f3e8ff; border: 2px solid #8b5cf6; border-radius: 8px; padding: 6px 10px; text-align: center;">
+     <div style="font-weight: 700; font-size: 0.85rem;">Storage</div>
+     <div id="fence-storage" style="font-size: 0.72rem; margin-top: 3px;"></div>
+    </div>
+   </div>
+   <!-- Event timeline -->
+   <div style="flex: 1; background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 8px; padding: 8px; overflow-y: auto;">
+    <div id="fence-timeline" style="font-family: monospace; font-size: 0.76rem; line-height: 1.8;"></div>
+   </div>
+  </div>
+ </div>
+ </section>
+
  <!-- 35. Section: Summary -->
  <section class="slide section-header">
  <h2>Summary</h2>
@@ -2896,6 +2950,7 @@ while (true) {
 
  presentation.addEventListener('touchcancel', resetSwipe, { passive: true });
  window.addEventListener('keydown', (e) => {
+ if (e.target.matches('input, textarea, select')) return;
  if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'ArrowDown') nextSlide();
  if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') prevSlide();
  if (e.key >= '0' && e.key <= '9') { currentSlide = Math.floor(totalSlides * (parseInt(e.key) / 10)); update(); }
@@ -2910,6 +2965,90 @@ while (true) {
  const exp = e.parentElement.querySelector('.quiz-explanation');
  if (!ok) exp.classList.add('incorrect'); else exp.classList.remove('incorrect');
  }
+
+ /* ───── Fencing Token Simulator ───── */
+ const fenceScenarios = {
+  noFencing: [
+   { c1: 'Acquiring lock...', c2: 'Idle', lock: 'Lease → Client 1', storage: 'file: [empty]', ev: '🔵 Client 1 acquires lock lease', color: '#3b82f6' },
+   { c1: 'Writing to file...', c2: 'Idle', lock: 'Lease: Client 1', storage: 'file: data_v1', ev: '🔵 Client 1 begins writing data_v1', color: '#3b82f6' },
+   { c1: '⏸️ GC PAUSE!', c2: 'Idle', lock: 'Lease: Client 1', storage: 'file: data_v1', ev: '⚠️ Client 1 enters long GC pause (stop-the-world)', color: '#f59e0b', highlight: true },
+   { c1: '⏸️ Still paused...', c2: 'Idle', lock: '⏰ Lease EXPIRED', storage: 'file: data_v1', ev: '⏰ Client 1\'s lease expires (Client 1 doesn\'t know!)', color: '#ef4444', highlight: true },
+   { c1: '⏸️ Still paused...', c2: 'Acquiring lock...', lock: 'Lease → Client 2', storage: 'file: data_v1', ev: '🟢 Client 2 acquires lock (lease was free)', color: '#10b981' },
+   { c1: '⏸️ Still paused...', c2: 'Writing to file...', lock: 'Lease: Client 2', storage: 'file: data_v2', ev: '🟢 Client 2 writes data_v2', color: '#10b981' },
+   { c1: '⏸️ Still paused...', c2: 'Done ✅', lock: 'Lease: Client 2', storage: 'file: data_v2', ev: '🟢 Client 2 releases lock', color: '#10b981' },
+   { c1: 'Resuming... (thinks it has lock)', c2: 'Done ✅', lock: 'Lease: Client 2', storage: 'file: data_v2', ev: '🔵 Client 1 resumes from GC pause — believes it still has the lock!', color: '#3b82f6', highlight: true },
+   { c1: 'Writing stale data!', c2: 'Done ✅', lock: 'Lease: Client 2', storage: '💥 file: data_v1_STALE', ev: '💥 Client 1 overwrites file with stale data_v1 — DATA CORRUPTED!', color: '#ef4444', highlight: true, corrupt: true }
+  ],
+  withFencing: [
+   { c1: 'Acquiring lock...', c2: 'Idle', lock: 'Token #33 → Client 1', storage: 'file: [empty] (last token: 0)', ev: '🔵 Client 1 acquires lock with fencing token #33', color: '#3b82f6' },
+   { c1: 'Writing (token #33)', c2: 'Idle', lock: 'Token #33: Client 1', storage: 'file: data_v1 (last token: 33)', ev: '🔵 Client 1 writes data_v1 with token #33 → storage accepts (33 > 0)', color: '#3b82f6' },
+   { c1: '⏸️ GC PAUSE!', c2: 'Idle', lock: 'Token #33: Client 1', storage: 'file: data_v1 (last token: 33)', ev: '⚠️ Client 1 enters long GC pause', color: '#f59e0b', highlight: true },
+   { c1: '⏸️ Still paused...', c2: 'Idle', lock: '⏰ Lease EXPIRED', storage: 'file: data_v1 (last token: 33)', ev: '⏰ Client 1\'s lease expires', color: '#ef4444', highlight: true },
+   { c1: '⏸️ Still paused...', c2: 'Acquiring lock...', lock: 'Token #34 → Client 2', storage: 'file: data_v1 (last token: 33)', ev: '🟢 Client 2 acquires lock with fencing token #34', color: '#10b981' },
+   { c1: '⏸️ Still paused...', c2: 'Writing (token #34)', lock: 'Token #34: Client 2', storage: 'file: data_v2 (last token: 34)', ev: '🟢 Client 2 writes data_v2 with token #34 → storage accepts (34 > 33)', color: '#10b981' },
+   { c1: '⏸️ Still paused...', c2: 'Done ✅', lock: 'Token #34: Client 2', storage: 'file: data_v2 (last token: 34)', ev: '🟢 Client 2 releases lock', color: '#10b981' },
+   { c1: 'Resuming... (token #33)', c2: 'Done ✅', lock: 'Token #34: Client 2', storage: 'file: data_v2 (last token: 34)', ev: '🔵 Client 1 resumes — tries to write with stale token #33', color: '#3b82f6', highlight: true },
+   { c1: '🚫 Write REJECTED', c2: 'Done ✅', lock: 'Token #34: Client 2', storage: '✅ file: data_v2 (last token: 34)', ev: '🛡️ Storage REJECTS write — token #33 < last seen #34. Data SAFE!', color: '#22c55e', highlight: true, safe: true }
+  ]
+ };
+
+ let fenceStep_i = 0;
+
+ function fenceReset() {
+  fenceStep_i = 0;
+  document.getElementById('fence-step-btn').disabled = false;
+  document.getElementById('fence-result').innerHTML = '';
+  document.getElementById('fence-result').style.background = '';
+  document.getElementById('fence-result').style.border = '';
+  document.getElementById('fence-c1').textContent = 'Idle';
+  document.getElementById('fence-c2').textContent = 'Idle';
+  document.getElementById('fence-lock').textContent = 'No active lease';
+  document.getElementById('fence-storage').textContent = 'file: [empty]';
+  document.getElementById('fence-timeline').innerHTML = '';
+  const mode = document.getElementById('fence-mode').value;
+  document.getElementById('fence-explain').innerHTML = mode === 'noFencing'
+   ? '<strong>Without Fencing Tokens</strong><br><br>The lock service grants leases but storage has <em>no way to verify</em> the lock. A paused client resumes and overwrites newer data.<br><br><span style="color:#ef4444;font-weight:700;">→ Data corruption!</span>'
+   : '<strong>With Fencing Tokens</strong><br><br>Each lock grant includes a monotonically increasing <em>fencing token</em>. Storage rejects writes with tokens older than the last seen.<br><br><span style="color:#22c55e;font-weight:700;">→ Stale writes rejected safely!</span>';
+ }
+
+ function fenceStep() {
+  const mode = document.getElementById('fence-mode').value;
+  const steps = fenceScenarios[mode];
+  if (fenceStep_i >= steps.length) return;
+
+  const s = steps[fenceStep_i];
+  document.getElementById('fence-c1').innerHTML = s.c1;
+  document.getElementById('fence-c2').innerHTML = s.c2;
+  document.getElementById('fence-lock').innerHTML = s.lock;
+  document.getElementById('fence-storage').innerHTML = s.storage;
+
+  // Color the storage box on corruption/safety
+  const storageEl = document.getElementById('fence-storage').parentElement;
+  if (s.corrupt) { storageEl.style.background = '#fee2e2'; storageEl.style.borderColor = '#ef4444'; }
+  else if (s.safe) { storageEl.style.background = '#dcfce7'; storageEl.style.borderColor = '#22c55e'; }
+  else { storageEl.style.background = '#f3e8ff'; storageEl.style.borderColor = '#8b5cf6'; }
+
+  const timeline = document.getElementById('fence-timeline');
+  const bg = s.highlight ? (s.corrupt ? '#fee2e2' : s.safe ? '#dcfce7' : '#fffbeb') : 'transparent';
+  const border = s.highlight ? `2px solid ${s.color}` : 'none';
+  timeline.innerHTML += `<div style="padding:3px 8px; border-radius:4px; background:${bg}; border:${border}; margin-bottom:3px; color:${s.color};">${s.ev}</div>`;
+
+  fenceStep_i++;
+  if (fenceStep_i >= steps.length) {
+   document.getElementById('fence-step-btn').disabled = true;
+   const res = document.getElementById('fence-result');
+   if (mode === 'noFencing') {
+    res.innerHTML = '💥 DATA CORRUPTED';
+    res.style.background = '#fee2e2'; res.style.border = '2px solid #ef4444';
+   } else {
+    res.innerHTML = '🛡️ DATA PROTECTED';
+    res.style.background = '#dcfce7'; res.style.border = '2px solid #22c55e';
+   }
+  }
+ }
+
+ fenceReset();
+
  update();
  </script>
 </body>
