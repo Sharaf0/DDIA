@@ -1268,6 +1268,32 @@ COMMIT;</pre>
 </div>
  <p style="margin-top: 15px;">It took decades for environmental regulations, workplace safety, and child labor laws. We need the <strong>equivalent safeguards</strong> for the information age.</p>
  </section>
+ <!-- Lab: End-to-End Duplicate Slayer -->
+ <section class="slide content-slide" id="dedup-lab-slide">
+ <h2 style="margin-bottom:4px;">🛡️ End-to-End Duplicate Slayer — Why Transactions Aren't Enough</h2>
+ <div style="display:flex;gap:10px;align-items:center;margin:4px 0;flex-wrap:wrap;font-size:0.85rem;">
+ <label style="background:#fff3e0;padding:4px 10px;border-radius:6px;border:1px solid #ffcc80;cursor:pointer;"><input type="checkbox" id="dup-idemp" onchange="dupReset()" style="margin-right:4px;"> 🔑 <b>Idempotency Key</b></label>
+ <button id="dup-step-btn" onclick="dupStep()" style="padding:6px 16px;background:#e65100;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:700;">Step ▶</button>
+ <button onclick="dupReset()" style="padding:6px 12px;background:#eee;border:1px solid #ccc;border-radius:8px;cursor:pointer;">Reset 🔄</button>
+ <span style="color:#888;font-size:0.8rem;">Scenario: Transfer <b>$11</b> from Alice to Bob</span>
+ </div>
+ <div style="display:flex;gap:10px;margin-top:4px;">
+ <div style="flex:1.2;">
+ <div style="display:flex;gap:8px;margin-bottom:6px;">
+ <div id="dup-client" style="flex:1;padding:8px;border-radius:8px;border:2px solid #1565c0;background:#e3f2fd;text-align:center;font-size:0.78rem;"><b>Client</b><br>Ready</div>
+ <div style="display:flex;align-items:center;font-size:1.2rem;color:#999;">→</div>
+ <div id="dup-server" style="flex:1;padding:8px;border-radius:8px;border:2px solid #2e7d32;background:#e8f5e9;text-align:center;font-size:0.78rem;"><b>Web Server</b><br>Waiting</div>
+ <div style="display:flex;align-items:center;font-size:1.2rem;color:#999;">→</div>
+ <div id="dup-db" style="flex:1;padding:8px;border-radius:8px;border:2px solid #6a1b9a;background:#f3e5f5;text-align:center;font-size:0.78rem;"><b>Database</b><br>Alice: $100<br>Bob: $0</div>
+ </div>
+ <div id="dup-result" style="display:none;padding:8px 12px;border-radius:8px;font-size:0.85rem;font-weight:700;text-align:center;"></div>
+ </div>
+ <div id="dup-log" style="flex:1;background:#fafafa;border:1px solid #e0e0e0;border-radius:8px;padding:6px 10px;font-size:0.75rem;font-family:monospace;max-height:195px;overflow-y:auto;line-height:1.6;">Click <b>Step ▶</b> to begin the transfer</div>
+ </div>
+ <div style="background:#fff3e0;border:1px solid #ffcc80;border-radius:8px;padding:5px 10px;margin-top:3px;font-size:0.75rem;">
+ 💡 Based on <b>Ch12 "End-to-End Argument"</b>. TCP retries and DB transactions ensure reliability <em>within</em> each layer — but the gap between COMMIT and client acknowledgment is where duplicates sneak in. Only <b>application-level idempotency</b> solves it end-to-end.
+ </div>
+ </section>
  <!-- 41. Section: Summary -->
  <section class="slide section-header">
  <h2>Summary</h2>
@@ -3006,6 +3032,7 @@ COMMIT;</pre>
 
  presentation.addEventListener('touchcancel', resetSwipe, { passive: true });
  window.addEventListener('keydown', (e) => {
+ if (e.target.matches('input, textarea, select')) return;
  if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'ArrowDown') nextSlide();
  if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') prevSlide();
  if (e.key >= '0' && e.key <= '9') { currentSlide = Math.floor(totalSlides * (parseInt(e.key) / 10)); update(); }
@@ -3020,6 +3047,69 @@ COMMIT;</pre>
  const exp = e.parentElement.querySelector('.quiz-explanation');
  if (!ok) exp.classList.add('incorrect'); else exp.classList.remove('incorrect');
  }
+
+ // --- End-to-End Duplicate Slayer Lab ---
+ let dupStepIdx=-1,dupSteps=[];
+ function dupGetSteps(){
+ const idemp=document.getElementById('dup-idemp').checked;
+ const s=[];
+ s.push({icon:'🔵',text:idemp?'Client sends: Transfer $11 (requestId: <b>req-42</b>)':'Client sends: Transfer $11, Alice → Bob',cl:'Sending...',sv:'Waiting',db:'Alice: $100<br>Bob: $0'});
+ s.push({icon:'📡',text:'Request reaches web server',cl:'Waiting for response...',sv:'Processing...',db:'Alice: $100<br>Bob: $0'});
+ s.push({icon:'🟢',text:'BEGIN TRANSACTION',sv:'BEGIN TXN',db:'Alice: $100<br>Bob: $0'});
+ if(idemp)s.push({icon:'🔍',text:'Check requestId "req-42" → <b>Not found</b>, proceeding',sv:'Checking dedup...'});
+ s.push({icon:'🟢',text:'UPDATE Alice: $100 → <b>$89</b>',db:idemp?'Alice: $89<br>Bob: $0':'Alice: $89<br>Bob: $0'});
+ s.push({icon:'🟢',text:'UPDATE Bob: $0 → <b>$11</b>',db:'Alice: $89<br>Bob: $11'});
+ if(idemp)s.push({icon:'📝',text:'INSERT processed(requestId="req-42")',db:'Alice: $89<br>Bob: $11<br><span style="color:#e65100">req-42 ✓</span>'});
+ s.push({icon:'✅',text:'<b>COMMIT ✓</b> — transfer saved to disk',sv:'Committed ✓',db:idemp?'Alice: $89<br>Bob: $11<br><span style="color:#e65100">req-42 ✓</span>':'Alice: $89<br>Bob: $11'});
+ s.push({icon:'⚡',text:'<span style="color:#e53935"><b>TCP timeout!</b> Response never reaches client.</span>',cl:'❌ Timeout error!',sv:'Response lost!',danger:true});
+ s.push({icon:'🔄',text:'Client retries — <em>believes transfer failed</em>!',cl:idemp?'Retrying (req-42)':'Retrying...',sv:'New request...'});
+ if(idemp){
+ s.push({icon:'🔍',text:'Check requestId "req-42" → <b style="color:#2e7d32">FOUND!</b> Already processed.',sv:'Dedup detected!',success:true});
+ s.push({icon:'🛡️',text:'<span style="color:#2e7d32"><b>Return cached result — no duplicate!</b></span>',cl:'Success ✅',sv:'Cached response sent',success:true});
+ }else{
+ s.push({icon:'🟢',text:'Server processes <b>AGAIN</b>: BEGIN TRANSACTION',sv:'Processing 2nd time!'});
+ s.push({icon:'🟢',text:'Alice: $89 → <b>$78</b>, Bob: $11 → <b>$22</b>',db:'<span style="color:#e53935">💥 Alice: $78<br>Bob: $22</span>'});
+ s.push({icon:'💥',text:'<span style="color:#e53935"><b>$11 deducted TWICE!</b> Data corruption!</span>',cl:'Success ✅',danger:true});
+ }
+ return s;
+ }
+ function dupReset(){
+ dupStepIdx=-1;dupSteps=dupGetSteps();
+ document.getElementById('dup-step-btn').disabled=false;
+ document.getElementById('dup-client').innerHTML='<b>Client</b><br>Ready';
+ document.getElementById('dup-server').innerHTML='<b>Web Server</b><br>Waiting';
+ document.getElementById('dup-db').innerHTML='<b>Database</b><br>Alice: $100<br>Bob: $0';
+ document.getElementById('dup-log').innerHTML='Click <b>Step ▶</b> to begin the transfer';
+ const r=document.getElementById('dup-result');r.style.display='none';r.innerHTML='';
+ document.getElementById('dup-client').style.borderColor='#1565c0';
+ document.getElementById('dup-server').style.borderColor='#2e7d32';
+ document.getElementById('dup-db').style.borderColor='#6a1b9a';
+ }
+ function dupStep(){
+ if(dupStepIdx>=dupSteps.length-1)return;
+ dupStepIdx++;
+ const step=dupSteps[dupStepIdx];
+ const log=document.getElementById('dup-log');
+ if(dupStepIdx===0)log.innerHTML='';
+ const color=step.danger?'#e53935':step.success?'#2e7d32':'#333';
+ const bg=step.danger?'#ffebee':step.success?'#e8f5e9':'transparent';
+ log.innerHTML+=`<div style="padding:2px 4px;margin:1px 0;border-radius:4px;background:${bg};color:${color}">${step.icon} ${step.text}</div>`;
+ log.scrollTop=log.scrollHeight;
+ if(step.cl)document.getElementById('dup-client').innerHTML='<b>Client</b><br>'+step.cl;
+ if(step.sv)document.getElementById('dup-server').innerHTML='<b>Web Server</b><br>'+step.sv;
+ if(step.db)document.getElementById('dup-db').innerHTML='<b>Database</b><br>'+step.db;
+ if(step.danger){document.getElementById('dup-client').style.borderColor='#e53935';document.getElementById('dup-server').style.borderColor='#e53935';}
+ if(step.success){document.getElementById('dup-client').style.borderColor='#2e7d32';document.getElementById('dup-server').style.borderColor='#2e7d32';}
+ if(dupStepIdx>=dupSteps.length-1){
+ document.getElementById('dup-step-btn').disabled=true;
+ const r=document.getElementById('dup-result');r.style.display='block';
+ const idemp=document.getElementById('dup-idemp').checked;
+ if(idemp){r.style.background='#e8f5e9';r.style.border='2px solid #66bb6a';r.innerHTML='✅ Alice: $89, Bob: $11 — Correct! Idempotency key prevented the duplicate.';}
+ else{r.style.background='#ffebee';r.style.border='2px solid #ef5350';r.innerHTML='💥 Alice: $78, Bob: $22 — WRONG! $11 was transferred twice. DB transactions didn\'t help.';}
+ }
+ }
+ dupReset();
+
  update();
  </script>
 </body>
