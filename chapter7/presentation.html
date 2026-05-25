@@ -1163,6 +1163,56 @@ AND content='old';</div>
  </div>
  <p style="margin-top: 15px;">⚠️ Trade-off: high abort rate under contention. Read-write transactions should be <strong>short</strong>. But overall, SSI is promising as the <em>future default</em>.</p>
  </section>
+
+ <!-- Isolation Level Anomaly Lab -->
+ <section class="slide" id="isolation-lab-slide" style="padding: 12px 20px; text-align: left; align-items: stretch; justify-content: flex-start;">
+ <h2 style="font-size: 1.35rem; margin-bottom: 4px; text-align: center;">🔬 Isolation Level Anomaly Simulator</h2>
+ <div style="display: flex; gap: 12px; height: calc(100vh - 55px);">
+  <!-- Controls -->
+  <div style="flex: 0 0 195px; display: flex; flex-direction: column; gap: 5px; font-size: 0.76rem;">
+   <label style="font-weight: 700;">Anomaly scenario:</label>
+   <select id="iso-scenario" onchange="isoReset()" style="padding: 4px; border: 2px solid #e2e8f0; border-radius: 6px; font-size: 0.76rem;">
+    <option value="dirtyRead">Dirty Read</option>
+    <option value="dirtyWrite">Dirty Write</option>
+    <option value="readSkew" selected>Read Skew (Non-repeatable)</option>
+    <option value="lostUpdate">Lost Update</option>
+    <option value="writeSkew">Write Skew</option>
+    <option value="phantom">Phantom</option>
+   </select>
+
+   <label style="font-weight: 700; margin-top: 3px;">Isolation level:</label>
+   <select id="iso-level" onchange="isoReset()" style="padding: 4px; border: 2px solid #e2e8f0; border-radius: 6px; font-size: 0.76rem;">
+    <option value="readUncommitted">Read Uncommitted</option>
+    <option value="readCommitted">Read Committed</option>
+    <option value="snapshotIsolation" selected>Snapshot Isolation</option>
+    <option value="serializable">Serializable</option>
+   </select>
+
+   <button onclick="isoStep()" id="iso-step-btn" style="margin-top: 5px; padding: 7px; background: var(--accent); color: white; border: none; border-radius: 6px; font-size: 0.8rem; font-weight: 600; cursor: pointer;">Step ▶</button>
+   <button onclick="isoReset()" style="padding: 5px; background: #f1f5f9; color: var(--text); border: 2px solid #e2e8f0; border-radius: 6px; font-size: 0.75rem; font-weight: 600; cursor: pointer;">Reset 🔄</button>
+
+   <div id="iso-result" style="margin-top: 4px; padding: 8px; border-radius: 8px; font-size: 0.76rem; font-weight: 600; text-align: center; min-height: 40px;"></div>
+
+   <div id="iso-explain" style="margin-top: 2px; background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 8px; padding: 7px; font-size: 0.7rem; line-height: 1.45; flex: 1; overflow-y: auto;"></div>
+  </div>
+
+  <!-- Timeline area -->
+  <div style="flex: 1; display: flex; flex-direction: column; min-width: 0;">
+   <!-- DB State -->
+   <div style="display: flex; gap: 8px; margin-bottom: 6px;">
+    <div style="flex:1; background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 8px; padding: 6px 10px; font-size: 0.78rem;">
+     <strong>Database State</strong>
+     <div id="iso-db" style="margin-top: 3px; font-family: monospace; font-size: 0.82rem;"></div>
+    </div>
+   </div>
+   <!-- Transaction timelines -->
+   <div style="flex: 1; background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 8px; padding: 8px; overflow-y: auto;">
+    <div id="iso-timeline" style="font-family: monospace; font-size: 0.76rem; line-height: 1.7;"></div>
+   </div>
+  </div>
+ </div>
+ </section>
+
  <!-- 37. Section: Summary -->
  <section class="slide section-header">
  <h2>Summary</h2>
@@ -2908,6 +2958,7 @@ AND content='old';</div>
 
  presentation.addEventListener('touchcancel', resetSwipe, { passive: true });
  window.addEventListener('keydown', (e) => {
+ if (e.target.matches('input, textarea, select')) return;
  if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'ArrowDown') nextSlide();
  if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') prevSlide();
  if (e.key >= '0' && e.key <= '9') { currentSlide = Math.floor(totalSlides * (parseInt(e.key) / 10)); update(); }
@@ -2922,6 +2973,263 @@ AND content='old';</div>
  const exp = e.parentElement.querySelector('.quiz-explanation');
  if (!ok) exp.classList.add('incorrect'); else exp.classList.remove('incorrect');
  }
+
+ /* ───── Isolation Level Anomaly Simulator ───── */
+ const isoScenarios = {
+  dirtyRead: {
+   title: 'Dirty Read',
+   init: { A: 500, B: 500 },
+   steps: [
+    { tx: 1, op: 'BEGIN', desc: 'T1: BEGIN' },
+    { tx: 1, op: 'write', key: 'A', val: 400, desc: 'T1: UPDATE A = 400 (was 500)' },
+    { tx: 2, op: 'BEGIN', desc: 'T2: BEGIN' },
+    { tx: 2, op: 'read', key: 'A', desc: 'T2: SELECT A → ???' },
+    { tx: 1, op: 'ABORT', desc: 'T1: ABORT (rollback!)' },
+    { tx: 2, op: 'read', key: 'A', desc: 'T2: SELECT A → ???' },
+    { tx: 2, op: 'COMMIT', desc: 'T2: COMMIT' }
+   ],
+   anomalyAt: 3,
+   prevented: ['readCommitted','snapshotIsolation','serializable'],
+   explain: 'T2 reads A=400 which T1 wrote but hasn\'t committed. T1 aborts → T2 acted on data that <em>never existed</em>. Read Committed prevents this by only showing committed values.'
+  },
+  dirtyWrite: {
+   title: 'Dirty Write',
+   init: { listing: 'Alice', invoice: 'Alice' },
+   steps: [
+    { tx: 1, op: 'BEGIN', desc: 'T1: BEGIN (Bob buys item)' },
+    { tx: 1, op: 'write', key: 'listing', val: 'Bob', desc: 'T1: listing = Bob' },
+    { tx: 2, op: 'BEGIN', desc: 'T2: BEGIN (Carol buys item)' },
+    { tx: 2, op: 'write', key: 'listing', val: 'Carol', desc: 'T2: listing = Carol' },
+    { tx: 2, op: 'write', key: 'invoice', val: 'Carol', desc: 'T2: invoice = Carol' },
+    { tx: 1, op: 'write', key: 'invoice', val: 'Bob', desc: 'T1: invoice = Bob' },
+    { tx: 1, op: 'COMMIT', desc: 'T1: COMMIT' },
+    { tx: 2, op: 'COMMIT', desc: 'T2: COMMIT → listing=Carol, invoice=Bob ❌' }
+   ],
+   anomalyAt: 3,
+   prevented: ['readCommitted','snapshotIsolation','serializable'],
+   explain: 'T2 overwrites T1\'s uncommitted write. Result: listing=Carol but invoice=Bob — a <em>mismatch</em>. Read Committed uses row-level locks on writes to prevent this.'
+  },
+  readSkew: {
+   title: 'Read Skew (Non-repeatable Read)',
+   init: { A: 500, B: 500 },
+   steps: [
+    { tx: 1, op: 'BEGIN', desc: 'T1: BEGIN (Alice checks total balance)' },
+    { tx: 1, op: 'read', key: 'A', desc: 'T1: SELECT A → ???' },
+    { tx: 2, op: 'BEGIN', desc: 'T2: BEGIN (transfer $100 A→B)' },
+    { tx: 2, op: 'write', key: 'A', val: 400, desc: 'T2: UPDATE A = 400' },
+    { tx: 2, op: 'write', key: 'B', val: 600, desc: 'T2: UPDATE B = 600' },
+    { tx: 2, op: 'COMMIT', desc: 'T2: COMMIT' },
+    { tx: 1, op: 'read', key: 'B', desc: 'T1: SELECT B → ???' },
+    { tx: 1, op: 'COMMIT', desc: 'T1: COMMIT → A+B = ??? (should be 1000)' }
+   ],
+   anomalyAt: 6,
+   prevented: ['snapshotIsolation','serializable'],
+   explain: 'T1 reads A=500, then T2 transfers $100. T1 reads B=600. Total: 500+600=1100! Alice sees <em>$100 appear from nowhere</em>. Snapshot Isolation fixes this — T1 reads from its start snapshot.'
+  },
+  lostUpdate: {
+   title: 'Lost Update',
+   init: { counter: 42 },
+   steps: [
+    { tx: 1, op: 'BEGIN', desc: 'T1: BEGIN' },
+    { tx: 1, op: 'read', key: 'counter', desc: 'T1: SELECT counter → ???' },
+    { tx: 2, op: 'BEGIN', desc: 'T2: BEGIN' },
+    { tx: 2, op: 'read', key: 'counter', desc: 'T2: SELECT counter → ???' },
+    { tx: 1, op: 'write', key: 'counter', val: 43, desc: 'T1: UPDATE counter = 42+1 = 43' },
+    { tx: 1, op: 'COMMIT', desc: 'T1: COMMIT' },
+    { tx: 2, op: 'write', key: 'counter', val: 43, desc: 'T2: UPDATE counter = 42+1 = 43' },
+    { tx: 2, op: 'COMMIT', desc: 'T2: COMMIT → counter=43, but should be 44!' }
+   ],
+   anomalyAt: 6,
+   prevented: ['snapshotIsolation','serializable'],
+   explain: 'Both T1 and T2 read counter=42 and increment to 43. T1\'s increment is <em>lost</em>. Snapshot Isolation detects this with write-write conflict detection and aborts T2.'
+  },
+  writeSkew: {
+   title: 'Write Skew',
+   init: { alice_on_call: true, bob_on_call: true },
+   steps: [
+    { tx: 1, op: 'BEGIN', desc: 'T1: BEGIN (Alice wants off-call)' },
+    { tx: 1, op: 'read', key: '*', desc: 'T1: SELECT count(*) WHERE on_call=true → ???' },
+    { tx: 2, op: 'BEGIN', desc: 'T2: BEGIN (Bob wants off-call)' },
+    { tx: 2, op: 'read', key: '*', desc: 'T2: SELECT count(*) WHERE on_call=true → ???' },
+    { tx: 1, op: 'write', key: 'alice_on_call', val: false, desc: 'T1: UPDATE alice on_call = false' },
+    { tx: 1, op: 'COMMIT', desc: 'T1: COMMIT (2 were on call, 1 still is ✓)' },
+    { tx: 2, op: 'write', key: 'bob_on_call', val: false, desc: 'T2: UPDATE bob on_call = false' },
+    { tx: 2, op: 'COMMIT', desc: 'T2: COMMIT → NOBODY on call! ❌' }
+   ],
+   anomalyAt: 6,
+   prevented: ['serializable'],
+   explain: 'Each transaction reads 2 on-call, writes a <em>different</em> row. No write-write conflict! Snapshot Isolation misses this. Only Serializable (2PL or SSI) catches write skew.'
+  },
+  phantom: {
+   title: 'Phantom Read',
+   init: { room_bookings: '12:00-13:00' },
+   steps: [
+    { tx: 1, op: 'BEGIN', desc: 'T1: BEGIN (book room 12:00-13:00)' },
+    { tx: 1, op: 'read', key: 'room_12_13', desc: 'T1: SELECT * WHERE room=A AND time OVERLAPS 12-13 → ???' },
+    { tx: 2, op: 'BEGIN', desc: 'T2: BEGIN (also book room 12:00-13:00)' },
+    { tx: 2, op: 'read', key: 'room_12_13', desc: 'T2: SELECT * WHERE room=A AND time OVERLAPS 12-13 → ???' },
+    { tx: 1, op: 'write', key: 'room_12_13', val: 'T1_booked', desc: 'T1: INSERT booking (room=A, 12-13)' },
+    { tx: 1, op: 'COMMIT', desc: 'T1: COMMIT' },
+    { tx: 2, op: 'write', key: 'room_12_13_b', val: 'T2_booked', desc: 'T2: INSERT booking (room=A, 12-13)' },
+    { tx: 2, op: 'COMMIT', desc: 'T2: COMMIT → DOUBLE BOOKED! ❌' }
+   ],
+   anomalyAt: 6,
+   prevented: ['serializable'],
+   explain: 'Both check "no existing booking" (empty result), then both insert. The second INSERT creates a <em>phantom</em> row that didn\'t exist during the first check. Only predicate locks (Serializable) prevent this.'
+  }
+ };
+
+ let isoStep_i = 0;
+ let isoDb = {};
+ let isoTxState = {}; // per-tx uncommitted writes
+ let isoSnapshots = {}; // per-tx snapshot for SI
+
+ function isoReset() {
+  const sc = isoScenarios[document.getElementById('iso-scenario').value];
+  isoStep_i = 0;
+  isoDb = {...sc.init};
+  isoTxState = {};
+  isoSnapshots = {};
+  document.getElementById('iso-result').innerHTML = '';
+  document.getElementById('iso-result').style.background = '';
+  document.getElementById('iso-result').style.border = '';
+  document.getElementById('iso-step-btn').disabled = false;
+  isoRenderExplain(sc);
+  isoRenderDb();
+  isoRenderTimeline([]);
+ }
+
+ function isoRenderDb() {
+  const el = document.getElementById('iso-db');
+  el.innerHTML = Object.entries(isoDb).map(([k,v]) =>
+   `<span style="background:#e0e7ff; padding:2px 6px; border-radius:4px; margin-right:6px;"><strong>${k}</strong> = ${v}</span>`
+  ).join('');
+ }
+
+ function isoRenderTimeline(executed) {
+  const el = document.getElementById('iso-timeline');
+  const level = document.getElementById('iso-level').value;
+  const sc = isoScenarios[document.getElementById('iso-scenario').value];
+  const prevented = sc.prevented.includes(level);
+
+  let html = '<div style="margin-bottom:6px; font-weight:700; font-size:0.85rem;">';
+  html += `<span style="color:#3b82f6;">━━ T1</span> &nbsp; <span style="color:#10b981;">━━ T2</span></div>`;
+
+  executed.forEach((step, i) => {
+   const color = step.tx === 1 ? '#3b82f6' : '#10b981';
+   const indent = step.tx === 1 ? '0' : '280px';
+   const isAnomaly = i === sc.anomalyAt && !prevented;
+   const bg = isAnomaly ? '#fee2e2' : (i === executed.length - 1 ? '#fffbeb' : 'transparent');
+   const border = isAnomaly ? '2px solid #ef4444' : 'none';
+
+   html += `<div style="margin-left:${indent}; padding:3px 8px; border-radius:4px; background:${bg}; border:${border}; color:${color}; display:inline-block; margin-bottom:3px;">`;
+   html += step.display || step.desc;
+   if (isAnomaly) html += ' <span style="color:#ef4444; font-weight:700;">⚠️ ANOMALY</span>';
+   html += '</div><br>';
+  });
+
+  el.innerHTML = html;
+ }
+
+ function isoRenderExplain(sc) {
+  const level = document.getElementById('iso-level').value;
+  const prevented = sc.prevented.includes(level);
+  const el = document.getElementById('iso-explain');
+  el.innerHTML = `<strong>${sc.title}</strong><br><br>${sc.explain}<br><br>` +
+   `<div style="margin-top:6px; padding:5px; border-radius:4px; background:${prevented ? '#dcfce7' : '#fee2e2'}; font-weight:700;">` +
+   `${prevented ? '✅ Prevented' : '❌ NOT prevented'} by ${level.replace(/([A-Z])/g,' $1').trim()}</div>` +
+   `<div style="margin-top:4px; font-size:0.65rem; opacity:0.7;">Prevented by: ${sc.prevented.map(l => l.replace(/([A-Z])/g,' $1').trim()).join(', ')}</div>`;
+ }
+
+ function isoStep() {
+  const scKey = document.getElementById('iso-scenario').value;
+  const sc = isoScenarios[scKey];
+  const level = document.getElementById('iso-level').value;
+  const prevented = sc.prevented.includes(level);
+
+  if (isoStep_i >= sc.steps.length) return;
+
+  const step = sc.steps[isoStep_i];
+  const txKey = 'T' + step.tx;
+
+  // Handle operations
+  if (step.op === 'BEGIN') {
+   isoTxState[txKey] = {};
+   isoSnapshots[txKey] = {...isoDb};
+  } else if (step.op === 'read') {
+   let val;
+   if (step.key === '*') {
+    // Count query for write skew
+    if (level === 'readUncommitted') {
+     const merged = {...isoDb};
+     Object.values(isoTxState).forEach(ws => Object.assign(merged, ws));
+     val = Object.values(merged).filter(v => v === true).length;
+    } else if (level === 'readCommitted') {
+     val = Object.values(isoDb).filter(v => v === true).length;
+    } else {
+     val = Object.values(isoSnapshots[txKey]).filter(v => v === true).length;
+    }
+    step.display = step.desc.replace('???', val);
+   } else if (step.key === 'room_12_13') {
+    if (level === 'readUncommitted') {
+     const merged = {...isoDb, ...Object.assign({}, ...Object.values(isoTxState))};
+     val = merged.room_12_13 || 'none';
+    } else if (level === 'readCommitted') {
+     val = isoDb.room_12_13 || 'none';
+    } else {
+     val = (isoSnapshots[txKey].room_12_13) || 'none';
+    }
+    step.display = step.desc.replace('???', val === 'none' ? '0 rows (empty)' : val);
+   } else {
+    if (level === 'readUncommitted') {
+     // Sees uncommitted writes from all transactions
+     const allWrites = {};
+     Object.values(isoTxState).forEach(ws => Object.assign(allWrites, ws));
+     val = allWrites[step.key] !== undefined ? allWrites[step.key] : isoDb[step.key];
+    } else if (level === 'readCommitted') {
+     val = isoDb[step.key]; // only committed
+    } else {
+     // SI and Serializable: read from snapshot
+     val = isoSnapshots[txKey][step.key];
+    }
+    step.display = step.desc.replace('???', val);
+   }
+  } else if (step.op === 'write') {
+   if (isoTxState[txKey]) isoTxState[txKey][step.key] = step.val;
+  } else if (step.op === 'COMMIT') {
+   // Check if serializable would abort at the anomaly point
+   if (prevented && isoStep_i >= sc.anomalyAt) {
+    step.display = step.desc.split('→')[0] + ' → <strong style="color:#ef4444;">ABORTED by DB</strong> (conflict detected)';
+    // Don't apply writes
+   } else {
+    if (isoTxState[txKey]) Object.assign(isoDb, isoTxState[txKey]);
+    step.display = step.desc;
+   }
+   delete isoTxState[txKey];
+  } else if (step.op === 'ABORT') {
+   delete isoTxState[txKey];
+   step.display = step.desc;
+  }
+
+  isoStep_i++;
+  isoRenderDb();
+  isoRenderTimeline(sc.steps.slice(0, isoStep_i));
+
+  if (isoStep_i >= sc.steps.length) {
+   document.getElementById('iso-step-btn').disabled = true;
+   const res = document.getElementById('iso-result');
+   if (prevented) {
+    res.innerHTML = '✅ Anomaly PREVENTED';
+    res.style.background = '#dcfce7'; res.style.border = '2px solid #22c55e';
+   } else {
+    res.innerHTML = '❌ Anomaly OCCURRED';
+    res.style.background = '#fee2e2'; res.style.border = '2px solid #ef4444';
+   }
+  }
+ }
+
+ isoReset();
+
  update();
  </script>
 </body>
