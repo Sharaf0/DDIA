@@ -985,6 +985,55 @@ hash(key) = 123456
  <img src="images/ddia_0608.png" alt="ZooKeeper coordination" />
  </div>
  </section>
+
+ <!-- Partitioning Strategy Lab -->
+ <section class="slide" id="partition-lab-slide" style="padding: 15px 25px; text-align: left; align-items: stretch; justify-content: flex-start;">
+ <h2 style="font-size: 1.4rem; margin-bottom: 6px; text-align: center;">🔬 Partitioning Strategy Lab — Key Range vs Hash</h2>
+ <div style="display: flex; gap: 12px; height: calc(100vh - 60px);">
+  <!-- Controls -->
+  <div style="flex: 0 0 200px; display: flex; flex-direction: column; gap: 6px; font-size: 0.78rem;">
+   <label style="font-weight: 700;">Dataset pattern:</label>
+   <select id="p-pattern" onchange="pGenerate()" style="padding: 5px; border: 2px solid #e2e8f0; border-radius: 6px; font-size: 0.8rem;">
+    <option value="uniform">Uniform random</option>
+    <option value="timeseries" selected>Time-series (timestamps)</option>
+    <option value="skewed">Skewed (celebrity)</option>
+    <option value="alphabetical">Alphabetical names</option>
+   </select>
+
+   <label style="font-weight: 700; margin-top: 4px;">Partitions: <span id="p-count-val">4</span></label>
+   <input type="range" id="p-count" min="2" max="8" value="4" oninput="document.getElementById('p-count-val').textContent=this.value; pDistribute()" style="width: 100%;">
+
+   <label style="font-weight: 700; margin-top: 4px;">Keys: <span id="p-keys-val">200</span></label>
+   <input type="range" id="p-keys" min="50" max="500" value="200" step="50" oninput="document.getElementById('p-keys-val').textContent=this.value; pGenerate()" style="width: 100%;">
+
+   <button onclick="pGenerate()" style="margin-top: 6px; padding: 7px; background: var(--accent); color: white; border: none; border-radius: 6px; font-size: 0.8rem; font-weight: 600; cursor: pointer;">Generate Keys 🔄</button>
+
+   <div id="p-info" style="margin-top: 6px; background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 8px; padding: 8px; font-size: 0.72rem; line-height: 1.5;"></div>
+
+   <div style="margin-top: auto; font-size: 0.7rem; line-height: 1.5; background: #fffbeb; border: 1px solid #fcd34d; border-radius: 6px; padding: 8px;">
+    💡 Try <strong>time-series</strong> with key-range: all writes hit one partition!<br>
+    Then switch to <strong>hash</strong> — even distribution but no range queries.
+   </div>
+  </div>
+
+  <!-- Key Range side -->
+  <div style="flex: 1; display: flex; flex-direction: column; min-width: 0;">
+   <h3 style="font-size: 0.95rem; text-align: center; margin-bottom: 4px;">📊 Key Range Partitioning</h3>
+   <div id="p-range-bars" style="flex: 1; display: flex; align-items: flex-end; gap: 3px; padding: 4px; background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 8px;"></div>
+   <div id="p-range-stats" style="font-size: 0.72rem; margin-top: 4px; text-align: center;"></div>
+   <div id="p-range-note" style="font-size: 0.68rem; margin-top: 2px; text-align: center; color: #6b7280;"></div>
+  </div>
+
+  <!-- Hash side -->
+  <div style="flex: 1; display: flex; flex-direction: column; min-width: 0;">
+   <h3 style="font-size: 0.95rem; text-align: center; margin-bottom: 4px;">🔑 Hash Partitioning</h3>
+   <div id="p-hash-bars" style="flex: 1; display: flex; align-items: flex-end; gap: 3px; padding: 4px; background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 8px;"></div>
+   <div id="p-hash-stats" style="font-size: 0.72rem; margin-top: 4px; text-align: center;"></div>
+   <div id="p-hash-note" style="font-size: 0.68rem; margin-top: 2px; text-align: center; color: #6b7280;"></div>
+  </div>
+ </div>
+ </section>
+
  <!-- 24. Section: Summary -->
  <section class="slide section-header">
  <h2>Summary</h2>
@@ -2735,6 +2784,7 @@ hash(key) = 123456
  presentation.addEventListener('touchcancel', resetSwipe, { passive: true });
 
  window.addEventListener('keydown', (e) => {
+ if (e.target.matches('input, textarea, select')) return;
  if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'ArrowDown') nextSlide();
  if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') prevSlide();
  if (e.key >= '0' && e.key <= '9') {
@@ -2754,6 +2804,123 @@ hash(key) = 123456
  const exp = e.parentElement.querySelector('.quiz-explanation');
  if (!ok) exp.classList.add('incorrect'); else exp.classList.remove('incorrect');
  }
+
+ /* ───── Partitioning Strategy Lab ───── */
+ let pKeys = [];
+
+ function simpleHash(str) {
+  let h = 0;
+  for (let i = 0; i < str.length; i++) h = (h * 31 + str.charCodeAt(i)) >>> 0;
+  return h;
+ }
+
+ function pGenerate() {
+  const pattern = document.getElementById('p-pattern').value;
+  const count = parseInt(document.getElementById('p-keys').value);
+  pKeys = [];
+  const now = Date.now();
+
+  for (let i = 0; i < count; i++) {
+   if (pattern === 'uniform') {
+    pKeys.push('key_' + String(Math.random()).slice(2, 10));
+   } else if (pattern === 'timeseries') {
+    // All keys cluster in a narrow time range (today)
+    const ts = new Date(now - Math.random() * 3600000);
+    pKeys.push(ts.toISOString().slice(0, 19));
+   } else if (pattern === 'skewed') {
+    // 80% of writes go to one "celebrity" key prefix
+    if (Math.random() < 0.8) {
+     pKeys.push('celeb_post_' + i);
+    } else {
+     pKeys.push('user_' + Math.floor(Math.random() * 10000) + '_post_' + i);
+    }
+   } else if (pattern === 'alphabetical') {
+    const names = ['Alice','Bob','Charlie','Diana','Eve','Frank','Grace','Heidi','Ivan','Judy','Karl','Liam','Mia','Noah','Olivia','Pat','Quinn','Rosa','Sam','Tina','Uma','Vince','Wendy','Xena','Yuri','Zara'];
+    pKeys.push(names[Math.floor(Math.random() * names.length)] + '_' + i);
+   }
+  }
+  pDistribute();
+ }
+
+ function pDistribute() {
+  const numP = parseInt(document.getElementById('p-count').value);
+  if (pKeys.length === 0) return;
+
+  // Key range: divide the keyspace into equal-width ranges
+  const sorted = [...pKeys].sort();
+  const rangeBuckets = Array.from({length: numP}, () => []);
+  // Use the actual min/max of the sorted keys to set boundaries
+  const minKey = sorted[0], maxKey = sorted[sorted.length - 1];
+  sorted.forEach(k => {
+   // Map key position in the lexicographic range [minKey..maxKey] to a bucket
+   let pos = 0;
+   for (let c = 0; c < Math.max(k.length, maxKey.length); c++) {
+    const a = c < k.length ? k.charCodeAt(c) : 0;
+    const b = c < minKey.length ? minKey.charCodeAt(c) : 0;
+    const d = c < maxKey.length ? maxKey.charCodeAt(c) : 0;
+    if (d !== b) { pos = (a - b) / (d - b); break; }
+   }
+   const bucket = Math.min(Math.floor(pos * numP), numP - 1);
+   rangeBuckets[bucket].push(k);
+  });
+
+  // Hash: hash each key mod numP
+  const hashBuckets = Array.from({length: numP}, () => []);
+  pKeys.forEach(k => {
+   hashBuckets[simpleHash(k) % numP].push(k);
+  });
+
+  pRenderBars('p-range-bars', rangeBuckets, '#3b82f6');
+  pRenderBars('p-hash-bars', hashBuckets, '#10b981');
+  pRenderStats('p-range-stats', 'p-range-note', rangeBuckets, 'range');
+  pRenderStats('p-hash-stats', 'p-hash-note', hashBuckets, 'hash');
+
+  // Info panel
+  const pattern = document.getElementById('p-pattern').value;
+  const info = document.getElementById('p-info');
+  const descs = {
+   uniform: '🎲 <strong>Uniform random keys</strong> — both strategies should distribute evenly.',
+   timeseries: '⏰ <strong>Time-series keys</strong> — all timestamps fall in the same range partition, creating a <em>hot spot</em>. Hash distributes evenly.',
+   skewed: '🌟 <strong>Celebrity/skewed keys</strong> — 80% of keys share a prefix. Key-range puts them together. Hash spreads them out (but still possible hot spot if same exact key).',
+   alphabetical: '🔤 <strong>Alphabetical names</strong> — uneven letter frequency causes mild skew with key-range. Hash evens it out.'
+  };
+  info.innerHTML = descs[pattern] || '';
+ }
+
+ function pRenderBars(containerId, buckets, color) {
+  const container = document.getElementById(containerId);
+  const maxCount = Math.max(...buckets.map(b => b.length), 1);
+  const avg = pKeys.length / buckets.length;
+  let html = '';
+  buckets.forEach((b, i) => {
+   const pct = (b.length / maxCount) * 100;
+   const isHot = b.length > avg * 1.5;
+   const barColor = isHot ? '#ef4444' : color;
+   html += `<div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; height:100%;">`;
+   html += `<div style="font-size:0.7rem; font-weight:700; margin-bottom:2px; color:${isHot ? '#ef4444' : '#374151'};">${b.length}${isHot ? ' 🔥' : ''}</div>`;
+   html += `<div style="width:80%; height:${pct}%; background:${barColor}; border-radius:4px 4px 0 0; min-height:2px; transition: height 0.3s;"></div>`;
+   html += `<div style="font-size:0.65rem; margin-top:2px; color:#6b7280;">P${i+1}</div>`;
+   html += `</div>`;
+  });
+  container.innerHTML = html;
+ }
+
+ function pRenderStats(statsId, noteId, buckets, type) {
+  const counts = buckets.map(b => b.length);
+  const min = Math.min(...counts), max = Math.max(...counts);
+  const avg = (pKeys.length / buckets.length).toFixed(0);
+  const skew = max > 0 ? (max / Math.max(min, 1)).toFixed(1) : '1.0';
+  const hot = counts.filter(c => c > avg * 1.5).length;
+
+  document.getElementById(statsId).innerHTML =
+   `Min: ${min} · Max: ${max} · Avg: ${avg} · Skew: ${skew}x${hot > 0 ? ' · <span style="color:#ef4444;font-weight:700;">Hot: ' + hot + '</span>' : ''}`;
+  document.getElementById(noteId).textContent =
+   type === 'range' ? '✅ Supports range queries · ⚠️ Sensitive to key distribution'
+                     : '❌ No range queries (scatter/gather) · ✅ Even distribution';
+ }
+
+ pGenerate();
+
  update();
  </script>
 
