@@ -2,6 +2,9 @@
 emoji: 🔒
 name: Daily Security Vulnerability Checker
 description: Daily security vulnerability scanner using CodeQL and Dependabot alerts. Creates issues per vulnerability, deduplicates, auto-closes resolved vulns, and posts beautiful all-clear summaries.
+engine:
+  id: copilot
+  model: claude-haiku-4.5
 on:
   schedule:
     - cron: '0 9 * * 1-5'
