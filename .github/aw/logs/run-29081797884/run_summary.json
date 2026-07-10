@@ -1,0 +1,75 @@
+{
+  "cli_version": "v0.81.6",
+  "run_id": 29081797884,
+  "processed_at": "2026-07-10T11:04:06.724582+02:00",
+  "run": {
+    "databaseId": 29081797884,
+    "number": 1,
+    "url": "https://github.com/Sharaf0/DDIA/actions/runs/29081797884",
+    "status": "in_progress",
+    "conclusion": "",
+    "workflowName": "Daily Security Vulnerability Checker",
+    "workflowPath": ".github/workflows/daily-security-vuln-checker.lock.yml",
+    "createdAt": "2026-07-10T09:03:57Z",
+    "startedAt": "2026-07-10T09:03:57Z",
+    "updatedAt": "2026-07-10T09:04:02Z",
+    "event": "workflow_dispatch",
+    "headBranch": "main",
+    "headSha": "690161edff2d483492f7b6c502f5fb64f71ae0c2",
+    "displayTitle": "Daily Security Vulnerability Checker",
+    "Duration": 5000000000,
+    "ActionMinutes": 0,
+    "TokenUsage": 0,
+    "Turns": 0,
+    "ErrorCount": 0,
+    "WarningCount": 0,
+    "MissingToolCount": 0,
+    "MissingDataCount": 0,
+    "NoopCount": 0,
+    "SafeItemsCount": 0,
+    "EffectiveTokens": 0,
+    "AvgTimeBetweenTurns": 0,
+    "LogsPath": "/Users/sharam2/Documents/personal-repos/DDIA/.github/aw/logs/run-29081797884"
+  },
+  "metrics": {
+    "TokenUsage": 0,
+    "EstimatedCost": 0,
+    "Turns": 0,
+    "ToolCalls": null,
+    "ToolSequences": null,
+    "AvgTimeBetweenTurns": 0,
+    "MaxTimeBetweenTurns": 0,
+    "MedianTimeBetweenTurns": 0,
+    "StdDevTimeBetweenTurns": 0
+  },
+  "task_domain": {
+    "name": "code_fix",
+    "label": "Code Fix",
+    "reason": "The workflow appears oriented toward code changes or pull request review."
+  },
+  "behavior_fingerprint": {
+    "execution_style": "directed",
+    "tool_breadth": "narrow",
+    "actuation_style": "read_only",
+    "resource_profile": "lean",
+    "dispatch_mode": "standalone",
+    "agentic_fraction": 0
+  },
+  "access_analysis": null,
+  "firewall_analysis": null,
+  "redacted_domains_analysis": null,
+  "missing_tools": null,
+  "missing_data": null,
+  "noops": null,
+  "mcp_failures": null,
+  "artifacts_list": null,
+  "job_details": [
+    {
+      "name": "activation",
+      "status": "in_progress",
+      "conclusion": "",
+      "started_at": "2026-07-10T09:04:01Z",
+      "Duration": 0
+    }
+  ]
+}
