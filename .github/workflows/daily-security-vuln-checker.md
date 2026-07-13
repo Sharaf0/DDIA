@@ -6,8 +6,6 @@ engine:
   id: gemini
   model: gemini-3.5-flash
 on:
-  schedule:
-    - cron: '0 9 * * 1-5'
   workflow_dispatch:
 permissions:
   contents: read

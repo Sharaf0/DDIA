@@ -2,8 +2,6 @@
 emoji: 🔒
 description: Daily security vulnerability scanner using CodeQL and Dependabot alerts. Creates issues per vulnerability, deduplicates, auto-closes resolved vulns, and posts beautiful all-clear summaries.
 on:
-  schedule:
-    - cron: '0 9 * * 1-5'
   workflow_dispatch:
 permissions:
   contents: read
