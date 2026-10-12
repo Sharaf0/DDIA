@@ -180,15 +180,18 @@
  background: #f9f9f9;
  border: 1px solid #eee;
  display: flex;
+ flex-direction: column;
  align-items: center;
  justify-content: center;
  overflow: hidden;
  border-radius: 12px;
+ padding: 16px;
+ box-sizing: border-box;
  }
 
  .image-box img {
  max-width: 95%;
- max-height: 95%;
+ max-height: 82%;
  object-fit: contain;
  }
 
@@ -277,6 +280,40 @@
  .compare-card.accent {
  background: var(--accent-light);
  border-color: var(--accent);
+ }
+
+ /* Data Table: for structured comparison matrices */
+ .data-table {
+ width: 100%;
+ border-collapse: collapse;
+ margin-top: 15px;
+ font-size: 1.05rem;
+ background: #ffffff;
+ border-radius: 8px;
+ overflow: hidden;
+ box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+ }
+
+ .data-table th, .data-table td {
+ padding: 10px 14px;
+ border: 1px solid #e2e8f0;
+ text-align: left;
+ line-height: 1.35;
+ }
+
+ .data-table th {
+ background: #f1f5f9;
+ font-weight: 700;
+ color: var(--dark);
+ font-size: 1.05rem;
+ }
+
+ .data-table tr:nth-child(even) {
+ background: #f8fafc;
+ }
+
+ .data-table td strong {
+ color: var(--accent);
  }
 
  /* Tag / Pill: inline labels */
@@ -649,739 +686,2573 @@
  <div class="progress-container">
  <div class="progress-bar" id="progressBar"></div>
  </div>
- <div class="slide-number" id="slideNum">1 / 43</div>
+ <div class="slide-number" id="slideNum">1 / 192</div>
 
  <div class="presentation" id="presentation">
 
  <!-- 1. Title Slide -->
  <section class="slide title-slide">
  <p>Designing Data-Intensive Applications</p>
- <h1>Replication</h1>
- <p>Knowledge Transfer Session • Chapter 5</p>
+ <h1>Chapter 5: Replication</h1>
+ <p>Knowledge Transfer Session • Part II: Distributed Data</p>
  <div class="image-box title-image">
  <img src="../chapter1/images/book_cover.jpg" alt="DDIA book cover" />
  </div>
  </section>
+
  <!-- 2. Opening Quote -->
  <section class="slide content-slide">
  <h2>"The major difference between a thing that might go wrong and a thing that cannot possibly go wrong is that when a thing that cannot possibly go wrong goes wrong it usually turns out to be impossible to get at or repair."</h2>
- <p style="margin-top: 20px; opacity: 0.6;">— Douglas Adams, <em>Mostly Harmless</em> (1992)</p>
+ <p style="margin-top: 25px; opacity: 0.7; font-size: 1.4rem;">— Douglas Adams, <em>Mostly Harmless</em> (1992)</p>
+ <p style="margin-top: 35px; font-size: 1.25rem; max-width: 900px; line-height: 1.6;">
+ In distributed data systems, everything that <em>can</em> go wrong eventually <em>will</em> go wrong: networks partition, disks fill up, clocks drift, leaders crash, and human operators make mistakes. Replication is our primary defense—and our biggest source of architectural complexity.
+ </p>
  </section>
+
  <!-- 3. Why Replicate -->
- <section class="slide content-slide">
+ <section class="slide content-slide with-image">
+ <div>
  <h2>Why Replicate Data?</h2>
+ <p style="margin-bottom: 20px;"><strong>Replication</strong> means keeping a copy of the same data on multiple machines connected via a network.</p>
+ <ul>
+ <li>🌍 <strong>High Availability</strong> — Allow the system to continue functioning seamlessly even if several underlying nodes or entire datacenters fail.</li>
+ <li>⚡ <strong>Reduced Latency</strong> — Keep data geographically close to end users across the globe to eliminate cross-continent speed-of-light delays.</li>
+ <li>📈 <strong>Read Scalability</strong> — Scale out the volume of read-only queries by distributing requests across dozens or hundreds of replica machines.</li>
+ </ul>
+ </div>
+ <div class="image-box fill">
+ <img src="images/global-network.jpg" alt="Global network connectivity" />
+ </div>
+ </section>
+
+ <!-- 4. The Core Problem: Replicating Changes -->
+ <section class="slide content-slide">
+ <h2>The Fundamental Problem: Handling Changes</h2>
+ <div class="two-col" style="margin-top: 15px;">
+ <div class="compare-card">
+ <h3>🧊 Static Replicated Data</h3>
+ <p>If your data never changes over time, replication is completely trivial:</p>
+ <ul style="font-size: 1.15rem; margin-top: 10px;">
+ <li>Copy the files to every node once</li>
+ <li>All nodes remain identical forever</li>
+ <li>Zero coordination or consensus required</li>
+ </ul>
+ </div>
+ <div class="compare-card accent">
+ <h3>🔥 Dynamic Changing Data</h3>
+ <p>All of the difficulty in replication lies in handling <strong>changes</strong>:</p>
+ <ul style="font-size: 1.15rem; margin-top: 10px;">
+ <li>In what order should updates be processed?</li>
+ <li>What happens if a node is offline during a write?</li>
+ <li>How do we resolve concurrent conflicting updates?</li>
+ </ul>
+ </div>
+ </div>
+ <p style="margin-top: 25px; font-size: 1.2rem; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 14px 20px;">
+ 💡 <strong>Chapter Assumption:</strong> We assume throughout Chapter 5 that the dataset is small enough that <em>each machine holds a copy of the entire dataset</em>. In Chapter 6, we relax this assumption and introduce <strong>partitioning (sharding)</strong> for datasets larger than a single machine.
+ </p>
+ </section>
+
+ <!-- 5. Replication Through History -->
+ <section class="slide content-slide">
+ <h2>Replication Through History</h2>
  <div class="two-col" style="margin-top: 20px;">
  <div>
+ <p>Replication is an old, deeply studied topic in computer science:</p>
  <ul>
- <li>🌍 <strong>Latency</strong> — keep data geographically close to users</li>
- <li>🛡️ <strong>Availability</strong> — keep the system running despite failures</li>
- <li>📈 <strong>Scalability</strong> — scale out the number of machines serving reads</li>
+ <li><strong>Studied since the 1970s:</strong> The fundamental principles haven't changed since early papers (e.g. Bruce Lindsay et al., IBM Research, 1979) because the physical constraints of computer networks remain the same.</li>
+ <li><strong>The Single-Node Assumption:</strong> For decades outside of academic research, mainstream software engineering assumed a database was a single monolith machine.</li>
+ <li><strong>The Distributed Reality:</strong> Modern scale forced distributed databases into mainstream production, catching many developers off guard.</li>
  </ul>
- <p style="margin-top: 20px;">The difficulty lies in handling <strong>changes</strong> to replicated data.</p>
  </div>
- <div>
- <div class="three-col" style="gap: 10px;">
- <div class="compare-card"><h3 style="font-size: 1rem;">Single-Leader</h3></div>
- <div class="compare-card"><h3 style="font-size: 1rem;">Multi-Leader</h3></div>
- <div class="compare-card"><h3 style="font-size: 1rem;">Leaderless</h3></div>
- </div>
- <p style="margin-top: 15px; text-align: center;">Three algorithms for replicating changes between nodes</p>
+ <div class="compare-card accent">
+ <h3>⚠️ The "Eventual Consistency" Myth</h3>
+ <p style="font-size: 1.15rem; line-height: 1.5;">
+ The term <em>eventual consistency</em> was coined by Douglas Terry et al. (1994) and popularized by Werner Vogels (2008). It became the marketing battle cry of NoSQL databases.
+ </p>
+ <p class="quote" style="margin-top: 15px; font-size: 1.15rem;">
+ "However, not only NoSQL databases are eventually consistent: followers in an asynchronously replicated relational database have the exact same characteristics!"
+ </p>
  </div>
  </div>
  </section>
- <!-- 4. Section: Leaders and Followers -->
+
+ <!-- 6. Roadmap: Three Archetypes -->
+ <section class="slide content-slide">
+ <h2>Roadmap: Three Replication Archetypes</h2>
+ <p>Almost all distributed databases choose one of three fundamental algorithms to replicate changes:</p>
+ <div class="three-col" style="margin-top: 25px;">
+ <div class="compare-card">
+ <h3>1. Single-Leader</h3>
+ <p><strong>Active/Passive (Master–Slave)</strong></p>
+ <p style="margin-top: 10px; font-size: 1.1rem;">All writes funnel through one designated leader. Followers replicate its change stream. Reads go to any node.</p>
+ <p style="margin-top: 12px; font-size: 0.95rem; opacity: 0.8;">PostgreSQL, MySQL, Oracle, MongoDB, Kafka</p>
+ </div>
+ <div class="compare-card">
+ <h3>2. Multi-Leader</h3>
+ <p><strong>Active/Active (Master–Master)</strong></p>
+ <p style="margin-top: 10px; font-size: 1.1rem;">Multiple nodes accept writes. Leaders replicate changes to one another. Essential for multi-datacenter and offline sync.</p>
+ <p style="margin-top: 12px; font-size: 0.95rem; opacity: 0.8;">CouchDB, Tungsten, PostgreSQL BDR, GoldenGate</p>
+ </div>
+ <div class="compare-card accent">
+ <h3>3. Leaderless</h3>
+ <p><strong>Dynamo-Style Quorums</strong></p>
+ <p style="margin-top: 10px; font-size: 1.1rem;">Any replica accepts writes directly from clients. Quorums (<em>w</em> + <em>r</em> &gt; <em>n</em>) guarantee overlap. Replicas self-heal.</p>
+ <p style="margin-top: 12px; font-size: 0.95rem; opacity: 0.8;">Amazon Dynamo, Apache Cassandra, Riak, Voldemort</p>
+ </div>
+ </div>
+ </section>
+ <!-- 7. Section: Leaders and Followers -->
  <section class="slide section-header">
  <h2>Leaders and Followers</h2>
- <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">The most common replication approach: leader-based (master–slave)</p>
+ <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">Single-leader replication: the classic foundation of distributed databases</p>
  </section>
- <!-- 5. Leader-Based Replication (Fig 5-1) -->
+
+ <!-- 8. Leader-Based Replication (Fig 5-1) -->
  <section class="slide content-slide with-image">
  <div>
- <h2>Leader-Based Replication</h2>
- <ol>
- <li><strong>Leader</strong> (master/primary) — accepts all writes</li>
- <li><strong>Followers</strong> (read replicas/slaves) — receive changes via replication log</li>
- <li><strong>Reads</strong> can go to leader or any follower</li>
+ <h2>Leader-Based (Master–Slave) Architecture</h2>
+ <p>How the most common replication algorithm works:</p>
+ <ol style="margin-top: 15px; font-size: 1.25rem; line-height: 1.5; padding-left: 25px;">
+ <li><strong>Leader (Master / Primary)</strong> — One replica is designated the leader. When clients write to the database, they <em>must</em> send requests to the leader, which writes first to local disk storage.</li>
+ <li><strong>Followers (Read Replicas / Slaves / Secondaries)</strong> — The leader streams all data changes across the network as a <em>replication log</em> or <em>change stream</em>. Each follower applies writes in the exact same order.</li>
+ <li><strong>Read Queries</strong> — Clients can query either the leader or any follower. Followers are strictly read-only from the client's point of view.</li>
  </ol>
- <p style="margin-top: 15px;">Used by: <span class="tag">PostgreSQL</span> <span class="tag">MySQL</span> <span class="tag">MongoDB</span> <span class="tag">Kafka</span> <span class="tag">RabbitMQ</span></p>
  </div>
  <div class="image-box">
- <img src="images/ddia_0501.png" alt="Leader-based replication" />
+ <img src="images/ddia_0501.png" alt="Figure 5-1: Leader-based replication" />
  </div>
  </section>
- <!-- 6. Sync vs Async (Fig 5-2) -->
+
+ <!-- 9. Industry Ubiquity & Standby Taxonomy -->
  <section class="slide content-slide with-image">
  <div>
- <h2>Synchronous vs Asynchronous</h2>
- <p><strong>Follower 1</strong>: synchronous — leader waits for confirmation before reporting success</p>
- <p style="margin-top: 10px;"><strong>Follower 2</strong>: asynchronous — leader sends but doesn't wait</p>
- <p style="margin-top: 15px;">⚠️ If the sync follower is slow or down, writes are blocked!</p>
- <p style="margin-top: 10px;">Practice: <strong>semi-synchronous</strong> — one sync follower, rest async. If it fails, promote another to sync.</p>
+ <h2>Ubiquity & Standby Terminology</h2>
+ <p>Leader-based replication is everywhere in modern infrastructure:</p>
+ <ul style="font-size: 1.15rem;">
+ <li><strong>Relational DBs:</strong> PostgreSQL (built-in streaming since 9.0), MySQL, Oracle Data Guard, SQL Server AlwaysOn Availability Groups.</li>
+ <li><strong>NoSQL DBs:</strong> MongoDB (replica sets), RethinkDB, LinkedIn Espresso.</li>
+ <li><strong>Message Brokers:</strong> Apache Kafka (partition leaders & ISR), RabbitMQ HA queues, DRBD block devices.</li>
+ </ul>
+ <div class="compare-card" style="margin-top: 15px; padding: 15px;">
+ <h3 style="font-size: 1.1rem; margin-bottom: 6px;">Standby Nomenclature: Hot vs Warm vs Cold</h3>
+ <p style="font-size: 1.05rem; line-height: 1.4;">
+ • <strong>Hot Standby:</strong> Processes the replication log AND actively serves client read queries (e.g. PostgreSQL hot standby).<br>
+ • <strong>Warm Standby:</strong> Applies changes from the leader but serves NO client queries (waiting strictly for failover).<br>
+ • <strong>Cold Standby:</strong> Inactive backup instance; requires manual restore before becoming operational.
+ </p>
  </div>
- <div class="image-box">
- <img src="images/ddia_0502.png" alt="Sync vs async replication" />
+ <p style="margin-top: 10px; font-size: 0.95rem; opacity: 0.75;">
+ *Note: In partitioned systems (Chapter 6), each partition has exactly one leader, but leaders are distributed across different nodes.
+ </p>
+ </div>
+ <div class="image-box fill">
+ <img src="images/server-cluster.jpg" alt="Datacenter server cluster" />
  </div>
  </section>
- <!-- 7. Async Trade-off -->
+
+ <!-- 10. Sync vs Async (Fig 5-2) -->
+ <section class="slide content-slide with-image">
+ <div>
+ <h2>Synchronous vs. Asynchronous Replication</h2>
+ <p>A critical configuration choice with profound behavioral consequences:</p>
+ <ul style="font-size: 1.2rem; margin-top: 15px;">
+ <li><strong>Follower 1 is Synchronous:</strong> The leader forwards the write and <em>blocks</em> until Follower 1 confirms receipt before returning success to the user and making the write visible to other clients.</li>
+ <li><strong>Follower 2 is Asynchronous:</strong> The leader fires off the replication message over the network and returns immediately, without waiting for Follower 2's confirmation.</li>
+ <li><strong>Replication Lag:</strong> Normally, changes arrive in less than a second. But if a follower is recovering, overloaded, or network-congested, lag easily stretches to minutes.</li>
+ </ul>
+ </div>
+ <div class="image-box">
+ <img src="images/ddia_0502.png" alt="Figure 5-2: Synchronous vs asynchronous follower" />
+ </div>
+ </section>
+
+ <!-- 11. The Synchronous Dilemma -->
  <section class="slide content-slide">
- <h2>The Async Trade-off</h2>
- <div class="two-col">
+ <h2>The Synchronous Dilemma</h2>
+ <div class="two-col" style="margin-top: 15px;">
  <div class="compare-card">
- <h3>✅ Fully Async</h3>
- <ul>
- <li>Leader continues processing even if all followers are behind</li>
- <li>Lower write latency</li>
- <li>More available</li>
+ <h3>🛡️ The Synchronous Advantage</h3>
+ <p><strong>Guaranteed Up-to-Date Consistency:</strong></p>
+ <ul style="font-size: 1.15rem; margin-top: 10px;">
+ <li>Follower is guaranteed to have an exact, up-to-date copy consistent with the leader.</li>
+ <li>If the leader suddenly dies, zero data is lost.</li>
+ <li>Durability expectations are fully satisfied.</li>
  </ul>
  </div>
  <div class="compare-card accent">
- <h3>⚠️ Risk</h3>
- <ul>
- <li>If leader fails → unreplicated writes are <strong>lost</strong></li>
- <li>Write confirmed to client but not durable</li>
- <li>Weakened durability guarantee</li>
+ <h3>💀 The Synchronous Fatal Flaw</h3>
+ <p><strong>Single Node Crash Blocks All Writes:</strong></p>
+ <ul style="font-size: 1.15rem; margin-top: 10px;">
+ <li>If the synchronous follower crashes, undergoes maintenance, or experiences a network hiccup, <em>the leader cannot complete any writes</em>!</li>
+ <li>The entire database grinds to a complete halt until the synchronous replica responds.</li>
  </ul>
  </div>
  </div>
- <p style="margin-top: 15px;">Research: <strong>chain replication</strong> achieves strong consistency with good availability (used in Azure Storage).</p>
+ <div class="stat-box small" style="margin-top: 20px;">
+ <div class="number" style="font-size: 1.8rem;">Impracticable for All Followers to Be Synchronous</div>
+ <div class="label">If you had 5 synchronous followers, any one node outage would take down the entire system. System availability = <em>p</em><sup>N</sup>.</div>
+ </div>
  </section>
- <!-- 8. Setting Up New Followers -->
+
+ <!-- 12. Semi-Synchronous Replication -->
  <section class="slide content-slide">
- <h2>Setting Up New Followers</h2>
- <p>Can't just copy files — data is constantly in flux. Locking kills availability. Instead:</p>
- <ol style="margin-top: 15px;">
- <li>📸 Take a <strong>consistent snapshot</strong> of the leader's data (no lock needed)</li>
- <li>📋 Copy the snapshot to the new follower node</li>
- <li>🔗 Follower connects to leader, requests all changes <strong>since the snapshot</strong>
- <ul><li>PostgreSQL: <em>log sequence number</em></li><li>MySQL: <em>binlog coordinates</em></li></ul>
- </li>
- <li>✅ Follower processes the backlog → <strong>caught up</strong> → now receives live stream</li>
+ <h2>The Practical Compromise: Semi-Synchronous</h2>
+ <p>In real-world production databases, enabling "synchronous replication" almost always means <strong>semi-synchronous</strong> replication (e.g. MySQL, Facebook architecture):</p>
+ <div class="two-col" style="margin-top: 20px;">
+ <div class="compare-card accent">
+ <h3>How Semi-Synchronous Works</h3>
+ <ol style="font-size: 1.15rem; line-height: 1.5; padding-left: 20px; margin-top: 10px;">
+ <li>Exactly <strong>one</strong> follower is configured to be synchronous.</li>
+ <li>All other followers remain strictly asynchronous.</li>
+ <li>If the synchronous follower crashes or becomes slow, the leader automatically promotes one of the asynchronous followers to become synchronous!</li>
  </ol>
+ </div>
+ <div class="compare-card">
+ <h3>The Guarantee</h3>
+ <p style="font-size: 1.15rem; line-height: 1.5; margin-top: 10px;">
+ Guarantees you always have an up-to-date copy of every committed transaction on at least <strong>two nodes</strong>: the leader and one synchronous follower.
+ </p>
+ <p style="font-size: 1.1rem; margin-top: 15px; color: var(--accent);">
+ Prevents the write pipeline from freezing while safeguarding data durability against single-node failures!
+ </p>
+ </div>
+ </div>
  </section>
- <!-- 9. Handling Node Outages -->
+
+ <!-- 13. Fully Asynchronous Replication -->
  <section class="slide content-slide">
- <h2>Handling Node Outages</h2>
- <div class="two-col" style="margin-top: 15px;">
+ <h2>Fully Asynchronous: The Durability Trade-off</h2>
+ <p>Often, leader-based replication is configured to be <strong>completely asynchronous</strong>:</p>
+ <div class="two-col" style="margin-top: 20px;">
+ <div class="compare-card">
+ <h3>✅ High Availability & Performance</h3>
+ <ul style="font-size: 1.15rem;">
+ <li>Leader continues processing writes at maximum speed without waiting for network ACKs.</li>
+ <li>Writes proceed unhindered even if all followers are completely unreachable or lagging by hours.</li>
+ <li>Essential when followers are geographically dispersed across continents.</li>
+ </ul>
+ </div>
+ <div class="compare-card accent">
+ <h3>⚠️ Weakened Durability Guarantee</h3>
+ <ul style="font-size: 1.15rem;">
+ <li>If the leader fails catastrophically and cannot recover, any writes not yet replicated to followers are <strong>permanently lost</strong>!</li>
+ <li>The client received a "success" confirmation, yet the write was not durable.</li>
+ <li>A very common trade-off in scalable internet architectures.</li>
+ </ul>
+ </div>
+ </div>
+ <p class="quote" style="margin-top: 20px;">
+ "Weakening durability may sound like a bad trade-off, but asynchronous replication is nevertheless widely used, especially if there are many followers or if they are geographically distributed."
+ </p>
+ </section>
+
+ <!-- 14. Research: Chain Replication & Consensus -->
+ <section class="slide content-slide">
+ <h2>Research Spotlight: Chain Replication & Consensus</h2>
+ <p>Because losing committed data in asynchronous systems is serious, researchers developed novel replication algorithms providing both strong consistency and high availability:</p>
+ <div class="two-col" style="margin-top: 20px;">
+ <div class="compare-card">
+ <h3>⛓️ Chain Replication</h3>
+ <p style="font-size: 1.15rem; line-height: 1.5;">
+ Proposed by Robbert van Renesse & Fred Schneider (2004), extended by CRAQ (Object Storage on CRAQ, Terrace & Freedman, 2009).
+ </p>
+ <ul style="font-size: 1.1rem; margin-top: 10px;">
+ <li>Nodes arranged in a linear pipeline (Head → Middle nodes → Tail).</li>
+ <li>Writes enter at the Head, flow down the chain, committed at the Tail.</li>
+ <li>Reads served by Tail (or clean reads from any node in CRAQ).</li>
+ <li>Provides linearizability with high throughput. Implemented in <strong>Microsoft Azure Storage</strong>.</li>
+ </ul>
+ </div>
+ <div class="compare-card accent">
+ <h3>🗳️ Connection to Consensus</h3>
+ <p style="font-size: 1.15rem; line-height: 1.5;">
+ There is an intimate mathematical connection between replication consistency and <strong>distributed consensus</strong> (getting multiple nodes to agree on values despite faults).
+ </p>
+ <p style="margin-top: 15px; font-size: 1.15rem;">
+ We will explore consensus theory, Raft, Paxos, and Zab in depth in <strong>Chapter 9</strong>. For now, we examine the practical leader-follower mechanisms used in daily database administration.
+ </p>
+ </div>
+ </div>
+ </section>
+
+ <!-- 15. Setting Up New Followers -->
+ <section class="slide content-slide">
+ <h2>Setting Up New Followers: The Problem</h2>
+ <p>From time to time, you need to spin up new followers: to increase read capacity, rebalance load, or replace dead nodes. How do you guarantee the new follower gets an exact, consistent replica?</p>
+ <div class="two-col" style="margin-top: 20px;">
+ <div class="compare-card">
+ <h3>❌ Naive File Copy Fails</h3>
+ <p style="font-size: 1.15rem; line-height: 1.5;">
+ Clients are constantly writing to the leader. Disk pages are in constant flux. A raw file copy (`cp` or `rsync`) sees different parts of the database at different points in time.
+ </p>
+ <p style="margin-top: 10px; font-size: 1.1rem; color: #ef4444;">
+ The resulting database files on the follower will be corrupted and make no sense!
+ </p>
+ </div>
+ <div class="compare-card accent">
+ <h3>❌ Locking the Database Fails</h3>
+ <p style="font-size: 1.15rem; line-height: 1.5;">
+ You could make disk files temporarily consistent by acquiring a global write lock on the leader database during the copy.
+ </p>
+ <p style="margin-top: 10px; font-size: 1.1rem; color: var(--accent);">
+ However, locking the master halts all writes, completely defeating our core operational requirement of <strong>high availability</strong>!
+ </p>
+ </div>
+ </div>
+ </section>
+
+ <!-- 16. Zero-Downtime Follower Setup: 4 Steps -->
+ <section class="slide content-slide">
+ <h2>Zero-Downtime Follower Setup: 4 Steps</h2>
+ <p>Fortunately, modern database engines permit non-blocking follower provisioning:</p>
+ <div class="two-col" style="margin-top: 20px;">
+ <div class="compare-card">
+ <h3 style="font-size: 1.25rem;">1. Consistent Snapshot</h3>
+ <p style="font-size: 1.1rem;">Take a consistent snapshot of the leader's database without taking a global write lock (e.g., using multi-version concurrency control or tools like <em>innobackupex</em> for MySQL).</p>
+ <h3 style="font-size: 1.25rem; margin-top: 18px;">2. Copy Snapshot</h3>
+ <p style="font-size: 1.1rem;">Transfer the database snapshot across the network to the target new follower node.</p>
+ </div>
+ <div class="compare-card accent">
+ <h3 style="font-size: 1.25rem;">3. Connect & Request Stream</h3>
+ <p style="font-size: 1.1rem;">The snapshot must be tagged with an exact log position:</p>
+ <ul style="font-size: 1rem; margin-top: 5px;">
+ <li>PostgreSQL: <strong>Log Sequence Number (LSN)</strong></li>
+ <li>MySQL: <strong>Binlog coordinates</strong> (filename + byte offset)</li>
+ </ul>
+ <p style="font-size: 1.1rem; margin-top: 8px;">The follower connects to the leader and requests all changes that occurred <em>since that snapshot position</em>.</p>
+ <h3 style="font-size: 1.25rem; margin-top: 18px;">4. Catch Up & Live Sync</h3>
+ <p style="font-size: 1.1rem;">Once the follower processes the backlog of changes, it has <strong>caught up</strong> and begins consuming live data changes in real time.</p>
+ </div>
+ </div>
+ </section>
+
+ <!-- 17. Handling Node Outages: Follower Catch-up -->
+ <section class="slide content-slide">
+ <h2>Handling Node Outages: Follower Failure</h2>
+ <p>Any node can go down unexpectedly (hardware failure, crash) or for planned maintenance (kernel security patches, OS upgrades). Being able to reboot individual nodes without downtime is crucial.</p>
+ <div class="two-col" style="margin-top: 20px;">
  <div class="compare-card">
  <h3>Follower Failure: Catch-up Recovery</h3>
- <p>Follower keeps a log of changes received. After restart:</p>
- <ol style="font-size: 1rem;">
- <li>Find last processed transaction in local log</li>
- <li>Request all changes since then from leader</li>
- <li>Apply them → caught up again</li>
+ <p style="font-size: 1.15rem; line-height: 1.5;">
+ On local disk, each follower maintains a persistent log of the changes it has received from the leader. If a follower crashes or experiences network disconnection:
+ </p>
+ <ol style="font-size: 1.1rem; line-height: 1.5; padding-left: 20px; margin-top: 10px;">
+ <li>It reads its log to identify the <strong>last transaction processed</strong> before the interruption.</li>
+ <li>It reconnects to the leader and requests all transactions that occurred during its disconnection.</li>
+ <li>It applies the delta until caught up, then resumes listening to the change stream.</li>
  </ol>
  </div>
  <div class="compare-card accent">
- <h3>Leader Failure: Failover ⚠️</h3>
- <p>Much trickier! Need to:</p>
- <ol style="font-size: 1rem;">
- <li>Detect leader has failed (timeout)</li>
- <li>Choose a new leader (election/controller)</li>
- <li>Reconfigure system to use new leader</li>
- </ol>
+ <h3>Operational Benefit</h3>
+ <p style="font-size: 1.2rem; line-height: 1.6; margin-top: 15px;">
+ Follower recovery is simple and routine. Individual followers can be rebooted, patched, or replaced one by one in a <strong>rolling upgrade</strong> without affecting write traffic or cluster health.
+ </p>
  </div>
  </div>
  </section>
- <!-- 10. Failover Dangers -->
+
+ <!-- 18. Leader Failover Steps -->
  <section class="slide content-slide">
- <h2>Failover: What Can Go Wrong? 💀</h2>
- <ul>
- <li>📉 <strong>Lost writes</strong> — new leader may not have all old leader's writes → unreplicated writes are <em>discarded</em></li>
- <li>🔑 <strong>Primary key reuse</strong> — GitHub incident: out-of-date MySQL follower promoted, reused autoincrement IDs → Redis/MySQL inconsistency → <em>private data leaked to wrong users</em></li>
- <li>🧠 <strong>Split brain</strong> — two nodes both think they're leader → both accept writes → data lost/corrupted. Safety: <em>STONITH</em> (Shoot The Other Node In The Head)</li>
- <li>⏱️ <strong>Timeout tuning</strong> — too long = slow recovery; too short = unnecessary failovers under load spikes</li>
- </ul>
- <p class="quote" style="margin-top: 15px;">Some teams prefer <strong>manual failover</strong> even when automatic is available.</p>
- </section>
- <!-- 11. Section: Replication Logs -->
- <section class="slide section-header">
- <h2>Implementation of Replication Logs</h2>
- <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">How leader-based replication works under the hood</p>
- </section>
- <!-- 12. Four Replication Approaches -->
- <section class="slide content-slide">
- <h2>Four Approaches to Replication Logs</h2>
- <div class="two-col" style="margin-top: 15px;">
- <div class="compare-card">
- <h3>1. Statement-Based</h3>
- <p>Forward SQL statements (INSERT, UPDATE, DELETE)</p>
- <p style="margin-top: 8px; color: var(--accent);">⚠️ Breaks with: NOW(), RAND(), auto-increment, side effects</p>
- <p style="font-size: 0.9rem;">Used by: old MySQL, VoltDB (deterministic only)</p>
- </div>
- <div class="compare-card">
- <h3>2. Write-Ahead Log (WAL)</h3>
- <p>Ship the exact same append-only log to followers</p>
- <p style="margin-top: 8px; color: var(--accent);">⚠️ Byte-level detail → coupled to storage engine version</p>
- <p style="font-size: 0.9rem;">Used by: PostgreSQL, Oracle</p>
- </div>
- </div>
- <div class="two-col" style="margin-top: 15px;">
- <div class="compare-card accent">
- <h3>3. Logical (Row-Based) Log ✅</h3>
- <p>Sequence of row-level changes (new values for inserts/updates, PK for deletes)</p>
- <p style="margin-top: 8px;">Decoupled from storage engine → backward compatible, parseable by external systems (<strong>change data capture</strong>)</p>
- <p style="font-size: 0.9rem;">Used by: MySQL binlog (row mode)</p>
- </div>
- <div class="compare-card">
- <h3>4. Trigger-Based</h3>
- <p>Application-level: triggers log changes to separate table</p>
- <p style="margin-top: 8px; color: var(--accent);">⚠️ Higher overhead, more bugs. Used for flexibility.</p>
- <p style="font-size: 0.9rem;">Used by: Oracle GoldenGate, Bucardo</p>
- </div>
- </div>
- </section>
- <!-- 13. Section: Replication Lag -->
- <section class="slide section-header">
- <h2>Problems with Replication Lag</h2>
- <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">What goes wrong when followers fall behind</p>
- </section>
- <!-- 14. Read-Scaling Architecture -->
- <section class="slide content-slide">
- <h2>The Read-Scaling Architecture</h2>
- <p>Many reads, few writes? Add more followers and distribute reads.</p>
- <ul style="margin-top: 15px;">
- <li>This <strong>only works with async replication</strong> — sync would block on any node failure</li>
- <li>Async followers may serve <strong>outdated data</strong></li>
- <li><strong>Eventual consistency</strong> — "eventually" is deliberately vague: could be milliseconds or minutes</li>
- </ul>
- <p style="margin-top: 20px;">Three anomalies that application developers must be aware of:</p>
- <div class="three-col" style="margin-top: 10px;">
- <div class="compare-card"><h3 style="font-size: 1rem;">Reading Your Own Writes</h3></div>
- <div class="compare-card"><h3 style="font-size: 1rem;">Monotonic Reads</h3></div>
- <div class="compare-card"><h3 style="font-size: 1rem;">Consistent Prefix Reads</h3></div>
- </div>
- </section>
- <!-- 15. Read Your Own Writes (Fig 5-3) -->
- <section class="slide content-slide with-image">
- <div>
- <h2>Reading Your Own Writes</h2>
- <p>User submits data, then reads from a stale follower → <em>looks like their data was lost!</em></p>
- <p style="margin-top: 15px;"><strong>Read-after-write consistency</strong> guarantees you see your own writes.</p>
- <p style="margin-top: 15px;">Strategies:</p>
- <ul style="font-size: 1rem;">
- <li>Read user's own data from leader</li>
- <li>Track last update time; read from leader for 1 min after</li>
- <li>Client remembers write timestamp → ensure replica is caught up</li>
- </ul>
- </div>
- <div class="image-box">
- <img src="images/ddia_0503.png" alt="Read-after-write consistency" />
- </div>
- </section>
- <!-- 16. Monotonic Reads (Fig 5-4) -->
- <section class="slide content-slide with-image">
- <div>
- <h2>Monotonic Reads</h2>
- <p>User reads from replica A (fresh), then replica B (stale) → data <em>appears to go backward in time!</em></p>
- <p style="margin-top: 15px;">A comment appears, then disappears on page refresh.</p>
- <p style="margin-top: 15px;"><strong>Monotonic reads</strong>: once you've seen a value, you won't later see an older value.</p>
- <p style="margin-top: 15px;">Solution: route each user to the <strong>same replica</strong> (hash of user ID). But handle replica failure gracefully.</p>
- </div>
- <div class="image-box">
- <img src="images/ddia_0504.png" alt="Monotonic reads" />
- </div>
- </section>
- <!-- 17. Consistent Prefix Reads (Fig 5-5) -->
- <section class="slide content-slide with-image">
- <div>
- <h2>Consistent Prefix Reads</h2>
- <p>Causally related writes arrive out of order:</p>
- <div class="code-block" style="font-size: 0.9rem; margin-top: 10px;">
-Mr. Poons: How far into the future
- can you see, Mrs. Cake?
-Mrs. Cake: About ten seconds usually.</div>
- <p style="margin-top: 10px;">But an observer sees:</p>
- <div class="code-block" style="font-size: 0.9rem; margin-top: 10px;">
-Mrs. Cake: About ten seconds usually.
-Mr. Poons: How far into the future
- can you see?</div>
- <p style="margin-top: 10px;">Looks like Mrs. Cake has psychic powers! 🔮</p>
- <p style="margin-top: 10px;">Fix: write causally related data to the <strong>same partition</strong>.</p>
- </div>
- <div class="image-box">
- <img src="images/ddia_0505.png" alt="Consistent prefix reads" />
- </div>
- </section>
- <!-- 18. Solutions for Lag -->
- <section class="slide content-slide">
- <h2>Solutions for Replication Lag</h2>
- <p>Application-level workarounds are <strong>complex and error-prone</strong>.</p>
- <p style="margin-top: 15px;">Better approach: use <strong>transactions</strong> to provide stronger guarantees at the database level.</p>
- <ul style="margin-top: 15px;">
- <li>Single-node transactions have existed for a long time</li>
- <li>Distributed databases often abandoned them ("too expensive")</li>
- <li>But that's <strong>overly simplistic</strong> — we'll revisit in Chapters 7 &amp; 9</li>
- </ul>
- <p class="quote" style="margin-top: 15px;">"Pretending that replication is synchronous when in fact it is asynchronous is a recipe for problems down the line."</p>
- </section>
- <!-- 19. Section: Multi-Leader -->
- <section class="slide section-header">
- <h2>Multi-Leader Replication</h2>
- <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">When one leader isn't enough</p>
- </section>
- <!-- 20. Why Multi-Leader -->
- <section class="slide content-slide">
- <h2>Why Multi-Leader?</h2>
- <p>Single-leader downside: all writes must go through <strong>one node</strong>. If you can't reach it, no writes.</p>
- <p style="margin-top: 15px;"><strong>Multi-leader</strong>: multiple nodes accept writes, replicate to each other.</p>
+ <h2>Handling Node Outages: Leader Failover</h2>
+ <p>Handling a failure of the leader is drastically more difficult: one follower must be promoted to leader, clients rerouted, and followers reconfigured. This is called <strong>failover</strong>.</p>
  <div class="three-col" style="margin-top: 20px;">
  <div class="compare-card">
- <h3>🌐 Multi-Datacenter</h3>
- <p>One leader per DC. Within DC: normal leader-follower. Between DCs: leader-to-leader.</p>
+ <h3>1. Failure Detection</h3>
+ <p style="font-size: 1.1rem; line-height: 1.4;">There is no foolproof way to distinguish a crash from network delay. Nodes bounce heartbeat messages. If a node fails to respond for a timeout period (e.g., 30s), it is declared dead.</p>
  </div>
  <div class="compare-card">
- <h3>📱 Offline Clients</h3>
- <p>Each device is a "datacenter" with its own leader. Sync when online. (Calendar apps!)</p>
- </div>
- <div class="compare-card">
- <h3>👥 Collaborative Editing</h3>
- <p>Each user's browser is a replica. Changes replicated async. (Google Docs, Etherpad)</p>
- </div>
- </div>
- </section>
- <!-- 21. Multi-Datacenter (Fig 5-6) -->
- <section class="slide content-slide with-image">
- <div>
- <h2>Multi-Datacenter Operation</h2>
- <p>A leader in <em>each</em> datacenter:</p>
- <ul>
- <li>⚡ <strong>Performance</strong> — writes go to local DC, async to others</li>
- <li>🛡️ <strong>DC outage tolerance</strong> — each DC operates independently</li>
- <li>🌐 <strong>Network tolerance</strong> — inter-DC link issues don't block writes</li>
- </ul>
- <p style="margin-top: 15px;">Big downside: <strong>write conflicts</strong> when same data is modified in two DCs.</p>
- <p style="margin-top: 10px;">Tools: <span class="tag">Tungsten (MySQL)</span> <span class="tag">BDR (PostgreSQL)</span> <span class="tag">GoldenGate (Oracle)</span></p>
- </div>
- <div class="image-box">
- <img src="images/ddia_0506.png" alt="Multi-leader replication across datacenters" />
- </div>
- </section>
- <!-- 22. Section: Write Conflicts -->
- <section class="slide section-header">
- <h2>Handling Write Conflicts</h2>
- <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">The biggest problem with multi-leader replication</p>
- </section>
- <!-- 23. Write Conflicts (Fig 5-7) -->
- <section class="slide content-slide with-image">
- <div>
- <h2>Write Conflicts</h2>
- <p>Two users edit the same wiki page title simultaneously:</p>
- <ul>
- <li>User 1: A → B (on leader 1) ✅</li>
- <li>User 2: A → C (on leader 2) ✅</li>
- <li>When replicated → <strong>conflict detected!</strong></li>
- </ul>
- <p style="margin-top: 15px;">In single-leader: second write would block or abort. In multi-leader: both succeed locally, conflict discovered later.</p>
- <p style="margin-top: 10px;">Sync conflict detection defeats the purpose of multi-leader.</p>
- </div>
- <div class="image-box">
- <img src="images/ddia_0507.png" alt="Write conflict" />
- </div>
- </section>
- <!-- 24. Conflict Resolution Strategies -->
- <section class="slide content-slide">
- <h2>Conflict Resolution Strategies</h2>
- <div class="two-col" style="margin-top: 15px;">
- <div class="compare-card">
- <h3>🚫 Conflict Avoidance</h3>
- <p>Route all writes for a record to the same leader. <strong>Simplest and recommended!</strong></p>
- <p style="margin-top: 8px;">Example: route each user to their "home" datacenter.</p>
- <p style="margin-top: 8px; color: var(--accent);">Breaks down if you need to reroute (DC failure, user moves).</p>
- </div>
- <div class="compare-card">
- <h3>🔀 Convergent Resolution</h3>
- <p>All replicas must arrive at the same final value:</p>
- <ul style="font-size: 0.95rem; margin-top: 8px;">
- <li><strong>Last Write Wins</strong> (timestamp) — popular but <em>loses data</em></li>
- <li><strong>Replica priority</strong> — higher-numbered replica wins</li>
- <li><strong>Merge values</strong> — concatenate ("B/C")</li>
- <li><strong>Preserve all</strong> — resolve later in app code</li>
- </ul>
- </div>
- </div>
- </section>
- <!-- 25. Automatic Conflict Resolution -->
- <section class="slide content-slide">
- <h2>Automatic Conflict Resolution</h2>
- <p>Custom conflict resolution code is complex and error-prone.</p>
- <p class="quote" style="margin-top: 10px;">Amazon's shopping cart: conflict resolution preserved added items but not removals → items reappeared after being removed! 🛒</p>
- <p style="margin-top: 20px;">Research on automatic resolution:</p>
- <div class="three-col" style="margin-top: 15px;">
- <div class="compare-card">
- <h3>CRDTs</h3>
- <p>Data structures that auto-resolve conflicts (sets, maps, counters). Used in Riak 2.0.</p>
- </div>
- <div class="compare-card">
- <h3>Mergeable Data Structures</h3>
- <p>Track history like Git, use <strong>three-way merge</strong>.</p>
- </div>
- <div class="compare-card">
- <h3>Operational Transform</h3>
- <p>Behind Google Docs / Etherpad. Designed for ordered lists (text).</p>
- </div>
- </div>
- </section>
- <!-- 26. Topologies (Fig 5-8) -->
- <section class="slide content-slide with-image">
- <div>
- <h2>Multi-Leader Replication Topologies</h2>
- <p>How writes propagate between leaders:</p>
- <ul>
- <li><strong>Circular</strong> — each node forwards to one other (MySQL default)</li>
- <li><strong>Star</strong> — one root forwards to all others</li>
- <li><strong>All-to-all</strong> — every leader sends to every other ✅</li>
- </ul>
- <p style="margin-top: 15px;">Circular/star: single node failure breaks the chain. All-to-all: better fault tolerance.</p>
- </div>
- <div class="image-box">
- <img src="images/ddia_0508.png" alt="Replication topologies" />
- </div>
- </section>
- <!-- 27. Causality Problems (Fig 5-9) -->
- <section class="slide content-slide with-image">
- <div>
- <h2>Causality Problems in All-to-All</h2>
- <p>Some network links may be faster → writes can <strong>"overtake"</strong> each other.</p>
- <p style="margin-top: 15px;">Client A inserts a row on leader 1. Client B updates that row on leader 3.</p>
- <p style="margin-top: 10px;">Leader 2 receives the <strong>update before the insert</strong> → tries to update a row that doesn't exist!</p>
- <p style="margin-top: 15px;">Timestamps can't fix this (clocks aren't synchronized). Need <strong>version vectors</strong>.</p>
- <p style="margin-top: 10px; color: var(--accent);">Many multi-leader systems handle this poorly (PostgreSQL BDR, Tungsten).</p>
- </div>
- <div class="image-box">
- <img src="images/ddia_0509.png" alt="Writes arriving in wrong order" />
- </div>
- </section>
- <!-- 28. Section: Leaderless -->
- <section class="slide section-header">
- <h2>Leaderless Replication</h2>
- <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">Dynamo-style: no leader, any replica accepts writes</p>
- </section>
- <!-- 29. Leaderless Writes (Fig 5-10) -->
- <section class="slide content-slide with-image">
- <div>
- <h2>Writing Without a Leader</h2>
- <p>Client sends writes to <strong>all replicas in parallel</strong>. If enough acknowledge (e.g., 2 of 3), it's successful.</p>
- <p style="margin-top: 15px;">If a replica is down, it misses the write. When it comes back, reads detect staleness.</p>
- <p style="margin-top: 15px;">Two repair mechanisms:</p>
- <ul>
- <li><strong>Read repair</strong> — client reads from multiple replicas, writes fresh value back to stale ones</li>
- <li><strong>Anti-entropy</strong> — background process copies missing data between replicas</li>
- </ul>
- <p style="margin-top: 10px;">Used by: <span class="tag">Riak</span> <span class="tag">Cassandra</span> <span class="tag">Voldemort</span></p>
- </div>
- <div class="image-box">
- <img src="images/ddia_0510.png" alt="Leaderless replication" />
- </div>
- </section>
- <!-- 30. Quorums (Fig 5-11) -->
- <section class="slide content-slide with-image">
- <div>
- <h2>Quorums</h2>
- <p><strong>n</strong> replicas, write to <strong>w</strong>, read from <strong>r</strong>.</p>
- <p style="margin-top: 10px;">As long as <strong>w + r &gt; n</strong>, at least one read node has the latest value.</p>
- <div class="stat-box small" style="margin-top: 15px;">
- <div class="number">w + r &gt; n</div>
- <div class="label">The quorum condition</div>
- </div>
- <p style="margin-top: 15px;">Common: n=3, w=2, r=2 (tolerate 1 failure)</p>
- <p>Or: n=5, w=3, r=3 (tolerate 2 failures)</p>
- </div>
- <div class="image-box">
- <img src="images/ddia_0511.png" alt="Quorum" />
- </div>
- </section>
- <!-- 31. Quorum Limitations -->
- <section class="slide content-slide">
- <h2>Limitations of Quorum Consistency</h2>
- <p>Even with w + r &gt; n, stale reads can happen! Edge cases:</p>
- <ul>
- <li>🔀 <strong>Sloppy quorum</strong> — writes may land on non-"home" nodes, no overlap guaranteed</li>
- <li>⏱️ <strong>Concurrent writes</strong> — no clear ordering → must merge or pick winner</li>
- <li>⚡ <strong>Concurrent read + write</strong> — write may be on only some replicas</li>
- <li>❌ <strong>Partial write failure</strong> — succeeded on some but &lt; w replicas; not rolled back</li>
- <li>💥 <strong>Node restore</strong> — restored from old data → quorum condition broken</li>
- </ul>
- <p style="margin-top: 15px;">Dynamo-style DBs are optimized for <strong>eventual consistency</strong>. Don't treat quorum parameters as absolute guarantees.</p>
- </section>
- <!-- 32. Sloppy Quorums -->
- <section class="slide content-slide">
- <h2>Sloppy Quorums &amp; Hinted Handoff</h2>
- <p>Network partition: client can reach <em>some</em> nodes but not the designated n "home" nodes.</p>
- <div class="two-col" style="margin-top: 15px;">
- <div class="compare-card">
- <h3>Strict Quorum</h3>
- <p>Return errors — can't reach quorum.</p>
- <p style="margin-top: 8px;">Correct but <strong>unavailable</strong>.</p>
+ <h3>2. Leader Election</h3>
+ <p style="font-size: 1.1rem; line-height: 1.4;">A new leader is chosen via majority election (consensus) or appointed by a controller node. The best candidate is the replica with the <em>most up-to-date data changes</em> to minimize data loss.</p>
  </div>
  <div class="compare-card accent">
- <h3>Sloppy Quorum 🛋️</h3>
- <p>Accept writes on reachable "neighbor" nodes.</p>
- <p style="margin-top: 8px;">Once partition heals → <strong>hinted handoff</strong>: neighbor sends data to home node.</p>
- <p style="margin-top: 8px;">Like sleeping on a neighbor's couch when locked out!</p>
+ <h3>3. Reconfiguration</h3>
+ <p style="font-size: 1.1rem; line-height: 1.4;">Clients must be redirected to write to the new leader. If the former leader recovers, the system must force it to step down, realize it was deposed, and become a follower.</p>
  </div>
- </div>
- <p style="margin-top: 15px;">Sloppy quorum ≠ true quorum — only guarantees <em>durability</em>, not read consistency.</p>
- </section>
- <!-- 33. Section: Concurrent Writes -->
- <section class="slide section-header">
- <h2>Detecting Concurrent Writes</h2>
- <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">Defining "concurrent" and resolving conflicts in leaderless systems</p>
- </section>
- <!-- 34. Concurrent Writes (Fig 5-12) -->
- <section class="slide content-slide with-image">
- <div>
- <h2>The Concurrent Writes Problem</h2>
- <p>Two clients write to the same key on three replicas:</p>
- <ul>
- <li>Node 1: sees only A's write</li>
- <li>Node 2: A first, then B</li>
- <li>Node 3: B first, then A</li>
- </ul>
- <p style="margin-top: 15px;">Nodes disagree on final value! If they just overwrite on each write → <strong>permanent inconsistency</strong>.</p>
- <p style="margin-top: 10px;">Need a deterministic strategy for convergence.</p>
- </div>
- <div class="image-box">
- <img src="images/ddia_0512.png" alt="Concurrent writes" />
  </div>
  </section>
- <!-- 35. Last Write Wins -->
+
+ <!-- 19. Failover Danger 1: Discarded Writes -->
  <section class="slide content-slide">
- <h2>Last Write Wins (LWW)</h2>
- <p>Attach a timestamp to each write, keep the highest.</p>
+ <h2>Failover Danger 1: Discarded Writes</h2>
  <div class="two-col" style="margin-top: 15px;">
- <div class="compare-card">
- <h3>✅ Pros</h3>
- <ul>
- <li>Simple to implement</li>
- <li>Eventually converges</li>
- <li>Only conflict resolution in Cassandra</li>
+ <div>
+ <p>In asynchronous replication, the promoted follower may not have received all writes from the old leader before it died.</p>
+ <ul style="font-size: 1.2rem; margin-top: 15px;">
+ <li>Meanwhile, the new leader starts accepting brand new client writes.</li>
+ <li>When the former leader reconnects, what should happen to its unreplicated writes?</li>
+ <li><strong>The Standard Solution:</strong> The old leader's unreplicated writes are simply <strong>discarded</strong>!</li>
+ <li><strong>Durability Violation:</strong> The client was told the write was successful, but the data is erased!</li>
  </ul>
  </div>
  <div class="compare-card accent">
- <h3>❌ Cons</h3>
- <ul>
- <li><strong>Silently drops writes</strong> — concurrent writes reported as successful, but only one survives</li>
- <li>Can even drop non-concurrent writes (clock skew)</li>
- <li><strong>Dangerous for data you can't afford to lose</strong></li>
- </ul>
+ <h3>Why Discarding Writes Is Dangerous</h3>
+ <p style="font-size: 1.15rem; line-height: 1.5;">
+ Discarding writes violates the core promise of persistence. If clients update banking records or order items and receive an OK response, finding those writes silently erased breaks business integrity.
+ </p>
+ <p style="margin-top: 15px; font-size: 1.15rem; line-height: 1.5;">
+ This becomes catastrophically dangerous when outside storage systems are coordinated with the database.
+ </p>
  </div>
  </div>
- <p style="margin-top: 15px;">Safe use: write each key <strong>once</strong> (immutable), e.g., use UUIDs as keys.</p>
  </section>
- <!-- 36. Happens-Before -->
+
+ <!-- 20. Failover Danger 2: The GitHub Incident -->
  <section class="slide content-slide">
- <h2>The "Happens-Before" Relationship</h2>
- <p>Two operations are <strong>concurrent</strong> if neither knows about the other.</p>
- <div class="two-col" style="margin-top: 15px;">
+ <h2>Failover Danger 2: The GitHub Incident</h2>
+ <p>A classic real-world disaster illustrating the ripple effect of discarded writes (GitHub Availability Incident, Sept 2012):</p>
+ <div class="two-col" style="margin-top: 20px;">
  <div class="compare-card">
- <h3>A happens before B</h3>
- <p>B knows about A, or depends on A, or builds upon A.</p>
- <p style="margin-top: 8px;"><strong>Later operation overwrites earlier.</strong></p>
+ <h3>What Happened</h3>
+ <ul style="font-size: 1.1rem; line-height: 1.5;">
+ <li>An out-of-date MySQL follower was promoted to leader following an outage.</li>
+ <li>MySQL used an <strong>autoincrementing counter</strong> to assign primary keys to new rows.</li>
+ <li>Because the new leader's counter lagged behind the old leader's, it began <strong>reusing primary keys</strong> that had previously been assigned!</li>
+ <li>These primary keys were also stored in a separate Redis cache.</li>
+ </ul>
  </div>
  <div class="compare-card accent">
- <h3>A || B (concurrent)</h3>
- <p>Neither knows about the other. Physical time doesn't matter!</p>
- <p style="margin-top: 8px;"><strong>Conflict → must be resolved.</strong></p>
+ <h3>The Catastrophic Result</h3>
+ <p style="font-size: 1.2rem; font-weight: 600; color: #b91c1c;">
+ 🚨 Inconsistency Between MySQL and Redis Caused Private User Data to Be Disclosed to the Wrong Users!
+ </p>
+ <p style="margin-top: 15px; font-size: 1.1rem; line-height: 1.5;">
+ A user requested their private repository or profile, but because primary keys were recycled, Redis served another user's cached private data!
+ </p>
  </div>
  </div>
- <p class="quote" style="margin-top: 15px;">"We simply call two operations concurrent if they are both unaware of each other, regardless of the physical time at which they occurred."</p>
  </section>
- <!-- 37. Shopping Cart (Fig 5-13) -->
+
+ <!-- 21. Failover Danger 3: Split Brain & STONITH -->
  <section class="slide content-slide with-image">
  <div>
- <h2>Capturing Causal Dependencies</h2>
- <p>Shopping cart example: two clients add items concurrently.</p>
- <p style="margin-top: 10px;">Server assigns <strong>version numbers</strong>:</p>
- <ul style="font-size: 0.95rem;">
- <li>v1: [milk]</li>
- <li>v2: [eggs] (concurrent with v1)</li>
- <li>v3: [milk, flour] (supersedes v1)</li>
- <li>v4: [eggs, milk, ham] (supersedes v2)</li>
- <li>v5: [milk, flour, eggs, bacon] (supersedes v3)</li>
+ <h2>Failover Danger 3: Split Brain & STONITH</h2>
+ <p>In network partitions, two nodes can both believe they are the legitimate leader:</p>
+ <ul style="font-size: 1.15rem; margin-top: 10px;">
+ <li><strong>Split Brain:</strong> If both nodes accept writes independently without conflict resolution, data is rapidly corrupted or lost.</li>
+ <li><strong>Fencing / STONITH:</strong> <em>"Shoot The Other Node In The Head"</em> — nodes use hardware fencing (IPMI power off) to forcefully kill a rogue leader.</li>
+ <li><strong>The STONITH Failure Mode:</strong> If fencing logic is misconfigured or network flaps cause both nodes to suspect each other, <strong>both nodes shoot each other down</strong>, killing the entire cluster!</li>
  </ul>
- <p style="margin-top: 10px;">Client includes version number from prior read → server knows what it supersedes vs what's concurrent.</p>
  </div>
- <div class="image-box">
- <img src="images/ddia_0513.png" alt="Shopping cart example" />
- </div>
- </section>
- <!-- 38. Causal Graph (Fig 5-14) -->
- <section class="slide content-slide with-image">
- <div>
- <h2>Causal Dependency Graph</h2>
- <p>Arrows show which operation <strong>happened before</strong> which.</p>
- <p style="margin-top: 15px;">Old versions get overwritten. <strong>No writes are lost.</strong></p>
- <p style="margin-top: 15px;">Merging siblings: take the <strong>union</strong> of concurrent values.</p>
- <p style="margin-top: 10px;">⚠️ For <strong>removals</strong>, unions don't work → need <strong>tombstones</strong> (deletion markers with version numbers).</p>
- <p style="margin-top: 15px;">Better: use <strong>CRDTs</strong> (e.g., Riak's datatypes) to auto-merge siblings.</p>
- </div>
- <div class="image-box">
- <img src="images/ddia_0514.png" alt="Causal dependencies graph" />
+ <div class="image-box fill">
+ <img src="images/network-cables.jpg" alt="Network cables and server racks" />
  </div>
  </section>
- <!-- 39. Version Vectors -->
+
+ <!-- 22. Failover Danger 4: The Timeout Dilemma -->
  <section class="slide content-slide">
- <h2>Version Vectors</h2>
- <p>Single version number works for one replica. With multiple replicas:</p>
- <ul style="margin-top: 15px;">
- <li>Need a version number <strong>per replica per key</strong></li>
- <li>Each replica increments its own version number on writes</li>
- <li>Tracks version numbers seen from <strong>all other replicas</strong></li>
- <li>The collection = <strong>version vector</strong></li>
+ <h2>Failover Danger 4: The Timeout Dilemma</h2>
+ <div class="two-col" style="margin-top: 15px;">
+ <div class="compare-card">
+ <h3>Timeout Too Long (e.g. 5 minutes)</h3>
+ <p style="font-size: 1.15rem; line-height: 1.5;">
+ System sits idle and unavailable for 5 minutes during a real crash before recovering. SLA is severely impacted.
+ </p>
+ </div>
+ <div class="compare-card accent">
+ <h3>Timeout Too Short (e.g. 2 seconds)</h3>
+ <p style="font-size: 1.15rem; line-height: 1.5;">
+ Temporary load spikes, GC pauses, or transient packet drops trigger <strong>unnecessary failovers</strong>.
+ </p>
+ <p style="margin-top: 10px; font-size: 1.05rem; color: #b91c1c;">
+ If the system is already struggling with overload, failover overhead makes the crisis vastly worse!
+ </p>
+ </div>
+ </div>
+ <p class="quote" style="margin-top: 25px; font-size: 1.3rem;">
+ "There are no easy solutions to these problems. For this reason, some operations teams prefer to perform failovers manually, even if the software supports automatic failover."
+ </p>
+ </section>
+ <!-- 23. Section: Replication Logs -->
+ <section class="slide section-header">
+ <h2>Implementation of Replication Logs</h2>
+ <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">Under the hood: from raw statements and disk bytes to logical change streams</p>
+ </section>
+
+ <!-- 24. Method 1: Statement-Based Replication -->
+ <section class="slide content-slide">
+ <h2>Method 1: Statement-Based Replication</h2>
+ <p>In the simplest conceptual model, the leader logs every write request (<em>statement</em>) that it executes and sends that statement log to its followers:</p>
+ <div class="two-col" style="margin-top: 20px;">
+ <div class="compare-card">
+ <h3>How It Works</h3>
+ <p style="font-size: 1.15rem; line-height: 1.5;">
+ For a relational database, every SQL statement (`INSERT`, `UPDATE`, `DELETE`) is forwarded directly over the network to followers.
+ </p>
+ <p style="margin-top: 15px; font-size: 1.1rem; line-height: 1.5;">
+ Each follower parses and executes that SQL statement as if it had been received directly from an application client.
+ </p>
+ </div>
+ <div class="compare-card accent">
+ <h3>Initial Appeal & Usage</h3>
+ <ul style="font-size: 1.15rem; line-height: 1.5;">
+ <li><strong>Extremely Compact:</strong> Only the concise SQL text is sent across the wire (e.g. `UPDATE users SET status = 'active' WHERE id = 42;`).</li>
+ <li><strong>History:</strong> Used in MySQL prior to version 5.1.</li>
+ <li><strong>Today:</strong> VoltDB requires statement-based replication, making it completely safe by strictly requiring all transactions to be deterministic.</li>
  </ul>
- <p style="margin-top: 15px;">Riak calls it <strong>causal context</strong> and uses <strong>dotted version vectors</strong>.</p>
- <p style="margin-top: 10px;">⚠️ Often confused with <strong>vector clocks</strong> — related but not the same.</p>
- <p style="margin-top: 10px;">Version vectors ensure it's safe to read from one replica and write to another without losing data.</p>
+ </div>
+ </div>
+ </section>
+
+ <!-- 25. Breakdowns of Statement-Based Replication -->
+ <section class="slide content-slide">
+ <h2>Why Statement-Based Replication Breaks Down</h2>
+ <p>Although simple, statement-based replication is notoriously brittle due to three critical failure modes:</p>
+ <div class="three-col" style="margin-top: 20px;">
+ <div class="compare-card">
+ <h3>1. Nondeterminism</h3>
+ <p style="font-size: 1.1rem; line-height: 1.4;">
+ Any statement calling nondeterministic functions like `NOW()`, `RAND()`, or `UUID()` produces different values on every replica, silently corrupting consistency.
+ </p>
+ </div>
+ <div class="compare-card">
+ <h3>2. Autoincrement & Order</h3>
+ <p style="font-size: 1.1rem; line-height: 1.4;">
+ Statements using autoincrementing columns or conditional updates (`UPDATE ... WHERE condition`) must execute in identical order on all replicas, severely restricting concurrency.
+ </p>
+ </div>
+ <div class="compare-card accent">
+ <h3>3. Side Effects</h3>
+ <p style="font-size: 1.1rem; line-height: 1.4;">
+ Triggers, stored procedures, and user-defined functions that read system state or invoke external services yield different side effects on each node.
+ </p>
+ </div>
+ </div>
+ <p style="margin-top: 20px; font-size: 1.15rem; line-height: 1.5;">
+ 💡 <em>Workarounds:</em> The leader can substitute fixed return values for `NOW()`, but edge cases are so plentiful that modern databases prefer row-based replication.
+ </p>
+ </section>
+
+ <!-- 26. Method 2: Write-Ahead Log (WAL) Shipping -->
+ <section class="slide content-slide with-image">
+ <div>
+ <h2>Method 2: Write-Ahead Log (WAL) Shipping</h2>
+ <p>Recall from Chapter 3 that storage engines represent data on disk by appending writes to an append-only byte log:</p>
+ <ul style="font-size: 1.15rem; margin-top: 15px;">
+ <li><strong>Log-Structured (SSTables & LSM-Trees):</strong> The log is the primary storage structure; segments are compacted in the background.</li>
+ <li><strong>B-Trees:</strong> Every block modification is first recorded in a write-ahead log (WAL) to restore page consistency after crashes.</li>
+ <li><strong>WAL Shipping:</strong> Besides writing to local disk, the leader sends this exact append-only byte log across the network.</li>
+ <li><strong>Follower:</strong> Processes this byte log to build an exact, identical disk image of the leader's data structures!</li>
+ <li><strong>Used by:</strong> <span class="tag">PostgreSQL</span> <span class="tag">Oracle Data Guard</span></li>
+ </ul>
+ </div>
+ <div class="image-box fill">
+ <img src="images/storage-engine.jpg" alt="Storage engine internal schematic" />
+ </div>
+ </section>
+
+ <!-- 27. The Operational Trap of WAL Shipping -->
+ <section class="slide content-slide">
+ <h2>The Operational Trap of WAL Shipping</h2>
+ <div class="two-col" style="margin-top: 15px;">
+ <div class="compare-card">
+ <h3>Low-Level Physical Coupling</h3>
+ <p style="font-size: 1.15rem; line-height: 1.5;">
+ A Write-Ahead Log contains details of <strong>which bytes were changed in which disk blocks</strong>.
+ </p>
+ <p style="margin-top: 15px; font-size: 1.15rem; line-height: 1.5;">
+ This binds replication tightly to the storage engine's low-level binary disk representation!
+ </p>
+ </div>
+ <div class="compare-card accent">
+ <h3>💀 Major Version Upgrades Require Downtime</h3>
+ <p style="font-size: 1.15rem; line-height: 1.5;">
+ If a database changes its on-disk storage format from one major version to another, <em>the leader and followers cannot run different software versions</em>!
+ </p>
+ <p style="margin-top: 15px; font-size: 1.15rem; line-height: 1.5;">
+ You cannot perform a zero-downtime rolling upgrade (upgrading followers first, then failing over). Major PostgreSQL upgrades with WAL shipping traditionally required maintenance downtime!
+ </p>
+ </div>
+ </div>
+ </section>
+
+ <!-- 28. Method 3: Logical (Row-Based) Log Replication -->
+ <section class="slide content-slide">
+ <h2>Method 3: Logical (Row-Based) Log Replication</h2>
+ <p>Use different log formats for replication and for storage engine internals, decoupling replication from physical disk layouts:</p>
+ <div class="two-col" style="margin-top: 20px;">
+ <div class="compare-card accent">
+ <h3>Row-Level Granularity</h3>
+ <p style="font-size: 1.15rem; line-height: 1.5;">A logical log describes table writes at the granularity of a row:</p>
+ <ul style="font-size: 1.1rem; margin-top: 10px;">
+ <li><strong>INSERT:</strong> Contains the new values of all columns.</li>
+ <li><strong>DELETE:</strong> Contains the primary key (or old values of all columns if no primary key exists).</li>
+ <li><strong>UPDATE:</strong> Contains the primary key and the new values of all changed columns.</li>
+ <li><strong>Transactions:</strong> Multi-row modifications emit multiple row records followed by a commit marker.</li>
+ </ul>
+ </div>
+ <div class="compare-card">
+ <h3>Real-World Standard</h3>
+ <p style="font-size: 1.2rem; line-height: 1.6; margin-top: 10px;">
+ <strong>MySQL binlog:</strong> When configured for row-based replication (RBR), MySQL logs row-level deltas rather than raw SQL text.
+ </p>
+ <p style="margin-top: 15px; font-size: 1.15rem; line-height: 1.6; color: var(--accent);">
+ This represents the modern sweet spot between compatibility, safety, and performance for relational systems!
+ </p>
+ </div>
+ </div>
+ </section>
+
+ <!-- 29. Superpowers of Logical Logs: Zero-Downtime & CDC -->
+ <section class="slide content-slide">
+ <h2>Superpowers of Logical Logs: Upgrades & CDC</h2>
+ <div class="two-col" style="margin-top: 15px;">
+ <div class="compare-card">
+ <h3>🔄 Zero-Downtime Rolling Upgrades</h3>
+ <p style="font-size: 1.15rem; line-height: 1.5;">
+ Because the logical log is decoupled from storage engine byte layouts, it remains backward compatible across database software versions:
+ </p>
+ <ul style="font-size: 1.1rem; margin-top: 10px;">
+ <li>Followers can run a newer software version than the leader.</li>
+ <li>Upgrade followers one by one while cluster remains live.</li>
+ <li>Perform a clean failover to an upgraded node, making it leader.</li>
+ <li>Upgrade the old leader with <strong>zero downtime</strong>!</li>
+ </ul>
+ </div>
+ <div class="compare-card accent">
+ <h3>📡 Change Data Capture (CDC)</h3>
+ <p style="font-size: 1.15rem; line-height: 1.5;">
+ A logical log format is straightforward for external applications and stream processors to parse:
+ </p>
+ <ul style="font-size: 1.1rem; margin-top: 10px;">
+ <li>Stream database changes to <strong>data warehouses</strong> (e.g. Snowflake, BigQuery) for offline OLAP analytics.</li>
+ <li>Continuously build and refresh custom external search indexes (Elasticsearch, Solr).</li>
+ <li>Invalidate and populate Redis/Memcached caches in real time. (Chapter 11 deep dive!)</li>
+ </ul>
+ </div>
+ </div>
+ </section>
+
+ <!-- 30. Method 4: Trigger-Based Replication -->
+ <section class="slide content-slide">
+ <h2>Method 4: Trigger-Based Replication</h2>
+ <p>When built-in database replication is not flexible enough, replication moves up into the application layer:</p>
+ <div class="two-col" style="margin-top: 20px;">
+ <div class="compare-card">
+ <h3>How Triggers Work</h3>
+ <ul style="font-size: 1.15rem; line-height: 1.5;">
+ <li>Register database <strong>triggers and stored procedures</strong> that fire automatically when write transactions occur.</li>
+ <li>The trigger logs data modifications into a separate audit/delta table.</li>
+ <li>An external process (daemon) reads the delta table, executes custom application logic, and replicates changes to other databases.</li>
+ <li>Examples: <span class="tag">Bucardo (PostgreSQL)</span> <span class="tag">Databus (Oracle/LinkedIn)</span> <span class="tag">Oracle GoldenGate</span></li>
+ </ul>
+ </div>
+ <div class="compare-card accent">
+ <h3>Flexibility vs. High Overhead</h3>
+ <ul style="font-size: 1.15rem; line-height: 1.5;">
+ <li><strong>Why use it:</strong> Replicating only a subset of data, replicating between heterogeneous database engines, or applying custom business conflict logic.</li>
+ <li>⚠️ <strong>The Cost:</strong> Substantially higher CPU/storage overhead than built-in replication.</li>
+ <li>⚠️ <strong>The Danger:</strong> Prone to subtle application bugs, transaction aborts, and maintenance quirks.</li>
+ </ul>
+ </div>
+ </div>
+ </section>
+
+ <!-- 31. Replication Log Comparison Matrix -->
+ <section class="slide content-slide">
+ <h2>Replication Log Implementations Comparison</h2>
+ <table class="data-table">
+ <thead>
+ <tr>
+ <th>Method</th>
+ <th>Granularity</th>
+ <th>Storage Coupling</th>
+ <th>Zero-Downtime Upgrades</th>
+ <th>CDC & External Tooling</th>
+ </tr>
+ </thead>
+ <tbody>
+ <tr>
+ <td><strong>Statement-Based</strong></td>
+ <td>SQL Statements (`INSERT`, `UPDATE`)</td>
+ <td>Decoupled</td>
+ <td>Yes (with caution)</td>
+ <td>Hard (requires SQL parsing)</td>
+ </tr>
+ <tr>
+ <td><strong>WAL Shipping</strong></td>
+ <td>Physical bytes in disk blocks</td>
+ <td><strong>Tightly Coupled</strong></td>
+ <td>❌ No (requires exact match)</td>
+ <td>❌ Extremely difficult (binary format)</td>
+ </tr>
+ <tr>
+ <td><strong>Logical (Row)</strong></td>
+ <td>Row-level changes (`BEFORE`/`AFTER`)</td>
+ <td>Decoupled</td>
+ <td><strong>✅ Yes (smooth rolling)</strong></td>
+ <td><strong>✅ Excellent (industry standard)</strong></td>
+ </tr>
+ <tr>
+ <td><strong>Trigger-Based</strong></td>
+ <td>Application-defined rows</td>
+ <td>Decoupled (App layer)</td>
+ <td>Yes (custom code)</td>
+ <td>Flexible, but high overhead</td>
+ </tr>
+ </tbody>
+ </table>
+ <p style="margin-top: 20px; font-size: 1.15rem; text-align: center; color: var(--accent); font-weight: 600;">
+ Logical (row-based) replication has become the gold standard for modern scalable databases.
+ </p>
+ </section>
+ <!-- 32. Section: Replication Lag -->
+ <section class="slide section-header">
+  <span class="tag" style="background: rgba(255,255,255,0.2); color: #fff; font-size: 1rem; padding: 6px 16px; border-radius: 20px; text-transform: uppercase; letter-spacing: 1px;">Part 4 of 8</span>
+  <h2 style="font-size: 2.8rem; margin-top: 15px;">Problems with Replication Lag</h2>
+  <p style="font-size: 1.3rem; opacity: 0.85; margin-top: 15px; max-width: 850px;">Concurrency, asynchrony, and the dangerous illusions of "eventual consistency"</p>
+ </section>
+
+ <!-- 33. Read-Scaling Architecture -->
+ <section class="slide content-slide">
+  <h2>The Read-Scaling Architecture &amp; Inevitability of Lag</h2>
+  <p style="font-size: 1.15rem; color: var(--text-secondary); margin-bottom: 20px;">
+   Why horizontal read scaling fundamentally forces distributed systems into asynchronous trade-offs.
+  </p>
+  <div class="two-col" style="gap: 25px;">
+   <div>
+    <div class="compare-card" style="margin-bottom: 15px;">
+     <h3 style="color: var(--accent);">📈 The Read-Scaling Promise</h3>
+     <p style="font-size: 0.95rem; line-height: 1.5; margin-top: 6px;">
+      Most web workloads are heavily <strong>read-dominated</strong> (e.g., 99% reads, 1% writes). Leader-based replication allows read queries to be distributed across dozens of followers, freeing the leader to process writes and placing read replicas close to global users.
+     </p>
+    </div>
+    <div class="warning-banner" style="background: #fef2f2; border-left: 4px solid #ef4444; padding: 12px 16px; border-radius: 8px;">
+     <strong style="color: #b91c1c;">⚠️ The Synchronous Impossibility:</strong>
+     <p style="font-size: 0.9rem; color: #7f1d1d; margin-top: 4px;">
+      Read-scaling <strong>only works with asynchronous replication</strong>. If you made 20 followers synchronous, a single slow disk, garbage collection pause, or network hiccup would freeze all writes globally. Availability collapses exponentially (<em>p</em><sup>N</sup>).
+     </p>
+    </div>
+   </div>
+   <div>
+    <div class="compare-card">
+     <h3>⏳ The Inevitable Consequence: Lag</h3>
+     <ul style="font-size: 0.92rem; line-height: 1.6; margin-top: 8px;">
+      <li><strong>Outdated Data:</strong> Reading from an asynchronous follower may return stale data that does not reflect recent writes.</li>
+      <li><strong>Temporary Inconsistency:</strong> Running the exact same query on leader and follower simultaneously can return contradicting results.</li>
+      <li><strong>Eventual Convergence:</strong> If writes stop completely, followers will eventually process all log entries and match the leader.</li>
+      <li><strong>Hence:</strong> Known as <em>eventual consistency</em> (Douglas Terry et al., Werner Vogels).</li>
+     </ul>
+    </div>
+    <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; margin-top: 15px; font-size: 0.88rem;">
+     💡 <strong>The Developer Trap:</strong> Systems operate smoothly in testing with 1ms lag. In production under load, lag balloons and shatters naive application assumptions.
+    </div>
+   </div>
+  </div>
+ </section>
+
+ <!-- 34. The Reality of Eventual Consistency -->
+ <section class="slide content-slide">
+  <h2>The Elusive Meaning of "Eventual"</h2>
+  <p style="font-size: 1.15rem; color: var(--text-secondary); margin-bottom: 20px;">
+   Why the absence of replication lag bounds transforms theoretical consistency into severe operational bugs.
+  </p>
+  <div class="three-col" style="gap: 20px;">
+   <div class="compare-card">
+    <div style="font-size: 2rem; margin-bottom: 8px;">⏱️</div>
+    <h3 style="color: #059669;">Normal Operation</h3>
+    <p style="font-weight: 700; font-size: 1.2rem; color: #059669; margin: 6px 0;">Lag &lt; 1000 ms</p>
+    <p style="font-size: 0.88rem; line-height: 1.5; color: var(--text-secondary);">
+     Under normal loads and healthy networks, replication lag is typically a fraction of a second. The delay is practically imperceptible to human users browsing web interfaces.
+    </p>
+   </div>
+   <div class="compare-card accent">
+    <div style="font-size: 2rem; margin-bottom: 8px;">⚠️</div>
+    <h3 style="color: #d97706;">Degraded Operation</h3>
+    <p style="font-weight: 700; font-size: 1.2rem; color: #d97706; margin: 6px 0;">Lag: Minutes to Hours</p>
+    <p style="font-size: 0.88rem; line-height: 1.5; color: var(--text-secondary);">
+     When nodes operate near capacity, disk queues back up, cross-datacenter WAN links become congested, or long compaction/GC runs occur, lag easily balloons to minutes or hours.
+    </p>
+   </div>
+   <div class="compare-card">
+    <div style="font-size: 2rem; margin-bottom: 8px;">🚨</div>
+    <h3 style="color: #dc2626;">The Spec Trap</h3>
+    <p style="font-weight: 700; font-size: 1.2rem; color: #dc2626; margin: 6px 0;">Zero Guarantees</p>
+    <p style="font-size: 0.88rem; line-height: 1.5; color: var(--text-secondary);">
+     "Eventually" is deliberately vague: distributed replication protocols provide <strong>no theoretical upper bound</strong> on when a replica must catch up. Stale reads can persist indefinitely.
+    </p>
+   </div>
+  </div>
+  <div class="warning-banner" style="background: #fffbeb; border-left: 4px solid #f59e0b; padding: 14px 20px; border-radius: 8px; margin-top: 25px;">
+   <h4 style="margin: 0 0 6px 0; color: #92400e;">Three Critical Replication Lag Anomalies:</h4>
+   <p style="margin: 0; font-size: 0.95rem; color: #78350f; line-height: 1.5;">
+    When lag is non-trivial, three distinct user-facing consistency bugs emerge: 
+    <strong>(1) Reading Your Own Writes</strong> (data vanishes post-submit), 
+    <strong>(2) Monotonic Reads</strong> (time jumps backward upon reload), and 
+    <strong>(3) Consistent Prefix Reads</strong> (causality violated: answers appear before questions).
+   </p>
+  </div>
+ </section>
+
+ <!-- 35. Anomaly 1: Reading Your Own Writes -->
+ <section class="slide content-slide with-image">
+  <div>
+   <span class="tag" style="background: #fee2e2; color: #991b1b; font-weight: 700;">Lag Anomaly 1</span>
+   <h2 style="margin-top: 10px;">Reading Your Own Writes</h2>
+   <p style="font-size: 1.05rem; line-height: 1.5; margin-top: 10px;">
+    A user submits a profile change or comment, which successfully commits on the <strong>leader</strong>.
+   </p>
+   <div class="warning-banner" style="background: #fef2f2; border-left: 4px solid #ef4444; padding: 12px 16px; border-radius: 8px; margin: 15px 0;">
+    <strong style="color: #b91c1c;">The User Experience Disaster:</strong>
+    <p style="font-size: 0.92rem; color: #7f1d1d; margin-top: 4px; line-height: 1.5;">
+     The user immediately reloads the webpage. Their read query is routed to a stale follower that has not yet processed the replication stream. <strong>The data they just entered is completely missing!</strong>
+    </p>
+   </div>
+   <ul style="font-size: 0.92rem; line-height: 1.6; margin-top: 10px;">
+    <li>To the user, it looks like their submit failed or data was lost permanently.</li>
+    <li>They resubmit repeatedly, generating duplicate records and wasting server resources.</li>
+    <li>This occurs constantly in asynchronous architectures where reads and writes use distinct replica targets.</li>
+   </ul>
+  </div>
+  <div class="image-box">
+   <img src="images/ddia_0503.png" alt="Figure 5-3: Reading your own writes anomaly" style="max-height: 480px; width: auto; object-fit: contain;" />
+   <p style="font-size: 0.8rem; opacity: 0.7; margin-top: 8px; text-align: center;">Figure 5-3: User makes a write to the leader, then reads from a lagging follower. To the user, data appears lost.</p>
+  </div>
+ </section>
+
+ <!-- 36. Read-After-Write Consistency Guarantee -->
+ <section class="slide content-slide">
+  <h2>Read-After-Write Consistency</h2>
+  <p style="font-size: 1.15rem; color: var(--text-secondary); margin-bottom: 20px;">
+   Also known as <em>read-your-writes consistency</em>: reassuring users that their actions were saved.
+  </p>
+  <div class="two-col" style="gap: 25px;">
+   <div class="compare-card accent">
+    <h3 style="color: var(--accent);">🔒 The Formal Guarantee</h3>
+    <p style="font-size: 1.05rem; line-height: 1.6; margin-top: 10px;">
+     If a user submits an update and then reloads or accesses that data, they are <strong>guaranteed to see their own submitted updates</strong>.
+    </p>
+    <div style="background: #eff6ff; border-left: 4px solid #3b82f6; padding: 12px; margin-top: 15px; border-radius: 6px; font-size: 0.9rem;">
+     <strong>Crucial Distinction — Scope of the Guarantee:</strong>
+     <p style="margin-top: 4px; line-height: 1.5;">
+      Read-after-write makes <strong>no promises about other users' writes</strong>! Updates submitted by other users may remain invisible until followers catch up. It solely reassures the active user that their own input was committed.
+     </p>
+    </div>
+   </div>
+   <div>
+    <div class="compare-card">
+     <h3>🎯 Where Is This Vital?</h3>
+     <ul style="font-size: 0.92rem; line-height: 1.6; margin-top: 10px;">
+      <li><strong>User Profiles:</strong> Editing bio, email, or password — must immediately reflect on profile reload.</li>
+      <li><strong>E-Commerce Carts:</strong> Adding an item to the shopping cart; viewing the cart must display the newly added item.</li>
+      <li><strong>Social Media Posts &amp; Comments:</strong> Posting a status or comment; refreshing the feed must show the submitted post.</li>
+      <li><strong>Financial Transactions:</strong> Submitting a payment or funds transfer; balance or pending list must update immediately.</li>
+     </ul>
+    </div>
+   </div>
+  </div>
+ </section>
+
+ <!-- 37. Implementation Strategies for Read-After-Write -->
+ <section class="slide content-slide">
+  <h2>Implementing Read-After-Write Consistency</h2>
+  <p style="font-size: 1.1rem; color: var(--text-secondary); margin-bottom: 18px;">
+   Four proven engineering techniques in leader-based replication architectures.
+  </p>
+  <div class="two-col" style="gap: 20px;">
+   <div class="compare-card">
+    <div style="display: flex; align-items: center; gap: 8px;">
+     <span style="background: var(--accent); color: white; border-radius: 50%; width: 26px; height: 26px; display: inline-flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem;">1</span>
+     <h3 style="font-size: 1.05rem;">Read Modifiable Data from Leader</h3>
+    </div>
+    <p style="font-size: 0.88rem; line-height: 1.5; margin-top: 8px;">
+     If reading data that only the current user could have modified, <strong>always read from the leader</strong>. (E.g., user's own profile page is read from leader; other users' public profiles are read from followers).
+    </p>
+    <div style="font-size: 0.8rem; color: #dc2626; margin-top: 6px;">
+     ⚠️ Fails if most data is editable by many users (e.g. collaborative wiki), as reading everything from the leader negates read-scaling.
+    </div>
+   </div>
+
+   <div class="compare-card">
+    <div style="display: flex; align-items: center; gap: 8px;">
+     <span style="background: var(--accent); color: white; border-radius: 50%; width: 26px; height: 26px; display: inline-flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem;">2</span>
+     <h3 style="font-size: 1.05rem;">Time-Decay Leader Read Threshold</h3>
+    </div>
+    <p style="font-size: 0.88rem; line-height: 1.5; margin-top: 8px;">
+     Track the timestamp of the user's last write. For <strong>one minute</strong> after a write, route all user reads to the leader. After 1 minute, revert reads to followers.
+    </p>
+    <div style="font-size: 0.8rem; color: #059669; margin-top: 6px;">
+     💡 Also monitor follower lag: actively reject read queries on any follower that is more than one minute behind the leader!
+    </div>
+   </div>
+
+   <div class="compare-card">
+    <div style="display: flex; align-items: center; gap: 8px;">
+     <span style="background: var(--accent); color: white; border-radius: 50%; width: 26px; height: 26px; display: inline-flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem;">3</span>
+     <h3 style="font-size: 1.05rem;">Client Write Timestamps / LSN</h3>
+    </div>
+    <p style="font-size: 0.88rem; line-height: 1.5; margin-top: 8px;">
+     Client remembers the timestamp or Log Sequence Number (LSN) of its latest write. Follower serving the read must be caught up at least to that LSN.
+    </p>
+    <div style="font-size: 0.8rem; color: #0284c7; margin-top: 6px;">
+     🔄 If follower is behind, either redirect query to an up-to-date replica or pause the read until follower catches up.
+    </div>
+   </div>
+
+   <div class="compare-card">
+    <div style="display: flex; align-items: center; gap: 8px;">
+     <span style="background: var(--accent); color: white; border-radius: 50%; width: 26px; height: 26px; display: inline-flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem;">4</span>
+     <h3 style="font-size: 1.05rem;">Cross-Datacenter Leader Routing</h3>
+    </div>
+    <p style="font-size: 0.88rem; line-height: 1.5; margin-top: 8px;">
+     When replicas are distributed across multiple datacenters for global proximity, any read that must hit the leader requires routing requests across WAN to the leader's home datacenter.
+    </p>
+    <div style="font-size: 0.8rem; color: #d97706; margin-top: 6px;">
+     🌐 Adds cross-region latency, but guarantees absolute freshness for critical user updates.
+    </div>
+   </div>
+  </div>
+ </section>
+
+ <!-- 38. Cross-Device Consistency Challenges -->
+ <section class="slide content-slide">
+  <h2>The Cross-Device Consistency Challenge</h2>
+  <p style="font-size: 1.15rem; color: var(--text-secondary); margin-bottom: 20px;">
+   What happens when the same user accesses your service across a smartphone and desktop?
+  </p>
+  <div class="two-col" style="gap: 25px;">
+   <div>
+    <div class="compare-card" style="margin-bottom: 20px;">
+     <h3 style="color: var(--accent);">📱 The Scenario</h3>
+     <p style="font-size: 0.95rem; line-height: 1.6; margin-top: 8px;">
+      A user enters an address or credit card on their desktop browser, then immediately checks the mobile app on their phone 5 seconds later. <strong>Cross-device read-after-write consistency</strong> requires that their phone sees the desktop's update instantly.
+     </p>
+    </div>
+    <div class="compare-card">
+     <h3>❌ Why Client Timestamps Fail</h3>
+     <p style="font-size: 0.92rem; line-height: 1.5; margin-top: 8px;">
+      Approaches that rely on the client remembering its last write timestamp fail because the phone's code has <strong>no shared memory</strong> with the desktop browser.
+     </p>
+     <div style="background: #f1f5f9; padding: 10px; border-radius: 6px; margin-top: 8px; font-size: 0.85rem;">
+      <strong>Solution:</strong> The update timestamp / LSN metadata must be stored centrally in a fast key-value store (e.g. Redis) indexed by user ID.
+     </div>
+    </div>
+   </div>
+   <div>
+    <div class="compare-card accent">
+     <h3>🌐 Network &amp; Datacenter Asymmetry</h3>
+     <p style="font-size: 0.92rem; line-height: 1.6; margin-top: 8px;">
+      Devices often connect through completely different networks:
+     </p>
+     <ul style="font-size: 0.88rem; line-height: 1.6; margin-top: 6px;">
+      <li><strong>Desktop:</strong> Home broadband / fiber connection routed to Datacenter A.</li>
+      <li><strong>Mobile Phone:</strong> Cellular carrier 5G/LTE network routed to Datacenter B.</li>
+     </ul>
+     <p style="font-size: 0.92rem; line-height: 1.5; margin-top: 10px;">
+      Replicas in Datacenter B may lag significantly behind Datacenter A.
+     </p>
+     <div class="warning-banner" style="background: #fef2f2; border-left: 4px solid #ef4444; padding: 10px 14px; border-radius: 6px; margin-top: 10px; font-size: 0.85rem; color: #7f1d1d;">
+      <strong>Requirement:</strong> If an approach requires reading from the leader, the system must first route connections from <em>all</em> of a user's devices to the same datacenter!
+     </div>
+    </div>
+   </div>
+  </div>
+ </section>
+
+ <!-- 39. Anomaly 2: Monotonic Reads -->
+ <section class="slide content-slide with-image">
+  <div>
+   <span class="tag" style="background: #fef3c7; color: #92400e; font-weight: 700;">Lag Anomaly 2</span>
+   <h2 style="margin-top: 10px;">Monotonic Reads: Time Moving Backward</h2>
+   <p style="font-size: 1.05rem; line-height: 1.5; margin-top: 10px;">
+    What happens when an observer reads from two different replicas with different replication lags?
+   </p>
+   <div class="warning-banner" style="background: #fffbeb; border-left: 4px solid #f59e0b; padding: 12px 16px; border-radius: 8px; margin: 15px 0;">
+    <strong style="color: #92400e;">The Backward-in-Time Illusion:</strong>
+    <p style="font-size: 0.92rem; color: #78350f; margin-top: 4px; line-height: 1.5;">
+     1. User 1234 posts a comment.<br>
+     2. User 2345 visits the thread; routed to <strong>Follower 1</strong> (low lag) → sees the comment!<br>
+     3. User 2345 refreshes the browser; round-robin routes them to <strong>Follower 2</strong> (high lag) → <em>the comment has vanished!</em>
+    </p>
+   </div>
+   <p style="font-size: 0.92rem; line-height: 1.5;">
+    To the user, it feels like the system traveled backward in time. It is disorienting and breaks application trust.
+   </p>
+  </div>
+  <div class="image-box">
+   <img src="images/ddia_0504.png" alt="Figure 5-4: Monotonic reads anomaly" style="max-height: 440px; width: auto; object-fit: contain;" />
+   <p style="font-size: 0.8rem; opacity: 0.7; margin-top: 8px; text-align: center;">Figure 5-4: User first reads from a fresh replica, then from a stale replica. Time appears to go backward.</p>
+  </div>
+ </section>
+
+ <!-- 40. Monotonic Reads Guarantee & Implementation -->
+ <section class="slide content-slide">
+  <h2>The Monotonic Reads Guarantee</h2>
+  <p style="font-size: 1.15rem; color: var(--text-secondary); margin-bottom: 20px;">
+   Ensuring that subsequent reads by a user never observe an earlier system state.
+  </p>
+  <div class="two-col" style="gap: 25px;">
+   <div>
+    <div class="compare-card accent">
+     <h3 style="color: var(--accent);">📊 Formal Definition</h3>
+     <p style="font-size: 1rem; line-height: 1.6; margin-top: 10px;">
+      <strong>Monotonic reads</strong> guarantees that if a user makes several reads in sequence, they will never see time go backward.
+     </p>
+     <p style="font-size: 0.92rem; line-height: 1.5; margin-top: 10px; color: var(--text-secondary);">
+      They may read an older value initially, but having once observed a state, they will never subsequently observe an older state.
+     </p>
+    </div>
+    <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 14px; margin-top: 15px; font-size: 0.88rem; line-height: 1.6;">
+     <strong>Consistency Hierarchy:</strong><br>
+     Strong Consistency (Linearizability) &gt; <strong>Monotonic Reads</strong> &gt; Eventual Consistency
+    </div>
+   </div>
+   <div>
+    <div class="compare-card">
+     <h3>⚙️ Primary Implementation: Sticky Routing</h3>
+     <p style="font-size: 0.92rem; line-height: 1.6; margin-top: 8px;">
+      The standard approach is to ensure that each user always issues their queries to the <strong>same replica</strong>:
+     </p>
+     <div class="code-block" style="font-size: 0.88rem; margin: 10px 0;">
+replica = hash(user_id) % num_followers;</div>
+     <p style="font-size: 0.9rem; line-height: 1.5;">
+      Different users read from different followers (preserving horizontal scale), but an individual user moves strictly forward in time.
+     </p>
+     <div class="warning-banner" style="background: #fef2f2; border-left: 4px solid #ef4444; padding: 10px; border-radius: 6px; margin-top: 12px; font-size: 0.85rem; color: #7f1d1d;">
+      <strong>Failover Edge Case:</strong> If that designated follower crashes, the user's queries must be rerouted to another replica, which might lag behind! Routing must ensure the new replica is at least as fresh.
+     </div>
+    </div>
+   </div>
+  </div>
+ </section>
+
+ <!-- 41. Anomaly 3: Consistent Prefix Reads -->
+ <section class="slide content-slide with-image">
+  <div>
+   <span class="tag" style="background: #ede9fe; color: #5b21b6; font-weight: 700;">Lag Anomaly 3</span>
+   <h2 style="margin-top: 8px;">Consistent Prefix Reads &amp; Causality</h2>
+   <p style="font-size: 1rem; line-height: 1.4; margin-top: 6px;">
+    Violations of causal order when reads observe writes out of sequence.
+   </p>
+   <div class="code-block" style="font-size: 0.85rem; margin: 10px 0; background: #1e293b; color: #f8fafc; padding: 12px; border-radius: 8px;">
+<strong style="color: #38bdf8;">The Causal Reality:</strong>
+<strong>Mr. Poons:</strong> "How far into the future can you see, Mrs. Cake?"
+<strong>Mrs. Cake:</strong> "About ten seconds usually, Mr. Poons."</div>
+   <div class="warning-banner" style="background: #fef2f2; border-left: 4px solid #ef4444; padding: 10px 12px; border-radius: 6px; margin-bottom: 10px;">
+    <strong style="color: #b91c1c;">What an Out-of-Order Observer Sees:</strong>
+    <div class="code-block" style="font-size: 0.85rem; margin-top: 6px; background: #fff; color: #1e293b; border: 1px solid #cbd5e1; padding: 8px;">
+<strong>Mrs. Cake:</strong> "About ten seconds usually, Mr. Poons."
+<strong>Mr. Poons:</strong> "How far into the future can you see, Mrs. Cake?"</div>
+    <p style="font-size: 0.85rem; color: #7f1d1d; margin-top: 6px;">
+     🔮 Mrs. Cake appears to answer the question <em>before Mr. Poons has even asked it!</em>
+    </p>
+   </div>
+   <p style="font-size: 0.85rem; line-height: 1.5; color: var(--text-secondary);">
+    There was a direct causal dependency between question and answer, but replication lag inverted their order to third-party observers.
+   </p>
+  </div>
+  <div class="image-box">
+   <img src="images/ddia_0505.png" alt="Figure 5-5: Consistent prefix reads anomaly" style="max-height: 440px; width: auto; object-fit: contain;" />
+   <p style="font-size: 0.8rem; opacity: 0.7; margin-top: 8px; text-align: center;">Figure 5-5: If some partitions replicate slower than others, an observer may see the answer before the question.</p>
+  </div>
+ </section>
+
+ <!-- 42. Causality Violations in Partitioned Databases -->
+ <section class="slide content-slide">
+  <h2>Causality in Partitioned Databases &amp; Solutions</h2>
+  <p style="font-size: 1.15rem; color: var(--text-secondary); margin-bottom: 20px;">
+   Why consistent prefix reads is especially challenging in sharded and distributed architectures.
+  </p>
+  <div class="two-col" style="gap: 25px;">
+   <div>
+    <div class="compare-card">
+     <h3 style="color: #dc2626;">🧩 The Partitioning Problem</h3>
+     <p style="font-size: 0.92rem; line-height: 1.6; margin-top: 8px;">
+      In a single-leader database with a global log, writes are applied in a single total order, so reads naturally see a consistent prefix.
+     </p>
+     <p style="font-size: 0.92rem; line-height: 1.6; margin-top: 8px;">
+      However, in <strong>partitioned (sharded) databases</strong> (detailed in Chapter 6), different partitions operate independently:
+     </p>
+     <ul style="font-size: 0.88rem; line-height: 1.5; margin-top: 6px;">
+      <li>Partition 1 (holding Mr. Poons's question) might experience 5 seconds of network lag.</li>
+      <li>Partition 2 (holding Mrs. Cake's answer) replicates instantaneously with 10 ms lag.</li>
+      <li>There is no global write ordering across independent partitions.</li>
+     </ul>
+    </div>
+   </div>
+   <div>
+    <div class="compare-card accent">
+     <h3 style="color: var(--accent);">🛠️ Engineering Solutions</h3>
+     <div style="margin-top: 10px;">
+      <strong>1. Causal Partition Co-location:</strong>
+      <p style="font-size: 0.88rem; line-height: 1.5; margin-top: 4px;">
+       Ensure any writes that are causally related are routed to the <strong>same partition</strong> (e.g. key by chat channel ID or thread ID instead of user ID).
+      </p>
+     </div>
+     <div style="margin-top: 12px;">
+      <strong>2. Explicit Causal Tracking Algorithms:</strong>
+      <p style="font-size: 0.88rem; line-height: 1.5; margin-top: 4px;">
+       Use algorithms that explicitly track causal dependencies with vector timestamps and version graphs, forcing followers to hold off exposing dependent writes until parents arrive.
+      </p>
+     </div>
+    </div>
+   </div>
+  </div>
+ </section>
+
+ <!-- 43. Solutions for Lag: Why Transactions Exist -->
+ <section class="slide content-slide">
+  <h2>Solutions for Replication Lag: Why Transactions Exist</h2>
+  <p style="font-size: 1.15rem; color: var(--text-secondary); margin-bottom: 20px;">
+   Application-level duct tape vs. principled database-level consistency guarantees.
+  </p>
+  <div class="two-col" style="gap: 25px;">
+   <div>
+    <div class="warning-banner" style="background: #fef2f2; border-left: 4px solid #ef4444; padding: 14px 18px; border-radius: 8px;">
+     <strong style="color: #b91c1c; font-size: 1.05rem;">The Application-Layer Trap:</strong>
+     <p style="font-size: 0.92rem; color: #7f1d1d; margin-top: 6px; line-height: 1.6;">
+      Handling read-after-write, monotonic reads, and consistent prefix reads entirely in application code is <strong>extraordinarily complex and error-prone</strong>. When replication lag spikes from 100ms to 45 minutes during an incident, brittle application logic collapses.
+     </p>
+    </div>
+    <p class="quote" style="margin-top: 20px; font-size: 1.05rem;">
+     "Pretending that replication is synchronous when in fact it is asynchronous is a recipe for problems down the line."
+     <span style="display: block; font-size: 0.85rem; font-style: normal; margin-top: 6px; opacity: 0.7;">— Martin Kleppmann, DDIA Chapter 5</span>
+    </p>
+   </div>
+   <div>
+    <div class="compare-card accent">
+     <h3 style="color: var(--accent);">🏛️ Why Transactions Were Invented</h3>
+     <p style="font-size: 0.95rem; line-height: 1.6; margin-top: 8px;">
+      Developers shouldn't have to write hundreds of lines of fragile routing logic. <strong>Transactions exist</strong> so that the database provides rigorous safety guarantees, allowing application code to remain simple and correct.
+     </p>
+     <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; margin-top: 14px; font-size: 0.88rem; line-height: 1.5;">
+      <strong>The NoSQL Myth:</strong> Early distributed systems claimed transactions were "too expensive" for scalability, asserting eventual consistency was mandatory. Kleppmann demonstrates this view is <em>overly simplistic</em>. (Revisited thoroughly in Chapters 7 &amp; 9).
+     </div>
+    </div>
+   </div>
+  </div>
+ </section>
+
+ <!-- Lab: Replication Lag Anomaly Lab -->
+ <section class="slide content-slide" id="lag-lab-slide">
+  <h2 style="margin-bottom:4px;">⏱️ Replication Lag Anomaly Lab</h2>
+  <div style="display:flex;gap:10px;align-items:center;margin:4px 0;flex-wrap:wrap;font-size:0.85rem;">
+  <select id="lag-scenario" onchange="lagReset()" style="padding:5px 8px;border-radius:6px;border:2px solid #e65100;font-size:0.82rem;">
+  <option value="readYourWrites">1. Reading Your Own Writes</option>
+  <option value="monotonicReads">2. Moving Backward in Time</option>
+  <option value="consistentPrefix">3. Violation of Causality</option>
+  </select>
+  <label style="background:#fff3e0;padding:4px 10px;border-radius:6px;border:1px solid #ffcc80;cursor:pointer;"><input type="checkbox" id="lag-fix" onchange="lagReset()" style="margin-right:4px;"> 🔧 Apply Fix</label>
+  <button id="lag-step-btn" onclick="lagStep()" style="padding:6px 16px;background:#e65100;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:700;font-size:0.85rem;">Step ▶</button>
+  <button onclick="lagReset()" style="padding:6px 12px;background:#eee;border:1px solid #ccc;border-radius:8px;cursor:pointer;font-size:0.85rem;">Reset 🔄</button>
+  </div>
+  <div style="display:flex;gap:10px;margin-top:4px;">
+  <div style="flex:1.2;">
+  <div style="display:flex;gap:8px;margin-bottom:6px;">
+  <div id="lag-n0" style="flex:1;padding:8px;border-radius:8px;border:2px solid #1565c0;background:#e3f2fd;text-align:center;font-size:0.75rem;min-height:55px;"><b>Leader</b><br>Ready</div>
+  <div id="lag-n1" style="flex:1;padding:8px;border-radius:8px;border:2px solid #2e7d32;background:#e8f5e9;text-align:center;font-size:0.75rem;min-height:55px;"><b>Follower 1</b><br>lag: 1s</div>
+  <div id="lag-n2" style="flex:1;padding:8px;border-radius:8px;border:2px solid #6a1b9a;background:#f3e5f5;text-align:center;font-size:0.75rem;min-height:55px;"><b>Follower 2</b><br>lag: 5s</div>
+  </div>
+  <div id="lag-result" style="display:none;padding:8px 12px;border-radius:8px;font-size:0.82rem;font-weight:700;text-align:center;"></div>
+  </div>
+  <div id="lag-log" style="flex:1;background:#fafafa;border:1px solid #e0e0e0;border-radius:8px;padding:6px 10px;font-size:0.73rem;font-family:monospace;max-height:180px;overflow-y:auto;line-height:1.6;">Click <b>Step ▶</b> to begin</div>
+  </div>
+  <div style="background:#fff3e0;border:1px solid #ffcc80;border-radius:8px;padding:5px 10px;margin-top:3px;font-size:0.75rem;">
+  💡 Based on <b>Ch5 "Problems with Replication Lag"</b>. Three anomalies that occur when reading from asynchronous followers. Toggle the fix to see how each guarantee resolves it.
+  </div>
+ </section>
+ <!-- 44. Section: Multi-Leader -->
+ <section class="slide section-header">
+  <span class="tag" style="background: rgba(255,255,255,0.2); color: #fff; font-size: 1rem; padding: 6px 16px; border-radius: 20px; text-transform: uppercase; letter-spacing: 1px;">Part 5 of 8</span>
+  <h2 style="font-size: 2.8rem; margin-top: 15px;">Multi-Leader Replication</h2>
+  <p style="font-size: 1.3rem; opacity: 0.85; margin-top: 15px; max-width: 850px;">Active-active architectures, write scalability, and the hazardous realities of concurrent conflicts</p>
+ </section>
+
+ <!-- 45. Why Multi-Leader -->
+ <section class="slide content-slide">
+  <h2>Why Multi-Leader? Breaking the Single-Write Bottleneck</h2>
+  <p style="font-size: 1.15rem; color: var(--text-secondary); margin-bottom: 20px;">
+   Overcoming the single point of failure in traditional leader-follower replication.
+  </p>
+  <div class="two-col" style="gap: 25px;">
+   <div>
+    <div class="compare-card">
+     <h3 style="color: #dc2626;">🛑 The Single-Leader Achilles' Heel</h3>
+     <p style="font-size: 0.95rem; line-height: 1.6; margin-top: 8px;">
+      In single-leader systems, exactly <strong>one node</strong> accepts writes. If a client cannot reach the leader due to a network partition, datacenter outage, or node crash, all writes across the entire application grind to a halt.
+     </p>
+     <div style="background: #fef2f2; border-left: 4px solid #ef4444; padding: 10px; border-radius: 6px; margin-top: 12px; font-size: 0.88rem; color: #7f1d1d;">
+      Writes are limited by the I/O throughput and geographic location of a single machine.
+     </div>
+    </div>
+   </div>
+   <div>
+    <div class="compare-card accent">
+     <h3 style="color: var(--accent);">🌐 The Multi-Leader Alternative</h3>
+     <p style="font-size: 0.95rem; line-height: 1.6; margin-top: 8px;">
+      Also known as <strong>master-master</strong> or <strong>active/active replication</strong>. Multiple nodes concurrently accept client writes!
+     </p>
+     <ul style="font-size: 0.9rem; line-height: 1.6; margin-top: 8px;">
+      <li>Every node processing writes forwards data changes to all other leaders.</li>
+      <li>Each leader acts simultaneously as a follower to all other leaders.</li>
+      <li><strong>Operational Rule:</strong> It rarely makes sense within a single datacenter (complexity outweighs benefit), but is transformative in 3 specific use cases.</li>
+     </ul>
+    </div>
+   </div>
+  </div>
+ </section>
+
+ <!-- 46. Use Case 1: Multi-Datacenter Operation -->
+ <section class="slide content-slide with-image">
+  <div>
+   <span class="tag" style="background: #e0f2fe; color: #0369a1; font-weight: 700;">Use Case 1</span>
+   <h2 style="margin-top: 8px;">Multi-Datacenter Operation</h2>
+   <p style="font-size: 1rem; line-height: 1.5; margin-top: 6px;">
+    Distributing databases across geographical continents for redundancy and low latency.
+   </p>
+   <div class="compare-card" style="margin: 12px 0;">
+    <h3 style="font-size: 1rem; color: var(--accent);">Two-Tier Hierarchy:</h3>
+    <ul style="font-size: 0.88rem; line-height: 1.6; margin-top: 6px;">
+     <li><strong>Within Each Datacenter:</strong> Normal single-leader replication. Clients read and write to the local datacenter leader.</li>
+     <li><strong>Between Datacenters:</strong> Leaders replicate their changes to leaders in other datacenters asynchronously.</li>
+    </ul>
+   </div>
+   <p style="font-size: 0.88rem; line-height: 1.5; color: var(--text-secondary);">
+    If an entire datacenter in Europe goes offline, the US datacenter continues processing local writes without interruption.
+   </p>
+  </div>
+  <div class="image-box">
+   <img src="images/ddia_0506.png" alt="Figure 5-6: Multi-leader replication across datacenters" style="max-height: 440px; width: auto; object-fit: contain;" />
+   <p style="font-size: 0.8rem; opacity: 0.7; margin-top: 8px; text-align: center;">Figure 5-6: Multi-leader replication across multiple datacenters with conflict resolution.</p>
+  </div>
+ </section>
+
+ <!-- 47. Multi-DC Architecture Scorecard -->
+ <section class="slide content-slide">
+  <h2>Single-Leader vs. Multi-Leader in Multi-DC</h2>
+  <p style="font-size: 1.15rem; color: var(--text-secondary); margin-bottom: 20px;">
+   Architectural trade-off matrix across latency, outages, and network unreliability.
+  </p>
+  <table class="data-table">
+   <thead>
+    <tr>
+     <th>Dimension</th>
+     <th>Single-Leader Configuration</th>
+     <th>Multi-Leader Configuration</th>
+    </tr>
+   </thead>
+   <tbody>
+    <tr>
+     <td><strong>Performance &amp; Latency</strong></td>
+     <td>Every write must cross the internet to the leader's DC. High latency (100–300ms) perceived by remote users.</td>
+     <td>Writes processed locally in nearby DC at LAN speed (&lt;5ms). Inter-DC network delay is completely hidden.</td>
+    </tr>
+    <tr>
+     <td><strong>Tolerance of DC Outages</strong></td>
+     <td>If leader's DC fails, complex failover must promote a follower in another DC to leader. Outage during transition.</td>
+     <td>Each DC operates fully independently. Surviving DCs continue writes. Failed DC catches up upon recovery.</td>
+    </tr>
+    <tr>
+     <td><strong>Tolerance of Network Links</strong></td>
+     <td>Highly vulnerable: writes synchronously traverse inter-DC links; internet hiccups stall writes globally.</td>
+     <td>Highly resilient: inter-DC replication is asynchronous; temporary link partitions do not block local writes.</td>
+    </tr>
+   </tbody>
+  </table>
+  <div style="margin-top: 15px; display: flex; gap: 10px; align-items: center; justify-content: center; font-size: 0.9rem;">
+   <span style="font-weight: 600;">Industry Implementations:</span>
+   <span class="tag">Tungsten Replicator (MySQL)</span>
+   <span class="tag">BDR (PostgreSQL)</span>
+   <span class="tag">GoldenGate (Oracle)</span>
+  </div>
+ </section>
+
+ <!-- 48. Multi-Leader Pitfalls: Dangerous Territory -->
+ <section class="slide content-slide">
+  <h2>Multi-Leader Pitfalls: "Dangerous Territory"</h2>
+  <p style="font-size: 1.15rem; color: var(--text-secondary); margin-bottom: 20px;">
+   Why Martin Kleppmann cautions that multi-leader replication should often be avoided.
+  </p>
+  <div class="two-col" style="gap: 25px;">
+   <div>
+    <div class="warning-banner" style="background: #fef2f2; border-left: 4px solid #ef4444; padding: 14px 18px; border-radius: 8px;">
+     <strong style="color: #b91c1c; font-size: 1.05rem;">The Retrofitted Nature of Multi-Leader:</strong>
+     <p style="font-size: 0.92rem; color: #7f1d1d; margin-top: 6px; line-height: 1.6;">
+      In most relational databases, multi-leader replication is an afterthought retrofitted via external tools or plugins. It produces surprising and catastrophic edge cases with core database features.
+     </p>
+    </div>
+    <p class="quote" style="margin-top: 20px; font-size: 1rem;">
+     "As multi-leader replication is a somewhat retrofitted feature in many databases... multi-leader replication is often considered dangerous territory that should be avoided if possible."
+     <span style="display: block; font-size: 0.85rem; font-style: normal; margin-top: 6px; opacity: 0.7;">— DDIA Chapter 5, p. 170</span>
+    </p>
+   </div>
+   <div>
+    <div class="compare-card">
+     <h3 style="color: #dc2626;">💥 Subtle Feature Interactions</h3>
+     <ul style="font-size: 0.9rem; line-height: 1.6; margin-top: 8px;">
+      <li><strong>Autoincrementing Keys:</strong> If two leaders independently assign sequential IDs, they generate colliding primary keys unless configured with distinct offsets/steps.</li>
+      <li><strong>Triggers &amp; Stored Procedures:</strong> Side-effects may fire multiple times or execute against unexpected intermediate states.</li>
+      <li><strong>Integrity Constraints:</strong> Concurrently inserting rows with identical unique keys (e.g. email) succeeds on both leaders, producing fatal replication collisions later.</li>
+      <li><strong>Schema Migrations (DDL):</strong> Running non-blocking DDL across asynchronous multi-leader nodes frequently corrupts data streams.</li>
+     </ul>
+    </div>
+   </div>
+  </div>
+ </section>
+
+ <!-- 49. Use Case 2: Clients with Offline Operation -->
+ <section class="slide content-slide with-image">
+  <div>
+   <span class="tag" style="background: #fef3c7; color: #92400e; font-weight: 700;">Use Case 2</span>
+   <h2 style="margin-top: 8px;">Clients with Offline Operation</h2>
+   <p style="font-size: 1rem; line-height: 1.5; margin-top: 6px;">
+    Every disconnected device is architecturally a tiny single-node datacenter.
+   </p>
+   <div class="compare-card" style="margin: 12px 0;">
+    <h3 style="font-size: 1rem; color: var(--accent);">📱 The Mobile Calendar Analogy:</h3>
+    <p style="font-size: 0.88rem; line-height: 1.5; margin-top: 4px;">
+     You need to view meetings (reads) and add appointments (writes) on your phone, laptop, or tablet while in airplane mode with no internet.
+    </p>
+    <ul style="font-size: 0.85rem; line-height: 1.5; margin-top: 6px;">
+     <li>Each device has a local database that acts as a <strong>leader</strong> (accepting writes).</li>
+     <li>When online, an asynchronous multi-leader sync replicates changes across devices.</li>
+     <li>Replication lag can be hours, days, or weeks!</li>
+    </ul>
+   </div>
+   <div style="background: #f1f5f9; padding: 10px; border-radius: 6px; font-size: 0.85rem;">
+    💡 <strong>CouchDB</strong> was designed from scratch for this offline-first replication model.
+   </div>
+  </div>
+  <div class="image-box">
+   <img src="images/mobile-devices.jpg" alt="Mobile devices offline synchronization" style="max-height: 420px; width: auto; object-fit: cover; border-radius: 8px;" />
+   <p style="font-size: 0.8rem; opacity: 0.7; margin-top: 8px; text-align: center;">Smartphones and laptops act as local leader replicas syncing asynchronously across unreliable links.</p>
+  </div>
+ </section>
+
+ <!-- 50. Use Case 3: Real-Time Collaborative Editing -->
+ <section class="slide content-slide with-image">
+  <div>
+   <span class="tag" style="background: #ede9fe; color: #5b21b6; font-weight: 700;">Use Case 3</span>
+   <h2 style="margin-top: 8px;">Real-Time Collaborative Editing</h2>
+   <p style="font-size: 1rem; line-height: 1.5; margin-top: 6px;">
+    Treating collaborative web applications as distributed database replicas.
+   </p>
+   <div class="two-col" style="gap: 15px; margin: 12px 0;">
+    <div class="compare-card">
+     <h3 style="font-size: 0.95rem;">Locking (Single-Leader)</h3>
+     <p style="font-size: 0.85rem; line-height: 1.4; margin-top: 4px;">
+      Lock entire document for User 1. User 2 must wait until User 1 commits and releases. Clunky, sluggish collaboration.
+     </p>
+    </div>
+    <div class="compare-card accent">
+     <h3 style="font-size: 0.95rem;">Granular (Multi-Leader)</h3>
+     <p style="font-size: 0.85rem; line-height: 1.4; margin-top: 4px;">
+      Unit of change is a <strong>single keystroke</strong>! Changes apply locally to browser replica instantly, replicated async.
+     </p>
+    </div>
+   </div>
+   <p style="font-size: 0.88rem; line-height: 1.5; color: var(--text-secondary);">
+    Powers tools like <strong>Google Docs</strong> and <strong>Etherpad</strong>. Eliminates locks, but requires specialized automated conflict resolution algorithms (Operational Transformation).
+   </p>
+  </div>
+  <div class="image-box">
+   <img src="images/collab-team.jpg" alt="Collaborative team editing" style="max-height: 420px; width: auto; object-fit: cover; border-radius: 8px;" />
+   <p style="font-size: 0.8rem; opacity: 0.7; margin-top: 8px; text-align: center;">Engineers concurrently editing shared documents require real-time conflict-free convergence.</p>
+  </div>
+ </section>
+
+ <!-- 51. Section: Handling Write Conflicts -->
+ <section class="slide section-header">
+  <span class="tag" style="background: rgba(255,255,255,0.2); color: #fff; font-size: 1rem; padding: 6px 16px; border-radius: 20px; text-transform: uppercase; letter-spacing: 1px;">Part 5: Deep Dive</span>
+  <h2 style="font-size: 2.8rem; margin-top: 15px;">Handling Write Conflicts</h2>
+  <p style="font-size: 1.3rem; opacity: 0.85; margin-top: 15px; max-width: 850px;">The biggest and most complex problem in multi-leader replication</p>
+ </section>
+
+ <!-- 52. The Write Conflict Problem -->
+ <section class="slide content-slide with-image">
+  <div>
+   <h2>The Write Conflict Problem</h2>
+   <p style="font-size: 1.05rem; line-height: 1.5; margin-top: 8px;">
+    What happens when two users concurrently modify the exact same record on different leaders?
+   </p>
+   <div class="code-block" style="font-size: 0.85rem; margin: 12px 0;">
+Initial wiki page title: "A"
+User 1 (Leader 1): changes title from A to B  ✅ (commits!)
+User 2 (Leader 2): changes title from A to C  ✅ (commits!)</div>
+   <div class="warning-banner" style="background: #fef2f2; border-left: 4px solid #ef4444; padding: 10px 14px; border-radius: 6px; margin: 10px 0;">
+    <strong style="color: #b91c1c;">The Asynchronous Collision:</strong>
+    <p style="font-size: 0.88rem; color: #7f1d1d; margin-top: 4px; line-height: 1.4;">
+     Both writes succeeded locally. But when replicated, Leader 1 sees C arriving after B, while Leader 2 sees B arriving after C! Without conflict resolution, replicas permanently diverge!
+    </p>
+   </div>
+   <p style="font-size: 0.88rem; line-height: 1.5; color: var(--text-secondary);">
+    In single-leader databases, the second write blocks or aborts. In multi-leader, both writes have already committed locally before the conflict is noticed.
+   </p>
+  </div>
+  <div class="image-box">
+   <img src="images/ddia_0507.png" alt="Figure 5-7: Write conflict caused by concurrent updates" style="max-height: 440px; width: auto; object-fit: contain;" />
+   <p style="font-size: 0.8rem; opacity: 0.7; margin-top: 8px; text-align: center;">Figure 5-7: A write conflict caused by two leaders concurrently updating the same record.</p>
+  </div>
+ </section>
+
+ <!-- 53. Synchronous vs Asynchronous Conflict Detection -->
+ <section class="slide content-slide">
+  <h2>Synchronous vs. Asynchronous Conflict Detection</h2>
+  <p style="font-size: 1.15rem; color: var(--text-secondary); margin-bottom: 20px;">
+   Why synchronous conflict detection completely defeats the purpose of multi-leader replication.
+  </p>
+  <div class="two-col" style="gap: 25px;">
+   <div>
+    <div class="compare-card">
+     <h3 style="color: #0284c7;">🤔 Could We Detect Conflicts Synchronously?</h3>
+     <p style="font-size: 0.95rem; line-height: 1.6; margin-top: 8px;">
+      In theory, a leader could pause the client and wait for the write to replicate to all other leaders before acknowledging success to the user.
+     </p>
+     <div class="warning-banner" style="background: #fef2f2; border-left: 4px solid #ef4444; padding: 12px; border-radius: 6px; margin-top: 14px; font-size: 0.88rem; color: #7f1d1d;">
+      <strong>The Fatal Flaw:</strong> If you wait for all replicas synchronously, you lose the primary advantage of multi-leader replication: allowing each node to accept writes independently during outages!
+     </div>
+     <p style="font-size: 0.9rem; line-height: 1.5; margin-top: 10px; color: var(--text-secondary);">
+      If you are willing to block on all replicas, you might as well just use a <strong>single-leader database</strong>.
+     </p>
+    </div>
+   </div>
+   <div>
+    <div class="compare-card accent">
+     <h3 style="color: var(--accent);">⚡ Asynchronous Conflict Reality</h3>
+     <p style="font-size: 0.95rem; line-height: 1.6; margin-top: 8px;">
+      Because writes must be fast and autonomous, multi-leader replication detects conflicts <strong>asynchronously</strong>.
+     </p>
+     <ul style="font-size: 0.9rem; line-height: 1.6; margin-top: 10px;">
+      <li>Both writes are acknowledged to clients as successful.</li>
+      <li>The conflict is discovered seconds, minutes, or hours later during replication.</li>
+      <li>At that point, it is far too late to prompt the user or rollback cleanly!</li>
+      <li>The database must resolve the conflict automatically.</li>
+     </ul>
+    </div>
+   </div>
+  </div>
+ </section>
+
+ <!-- 54. Conflict Avoidance: Designated Home Datacenter -->
+ <section class="slide content-slide">
+  <h2>Conflict Avoidance: The Pragmatic Standard</h2>
+  <p style="font-size: 1.15rem; color: var(--text-secondary); margin-bottom: 20px;">
+   The simplest and most frequently recommended strategy for dealing with multi-leader conflicts.
+  </p>
+  <div class="two-col" style="gap: 25px;">
+   <div>
+    <div class="compare-card accent">
+     <h3 style="color: var(--accent);">🛡️ The Principle of Avoidance</h3>
+     <p style="font-size: 0.95rem; line-height: 1.6; margin-top: 8px;">
+      If the application can ensure that <strong>all writes for a particular record go through the same leader</strong>, conflicts can never occur!
+     </p>
+     <div style="background: #eff6ff; border-left: 4px solid #3b82f6; padding: 12px; border-radius: 6px; margin-top: 12px; font-size: 0.88rem; line-height: 1.5;">
+      <strong>Example: Home Datacenter:</strong> In a user-centric app, route all requests from a given user to their geographical "home" datacenter. From that user's perspective, the system behaves as single-leader!
+     </div>
+    </div>
+   </div>
+   <div>
+    <div class="compare-card">
+     <h3 style="color: #dc2626;">⚠️ When Conflict Avoidance Breaks Down</h3>
+     <p style="font-size: 0.92rem; line-height: 1.5; margin-top: 8px;">
+      In practice, designated leaders must occasionally be changed:
+     </p>
+     <ul style="font-size: 0.88rem; line-height: 1.6; margin-top: 6px;">
+      <li><strong>Datacenter Outage:</strong> Home DC fails; traffic is rerouted to a secondary DC.</li>
+      <li><strong>User Mobility:</strong> A user travels to another continent, connecting to a closer DC.</li>
+     </ul>
+     <div class="warning-banner" style="background: #fffbeb; border-left: 4px solid #f59e0b; padding: 10px; border-radius: 6px; margin-top: 10px; font-size: 0.85rem; color: #78350f;">
+      When rerouting happens, concurrent writes may hit different leaders simultaneously, completely breaking conflict avoidance.
+     </div>
+    </div>
+   </div>
+  </div>
+ </section>
+
+ <!-- 55. Converging Toward a Consistent State -->
+ <section class="slide content-slide">
+  <h2>Converging Toward a Consistent State</h2>
+  <p style="font-size: 1.15rem; color: var(--text-secondary); margin-bottom: 20px;">
+   All replicas must arrive at the same final value when all changes have replicated.
+  </p>
+  <div class="two-col" style="gap: 20px;">
+   <div class="compare-card">
+    <div style="display: flex; align-items: center; gap: 8px;">
+     <span style="background: #ef4444; color: white; border-radius: 50%; width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.8rem;">1</span>
+     <h3 style="font-size: 1rem;">Last Write Wins (LWW)</h3>
+    </div>
+    <p style="font-size: 0.88rem; line-height: 1.5; margin-top: 6px;">
+     Attach a timestamp or UUID to each write; pick highest timestamp as winner, discard others.
+    </p>
+    <div style="font-size: 0.8rem; color: #dc2626; margin-top: 4px;">
+     ⚠️ Highly popular, but <strong>dangerously prone to silent data loss</strong> due to clock skew!
+    </div>
+   </div>
+
+   <div class="compare-card">
+    <div style="display: flex; align-items: center; gap: 8px;">
+     <span style="background: #f59e0b; color: white; border-radius: 50%; width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.8rem;">2</span>
+     <h3 style="font-size: 1rem;">Replica Priority Precedence</h3>
+    </div>
+    <p style="font-size: 0.88rem; line-height: 1.5; margin-top: 6px;">
+     Assign each replica a unique integer ID. Writes originating at higher-numbered replicas override lower ones.
+    </p>
+    <div style="font-size: 0.8rem; color: #d97706; margin-top: 4px;">
+     ⚠️ Deterministic convergence, but also causes arbitrary, silent data loss.
+    </div>
+   </div>
+
+   <div class="compare-card">
+    <div style="display: flex; align-items: center; gap: 8px;">
+     <span style="background: #3b82f6; color: white; border-radius: 50%; width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.8rem;">3</span>
+     <h3 style="font-size: 1rem;">Value Merging</h3>
+    </div>
+    <p style="font-size: 0.88rem; line-height: 1.5; margin-top: 6px;">
+     Merge conflicting values together (e.g. order alphabetically and concatenate strings into "B/C").
+    </p>
+    <div style="font-size: 0.8rem; color: #0284c7; margin-top: 4px;">
+     🔄 Retains all data, but resulting concatenated value may violate schema constraints.
+    </div>
+   </div>
+
+   <div class="compare-card">
+    <div style="display: flex; align-items: center; gap: 8px;">
+     <span style="background: #10b981; color: white; border-radius: 50%; width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.8rem;">4</span>
+     <h3 style="font-size: 1rem;">Explicit Conflict Recording</h3>
+    </div>
+    <p style="font-size: 0.88rem; line-height: 1.5; margin-top: 6px;">
+     Store conflict metadata explicitly in a data structure that preserves all competing writes (siblings).
+    </p>
+    <div style="font-size: 0.8rem; color: #059669; margin-top: 4px;">
+     ✅ Safest approach: delegates resolution to application code or user prompts later.
+    </div>
+   </div>
+  </div>
+ </section>
+
+ <!-- 56. Custom Conflict Resolution Logic -->
+ <section class="slide content-slide">
+  <h2>Custom Conflict Resolution: On-Write vs. On-Read</h2>
+  <p style="font-size: 1.15rem; color: var(--text-secondary); margin-bottom: 20px;">
+   Executing application code to determine how conflicting records are reconciled.
+  </p>
+  <div class="two-col" style="gap: 25px;">
+   <div class="compare-card">
+    <h3 style="color: var(--accent);">✍️ Executing On Write</h3>
+    <p style="font-size: 0.92rem; line-height: 1.6; margin-top: 8px;">
+     As soon as the database detects a conflict in the replication log stream, it immediately invokes a registered handler.
+    </p>
+    <ul style="font-size: 0.88rem; line-height: 1.5; margin-top: 8px;">
+     <li><strong>Example:</strong> Bucardo for PostgreSQL allows writing a snippet of Perl to reconcile conflicting changes.</li>
+     <li><strong>Constraint:</strong> Runs in a background process; <strong>cannot prompt a human user</strong>; must execute extremely quickly.</li>
+    </ul>
+   </div>
+   <div class="compare-card accent">
+    <h3 style="color: #059669;">📖 Executing On Read</h3>
+    <p style="font-size: 0.92rem; line-height: 1.6; margin-top: 8px;">
+     When a conflict occurs, all competing versions are stored without modification (as "conflicts" or "siblings").
+    </p>
+    <ul style="font-size: 0.88rem; line-height: 1.5; margin-top: 8px;">
+     <li><strong>Example:</strong> CouchDB stores conflicting document versions. Next time the doc is read, all versions are returned to the client.</li>
+     <li><strong>Flexibility:</strong> Application code can prompt the user (e.g. Git merge UI) or apply domain logic, then write the resolved record back.</li>
+    </ul>
+   </div>
+  </div>
+  <div class="warning-banner" style="background: #f8fafc; border-left: 4px solid #64748b; padding: 12px; border-radius: 6px; margin-top: 20px; font-size: 0.88rem;">
+   <strong>Row-Level Granularity Caveat:</strong> Conflict resolution applies to an <em>individual row or document</em>, not an entire transaction. If a transaction updated 5 tables atomically, each row is resolved independently!
+  </div>
+ </section>
+
+ <!-- 57. Automatic Conflict Resolution: Research Frontiers -->
+ <section class="slide content-slide">
+  <h2>Automatic Conflict Resolution &amp; Research Frontiers</h2>
+  <p style="font-size: 1.15rem; color: var(--text-secondary); margin-bottom: 18px;">
+   The pitfalls of custom code and the mathematical breakthroughs eliminating manual conflict handlers.
+  </p>
+  <div class="warning-banner" style="background: #fffbeb; border-left: 4px solid #f59e0b; padding: 12px 16px; border-radius: 8px; margin-bottom: 18px;">
+   <strong style="color: #92400e;">🛒 The Classic Amazon Shopping Cart Bug:</strong>
+   <p style="font-size: 0.9rem; color: #78350f; margin-top: 4px; line-height: 1.5;">
+    Amazon's early custom conflict handler preserved added items across conflicts, but failed to track item deletions properly. Customers would delete an item, but upon concurrent cart sync, <strong>the deleted item would mysteriously reappear!</strong>
+   </p>
+  </div>
+  <div class="three-col" style="gap: 18px;">
+   <div class="compare-card">
+    <h3 style="font-size: 1.05rem; color: var(--accent);">CRDTs</h3>
+    <p style="font-size: 0.82rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 6px;">Conflict-Free Replicated Data Types</p>
+    <p style="font-size: 0.85rem; line-height: 1.5;">
+     Mathematical data structures (sets, maps, counters) that can be concurrently modified by multiple replicas and converge automatically without coordination (e.g., Riak 2.0).
+    </p>
+   </div>
+   <div class="compare-card">
+    <h3 style="font-size: 1.05rem; color: #059669;">Mergeable Data Structures</h3>
+    <p style="font-size: 0.82rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 6px;">Persistent Git-Like Histories</p>
+    <p style="font-size: 0.85rem; line-height: 1.5;">
+     Explicitly track change history DAGs (like Git commits) and use <strong>three-way merge algorithms</strong> with common ancestors to cleanly combine concurrent branch histories.
+    </p>
+   </div>
+   <div class="compare-card">
+    <h3 style="font-size: 1.05rem; color: #7c3aed;">Operational Transform (OT)</h3>
+    <p style="font-size: 0.82rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 6px;">Sequence Re-indexing</p>
+    <p style="font-size: 0.85rem; line-height: 1.5;">
+     The algorithmic engine powering Google Docs and Etherpad. Specifically designed for concurrent edits to ordered sequences of characters in rich-text documents.
+    </p>
+   </div>
+  </div>
+ </section>
+
+ <!-- 58. What Is a Conflict? Obvious vs Subtle Semantic Conflicts -->
+ <section class="slide content-slide">
+  <h2>What Is a Conflict? Obvious vs. Subtle Semantics</h2>
+  <p style="font-size: 1.15rem; color: var(--text-secondary); margin-bottom: 20px;">
+   Why real-world distributed conflicts extend far beyond simple record overwrites.
+  </p>
+  <div class="two-col" style="gap: 25px;">
+   <div>
+    <div class="compare-card">
+     <h3 style="color: #0284c7;">📝 Obvious Conflicts (Direct Overwrite)</h3>
+     <p style="font-size: 0.92rem; line-height: 1.6; margin-top: 8px;">
+      Two concurrent writes update the same column of the same primary key row to conflicting values (e.g., user bio = "Hello" vs. "Hi").
+     </p>
+     <p style="font-size: 0.88rem; line-height: 1.5; color: var(--text-secondary); margin-top: 6px;">
+      Simple to detect: the replication engine observes conflicting timestamps or version numbers for the exact same key.
+     </p>
+    </div>
+   </div>
+   <div>
+    <div class="compare-card accent">
+     <h3 style="color: #dc2626;">🏢 Subtle Semantic Conflicts: The Meeting Room Trap</h3>
+     <p style="font-size: 0.92rem; line-height: 1.6; margin-top: 8px;">
+      Imagine a room booking app: Room 101 can only be booked by one team at 2:00 PM.
+     </p>
+     <ul style="font-size: 0.88rem; line-height: 1.5; margin-top: 6px;">
+      <li>User A queries Leader 1: Room 101 is free at 2 PM → creates booking row #101A.</li>
+      <li>User B queries Leader 2: Room 101 is free at 2 PM → creates booking row #101B.</li>
+     </ul>
+     <div class="warning-banner" style="background: #fef2f2; border-left: 4px solid #ef4444; padding: 10px; border-radius: 6px; margin-top: 10px; font-size: 0.85rem; color: #7f1d1d;">
+      <strong>The Conflict:</strong> No single row was overwritten! Both are distinct rows. Yet a critical business invariant was shattered (double booking). Requires serializable transactions (Chapters 7 &amp; 12).
+     </div>
+    </div>
+   </div>
+  </div>
+ </section>
+
+ <!-- 59. Section: Multi-Leader Replication Topologies -->
+ <section class="slide section-header">
+  <span class="tag" style="background: rgba(255,255,255,0.2); color: #fff; font-size: 1rem; padding: 6px 16px; border-radius: 20px; text-transform: uppercase; letter-spacing: 1px;">Part 5: Architecture</span>
+  <h2 style="font-size: 2.8rem; margin-top: 15px;">Multi-Leader Topologies</h2>
+  <p style="font-size: 1.3rem; opacity: 0.85; margin-top: 15px; max-width: 850px;">Routing write streams across clusters: circular, star, and all-to-all networks</p>
+ </section>
+
+ <!-- 60. Topologies: Circular, Star, and All-to-All -->
+ <section class="slide content-slide with-image">
+  <div>
+   <h2>Replication Topologies</h2>
+   <p style="font-size: 1.05rem; line-height: 1.5; margin-top: 8px;">
+    A replication topology describes the communication paths along which writes propagate between leaders.
+   </p>
+   <div class="compare-card" style="margin: 12px 0;">
+    <ul style="font-size: 0.88rem; line-height: 1.6;">
+     <li><strong>[a] Circular Topology:</strong> Each node forwards writes in a ring. Each node receives writes from one peer and forwards them to one other (default in MySQL).</li>
+     <li><strong>[b] Star Topology:</strong> A central designated root node receives and forwards writes to all other leaders (can generalize to tree).</li>
+     <li><strong>[c] All-to-All Topology:</strong> Every leader transmits its writes directly to every other leader. The most densely connected architecture.</li>
+    </ul>
+   </div>
+  </div>
+  <div class="image-box">
+   <img src="images/ddia_0508.png" alt="Figure 5-8: Multi-leader replication topologies" style="max-height: 440px; width: auto; object-fit: contain;" />
+   <p style="font-size: 0.8rem; opacity: 0.7; margin-top: 8px; text-align: center;">Figure 5-8: Three example topologies in which multi-leader replication can be set up.</p>
+  </div>
+ </section>
+
+ <!-- 61. Loop Prevention & Fault Tolerance in Topologies -->
+ <section class="slide content-slide">
+  <h2>Loop Prevention &amp; Fault Tolerance in Topologies</h2>
+  <p style="font-size: 1.15rem; color: var(--text-secondary); margin-bottom: 20px;">
+   Managing infinite replication cycles and single-point-of-failure vulnerabilities.
+  </p>
+  <div class="two-col" style="gap: 25px;">
+   <div>
+    <div class="compare-card">
+     <h3 style="color: var(--accent);">🔄 The Loop Prevention Mechanism</h3>
+     <p style="font-size: 0.92rem; line-height: 1.6; margin-top: 8px;">
+      In circular and star topologies, a write passes through multiple intermediate nodes before reaching all replicas. Without safeguards, writes would circulate forever!
+     </p>
+     <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; margin-top: 10px; font-size: 0.88rem;">
+      <strong>The Identifier Tagging Solution:</strong><br>
+      Each node is given a unique identifier. In the replication log, each write is tagged with the identifiers of all nodes it has traversed. When a node sees its own ID on an incoming write, it <strong>drops the write</strong> to prevent infinite loops.
+     </div>
+    </div>
+   </div>
+   <div>
+    <div class="compare-card accent">
+     <h3 style="color: #dc2626;">💥 Fault Tolerance Comparison</h3>
+     <div style="margin-top: 8px;">
+      <strong>Circular &amp; Star: Single Point of Failure!</strong>
+      <p style="font-size: 0.88rem; line-height: 1.5; margin-top: 4px;">
+       If just one node crashes, it breaks the replication chain! Other nodes are blocked from communicating until the failed node is recovered or manually reconfigured.
+      </p>
+     </div>
+     <div style="margin-top: 12px;">
+      <strong>All-to-All: Highly Fault Tolerant!</strong>
+      <p style="font-size: 0.88rem; line-height: 1.5; margin-top: 4px;">
+       Messages travel along redundant point-to-point links. A single node crash does not prevent the surviving nodes from replicating with each other.
+      </p>
+     </div>
+    </div>
+   </div>
+  </div>
+ </section>
+
+ <!-- 62. Causality Violations in All-to-All -->
+ <section class="slide content-slide with-image">
+  <div>
+   <h2>Causality Violations in All-to-All Topologies</h2>
+   <p style="font-size: 1.05rem; line-height: 1.5; margin-top: 8px;">
+    Network links operate at different speeds: writes can "overtake" each other in transit!
+   </p>
+   <div class="warning-banner" style="background: #fef2f2; border-left: 4px solid #ef4444; padding: 10px 14px; border-radius: 6px; margin: 12px 0;">
+    <strong style="color: #b91c1c;">The Overtaking Disaster:</strong>
+    <p style="font-size: 0.88rem; color: #7f1d1d; margin-top: 4px; line-height: 1.5;">
+     1. Client A inserts a row on Leader 1.<br>
+     2. Client B reads that row and updates it on Leader 3.<br>
+     3. Leader 2 receives the <strong>update before the insert</strong>!<br>
+     4. Leader 2 tries to update a row that doesn't exist yet!
+    </p>
+   </div>
+   <p style="font-size: 0.88rem; line-height: 1.5;">
+    Clocks cannot be trusted to resolve this ordering (Chapter 8). We need <strong>version vectors</strong>.
+   </p>
+   <div style="background: #fffbeb; padding: 10px; border-radius: 6px; font-size: 0.82rem; margin-top: 8px; color: #78350f;">
+    ⚠️ <strong>Shocking Vendor Reality:</strong> PostgreSQL BDR does not provide causal write ordering, and Tungsten Replicator doesn't even detect conflicts!
+   </div>
+  </div>
+  <div class="image-box">
+   <img src="images/ddia_0509.png" alt="Figure 5-9: Writes arriving in wrong order in multi-leader" style="max-height: 440px; width: auto; object-fit: contain;" />
+   <p style="font-size: 0.8rem; opacity: 0.7; margin-top: 8px; text-align: center;">Figure 5-9: With multi-leader replication, writes may arrive in the wrong order at some replicas.</p>
+  </div>
+ </section>
+ <!-- 63. Section: Leaderless -->
+ <section class="slide section-header">
+  <span class="tag" style="background: rgba(255,255,255,0.2); color: #fff; font-size: 1rem; padding: 6px 16px; border-radius: 20px; text-transform: uppercase; letter-spacing: 1px;">Part 6 of 8</span>
+  <h2 style="font-size: 2.8rem; margin-top: 15px;">Leaderless Replication</h2>
+  <p style="font-size: 1.3rem; opacity: 0.85; margin-top: 15px; max-width: 850px;">The Dynamo paradigm, quorum consensus, and sloppy availability</p>
+ </section>
+
+ <!-- 64. The Dynamo Philosophy & Origins -->
+ <section class="slide content-slide">
+  <h2>The Dynamo Philosophy &amp; Historical Roots</h2>
+  <p style="font-size: 1.15rem; color: var(--text-secondary); margin-bottom: 20px;">
+   Abandoning the leader entirely: allowing any replica to accept client writes directly.
+  </p>
+  <div class="two-col" style="gap: 25px;">
+   <div>
+    <div class="compare-card">
+     <h3 style="color: var(--accent);">📜 Historical Roots &amp; Revival</h3>
+     <p style="font-size: 0.92rem; line-height: 1.6; margin-top: 8px;">
+      Leaderless replication is not new: the earliest distributed database research in the 1970s (Gifford 1979, Thomas 1979) was leaderless. It was largely forgotten during the 25-year dominance of relational databases.
+     </p>
+     <p style="font-size: 0.92rem; line-height: 1.6; margin-top: 8px;">
+      Amazon revived the architecture with its landmark 2007 <strong>Dynamo</strong> paper, spawning open-source datastores known as <strong>Dynamo-style</strong>:
+     </p>
+     <div style="display: flex; gap: 8px; margin-top: 8px;">
+      <span class="tag">Apache Cassandra</span>
+      <span class="tag">Riak</span>
+      <span class="tag">Voldemort</span>
+     </div>
+    </div>
+   </div>
+   <div>
+    <div class="compare-card accent">
+     <h3 style="color: #059669;">⚙️ Architectural Mechanisms</h3>
+     <ul style="font-size: 0.9rem; line-height: 1.6; margin-top: 8px;">
+      <li><strong>Direct Client Writes:</strong> Client sends writes to multiple replicas in parallel.</li>
+      <li><strong>Coordinator Routing:</strong> Alternatively, a coordinator node sends writes on behalf of the client, but <em>does not enforce write ordering</em>.</li>
+      <li><strong>Crucial Distinction:</strong> Amazon's internal Dynamo KV store is distinct from <strong>DynamoDB</strong> (AWS hosted service based on single-leader Paxos).</li>
+     </ul>
+    </div>
+   </div>
+  </div>
+ </section>
+
+ <!-- 65. Writing When a Node Is Down -->
+ <section class="slide content-slide with-image">
+  <div>
+   <h2>Writing When a Node Is Down</h2>
+   <p style="font-size: 1.05rem; line-height: 1.5; margin-top: 8px;">
+    In leaderless replication, <strong>failover does not exist!</strong>
+   </p>
+   <div class="compare-card" style="margin: 12px 0;">
+    <h3 style="font-size: 1rem; color: var(--accent);">Outage Walkthrough (3 Replicas):</h3>
+    <ul style="font-size: 0.88rem; line-height: 1.5; margin-top: 6px;">
+     <li>Replica 3 is down (rebooting for OS patch).</li>
+     <li>User 1234 sends a write to all 3 replicas in parallel.</li>
+     <li>Replicas 1 and 2 accept the write; Replica 3 misses it.</li>
+     <li><strong>2 of 3 acknowledge:</strong> write is considered successful! The client simply ignores Replica 3's absence.</li>
+    </ul>
+   </div>
+   <p style="font-size: 0.88rem; line-height: 1.5; color: var(--text-secondary);">
+    When Replica 3 comes back online, clients reading from it risk receiving stale data. Hence, reads must also query multiple nodes in parallel!
+   </p>
+  </div>
+  <div class="image-box">
+   <img src="images/ddia_0510.png" alt="Figure 5-10: Quorum write, read, and read repair" style="max-height: 440px; width: auto; object-fit: contain;" />
+   <p style="font-size: 0.8rem; opacity: 0.7; margin-top: 8px; text-align: center;">Figure 5-10: Quorum write, quorum read, and read repair after a node outage.</p>
+  </div>
+ </section>
+
+ <!-- 66. Catching Up: Read Repair vs. Anti-Entropy -->
+ <section class="slide content-slide">
+  <h2>Catching Up: Read Repair vs. Anti-Entropy</h2>
+  <p style="font-size: 1.15rem; color: var(--text-secondary); margin-bottom: 20px;">
+   How a recovering node catches up on writes it missed while offline.
+  </p>
+  <div class="two-col" style="gap: 25px;">
+   <div class="compare-card">
+    <h3 style="color: var(--accent);">🛠️ Mechanism 1: Read Repair</h3>
+    <p style="font-size: 0.92rem; line-height: 1.6; margin-top: 8px;">
+     When a client reads in parallel from multiple nodes, it compares versions:
+    </p>
+    <ul style="font-size: 0.88rem; line-height: 1.5; margin-top: 6px;">
+     <li>Client receives Version 7 from Node 1 &amp; Node 2, and Version 6 from Node 3.</li>
+     <li>Client recognizes Node 3 is stale, and writes Version 7 back to Node 3.</li>
+     <li><strong>Limitation:</strong> Works wonderfully for frequently read keys, but rarely read data never gets repaired!</li>
+    </ul>
+   </div>
+   <div class="compare-card accent">
+    <h3 style="color: #059669;">🔄 Mechanism 2: Anti-Entropy Process</h3>
+    <p style="font-size: 0.92rem; line-height: 1.6; margin-top: 8px;">
+     A background daemon continuously compares dataset hashes (Merkle trees) between replicas and copies missing data.
+    </p>
+    <ul style="font-size: 0.88rem; line-height: 1.5; margin-top: 6px;">
+     <li>Unlike replication logs, does not copy in any specific order.</li>
+     <li>Can have significant background delay.</li>
+     <li>⚠️ <strong>Voldemort Risk:</strong> Project Voldemort has NO anti-entropy process! Infrequently read data remains stale forever, permanently degrading durability.</li>
+    </ul>
+   </div>
+  </div>
+ </section>
+
+ <!-- 67. Quorums for Reading and Writing -->
+ <section class="slide content-slide">
+  <h2>Quorums for Reading and Writing</h2>
+  <p style="font-size: 1.15rem; color: var(--text-secondary); margin-bottom: 20px;">
+   The mathematical foundation of leaderless consistency: the pigeonhole principle in action.
+  </p>
+  <div class="two-col" style="gap: 25px;">
+   <div>
+    <div class="stat-box" style="margin-bottom: 20px; padding: 20px; background: #eff6ff; border: 2px solid #3b82f6; border-radius: 12px; text-align: center;">
+     <div style="font-size: 2.2rem; font-weight: 800; color: #1d4ed8;">w + r &gt; n</div>
+     <div style="font-size: 1rem; font-weight: 600; color: #1e40af; margin-top: 4px;">The Fundamental Quorum Condition</div>
+    </div>
+    <div class="compare-card">
+     <h3>📐 The Overlap Principle</h3>
+     <p style="font-size: 0.92rem; line-height: 1.5; margin-top: 6px;">
+      If <em>w</em> + <em>r</em> &gt; <em>n</em>, the set of nodes written to and the set of nodes read from <strong>must overlap by at least one node</strong>! That overlapping node is guaranteed to hold the latest version.
+     </p>
+    </div>
+   </div>
+   <div>
+    <div class="compare-card accent">
+     <h3 style="color: var(--accent);">⚙️ Fault Tolerance Parameters</h3>
+     <ul style="font-size: 0.9rem; line-height: 1.6; margin-top: 8px;">
+      <li><strong><em>n</em>:</strong> Number of replicas storing a key (cluster may have 100 nodes, but key lives on <em>n</em>).</li>
+      <li><strong><em>w</em>:</strong> Number of successful write acknowledgments required.</li>
+      <li><strong><em>r</em>:</strong> Number of nodes queried for each read.</li>
+      <li>Writes tolerate up to <strong><em>n</em> &minus; <em>w</em></strong> unavailable nodes.</li>
+      <li>Reads tolerate up to <strong><em>n</em> &minus; <em>r</em></strong> unavailable nodes.</li>
+      <li>Standard majority: <em>n</em>=3, <em>w</em>=2, <em>r</em>=2 (tolerates 1 down node) or <em>n</em>=5, <em>w</em>=3, <em>r</em>=3 (tolerates 2 down nodes).</li>
+     </ul>
+    </div>
+   </div>
+  </div>
+ </section>
+
+ <!-- 68. Visualizing Quorum Overlap -->
+ <section class="slide content-slide with-image">
+  <div>
+   <h2>Visualizing Quorum Overlap</h2>
+   <p style="font-size: 1.05rem; line-height: 1.5; margin-top: 8px;">
+    Why the intersection of read and write sets guarantees freshness.
+   </p>
+   <div class="compare-card" style="margin: 12px 0;">
+    <h3 style="font-size: 1rem; color: var(--accent);">Example: <em>n</em>=5, <em>w</em>=3, <em>r</em>=3</h3>
+    <ul style="font-size: 0.88rem; line-height: 1.5; margin-top: 6px;">
+     <li>Write confirmed on 3 nodes (e.g. Nodes 1, 2, 3).</li>
+     <li>Read queries 3 nodes (e.g. Nodes 3, 4, 5).</li>
+     <li><strong>Node 3 is in both sets:</strong> its version number proves it has the latest write!</li>
+    </ul>
+   </div>
+   <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 10px; font-size: 0.85rem;">
+    💡 <strong>Workload Tuning:</strong><br>
+    • Read-heavy: <em>w</em> = <em>n</em>, <em>r</em> = 1 (fast reads, but any node crash stops writes).<br>
+    • Write-heavy: <em>w</em> = 1, <em>r</em> = <em>n</em> (fast writes, but any node crash stops reads).
+   </div>
+  </div>
+  <div class="image-box">
+   <img src="images/ddia_0511.png" alt="Figure 5-11: Quorum read and write overlap" style="max-height: 440px; width: auto; object-fit: contain;" />
+   <p style="font-size: 0.8rem; opacity: 0.7; margin-top: 8px; text-align: center;">Figure 5-11: If w + r &gt; n, at least one of the r replicas you read from must have seen the most recent write.</p>
+  </div>
  </section>
 
  <!-- Quorum Explorer Lab -->
  <section class="slide" id="quorum-lab-slide" style="padding: 15px 25px; text-align: left; align-items: stretch; justify-content: flex-start;">
- <h2 style="font-size: 1.5rem; margin-bottom: 6px; text-align: center;">🔬 Quorum Explorer — w + r &gt; n</h2>
- <div style="display: flex; gap: 16px; height: calc(100vh - 65px);">
-  <!-- LEFT: Controls -->
-  <div style="flex: 0 0 220px; display: flex; flex-direction: column; gap: 8px; font-size: 0.82rem;">
-   <label style="font-weight: 700;">n (total nodes): <span id="q-n-val">3</span></label>
-   <input type="range" id="q-n" min="3" max="7" value="3" oninput="qUpdate()" style="width: 100%;">
-   <label style="font-weight: 700;">w (write quorum): <span id="q-w-val">2</span></label>
-   <input type="range" id="q-w" min="1" max="7" value="2" oninput="qUpdate()" style="width: 100%;">
-   <label style="font-weight: 700;">r (read quorum): <span id="q-r-val">2</span></label>
-   <input type="range" id="q-r" min="1" max="7" value="2" oninput="qUpdate()" style="width: 100%;">
+  <h2 style="font-size: 1.5rem; margin-bottom: 6px; text-align: center;">🔬 Quorum Explorer — w + r &gt; n</h2>
+  <div style="display: flex; gap: 16px; height: calc(100vh - 65px);">
+   <!-- LEFT: Controls -->
+   <div style="flex: 0 0 220px; display: flex; flex-direction: column; gap: 8px; font-size: 0.82rem;">
+    <label style="font-weight: 700;">n (total nodes): <span id="q-n-val">3</span></label>
+    <input type="range" id="q-n" min="3" max="7" value="3" oninput="qUpdate()" style="width: 100%;">
+    <label style="font-weight: 700;">w (write quorum): <span id="q-w-val">2</span></label>
+    <input type="range" id="q-w" min="1" max="7" value="2" oninput="qUpdate()" style="width: 100%;">
+    <label style="font-weight: 700;">r (read quorum): <span id="q-r-val">2</span></label>
+    <input type="range" id="q-r" min="1" max="7" value="2" oninput="qUpdate()" style="width: 100%;">
 
-   <div id="q-condition" style="margin-top: 8px; padding: 10px; border-radius: 8px; font-weight: 700; font-size: 0.95rem; text-align: center;"></div>
+    <div id="q-condition" style="margin-top: 8px; padding: 10px; border-radius: 8px; font-weight: 700; font-size: 0.95rem; text-align: center;"></div>
 
-   <div style="margin-top: 6px; background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 8px; padding: 10px; font-size: 0.78rem; line-height: 1.6;">
-    <div><strong>Write tolerance:</strong> <span id="q-wt"></span></div>
-    <div><strong>Read tolerance:</strong> <span id="q-rt"></span></div>
-    <div style="margin-top: 4px;"><strong>Overlap:</strong> <span id="q-overlap"></span></div>
+    <div style="margin-top: 6px; background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 8px; padding: 10px; font-size: 0.78rem; line-height: 1.6;">
+     <div><strong>Write tolerance:</strong> <span id="q-wt"></span></div>
+     <div><strong>Read tolerance:</strong> <span id="q-rt"></span></div>
+     <div style="margin-top: 4px;"><strong>Overlap:</strong> <span id="q-overlap"></span></div>
+    </div>
+
+    <div style="margin-top: 6px; font-size: 0.75rem; opacity: 0.7;">
+     Click nodes to <strong>crash</strong> / restore them.
+    </div>
+
+    <button onclick="qReset()" style="margin-top: 4px; padding: 6px; background: var(--accent); color: white; border: none; border-radius: 6px; font-size: 0.8rem; font-weight: 600; cursor: pointer;">Reset All Nodes</button>
+
+    <div id="q-status" style="margin-top: 6px; padding: 8px; border-radius: 8px; font-size: 0.78rem; font-weight: 600; text-align: center;"></div>
+
+    <div style="margin-top: auto; font-size: 0.72rem; line-height: 1.5; background: #fffbeb; border: 1px solid #fcd34d; border-radius: 6px; padding: 8px;">
+     💡 <strong>Common configs:</strong><br>
+     n=3, w=2, r=2 (majority)<br>
+     n=3, w=3, r=1 (fast reads)<br>
+     n=3, w=1, r=3 (fast writes)<br>
+     n=5, w=3, r=3 (higher tolerance)
+    </div>
    </div>
 
-   <div style="margin-top: 6px; font-size: 0.75rem; opacity: 0.7;">
-    Click nodes to <strong>crash</strong> / restore them.
-   </div>
-
-   <button onclick="qReset()" style="margin-top: 4px; padding: 6px; background: var(--accent); color: white; border: none; border-radius: 6px; font-size: 0.8rem; font-weight: 600; cursor: pointer;">Reset All Nodes</button>
-
-   <div id="q-status" style="margin-top: 6px; padding: 8px; border-radius: 8px; font-size: 0.78rem; font-weight: 600; text-align: center;"></div>
-
-   <div style="margin-top: auto; font-size: 0.72rem; line-height: 1.5; background: #fffbeb; border: 1px solid #fcd34d; border-radius: 6px; padding: 8px;">
-    💡 <strong>Common configs:</strong><br>
-    n=3, w=2, r=2 (majority)<br>
-    n=3, w=3, r=1 (fast reads)<br>
-    n=3, w=1, r=3 (fast writes)<br>
-    n=5, w=3, r=3 (higher tolerance)
+   <!-- RIGHT: SVG Node Ring -->
+   <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; min-width: 0;">
+    <svg id="q-svg" viewBox="0 0 500 500" style="width: 100%; max-width: 500px; max-height: 80vh;"></svg>
+    <div style="display: flex; gap: 18px; margin-top: 8px; font-size: 0.75rem;">
+     <span><span style="display:inline-block;width:14px;height:14px;background:#3b82f6;border-radius:50%;vertical-align:middle;margin-right:4px;"></span>Write set</span>
+     <span><span style="display:inline-block;width:14px;height:14px;background:#10b981;border-radius:50%;vertical-align:middle;margin-right:4px;"></span>Read set</span>
+     <span><span style="display:inline-block;width:14px;height:14px;background:linear-gradient(135deg,#3b82f6 50%,#10b981 50%);border-radius:50%;vertical-align:middle;margin-right:4px;"></span>Overlap</span>
+     <span><span style="display:inline-block;width:14px;height:14px;background:#ef4444;border-radius:50%;vertical-align:middle;margin-right:4px;"></span>Crashed</span>
+    </div>
    </div>
   </div>
+ </section>
 
-  <!-- RIGHT: SVG Node Ring -->
-  <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; min-width: 0;">
-   <svg id="q-svg" viewBox="0 0 500 500" style="width: 100%; max-width: 500px; max-height: 80vh;"></svg>
-   <div style="display: flex; gap: 18px; margin-top: 8px; font-size: 0.75rem;">
-    <span><span style="display:inline-block;width:14px;height:14px;background:#3b82f6;border-radius:50%;vertical-align:middle;margin-right:4px;"></span>Write set</span>
-    <span><span style="display:inline-block;width:14px;height:14px;background:#10b981;border-radius:50%;vertical-align:middle;margin-right:4px;"></span>Read set</span>
-    <span><span style="display:inline-block;width:14px;height:14px;background:linear-gradient(135deg,#3b82f6 50%,#10b981 50%);border-radius:50%;vertical-align:middle;margin-right:4px;"></span>Overlap</span>
-    <span><span style="display:inline-block;width:14px;height:14px;background:#ef4444;border-radius:50%;vertical-align:middle;margin-right:4px;"></span>Crashed</span>
+ <!-- 69. Six Limitations of Quorum Consistency -->
+ <section class="slide content-slide">
+  <h2>Six Limitations of Quorum Consistency</h2>
+  <p style="font-size: 1.15rem; color: var(--text-secondary); margin-bottom: 18px;">
+   Why even strict <em>w</em> + <em>r</em> &gt; <em>n</em> configurations frequently return stale values in production.
+  </p>
+  <div class="two-col" style="gap: 20px;">
+   <div class="compare-card">
+    <h3 style="font-size: 0.98rem; color: #dc2626;">1. Sloppy Quorums</h3>
+    <p style="font-size: 0.85rem; line-height: 1.4; margin-top: 4px;">
+     Writes accepted on non-home nodes; read quorum queries home nodes &rarr; no overlap guaranteed!
+    </p>
+    <h3 style="font-size: 0.98rem; color: #dc2626; margin-top: 10px;">2. Concurrent Writes</h3>
+    <p style="font-size: 0.85rem; line-height: 1.4; margin-top: 4px;">
+     Writes have no defined order. If resolved via LWW timestamps, clock skew silently discards valid data.
+    </p>
+    <h3 style="font-size: 0.98rem; color: #dc2626; margin-top: 10px;">3. Concurrent Read &amp; Write</h3>
+    <p style="font-size: 0.85rem; line-height: 1.4; margin-top: 4px;">
+     A read occurring concurrently with a write may land on only some updated nodes; result is undetermined.
+    </p>
+   </div>
+   <div class="compare-card">
+    <h3 style="font-size: 0.98rem; color: #dc2626;">4. Partial Write Failures</h3>
+    <p style="font-size: 0.85rem; line-height: 1.4; margin-top: 4px;">
+     Write succeeds on fewer than <em>w</em> nodes and reports failure. <strong>It is never rolled back!</strong> Reads may still see it.
+    </p>
+    <h3 style="font-size: 0.98rem; color: #dc2626; margin-top: 10px;">5. Node Restore from Old Data</h3>
+    <p style="font-size: 0.85rem; line-height: 1.4; margin-top: 4px;">
+     Restoring a node from backup drops the count of nodes holding the new value below <em>w</em>, breaking quorum.
+    </p>
+    <h3 style="font-size: 0.98rem; color: #dc2626; margin-top: 10px;">6. Linearizability Glitches</h3>
+    <p style="font-size: 0.85rem; line-height: 1.4; margin-top: 4px;">
+     Timing race conditions allow Reader A to see new value, followed by Reader B seeing old value (Chapter 9).
+    </p>
    </div>
   </div>
- </div>
- </section>
- <!-- Lab: Replication Lag Anomaly Lab -->
- <section class="slide content-slide" id="lag-lab-slide">
- <h2 style="margin-bottom:4px;">⏱️ Replication Lag Anomaly Lab</h2>
- <div style="display:flex;gap:10px;align-items:center;margin:4px 0;flex-wrap:wrap;font-size:0.85rem;">
- <select id="lag-scenario" onchange="lagReset()" style="padding:5px 8px;border-radius:6px;border:2px solid #e65100;font-size:0.82rem;">
- <option value="readYourWrites">1. Reading Your Own Writes</option>
- <option value="monotonicReads">2. Moving Backward in Time</option>
- <option value="consistentPrefix">3. Violation of Causality</option>
- </select>
- <label style="background:#fff3e0;padding:4px 10px;border-radius:6px;border:1px solid #ffcc80;cursor:pointer;"><input type="checkbox" id="lag-fix" onchange="lagReset()" style="margin-right:4px;"> 🔧 Apply Fix</label>
- <button id="lag-step-btn" onclick="lagStep()" style="padding:6px 16px;background:#e65100;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:700;font-size:0.85rem;">Step ▶</button>
- <button onclick="lagReset()" style="padding:6px 12px;background:#eee;border:1px solid #ccc;border-radius:8px;cursor:pointer;font-size:0.85rem;">Reset 🔄</button>
- </div>
- <div style="display:flex;gap:10px;margin-top:4px;">
- <div style="flex:1.2;">
- <div style="display:flex;gap:8px;margin-bottom:6px;">
- <div id="lag-n0" style="flex:1;padding:8px;border-radius:8px;border:2px solid #1565c0;background:#e3f2fd;text-align:center;font-size:0.75rem;min-height:55px;"><b>Leader</b><br>Ready</div>
- <div id="lag-n1" style="flex:1;padding:8px;border-radius:8px;border:2px solid #2e7d32;background:#e8f5e9;text-align:center;font-size:0.75rem;min-height:55px;"><b>Follower 1</b><br>lag: 1s</div>
- <div id="lag-n2" style="flex:1;padding:8px;border-radius:8px;border:2px solid #6a1b9a;background:#f3e5f5;text-align:center;font-size:0.75rem;min-height:55px;"><b>Follower 2</b><br>lag: 5s</div>
- </div>
- <div id="lag-result" style="display:none;padding:8px 12px;border-radius:8px;font-size:0.82rem;font-weight:700;text-align:center;"></div>
- </div>
- <div id="lag-log" style="flex:1;background:#fafafa;border:1px solid #e0e0e0;border-radius:8px;padding:6px 10px;font-size:0.73rem;font-family:monospace;max-height:180px;overflow-y:auto;line-height:1.6;">Click <b>Step ▶</b> to begin</div>
- </div>
- <div style="background:#fff3e0;border:1px solid #ffcc80;border-radius:8px;padding:5px 10px;margin-top:3px;font-size:0.75rem;">
- 💡 Based on <b>Ch5 "Problems with Replication Lag"</b>. Three anomalies that occur when reading from asynchronous followers. Toggle the fix to see how each guarantee resolves it.
- </div>
  </section>
 
- <!-- 40. Section: Summary -->
+ <!-- 70. Monitoring Replica Staleness -->
+ <section class="slide content-slide">
+  <h2>Monitoring Replica Staleness</h2>
+  <p style="font-size: 1.15rem; color: var(--text-secondary); margin-bottom: 20px;">
+   Why measuring replication lag is vastly harder in leaderless datastores.
+  </p>
+  <div class="two-col" style="gap: 25px;">
+   <div>
+    <div class="compare-card">
+     <h3 style="color: #059669;">📏 Leader-Based: Simple &amp; Deterministic</h3>
+     <p style="font-size: 0.92rem; line-height: 1.6; margin-top: 8px;">
+      Because writes are sequentially ordered in a log:
+     </p>
+     <div class="code-block" style="font-size: 0.88rem; margin: 8px 0;">
+Lag = Leader_LSN - Follower_LSN;</div>
+     <p style="font-size: 0.88rem; line-height: 1.5; color: var(--text-secondary);">
+      Gives an exact, quantifiable lag in bytes and milliseconds for operational monitoring alerts.
+     </p>
+    </div>
+   </div>
+   <div>
+    <div class="compare-card accent">
+     <h3 style="color: #dc2626;">❓ Leaderless: Indeterminate &amp; Complex</h3>
+     <p style="font-size: 0.92rem; line-height: 1.6; margin-top: 8px;">
+      There is no fixed write order and no global log position!
+     </p>
+     <ul style="font-size: 0.88rem; line-height: 1.5; margin-top: 6px;">
+      <li>Without anti-entropy, infrequently read keys can remain stale for months or years.</li>
+      <li>Research by Peter Bailis et al. introduced <strong>PBS (Probabilistically Bounded Staleness)</strong> to predict stale read likelihood.</li>
+      <li>Standard monitoring tools rarely quantify "eventual consistency" in leaderless clusters.</li>
+     </ul>
+    </div>
+   </div>
+  </div>
+ </section>
+
+ <!-- 71. Sloppy Quorums & Hinted Handoff -->
+ <section class="slide content-slide with-image">
+  <div>
+   <h2>Sloppy Quorums &amp; Hinted Handoff</h2>
+   <p style="font-size: 1.05rem; line-height: 1.5; margin-top: 8px;">
+    What should a cluster do during network partitions when the designated <em>n</em> nodes are unreachable?
+   </p>
+   <div class="two-col" style="gap: 15px; margin: 12px 0;">
+    <div class="compare-card">
+     <h3 style="font-size: 0.95rem;">Strict Quorum</h3>
+     <p style="font-size: 0.85rem; line-height: 1.4; margin-top: 4px;">
+      Reject the write with an error because <em>w</em> home nodes cannot be reached. Consistent, but <strong>unavailable</strong>.
+     </p>
+    </div>
+    <div class="compare-card accent">
+     <h3 style="font-size: 0.95rem;">Sloppy Quorum 🛋️</h3>
+     <p style="font-size: 0.85rem; line-height: 1.4; margin-top: 4px;">
+      Accept writes on reachable <em>neighbor nodes</em> outside the home <em>n</em> set! Maximize write availability.
+     </p>
+    </div>
+   </div>
+   <div class="warning-banner" style="background: #fffbeb; border-left: 4px solid #f59e0b; padding: 10px; border-radius: 6px; font-size: 0.85rem; color: #78350f;">
+    <strong>The Couch Analogy:</strong> Like sleeping on a neighbor's sofa when locked out of your house. Once you find your keys (partition heals), <strong>hinted handoff</strong> sends the writes back home.
+   </div>
+  </div>
+  <div class="image-box">
+   <img src="images/couch-sofa.jpg" alt="Sloppy quorum couch analogy" style="max-height: 420px; width: auto; object-fit: cover; border-radius: 8px;" />
+   <p style="font-size: 0.8rem; opacity: 0.7; margin-top: 8px; text-align: center;">A temporary resting place for writes when the home nodes are locked out.</p>
+  </div>
+ </section>
+
+ <!-- 72. Sloppy Quorums: Durability vs. Consistency -->
+ <section class="slide content-slide">
+  <h2>Sloppy Quorums: Durability vs. Consistency</h2>
+  <p style="font-size: 1.15rem; color: var(--text-secondary); margin-bottom: 20px;">
+   Why a sloppy quorum is not a true quorum in the traditional distributed sense.
+  </p>
+  <div class="two-col" style="gap: 25px;">
+   <div>
+    <div class="compare-card accent">
+     <h3 style="color: var(--accent);">⚠️ The Consistency Illusion</h3>
+     <p style="font-size: 0.92rem; line-height: 1.6; margin-top: 8px;">
+      A sloppy quorum provides <strong>assurance of durability only</strong> (the data is safely saved on disk on <em>w</em> nodes somewhere).
+     </p>
+     <div style="background: #fef2f2; border-left: 4px solid #ef4444; padding: 12px; border-radius: 6px; margin-top: 10px; font-size: 0.88rem; color: #7f1d1d;">
+      <strong>Zero Read Consistency:</strong> There is absolutely no guarantee that a read of <em>r</em> nodes will observe the write until hinted handoff completely finishes! Overlap is severed.
+     </div>
+    </div>
+   </div>
+   <div>
+    <div class="compare-card">
+     <h3>🏢 Implementation Defaults in the Wild</h3>
+     <ul style="font-size: 0.9rem; line-height: 1.6; margin-top: 8px;">
+      <li><strong>Riak:</strong> Sloppy quorums <strong>enabled by default</strong>. Prioritizes maximum write availability at all costs.</li>
+      <li><strong>Cassandra:</strong> Sloppy quorums <strong>disabled by default</strong>. Reads and writes strictly require the designated home replicas.</li>
+      <li><strong>Voldemort:</strong> Sloppy quorums disabled by default.</li>
+     </ul>
+    </div>
+   </div>
+  </div>
+ </section>
+
+ <!-- 73. Multi-Datacenter Operation in Leaderless Systems -->
+ <section class="slide content-slide">
+  <h2>Multi-Datacenter Operation in Leaderless Systems</h2>
+  <p style="font-size: 1.15rem; color: var(--text-secondary); margin-bottom: 20px;">
+   Architecting Dynamo-style leaderless replication across geographical regions.
+  </p>
+  <div class="two-col" style="gap: 25px;">
+   <div class="compare-card">
+    <h3 style="color: var(--accent);">🏛️ Cassandra &amp; Voldemort Model</h3>
+    <p style="font-size: 0.92rem; line-height: 1.6; margin-top: 8px;">
+     Replicas <em>n</em> span across all datacenters (e.g., <em>n</em>=6: 3 in US, 3 in EU).
+    </p>
+    <ul style="font-size: 0.88rem; line-height: 1.5; margin-top: 8px;">
+     <li>Client sends write to all replicas across the globe.</li>
+     <li>Client only waits for <code>LOCAL_QUORUM</code> (majority of nodes in local DC) to confirm success!</li>
+     <li>Cross-DC replication proceeds asynchronously over WAN without delaying local user response.</li>
+    </ul>
+   </div>
+   <div class="compare-card accent">
+    <h3 style="color: #059669;">🌐 Riak Cluster-to-Cluster Model</h3>
+    <p style="font-size: 0.92rem; line-height: 1.6; margin-top: 8px;">
+     Replicas <em>n</em> are strictly confined to a single datacenter.
+    </p>
+    <ul style="font-size: 0.88rem; line-height: 1.5; margin-top: 8px;">
+     <li>All quorum reads and writes remain 100% local to that datacenter's LAN.</li>
+     <li>Inter-datacenter replication between independent clusters occurs asynchronously in the background.</li>
+     <li>Behaves identically to multi-leader replication across datacenters.</li>
+    </ul>
+   </div>
+  </div>
+ </section>
+ <!-- 74. Section: Detecting Concurrent Writes -->
  <section class="slide section-header">
- <h2>Summary</h2>
- <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">Replication approaches, trade-offs, and consistency</p>
+  <span class="tag" style="background: rgba(255,255,255,0.2); color: #fff; font-size: 1rem; padding: 6px 16px; border-radius: 20px; text-transform: uppercase; letter-spacing: 1px;">Part 7 of 8</span>
+  <h2 style="font-size: 2.8rem; margin-top: 15px;">Detecting Concurrent Writes</h2>
+  <p style="font-size: 1.3rem; opacity: 0.85; margin-top: 15px; max-width: 850px;">The "Happens-Before" relationship, causal dependency DAGs, tombstones, and version vectors</p>
  </section>
- <!-- 41. Three Approaches Summary -->
+
+ <!-- 75. The Concurrent Writes Problem -->
+ <section class="slide content-slide with-image">
+  <div>
+   <h2>The Concurrent Writes Problem</h2>
+   <p style="font-size: 1.05rem; line-height: 1.5; margin-top: 8px;">
+    In leaderless datastores, clients write to the same key simultaneously without coordination.
+   </p>
+   <div class="compare-card" style="margin: 12px 0;">
+    <h3 style="font-size: 0.95rem; color: #dc2626;">The Anomaly (Figure 5-12):</h3>
+    <ul style="font-size: 0.88rem; line-height: 1.5; margin-top: 4px;">
+     <li><strong>Node 1:</strong> Receives only Write A (network drop blocks Write B). Value = A.</li>
+     <li><strong>Node 2:</strong> Receives Write A first, then Write B. Value = B.</li>
+     <li><strong>Node 3:</strong> Receives Write B first, then Write A. Value = A.</li>
+    </ul>
+   </div>
+   <div class="warning-banner" style="background: #fef2f2; border-left: 4px solid #ef4444; padding: 10px 14px; border-radius: 6px; font-size: 0.85rem; color: #7f1d1d;">
+    <strong>Permanent Inconsistency:</strong> If nodes naively overwrite on arrival, Node 2 believes <em>X</em>=B while Nodes 1 &amp; 3 believe <em>X</em>=A! A subsequent read returns conflicting answers forever.
+   </div>
+  </div>
+  <div class="image-box">
+   <img src="images/ddia_0512.png" alt="Figure 5-12: Concurrent writes in Dynamo datastore" style="max-height: 440px; width: auto; object-fit: contain;" />
+   <p style="font-size: 0.8rem; opacity: 0.7; margin-top: 8px; text-align: center;">Figure 5-12: Concurrent writes in a Dynamo-style datastore: there is no well-defined ordering.</p>
+  </div>
+ </section>
+
+ <!-- 76. Last Write Wins: Seductive, Popular, Dangerous -->
  <section class="slide content-slide">
- <h2>Three Replication Approaches</h2>
- <div class="three-col" style="margin-top: 15px;">
- <div class="compare-card">
- <h3>Single-Leader</h3>
- <ul style="font-size: 0.95rem;">
- <li>All writes → one node</li>
- <li>Easy to understand</li>
- <li>No conflict resolution</li>
- <li>⚠️ Single point of write failure</li>
- </ul>
- </div>
- <div class="compare-card">
- <h3>Multi-Leader</h3>
- <ul style="font-size: 0.95rem;">
- <li>Multiple write nodes</li>
- <li>Robust to DC failures</li>
- <li>⚠️ Must handle conflicts</li>
- <li>⚠️ Complex, "dangerous territory"</li>
- </ul>
- </div>
- <div class="compare-card accent">
- <h3>Leaderless</h3>
- <ul style="font-size: 0.95rem;">
- <li>All replicas accept writes</li>
- <li>Quorum-based reads/writes</li>
- <li>⚠️ Eventual consistency</li>
- <li>⚠️ Concurrent write handling</li>
- </ul>
- </div>
- </div>
+  <h2>Last Write Wins (LWW): Seductive, Popular, Dangerous</h2>
+  <p style="font-size: 1.15rem; color: var(--text-secondary); margin-bottom: 20px;">
+   Achieving eventual convergence at the direct expense of data durability.
+  </p>
+  <div class="two-col" style="gap: 25px;">
+   <div>
+    <div class="compare-card">
+     <h3 style="color: #0284c7;">⚙️ The LWW Premise</h3>
+     <p style="font-size: 0.92rem; line-height: 1.6; margin-top: 8px;">
+      Attach a timestamp (or UUID) to every write. The write with the highest timestamp wins; older writes are discarded.
+     </p>
+     <ul style="font-size: 0.88rem; line-height: 1.5; margin-top: 8px;">
+      <li>Forces an arbitrary total order on concurrent writes.</li>
+      <li>Guarantees all replicas eventually converge to the same value.</li>
+      <li>The <strong>only</strong> supported conflict resolution method in <strong>Apache Cassandra</strong>; optional in Riak.</li>
+     </ul>
+    </div>
+   </div>
+   <div>
+    <div class="compare-card accent">
+     <h3 style="color: #dc2626;">🚨 The Hidden Data Loss Catastrophe</h3>
+     <p style="font-size: 0.92rem; line-height: 1.6; margin-top: 8px;">
+      LWW achieves convergence by <strong>silently destroying data</strong>!
+     </p>
+     <ul style="font-size: 0.88rem; line-height: 1.5; margin-top: 6px;">
+      <li>Writes reported as successfully committed to clients (<em>w</em> acks) are discarded without warning.</li>
+      <li>Due to clock skew (Chapter 8), a causally later write can have an earlier timestamp and be dropped!</li>
+     </ul>
+     <div class="warning-banner" style="background: #fffbeb; border-left: 4px solid #f59e0b; padding: 8px 12px; border-radius: 6px; margin-top: 10px; font-size: 0.82rem; color: #78350f;">
+      💡 <strong>The Only Safe Use of LWW:</strong> Treat records as strictly <strong>immutable</strong>! Generate a unique UUID for every write so keys are never updated concurrently.
+     </div>
+    </div>
+   </div>
+  </div>
  </section>
- <!-- 42. Consistency Summary -->
+
+ <!-- 77. The Happens-Before Relationship -->
  <section class="slide content-slide">
- <h2>Consistency Guarantees Under Lag</h2>
- <div class="two-col" style="margin-top: 15px;">
- <div>
- <h3 style="margin-bottom: 15px;">Guarantees (strongest → weakest):</h3>
- <ul>
- <li>🔒 <strong>Read-after-write</strong> — see your own writes</li>
- <li>📊 <strong>Monotonic reads</strong> — don't see time go backward</li>
- <li>🔗 <strong>Consistent prefix</strong> — see causally ordered writes in order</li>
- <li>⏳ <strong>Eventual consistency</strong> — replicas converge... eventually</li>
- </ul>
- </div>
- <div>
- <h3 style="margin-bottom: 15px;">Key Takeaways:</h3>
- <ul>
- <li>Async replication = potential data loss on failover</li>
- <li>Application-level fixes are complex &amp; error-prone</li>
- <li><strong>Transactions</strong> are the proper solution → Chapters 7 &amp; 9</li>
- <li>Concurrent writes need deterministic resolution</li>
- </ul>
- </div>
- </div>
+  <h2>The "Happens-Before" Relationship</h2>
+  <p style="font-size: 1.15rem; color: var(--text-secondary); margin-bottom: 20px;">
+   Defining concurrency rigorously: it is about causal dependency, not physical wall-clock time!
+  </p>
+  <div class="two-col" style="gap: 25px;">
+   <div class="compare-card accent">
+    <h3 style="color: var(--accent);">🧩 The 3 Possibilities for Operations A &amp; B</h3>
+    <div style="margin-top: 10px;">
+     <strong>1. <em>A</em> Happens Before <em>B</em> (<em>A</em> &rarr; <em>B</em>):</strong>
+     <p style="font-size: 0.88rem; line-height: 1.5; margin-top: 2px;">
+      Operation <em>B</em> knows about <em>A</em>, depends on <em>A</em>, or builds upon <em>A</em>. <em><em>B</em> supersedes <em>A</em> and safely overwrites it.</em>
+     </p>
+    </div>
+    <div style="margin-top: 10px;">
+     <strong>2. <em>B</em> Happens Before <em>A</em> (<em>B</em> &rarr; <em>A</em>):</strong>
+     <p style="font-size: 0.88rem; line-height: 1.5; margin-top: 2px;">
+      Operation <em>A</em> knows about <em>B</em> and builds upon it. <em><em>A</em> supersedes <em>B</em> and safely overwrites it.</em>
+     </p>
+    </div>
+    <div style="margin-top: 10px;">
+     <strong>3. <em>A</em> and <em>B</em> are Concurrent (<em>A</em> || <em>B</em>):</strong>
+     <p style="font-size: 0.88rem; line-height: 1.5; margin-top: 2px;">
+      Neither operation knows about the other! <em>There is a true conflict that must be merged or resolved.</em>
+     </p>
+    </div>
+   </div>
+   <div>
+    <div class="compare-card">
+     <h3>💡 The Definition of Concurrency</h3>
+     <p class="quote" style="font-size: 1rem; line-height: 1.6; margin-top: 8px;">
+      "We simply call two operations concurrent if they are both unaware of each other, regardless of the physical time at which they occurred."
+      <span style="display: block; font-size: 0.82rem; font-style: normal; margin-top: 6px; opacity: 0.7;">— Martin Kleppmann, DDIA Chapter 5</span>
+     </p>
+     <p style="font-size: 0.88rem; line-height: 1.5; color: var(--text-secondary); margin-top: 12px;">
+      Two writes may occur hours apart on different continents: if network partitions prevented them from exchanging data, they remain <strong>concurrent</strong>!
+     </p>
+    </div>
+   </div>
+  </div>
  </section>
- <!-- 43. Questions -->
+
+ <!-- 78. Concurrency, Time, and Relativity -->
+ <section class="slide content-slide with-image">
+  <div>
+   <h2>Concurrency, Time, and Relativity</h2>
+   <p style="font-size: 1.05rem; line-height: 1.5; margin-top: 8px;">
+    The profound connection between distributed systems causality and Einstein's special relativity.
+   </p>
+   <div class="compare-card" style="margin: 12px 0;">
+    <h3 style="font-size: 1rem; color: var(--accent);">🌌 Einstein's Light Cones in Distributed Systems:</h3>
+    <ul style="font-size: 0.88rem; line-height: 1.5; margin-top: 6px;">
+     <li>In physics, information cannot travel faster than the speed of light (<em>c</em>). Events outside each other's light cones cannot causally affect one another.</li>
+     <li>In computer networks, packets travel slower than light. Two operations cannot influence each other if messages have not arrived in time.</li>
+     <li><strong>Physical Time is Irrelevant:</strong> Clock drift makes absolute simultaneity impossible. Causal awareness is the only true ordering.</li>
+    </ul>
+   </div>
+  </div>
+  <div class="image-box">
+   <img src="images/relativity-space.jpg" alt="Relativity and light cone in space" style="max-height: 420px; width: auto; object-fit: cover; border-radius: 8px;" />
+   <p style="font-size: 0.8rem; opacity: 0.7; margin-top: 8px; text-align: center;">Information propagation delay defines concurrency in physics and distributed networks alike.</p>
+  </div>
+ </section>
+
+ <!-- 79. Capturing Happens-Before: Shopping Cart Walkthrough -->
+ <section class="slide content-slide with-image">
+  <div>
+   <h2>Capturing Happens-Before: Shopping Cart Walkthrough</h2>
+   <p style="font-size: 1rem; line-height: 1.4; margin-top: 6px;">
+    How version numbers track causal chains across concurrent clients (DDIA Figure 5-13).
+   </p>
+   <div class="compare-card" style="margin: 10px 0; font-size: 0.82rem; line-height: 1.5;">
+    <div><strong>Step 1:</strong> Client 1 adds <code>[milk]</code> &rarr; Server assigns <strong>v1</strong>.</div>
+    <div><strong>Step 2:</strong> Client 2 adds <code>[eggs]</code> (unaware of v1) &rarr; Server assigns <strong>v2</strong>; stores both as concurrent siblings!</div>
+    <div><strong>Step 3:</strong> Client 1 adds <code>[flour]</code> with v1 &rarr; Overwrites v1 <code>[milk]</code> &rarr; stores <code>[milk, flour]</code> (<strong>v3</strong>) + concurrent <code>[eggs]</code> (<strong>v2</strong>).</div>
+    <div><strong>Step 4:</strong> Client 2 merges <code>[milk]</code>+<code>[eggs]</code>, adds <code>[ham]</code> with v2 &rarr; Overwrites v2 &rarr; stores <code>[milk, flour]</code> (<strong>v3</strong>) + <code>[eggs, milk, ham]</code> (<strong>v4</strong>).</div>
+    <div><strong>Step 5:</strong> Client 1 merges <code>[milk, flour]</code>+<code>[eggs]</code>, adds <code>[bacon]</code> with v3 &rarr; stores <code>[eggs, milk, ham]</code> (<strong>v4</strong>) + <code>[milk, flour, eggs, bacon]</code> (<strong>v5</strong>).</div>
+   </div>
+  </div>
+  <div class="image-box">
+   <img src="images/ddia_0513.png" alt="Figure 5-13: Shopping cart causal dependencies" style="max-height: 440px; width: auto; object-fit: contain;" />
+   <p style="font-size: 0.8rem; opacity: 0.7; margin-top: 8px; text-align: center;">Figure 5-13: Capturing causal dependencies between two clients concurrently editing a shopping cart.</p>
+  </div>
+ </section>
+
+ <!-- 80. Causal Dependency DAG -->
+ <section class="slide content-slide with-image">
+  <div>
+   <h2>The Causal Dependency DAG</h2>
+   <p style="font-size: 1.05rem; line-height: 1.5; margin-top: 8px;">
+    Visualizing the directed acyclic graph of version ancestry (Figure 5-14).
+   </p>
+   <div class="compare-card" style="margin: 12px 0;">
+    <h3 style="font-size: 1rem; color: var(--accent);">Key Properties of the DAG:</h3>
+    <ul style="font-size: 0.88rem; line-height: 1.5; margin-top: 6px;">
+     <li>Arrows indicate <strong>happened-before</strong> dependencies (later operations knew of earlier ones).</li>
+     <li>When an operation builds on an earlier version, it safely overwrites its ancestors.</li>
+     <li>Parallel branches represent active concurrent <strong>siblings</strong>.</li>
+     <li><strong>Zero Data Loss:</strong> Even though clients are never fully synchronized, no writes are silently lost!</li>
+    </ul>
+   </div>
+  </div>
+  <div class="image-box">
+   <img src="images/ddia_0514.png" alt="Figure 5-14: Graph of causal dependencies" style="max-height: 440px; width: auto; object-fit: contain;" />
+   <p style="font-size: 0.8rem; opacity: 0.7; margin-top: 8px; text-align: center;">Figure 5-14: Graph of causal dependencies in the shopping cart example.</p>
+  </div>
+ </section>
+
+ <!-- 81. The Server Algorithm for Happens-Before -->
+ <section class="slide content-slide">
+  <h2>The Server Algorithm for Happens-Before</h2>
+  <p style="font-size: 1.15rem; color: var(--text-secondary); margin-bottom: 20px;">
+   How the database engine determines concurrency without understanding application data types.
+  </p>
+  <div class="two-col" style="gap: 25px;">
+   <div class="compare-card">
+    <h3 style="color: var(--accent);">🔢 The Four Invariants:</h3>
+    <ul style="font-size: 0.88rem; line-height: 1.6; margin-top: 8px;">
+     <li><strong>1. Version Increment:</strong> Server maintains a monotonic version number per key, incrementing on each write.</li>
+     <li><strong>2. Read Returns All Siblings:</strong> When a client reads a key, the server returns all un-overwritten values and the latest version number.</li>
+     <li><strong>3. Read-Before-Write:</strong> Client must read before writing, and include the version number from the prior read in its write request.</li>
+     <li><strong>4. Overwrite Rule:</strong> When server receives a write with version <em>v</em>, it <strong>overwrites all values with version &le; <em>v</em></strong>, but <strong>retains all values with version &gt; <em>v</em></strong> as siblings!</li>
+    </ul>
+   </div>
+   <div class="compare-card accent">
+    <h3 style="color: #059669;">🛡️ Unversioned Writes</h3>
+    <p style="font-size: 0.92rem; line-height: 1.6; margin-top: 8px;">
+     If a client submits a write <em>without</em> including a version number, it is treated as concurrent with all existing writes.
+    </p>
+    <div style="background: #eff6ff; padding: 12px; border-radius: 6px; margin-top: 10px; font-size: 0.88rem;">
+     The server will never overwrite anything on an unversioned write—it simply appends it as an additional sibling returned on subsequent reads.
+    </div>
+   </div>
+  </div>
+ </section>
+
+ <!-- 82. Merging Siblings & The Tombstone Deletion Problem -->
+ <section class="slide content-slide">
+  <h2>Merging Siblings &amp; The Tombstone Problem</h2>
+  <p style="font-size: 1.15rem; color: var(--text-secondary); margin-bottom: 20px;">
+   Why naive set unions fail for item deletions and require explicit deletion markers.
+  </p>
+  <div class="two-col" style="gap: 25px;">
+   <div>
+    <div class="compare-card">
+     <h3 style="color: #0284c7;">🛒 Set Union for Additions</h3>
+     <p style="font-size: 0.9rem; line-height: 1.5; margin-top: 6px;">
+      For shopping carts with additions, merging siblings is simple: take the union of concurrent lists:
+     </p>
+     <div class="code-block" style="font-size: 0.85rem; margin: 8px 0;">
+[milk, flour, eggs, bacon] ∪ [eggs, milk, ham]
+= [milk, flour, eggs, bacon, ham]</div>
+     <p style="font-size: 0.85rem; color: var(--text-secondary);">
+      Duplicate items collapse cleanly without data loss.
+     </p>
+    </div>
+   </div>
+   <div>
+    <div class="compare-card accent">
+     <h3 style="color: #dc2626;">🪦 The Deletion Resurrection Trap</h3>
+     <p style="font-size: 0.9rem; line-height: 1.5; margin-top: 6px;">
+      What if a user <strong>removes</strong> an item from the cart?
+     </p>
+     <ul style="font-size: 0.85rem; line-height: 1.5; margin-top: 6px;">
+      <li>If you merge via set union, the deleted item exists in the other sibling $\rightarrow$ <strong>it reappears!</strong></li>
+      <li><strong>The Tombstone Solution:</strong> An item cannot simply be erased. The database writes a deletion marker called a <strong>tombstone</strong> with a version number.</li>
+      <li>During sibling merges, the tombstone proves deletion supersedes earlier additions.</li>
+     </ul>
+    </div>
+   </div>
+  </div>
+ </section>
+
+ <!-- 83. Version Vectors & Multi-Replica Concurrency -->
+ <section class="slide content-slide">
+  <h2>Version Vectors: Concurrency Across Multiple Replicas</h2>
+  <p style="font-size: 1.15rem; color: var(--text-secondary); margin-bottom: 20px;">
+   Generalizing happens-before tracking from a single replica to leaderless clusters.
+  </p>
+  <div class="two-col" style="gap: 25px;">
+   <div class="compare-card accent">
+    <h3 style="color: var(--accent);">🧭 The Version Vector Structure</h3>
+    <p style="font-size: 0.92rem; line-height: 1.6; margin-top: 8px;">
+     A single version integer fails when multiple replicas accept concurrent writes. We need a version number <strong>per replica per key</strong>!
+    </p>
+    <ul style="font-size: 0.88rem; line-height: 1.5; margin-top: 8px;">
+     <li>Each replica increments its own counter when processing a local write.</li>
+     <li>Tracks version numbers observed from all other replicas.</li>
+     <li>The collection $\langle R_1: v_1, R_2: v_2, \dots \rangle$ is a <strong>Version Vector</strong>.</li>
+     <li>Passed to clients on read, and returned to the cluster on write as <strong>causal context</strong> (e.g. in Riak).</li>
+    </ul>
+   </div>
+   <div>
+    <div class="compare-card">
+     <h3>⚡ Dotted Version Vectors</h3>
+     <p style="font-size: 0.92rem; line-height: 1.6; margin-top: 8px;">
+      In high-throughput systems, standard version vectors suffer from "sibling explosion" when concurrent writes race.
+     </p>
+     <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; margin-top: 10px; font-size: 0.88rem; line-height: 1.5;">
+      <strong>Riak 2.0 Breakthrough:</strong> Uses <strong>Dotted Version Vectors</strong> to track individual write events ("dots") precisely, dramatically reducing false concurrency and sibling clutter.
+     </div>
+    </div>
+   </div>
+  </div>
+ </section>
+
+ <!-- 84. Version Vectors vs Vector Clocks -->
+ <section class="slide content-slide">
+  <h2>Version Vectors vs. Vector Clocks</h2>
+  <p style="font-size: 1.15rem; color: var(--text-secondary); margin-bottom: 20px;">
+   Clarifying a pervasive point of confusion in distributed systems literature.
+  </p>
+  <div class="two-col" style="gap: 25px;">
+   <div class="compare-card">
+    <h3 style="color: #0284c7;">⏰ Vector Clocks (Lamport, Fidge, Mattern)</h3>
+    <p style="font-size: 0.92rem; line-height: 1.6; margin-top: 8px;">
+     Designed to establish partial ordering of events across an entire distributed system of processes passing messages.
+    </p>
+    <ul style="font-size: 0.88rem; line-height: 1.5; margin-top: 6px;">
+     <li>Vector clock ticks on every internal event or message transmission.</li>
+     <li>Compares the total causal history of processes.</li>
+    </ul>
+   </div>
+   <div class="compare-card accent">
+    <h3 style="color: var(--accent);">🗄️ Version Vectors (Data Storage)</h3>
+    <p style="font-size: 0.92rem; line-height: 1.6; margin-top: 8px;">
+     Designed specifically to compare and reconcile the state of <strong>replicas in a data store</strong>.
+    </p>
+    <ul style="font-size: 0.88rem; line-height: 1.5; margin-top: 6px;">
+     <li>Associated with specific database keys and modified only on writes.</li>
+     <li>Subtle differences in comparison algorithms, but version vectors are mathematically the correct structure for data replication!</li>
+    </ul>
+   </div>
+  </div>
+ </section>
+
+ <!-- 85. Section: Summary -->
+ <section class="slide section-header">
+  <span class="tag" style="background: rgba(255,255,255,0.2); color: #fff; font-size: 1rem; padding: 6px 16px; border-radius: 20px; text-transform: uppercase; letter-spacing: 1px;">Part 8 of 8</span>
+  <h2 style="font-size: 2.8rem; margin-top: 15px;">Chapter 5 Summary</h2>
+  <p style="font-size: 1.3rem; opacity: 0.85; margin-top: 15px; max-width: 850px;">Architectural trade-offs, consistency spectrums, and foundational distributed wisdom</p>
+ </section>
+
+ <!-- 86. The Grand Replication Comparison Matrix -->
+ <section class="slide content-slide">
+  <h2>The Grand Replication Architecture Comparison</h2>
+  <p style="font-size: 1.15rem; color: var(--text-secondary); margin-bottom: 16px;">
+   Comparing Single-Leader, Multi-Leader, and Leaderless across 7 core architectural axes.
+  </p>
+  <table class="data-table">
+   <thead>
+    <tr>
+     <th>Architectural Dimension</th>
+     <th>Single-Leader</th>
+     <th>Multi-Leader</th>
+     <th>Leaderless (Dynamo)</th>
+    </tr>
+   </thead>
+   <tbody>
+    <tr>
+     <td><strong>Write Routing</strong></td>
+     <td>All writes go to 1 leader</td>
+     <td>Writes go to any leader</td>
+     <td>Writes sent to <em>w</em> of <em>n</em> replicas</td>
+    </tr>
+    <tr>
+     <td><strong>Read Routing</strong></td>
+     <td>Any follower or leader</td>
+     <td>Any follower or leader</td>
+     <td>Reads sent to <em>r</em> of <em>n</em> replicas</td>
+    </tr>
+    <tr>
+     <td><strong>Write Conflicts</strong></td>
+     <td>None (deterministic order)</td>
+     <td>Inevitably occur; resolve async</td>
+     <td>Occur on concurrent writes; merge</td>
+    </tr>
+    <tr>
+     <td><strong>Failover Complexity</strong></td>
+     <td>High (promotions, split-brain)</td>
+     <td>Moderate per datacenter</td>
+     <td>None (no failover concept!)</td>
+    </tr>
+    <tr>
+     <td><strong>Global Latency (Multi-DC)</strong></td>
+     <td>High write latency (cross-WAN)</td>
+     <td>Low write latency (local DC)</td>
+     <td>Low latency (LOCAL_QUORUM)</td>
+    </tr>
+    <tr>
+     <td><strong>Operational Complexity</strong></td>
+     <td>Low / Well-understood</td>
+     <td>High ("dangerous territory")</td>
+     <td>High (probabilistic tuning)</td>
+    </tr>
+    <tr>
+     <td><strong>Canonical Databases</strong></td>
+     <td>PostgreSQL, MySQL, MongoDB</td>
+     <td>BDR, Tungsten, CouchDB</td>
+     <td>Cassandra, Riak, Voldemort</td>
+    </tr>
+   </tbody>
+  </table>
+ </section>
+
+ <!-- 87. Consistency Guarantees Under Lag -->
+ <section class="slide content-slide">
+  <h2>Consistency Guarantees Under Replication Lag</h2>
+  <p style="font-size: 1.15rem; color: var(--text-secondary); margin-bottom: 20px;">
+   The hierarchy of consistency guarantees from strongest to weakest.
+  </p>
+  <div class="two-col" style="gap: 25px;">
+   <div>
+    <div class="compare-card accent">
+     <h3 style="color: var(--accent);">📊 The Consistency Hierarchy</h3>
+     <ul style="font-size: 0.92rem; line-height: 1.8; margin-top: 10px;">
+      <li>🥇 <strong>Linearizability:</strong> Read always sees latest write globally; behaves like a single copy (Chapter 9).</li>
+      <li>🥈 <strong>Read-After-Write:</strong> User is guaranteed to see their own submitted writes immediately.</li>
+      <li>🥉 <strong>Monotonic Reads:</strong> User's successive reads never move backward in time.</li>
+      <li>🏅 <strong>Consistent Prefix:</strong> Observers always see causally ordered writes in correct causal sequence.</li>
+      <li>⏳ <strong>Eventual Consistency:</strong> Replicas converge eventually if writes cease; zero time bound guaranteed!</li>
+     </ul>
+    </div>
+   </div>
+   <div>
+    <div class="compare-card">
+     <h3>🛠️ How Application Developers Must Cope</h3>
+     <p style="font-size: 0.92rem; line-height: 1.6; margin-top: 8px;">
+      If your application breaks when lag reaches 15 minutes, you cannot rely on eventual consistency!
+     </p>
+     <div style="background: #f8fafc; border-left: 4px solid #3b82f6; padding: 12px; margin-top: 10px; font-size: 0.88rem; line-height: 1.5;">
+      You must either implement explicit application-level routing (reading own profile from leader, sticky replica hashing) or utilize <strong>transactions</strong> provided by the database.
+     </div>
+    </div>
+   </div>
+  </div>
+ </section>
+
+ <!-- 88. Key Takeaways & Operational Wisdom -->
+ <section class="slide content-slide">
+  <h2>Key Takeaways &amp; Operational Wisdom</h2>
+  <p style="font-size: 1.15rem; color: var(--text-secondary); margin-bottom: 20px;">
+   Four fundamental laws of replicated data systems from Martin Kleppmann.
+  </p>
+  <div class="two-col" style="gap: 20px;">
+   <div class="compare-card">
+    <div style="font-size: 1.4rem; color: #dc2626; font-weight: 700;">1. Async Data Loss is Real</div>
+    <p style="font-size: 0.88rem; line-height: 1.5; margin-top: 6px;">
+     Asynchronous replication is essential for throughput, but promoting an out-of-date follower discards committed data and risks split-brain disasters.
+    </p>
+   </div>
+   <div class="compare-card">
+    <div style="font-size: 1.4rem; color: #d97706; font-weight: 700;">2. Don't Fake Synchrony</div>
+    <p style="font-size: 0.88rem; line-height: 1.5; margin-top: 6px;">
+     "Pretending replication is synchronous when it is asynchronous is a recipe for disaster." Design for lag from day one.
+    </p>
+   </div>
+   <div class="compare-card">
+    <div style="font-size: 1.4rem; color: #059669; font-weight: 700;">3. Transactions Are Not Dead</div>
+    <p style="font-size: 0.88rem; line-height: 1.5; margin-top: 6px;">
+     Abandoning transactions for eventual consistency shifts huge complexity to application code. Modern distributed databases are re-embracing transactions.
+    </p>
+   </div>
+   <div class="compare-card accent">
+    <div style="font-size: 1.4rem; color: var(--accent); font-weight: 700;">4. Bridge to Chapter 6</div>
+    <p style="font-size: 0.88rem; line-height: 1.5; margin-top: 6px;">
+     Replication copies identical data across machines. Chapter 6 explores <strong>Partitioning (Sharding)</strong> to divide datasets too large for any single node!
+    </p>
+   </div>
+  </div>
+ </section>
+
+ <!-- 89. Questions -->
  <section class="slide title-slide">
- <h1>Questions?</h1>
- <p>Designing Data-Intensive Applications • Chapter 5</p>
- <div class="image-box questions-image">
- <img src="images/questions.jpg" alt="Q&A discussion" />
- </div>
+  <h1>Questions &amp; Discussion</h1>
+  <p style="font-size: 1.3rem; margin-top: 10px;">Designing Data-Intensive Applications &bull; Chapter 5: Replication</p>
+  <div class="image-box questions-image" style="margin-top: 25px;">
+   <img src="images/questions.jpg" alt="Q&A discussion" style="max-height: 380px; width: auto; border-radius: 12px; box-shadow: 0 8px 30px rgba(0,0,0,0.12);" />
+  </div>
+  <p style="font-size: 1rem; opacity: 0.7; margin-top: 15px;">Next Up: 100 Comprehensive Multiple Choice Practice Questions &rarr;</p>
  </section>
 
 
@@ -3002,18 +4873,37 @@ Mr. Poons: How far into the future
  </div>
 
  <script>
- let currentSlide = 0;
  const slides = document.querySelectorAll('.slide');
  const presentation = document.getElementById('presentation');
  const progressBar = document.getElementById('progressBar');
  const slideNum = document.getElementById('slideNum');
  const totalSlides = slides.length;
 
- function update() {
- presentation.style.transform = `translateX(-${currentSlide * 100}vw)`;
- progressBar.style.width = `${((currentSlide + 1) / totalSlides) * 100}%`;
- slideNum.innerText = `${currentSlide + 1} / ${totalSlides}`;
+ function getSlideFromHash() {
+   const m = window.location.hash.match(/slide=(\d+)/);
+   return m ? Math.max(0, Math.min(totalSlides - 1, parseInt(m[1], 10) - 1)) : 0;
  }
+
+ let currentSlide = getSlideFromHash();
+
+ function update() {
+   presentation.style.transform = `translateX(-${currentSlide * 100}vw)`;
+   progressBar.style.width = `${((currentSlide + 1) / totalSlides) * 100}%`;
+   slideNum.innerText = `${currentSlide + 1} / ${totalSlides}`;
+   if (window.location.hash !== `#slide=${currentSlide + 1}`) {
+     history.replaceState(null, '', `#slide=${currentSlide + 1}`);
+   }
+ }
+
+ window.addEventListener('hashchange', () => {
+   const target = getSlideFromHash();
+   if (target !== currentSlide) {
+     currentSlide = target;
+     update();
+   }
+ });
+
+ update();
 
  function nextSlide() {
  if (currentSlide < totalSlides - 1) {
