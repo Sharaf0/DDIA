@@ -22,67 +22,75 @@ Before starting, gather:
 
 ## Procedure
 
-### 1. Read the full chapter markdown
-Read `chapterN/chapterN.md` completely. Identify:
-- The epigraph/opening quote (if any)
-- All major sections (h1/h2 headings)
-- All figures and where they belong in the flow
-- Key examples, case studies, statistics, and code snippets
-- Concepts that benefit from comparison (use compare-cards)
-- Numbers/stats that deserve emphasis (use stat-boxes)
+### 1. Read the full chapter markdown (deep extraction)
+Read `chapterN/chapterN.md` completely (or from git history if removed from working tree). Extract:
+- The exact epigraph/opening quote
+- The **exact numbered book Table of Contents** (`N.1`, `N.2`, …) — mirror these exact sections without inventing or merging sections, so presenters can split or combine sections cleanly
+- All figures (`ddia_0N01.png`…) and where they belong in the flow
+- **Terminology traps & naming myths** (e.g., overloaded terms across DBs, footnotes distinguishing concepts)
+- **Concrete data traces & failure anatomies** (step-by-step key/hash examples, latency waterfalls, cascading failure spirals, partial-write race conditions)
+- **Real-world systems** mentioned in the chapter for a Summary Cheat Sheet matrix
 
 ### 2. Plan the slide outline
-Map chapter structure to slides following this flow:
+Map the exact chapter TOC structure to slides following this flow:
 ```
 1. Title slide (always first)
-2. Opening quote slide (if chapter has an epigraph)
-3. Overview / "What We'll Cover" slide
-4. [For each major section:]
-   a. Section header slide (dark background divider)
-   b. Content slides covering ALL material in that section
-5. Summary section header
-6. Summary content slide
-7. Questions slide (always last)
+2. Opening quote slide (exact chapter epigraph)
+3. Why This Chapter Matters — visual comparison SVG
+4. Chapter Roadmap — exact numbered TOC sections (N.1 .. N.k)
+5. [For each exact book section N.1 .. N.k:]
+   a. Section header slide (dark background divider with .part-pill "Section N.X")
+   b. Visual-first slides covering ALL mechanisms, figures, edge cases, and footnotes
+   c. (Optional) Embedded interactive simulator lab slide
+6. Summary section ("Section N.last: Summary")
+   a. Visual Architecture Decision Tree SVG
+   b. Real-World Database Cheat Sheet (.matrix-table)
+   c. Bridge to the next chapter + POC showcase slide (if applicable)
+7. Questions slide (always last content slide, before Quiz section)
 ```
-Aim for **40-60 slides** per chapter. More is fine if needed to cover everything.
+Aim for **45–70 rich visual content slides** (plus the MCQ Quiz section if requested).
 
-### 3. Download supporting images from Unsplash
-For slides without a book figure, download a relevant photo from Unsplash to make the presentation visually engaging. Use `curl` to download directly:
-```bash
-# Use Unsplash source for direct downloads (800x600 size is good)
-curl -L "https://unsplash.com/photos/{photo-id}/download?w=800" -o chapterN/images/descriptive-name.jpg
-```
+### 3. Visual-First Rule & Supporting Images
+**Visual-First Rule:** Stock photos do not teach distributed systems. **Every non-trivial mechanism, trade-off, or failure mode MUST be explained through an inline SVG diagram (`.svg-wrap`), step-by-step data trace, or structured matrix (`.matrix-table`)** — never a wall of 5 abstract bullet points.
 
-**Image rules:**
-- Every downloaded image MUST be verified by viewing it with `view_image` to confirm it matches the slide context 100% — not 99%
-- **NO NSFW content** — Never use images containing nudity, swimwear, bikinis, or any suggestive/inappropriate content. These are professional KT sessions. When searching Unsplash, prefer photos of technology, architecture, nature, objects, or abstract concepts over photos of people. If a photo of a person is used, they must be fully and professionally clothed
-- **NO duplicate images** — Each image file may appear in the presentation **exactly once**. Maintain a checklist of every image `src` used. Before adding an image to a slide, check the list. This applies to the Unsplash source URL too: do not download the same Unsplash photo under two different filenames. If you rename a downloaded file, track both the original URL and the local filename to prevent accidental reuse
-- Delete and replace any image that doesn't fit
-- Book figures (`ddia_XXYY.png`) are MUST-HAVE — never delete or skip them
-- Use `.image-box` (with `object-fit: contain`) for diagrams/figures
-- Use `.image-box.fill` (with `object-fit: cover`) for photos
-- A `questions.jpg` image should be downloaded for the final Q&A slide
-- Not every slide needs an image — text-only slides are fine for lists, code, etc.
+- **Book figures (`ddia_0NXX.png`)** are **MUST-HAVE** — every single figure must appear in the right section flow using `.image-box` (`object-fit: contain`).
+- **Inline SVGs (`.svg-wrap`)** should follow the DDIA palette (`#0f172a` slate, `#2563eb` blue, `#059669` green, `#dc2626` red, `#d97706` amber, `Inter` font) with generous padding so text never clips near viewBox edges.
+- **Unsplash photos (optional):** Only use where helpful (e.g., `questions.jpg` on the Q&A slide). If downloading from Unsplash:
+  ```bash
+  curl -L "https://unsplash.com/photos/{photo-id}/download?w=800" -o chapterN/images/descriptive-name.jpg
+  ```
+- **Image rules:**
+  - Verify every image visually and confirm `naturalWidth > 0` in the browser
+  - **NO NSFW content**
+  - **NO duplicate images** — each image `src` may appear **at most once** across all slides
+  - Use `.image-box` (`contain`) for book diagrams and `.image-box.fill` (`cover`) for photos
 
 ### 4. Create the presentation HTML
 Use the template in [./references/template.html](./references/template.html) as the starting point. Build the entire file as a single self-contained HTML document.
 
-### 5. Review checklist
-After creating, verify:
-- [ ] Every book figure appears in the correct slide
-- [ ] Every section of the chapter is covered
-- [ ] Code examples from the book are included with syntax highlighting
-- [ ] Flow follows the chapter's narrative order
-- [ ] Slide count in the `slideNum` element matches actual slide count
-- [ ] All image paths are correct and relative
-- [ ] The `<title>` follows format: `KT: DDIA Chapter N - Chapter Title`
-- [ ] Opening quote matches the book's epigraph exactly
-- [ ] Summary slide recaps all major topics
-- [ ] No image `src` appears more than once across all slides
-- [ ] All images are appropriate for a professional setting (no NSFW content)
+### 5. Interactive Labs & Companion Dockerized POCs (When Appropriate)
+When a chapter's concepts depend on runtime behavior across nodes (hot spots, tail latency, async index lag, rebalancing, routing hops, distributed transactions, consensus):
+- **In-slide interactive labs:** Add lightweight JS labs inside `presentation.html` (give the slide container bottom padding `padding-bottom: 52px` so controls never overlap `.slide-number`).
+- **Dockerized multi-container POC (`chapterN/<topic>-poc/`):**
+  - **100% Dockerized, zero host installs:** Use self-contained runtimes (e.g., Node 22 native TypeScript with zero external `npm install`, or cached official DB images) and **never** commit corporate certs, proxy configs, or internal URLs to a public repo.
+  - **Built-in Intro.js-style Interactive Spotlight Tour (zero external CDNs):** Include a `"Start Guided Tour"` button in the POC header that dims the screen (`#tour-spotlight` + `#tour-popover`), auto-switches tabs, executes live multi-container API actions at each step, and explains what just happened so students can run the entire demo independently without anyone explaining it.
+  - **Complete Reset:** A `"Reset"` button must restore **both** backend cluster state and all client-side DOM banners, tables, charts, and form controls without requiring a page reload.
+  - **Self-Guided `README.md`:** Document 1-command `docker compose up --build -d`, container roles, tour steps, and `docker compose down`.
 
-### 6. Update index.html
-Add a link to the new presentation in the root `index.html`.
+### 6. Live Browser & Viewport Verification Checklist
+After creating or updating `presentation.html` (and any POC), verify both statically and **live in a browser**:
+- [ ] Every book figure (`ddia_0NXX.png`) appears in the correct section
+- [ ] Every exact book TOC section, subtle trap, and footnote is covered visually
+- [ ] Code examples from the book are included with syntax highlighting
+- [ ] Static `<div class="slide-number">1 / N</div>` matches actual `<section class="slide">` count
+- [ ] All image paths are relative, load with HTTP 200 (`naturalWidth > 0`), and no `src` appears more than once
+- [ ] `<title>` follows format: `KT: DDIA Chapter N - Chapter Title`
+- [ ] Opening quote matches the book's epigraph verbatim
+- [ ] Summary includes a Visual Decision Tree + Real-World DB Cheat Sheet
+- [ ] **Browser & viewport check (`~850×780` + desktop):** Zero SVG text clipping, zero overlap with `.slide-number` or `.controls`, interactive labs/tours work, and zero JS console errors
+
+### 7. Update index.html
+Ensure root `index.html` links to `chapterN/presentation.html`.
 
 ## Slide Types Reference
 
@@ -100,9 +108,10 @@ First slide only. Contains book name, chapter title, session label, and book cov
 ```
 
 ### Section Header (`slide section-header`)
-Dark full-bleed divider between major topics. Use to mirror the chapter's h1/h2 structure.
+Dark full-bleed divider between major topics. Use `.part-pill` to mirror the chapter's exact numbered sections (`Section N.1`, `Section N.2`, ...).
 ```html
 <section class="slide section-header">
+    <span class="part-pill">Section N.1</span>
     <h2>Section Title</h2>
     <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">Brief subtitle</p>
 </section>
@@ -144,6 +153,32 @@ Standard text slide. Add `.with-image` for a two-column layout with an image on 
 ```
 
 ## Content Components
+
+### Inline SVG Diagram Container
+Use `.svg-wrap` (with `.compact-slide` on the parent `<section>`) for custom architectural diagrams, data-flow traces, latency waterfalls, and decision trees:
+```html
+<section class="slide content-slide compact-slide">
+    <h2>Diagram Title</h2>
+    <p>One-sentence intuition.</p>
+    <div class="svg-wrap">
+        <svg viewBox="0 0 920 260" xmlns="http://www.w3.org/2000/svg" font-family="Inter,sans-serif">
+            <!-- Diagrams using #0f172a, #2563eb, #059669, #dc2626, #d97706 -->
+        </svg>
+    </div>
+</section>
+```
+
+### Callout Banners & Matrix Tables
+```html
+<div class="warning-banner"><strong>Trap / Footnote:</strong> Explanation...</div>
+<div class="tip-banner"><strong>Key Insight:</strong> Explanation...</div>
+<div class="info-banner"><strong>Takeaway:</strong> Explanation...</div>
+
+<table class="matrix-table">
+    <thead><tr><th>System</th><th>Strategy</th><th>Trade-Off</th></tr></thead>
+    <tbody><tr><td><strong>HBase</strong></td><td>Key Range</td><td>Timestamp hot spot risk</td></tr></tbody>
+</table>
+```
 
 ### Stat Box — for impressive numbers
 ```html
@@ -218,7 +253,7 @@ Span classes: `sql-keyword` (blue), `code-string` (orange), `code-comment` (gree
 1. **Cover everything** — Every concept, example, and figure from the chapter must appear
 2. **Be faithful to the book** — Use the book's terminology, examples, and explanations. Don't invent new ones
 3. **Use suspenseful storytelling** — When the book presents a problem and its evolution (like Twitter's fan-out), build up: problem → approach 1 → its issue → approach 2 → its issue → final solution
-4. **Make it relatable** — Use humor, emojis (sparingly), and real-world analogies. The audience is experienced engineers, not students
+4. **Make concepts effortless to grasp visually** — Use concrete traces, real keys/timestamps, real-world analogies, and clean visual diagrams so students understand complex mechanics just by looking at the slide. Never compress deep mechanisms into vague bullet summaries
 5. **Use the book's own quotes** — Put key quotes from the book in `.quote` blocks
 6. **Emphasize numbers** — Put statistics, benchmarks, and metrics in `.stat-box` elements
 7. **Show code** — Include code examples from the book with proper syntax highlighting. Use side-by-side compare-cards to contrast imperative vs. declarative, SQL vs. NoSQL, etc.
@@ -276,7 +311,11 @@ Q1 through Q100
 
 <!-- QN -->
 <section class="slide quiz-slide">
-    <div class="quiz-header"><span class="quiz-number">QN</span><span class="quiz-topic">Topic Name</span></div>
+    <div class="quiz-header">
+        <span class="quiz-number">QN</span>
+        <span class="quiz-topic">Topic Name</span>
+        <span class="quiz-score">Score: 0 / 0</span>
+    </div>
     <p class="quiz-question">Question text here?</p>
     <div class="quiz-options">
         <div class="quiz-option" onclick="selectOption(this)">A) First option</div>
@@ -286,318 +325,59 @@ Q1 through Q100
     </div>
     <div class="quiz-answer">
         <button class="reveal-btn" onclick="checkAnswer(this, ['C'])">Check Answer</button>
-        <div class="quiz-explanation"><strong>Answer: C)</strong> Explanation with a direct quote from the chapter.</div>
+        <div class="quiz-explanation"><strong>Answer: C)</strong> Explanation referencing the chapter's mechanism and why the alternatives fall short.</div>
     </div>
 </section>
 ```
 
 ### Quiz Content Rules
 
-1. **Source material** — ALL questions must come exclusively from the chapter markdown. Do not invent questions about topics the chapter doesn't cover
-2. **100 questions** — Cover every single topic in the chapter. Organize questions in the same order as the chapter's flow
-3. **At least 4 options** per question (A through D minimum). Each question has one correct answer
-4. **Include explanations** — Every answer must include an explanation, preferably with a direct quote from the chapter
-5. **Topic tags** — Each question gets a `quiz-topic` span with the relevant section/concept name
-6. **Sequential numbering** — Q1 through Q100, matching the quiz-number span
+1. **Source material** — ALL questions must come exclusively from the chapter markdown (including footnotes and real-world system references). Do not invent topics outside the chapter
+2. **100 questions (proportional to section depth)** — Distribute questions proportionally across the chapter's exact sections (`N.1` .. `N.last`) in chapter flow order
+3. **Question mix (~60% scenario/debugging/trade-off, ~40% core mechanics)** — Favor applied engineering scenarios (diagnosing hot spots, tail latency stalls, migration storms, stale reads, failure cascades, choosing the right system/strategy) over trivial rote definitions
+4. **4 single-choice options (A–D)** — Each question has one clearly correct answer and three technically plausible distractors
+5. **Rich explanations** — Explain *why* the correct option works and briefly contrast why the main distractor/trade-off fails
+6. **Topic tags & sequential numbering** — Each question gets a concise `quiz-topic` and sequential `Q1`–`Q100`
 
 ### CRITICAL: Two Golden Rules for Quiz Quality
-
-These two rules are **non-negotiable**. Chapter 3's quiz is the role model — it scores perfectly on both.
 
 #### Rule 1: Fair Answer Distribution
 
 **Target**: Exactly 25 each of A, B, C, D for 100 questions (±3 is acceptable, e.g., 22–28 range).
 
-**Why it matters**: If all correct answers are the same letter (typically B), the quiz becomes a pattern-matching exercise rather than a knowledge test. Users learn to just click B.
+**How to achieve**: After authoring, run [./references/shuffle_quiz.py](./references/shuffle_quiz.py) to balance option positions cleanly.
 
-**How to achieve**: Write questions with the correct answer naturally placed at different positions. After generation, use the shuffle script at [./references/shuffle_quiz.py](./references/shuffle_quiz.py) to redistribute.
+#### Rule 2: Zero Longest-Answer Tells (Substantive Peer-Length Distractors)
 
-#### Rule 2: Correct Answer Must NOT Be the Uniquely Longest Option
+**Target**: Ideally **0** (and strictly **≤ 25**) questions where the correct answer is uniquely the longest option.
 
-**Target**: 0 questions where the correct answer is uniquely the longest. If the correct answer ties with at least one incorrect option for longest, that's acceptable.
-
-**Why it matters**: When writing quiz questions, the correct answer naturally becomes more detailed and longer than incorrect options. This creates a "longest = correct" tell that undermines the quiz. Test-takers can guess the answer by scanning for the longest option without understanding the material.
+**Why it matters**: If the correct answer is almost always longest (e.g., 80%+ of questions), test-takers can guess without knowing the material.
 
 **How to achieve**:
-- **Primary approach**: Make ALL options equally substantive. Incorrect options should be plausible, detailed, and similar in length to the correct answer. Chapter 3 demonstrates this perfectly — all four options are roughly the same length in every question.
-- **Fallback approach**: If incorrect options end up shorter, expand them with natural-sounding extensions like "for typical production workloads", "in distributed systems", "under normal conditions", etc. These must read naturally and not obviously flag the option as wrong.
-- **What to avoid**: NEVER add obviously artificial padding like "(see text)", "as shown in the chapter", or verbose run-on sentences that give away the option is a distractor.
+- **Primary (and required) approach**: Make ALL four options **substantive, domain-plausible, and roughly equal in length** at authoring time. Every incorrect distractor must represent a realistic distributed-systems misconception from the chapter rather than a throwaway stub.
+- **What to avoid**: NEVER append robotic filler phrases (`"for typical production workloads"`, `"across multiple independent nodes..."`, `"(see text)"`) to inflate option length—those create obvious tells and degrade quiz quality.
 
 **Verification checklist**:
 ```bash
-# Check distribution
+# 1. Check A/B/C/D balance (expect ~25 each)
 grep -o 'Answer: [A-D])' chapterN/presentation.html | sort | uniq -c | sort -rn
 
-# Check longest-answer (0 = perfect, run a script to count)
+# 2. Check uniquely-longest correct answers (target 0, strictly <= 25) and robotic padding (must be 0)
 python3 -c "
 import re
-with open('chapterN/presentation.html') as f: html = f.read()
+html = open('chapterN/presentation.html').read()
+longest = []
 for m in re.finditer(r'(<!-- Q\d+ -->.*?</section>)', html, re.DOTALL):
     ans = re.search(r\"checkAnswer\(this, \['([A-D])'\]\)\", m.group(1)).group(1)
     opts = re.findall(r'<div class=\"quiz-option[^>]*>([A-D])\) (.*?)</div>', m.group(1))
-    lengths = [(l, len(t)) for l, t in opts]
+    lengths = [(l, len(t.strip())) for l, t in opts]
     mx = max(l[1] for l in lengths)
     if [l[1] for l in lengths if l[0] == ans][0] == mx and sum(1 for l in lengths if l[1] == mx) == 1:
-        print(f'LONGEST: {re.search(r\"Q(\d+)\", m.group(1)).group(1)}')
-print('Done')
+        longest.append(re.search(r'Q(\d+)', m.group(1)).group(1))
+print('Uniquely longest count:', len(longest), longest[:15])
 "
-
-### Quiz CSS
-
-Add these styles inside the `<style>` block:
-```css
-/* ====== Quiz Slides ====== */
-.quiz-slide {
-    text-align: left;
-    align-items: flex-start;
-    padding: 5% 12%;
-}
-
-.quiz-header {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    margin-bottom: 20px;
-}
-
-.quiz-number {
-    background: var(--accent);
-    color: white;
-    padding: 6px 16px;
-    border-radius: 20px;
-    font-weight: 700;
-    font-size: 1.1rem;
-}
-
-.quiz-topic {
-    background: var(--accent-light);
-    color: var(--accent);
-    padding: 6px 16px;
-    border-radius: 20px;
-    font-size: 0.95rem;
-    font-weight: 600;
-}
-
-.quiz-question {
-    font-size: 1.6rem;
-    font-weight: 400;
-    line-height: 1.5;
-}
-
-.quiz-options {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    margin-top: 25px;
-    width: 100%;
-}
-
-.quiz-option {
-    background: #f8fafc;
-    border: 2px solid #e2e8f0;
-    border-radius: 10px;
-    padding: 14px 20px;
-    font-size: 1.25rem;
-    cursor: pointer;
-    transition: all 0.2s;
-}
-
-.quiz-option:hover {
-    border-color: var(--accent);
-}
-
-.quiz-option.selected {
-    border-color: var(--accent);
-    background: var(--accent-light);
-}
-
-.quiz-answer {
-    margin-top: 20px;
-    width: 100%;
-}
-
-.reveal-btn {
-    background: var(--accent);
-    color: white;
-    border: none;
-    padding: 10px 28px;
-    border-radius: 8px;
-    font-size: 1.1rem;
-    cursor: pointer;
-    font-weight: 600;
-    transition: all 0.2s;
-}
-
-.reveal-btn:hover {
-    background: #1d4ed8;
-}
-
-.quiz-explanation {
-    margin-top: 15px;
-    padding: 18px;
-    background: #f0fdf4;
-    border: 1px solid #86efac;
-    border-radius: 10px;
-    font-size: 1.15rem;
-    line-height: 1.5;
-    display: none;
-}
-
-.quiz-answer.revealed .quiz-explanation {
-    display: block;
-}
-
-.quiz-answer.revealed .reveal-btn {
-    background: #6b7280;
-}
 ```
 
-### Quiz JavaScript
+### Quiz CSS, JavaScript & Assembly
 
-Add interactive quiz logic (option selection + answer checking) in the `<script>` block:
-```javascript
-function selectOption(el) {
-    const options = el.parentElement.querySelectorAll('.quiz-option');
-    options.forEach(opt => opt.classList.remove('selected'));
-    el.classList.add('selected');
-}
-
-function checkAnswer(btn, correctLetters) {
-    const answerDiv = btn.parentElement;
-    const slide = btn.closest('.quiz-slide');
-    const selected = slide.querySelector('.quiz-option.selected');
-    if (selected) {
-        const selectedLetter = selected.textContent.trim().charAt(0);
-        if (correctLetters.includes(selectedLetter)) {
-            selected.style.borderColor = '#22c55e';
-            selected.style.background = '#f0fdf4';
-        } else {
-            selected.style.borderColor = '#ef4444';
-            selected.style.background = '#fef2f2';
-            // Highlight correct answer
-            const options = slide.querySelectorAll('.quiz-option');
-            options.forEach(opt => {
-                const letter = opt.textContent.trim().charAt(0);
-                if (correctLetters.includes(letter)) {
-                    opt.style.borderColor = '#22c55e';
-                    opt.style.background = '#f0fdf4';
-                }
-            });
-        }
-    }
-    answerDiv.classList.toggle('revealed');
-}
-```
-
-### Slide Count
-When quiz is added, update the static slide count in `<div class="slide-number">` to reflect the new total: original slides + 1 (quiz section header) + 100 (questions). The JS dynamically recalculates using `slides.length`, so it auto-corrects at runtime, but the static text should also be updated for consistency.
-
-### Implementation Strategy: Batching
-
-Due to response length limits, inserting all 100 questions in a single edit is not feasible. Use this batching approach:
-
-1. **First batch**: Add quiz CSS + JS + quiz section header + Q1-Q10 in one edit
-2. **Subsequent batches**: Insert Q11-Q20, Q21-Q30, ..., Q91-Q100 in groups of 10
-3. **Anchor each batch**: Replace the closing `</section>` tag of the last question in the previous batch, appending new questions after it. Use a unique string from the last question's explanation as the anchor text (include 3-5 lines of context)
-4. **Final step**: Update the static slide count after all questions are inserted
-
-### Post-Generation: Answer Distribution and Length Balancing
-
-After generating all questions, the answer distribution will almost certainly be skewed (typically ~90% B), and the correct answers will almost always be the longest option. **Always run both the shuffle script and the length-balancing pass** after generating questions.
-
-#### Step 1: Shuffle for distribution
-
-A reusable Python shuffle script is provided at [./references/shuffle_quiz.py](./references/shuffle_quiz.py). Usage:
-
-```bash
-python3 .github/skills/ddia-presentation/references/shuffle_quiz.py chapterN/presentation.html
-```
-
-The script:
-- Parses all quiz questions using regex
-- Randomly shuffles option positions within each question
-- Updates the `checkAnswer()` call and `Answer: X)` text to match the new correct letter
-- Fixes indentation after shuffle
-- Prints the resulting distribution
-
-**After running**, verify with:
-```bash
-grep -o 'Answer: [A-D])' chapterN/presentation.html | sort | uniq -c | sort -rn
-```
-
-If distribution is still skewed, re-run with a different seed (change `seed=42` in the script).
-
-#### Step 2: Balance option lengths
-
-Shuffling only fixes distribution — it does NOT fix the "correct answer is always longest" problem. After shuffling, run a length-balancing pass:
-
-```python
-import re, random
-
-with open('chapterN/presentation.html', 'r') as f:
-    content = f.read()
-
-pattern = r'(<!-- Q\d+ -->\s*<section class="slide quiz-slide">.*?</section>)'
-natural_fillers = [
-    " for typical production workloads",
-    " in most real-world deployments",
-    " under normal operational conditions",
-    " for data-intensive applications",
-    " with standard industry tooling",
-    " across distributed system deployments",
-]
-
-for iteration in range(5):
-    slides = list(re.finditer(pattern, content, re.DOTALL))
-    fixes = 0
-    for m in reversed(slides):
-        slide_html = m.group(1)
-        ans = re.search(r"checkAnswer\(this, \['([A-D])'\]\)", slide_html).group(1)
-        opts = re.findall(r'<div class="quiz-option" onclick="selectOption\(this\)">([A-D])\) (.*?)</div>', slide_html)
-        if len(opts) != 4:
-            continue
-        lengths = [(l, len(t), t) for l, t in opts]
-        max_len = max(l[1] for l in lengths)
-        correct_len = [l[1] for l in lengths if l[0] == ans][0]
-
-        if correct_len == max_len and sum(1 for l in lengths if l[1] == max_len) == 1:
-            # Expand shortest incorrect option
-            incorrect = sorted([(l, n, t) for l, n, t in lengths if l != ans], key=lambda x: x[1])
-            filler = random.choice(natural_fillers)
-            l, n, t = incorrect[0]
-            new_text = t + filler
-            old = f'<div class="quiz-option" onclick="selectOption(this)">{l}) {t}</div>'
-            new = f'<div class="quiz-option" onclick="selectOption(this)">{l}) {new_text}</div>'
-            if old in slide_html:
-                slide_html = slide_html.replace(old, new)
-                fixes += 1
-        content = content[:m.start()] + slide_html + content[m.end():]
-    # Recheck after each iteration
-    slides2 = list(re.finditer(pattern, content, re.DOTALL))
-    remaining = sum(1 for m in slides2 if ...)  # recheck logic
-    if remaining == 0:
-        break
-
-with open('chapterN/presentation.html', 'w') as f:
-    f.write(content)
-```
-
-**Important**: This approach expands incorrect options to be slightly longer, eliminating the "pick the longest" tell. The fillers must read naturally — never use obviously artificial padding like "(see text)" or "as shown in the chapter".
-
-### Adapting Quiz CSS for Chapter 1's Design System
-
-Chapter 1 uses a different CSS design system than chapters 2+:
-- `--accent: #000000` (black) instead of `--accent: #2563eb` (blue)
-- No `--accent-light` or `--dark` CSS variables defined
-- Section headers use solid `background: #000` instead of gradients
-
-When adding quiz styles to Chapter 1, hardcode the accent colors instead of using CSS variables:
-```css
-.quiz-number { background: #2563eb; }       /* Use blue directly */
-.quiz-topic { background: #dbeafe; color: #2563eb; }
-.reveal-btn { background: #2563eb; }
-.reveal-btn:hover { background: #1d4ed8; }
-.quiz-option.selected { border-color: #2563eb; background: #dbeafe; }
-.quiz-option:hover { border-color: #2563eb; }
-```
-Or add the missing CSS variables to Chapter 1's `:root` block.
+For the complete 2×2 Quiz CSS (including `@media (max-width: 960px)` overflow clearance), single-select + live-score JavaScript, batching/subagent assembly workflow, `shuffle_quiz.py` usage, and Chapter 1 styling notes, see [./references/quiz-guide.md](./references/quiz-guide.md).
