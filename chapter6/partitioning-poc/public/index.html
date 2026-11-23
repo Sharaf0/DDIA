@@ -1,0 +1,1174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DDIA Ch.6 — Live Multi-Node Partitioning Lab</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --text: #0f172a;
+      --muted: #475569;
+      --border: #e2e8f0;
+      --accent: #2563eb;
+      --accent-light: #dbeafe;
+      --dark: #0f172a;
+      --green: #059669;
+      --green-bg: #ecfdf5;
+      --red: #dc2626;
+      --red-bg: #fef2f2;
+      --amber: #d97706;
+      --amber-bg: #fffbeb;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; }
+    header {
+      background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%);
+      color: #fff;
+      padding: 18px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    header h1 { font-size: 1.35rem; font-weight: 800; letter-spacing: -0.5px; }
+    header p { font-size: 0.85rem; opacity: 0.8; }
+    .header-meta { display: flex; gap: 10px; align-items: center; }
+    .pill {
+      background: rgba(255,255,255,0.14);
+      border: 1px solid rgba(255,255,255,0.22);
+      padding: 5px 12px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+    .tabs {
+      display: flex;
+      gap: 8px;
+      padding: 14px 28px 0;
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+    .tab-btn {
+      padding: 10px 18px;
+      border: none;
+      background: transparent;
+      font-family: inherit;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--muted);
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      transition: all 0.15s;
+    }
+    .tab-btn:hover { color: var(--text); }
+    .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+    main { max-width: 1360px; margin: 0 auto; padding: 20px 28px 40px; }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+    .grid-2 { display: grid; grid-template-columns: 340px 1fr; gap: 20px; align-items: start; }
+    .grid-even { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    @media (max-width: 980px) { .grid-2, .grid-even { grid-template-columns: 1fr; } }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px;
+      box-shadow: 0 1px 3px rgba(15,23,42,0.04);
+      margin-bottom: 16px;
+    }
+    .card h2 { font-size: 1.05rem; font-weight: 700; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+    .card h3 { font-size: 0.92rem; font-weight: 700; margin-bottom: 6px; color: var(--accent); }
+    label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--muted); margin: 10px 0 4px; }
+    select, input[type="text"], input[type="number"] {
+      width: 100%; padding: 8px 10px; border: 1.5px solid var(--border); border-radius: 8px;
+      font-family: inherit; font-size: 0.88rem; background: #fff;
+    }
+    .check-row { display: flex; align-items: center; gap: 8px; margin-top: 10px; font-size: 0.84rem; font-weight: 500; cursor: pointer; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+      padding: 8px 14px; border-radius: 8px; border: 1px solid transparent;
+      font-family: inherit; font-size: 0.84rem; font-weight: 600; cursor: pointer; transition: opacity 0.15s;
+    }
+    .btn:hover { opacity: 0.9; }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-dark { background: var(--dark); color: #fff; }
+    .btn-green { background: var(--green); color: #fff; }
+    .btn-red { background: var(--red); color: #fff; }
+    .btn-outline { background: #fff; border-color: var(--border); color: var(--text); }
+    .btn-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+    .nodes-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; }
+    .node-box {
+      border: 2px solid var(--border); border-radius: 10px; padding: 12px; background: #fff;
+      transition: all 0.2s;
+    }
+    .node-box.hot { border-color: var(--red); background: var(--red-bg); }
+    .node-box.slow { border-color: var(--amber); background: var(--amber-bg); }
+    .node-box.standby { opacity: 0.58; border-style: dashed; background: #f1f5f9; }
+    .node-head { display: flex; justify-content: space-between; align-items: center; font-weight: 700; font-size: 0.9rem; margin-bottom: 6px; }
+    .badge { font-size: 0.7rem; padding: 2px 8px; border-radius: 999px; font-weight: 700; }
+    .badge-ok { background: var(--green-bg); color: var(--green); }
+    .badge-hot { background: #fee2e2; color: var(--red); }
+    .badge-slow { background: #fef3c7; color: #b45309; }
+    .badge-standby { background: #e2e8f0; color: #475569; }
+    .bar-track { height: 12px; background: #e2e8f0; border-radius: 999px; overflow: hidden; margin: 8px 0; }
+    .bar-fill { height: 100%; background: var(--accent); transition: width 0.3s; }
+    .bar-fill.hot { background: var(--red); }
+    .chip-wrap { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+    .chip {
+      font-size: 0.7rem; font-weight: 600; padding: 2px 7px; border-radius: 6px;
+      background: var(--accent-light); color: var(--accent);
+    }
+    .chip.moved { background: #fee2e2; color: var(--red); }
+    .banner {
+      padding: 10px 14px; border-radius: 8px; font-size: 0.84rem; margin-top: 10px; border-left: 4px solid;
+    }
+    .banner-info { background: var(--accent-light); border-color: var(--accent); color: #1e3a8a; }
+    .banner-warn { background: var(--amber-bg); border-color: var(--amber); color: #92400e; }
+    .banner-danger { background: var(--red-bg); border-color: var(--red); color: #991b1b; }
+    .banner-ok { background: var(--green-bg); border-color: var(--green); color: #065f46; }
+    .mono {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.78rem;
+      background: #0f172a; color: #e2e8f0; padding: 10px 12px; border-radius: 8px;
+      overflow-x: auto; white-space: pre-wrap; margin-top: 10px;
+    }
+    .hop-step {
+      display: flex; align-items: center; gap: 10px; padding: 10px 12px;
+      border: 1px solid var(--border); border-radius: 8px; margin-top: 8px; background: #fff;
+    }
+    .hop-step.stale { border-color: var(--red); background: var(--red-bg); }
+    .hop-num {
+      width: 26px; height: 26px; border-radius: 50%; background: var(--accent); color: #fff;
+      display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.78rem; flex-shrink: 0;
+    }
+    .hop-step.stale .hop-num { background: var(--red); }
+    .stage-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px; margin-top: 10px; }
+    .stage-box { border: 1.5px solid var(--border); border-radius: 10px; padding: 12px; background: #f8fafc; }
+    .small-muted { font-size: 0.78rem; color: var(--muted); }
+    table { width: 100%; border-collapse: collapse; font-size: 0.82rem; margin-top: 8px; }
+    th, td { padding: 7px 8px; border-bottom: 1px solid var(--border); text-align: left; }
+    th { background: #f1f5f9; font-weight: 700; }
+    .arch-strip {
+      background: #eff6ff;
+      border-bottom: 1px solid #bfdbfe;
+      padding: 10px 28px;
+      font-size: 0.82rem;
+      color: #1e3a8a;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .tour-launch-btn {
+      background: #2563eb;
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.35);
+      padding: 7px 14px;
+      border-radius: 999px;
+      font-family: inherit;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 2px 10px rgba(37,99,235,0.45);
+      transition: transform 0.15s, background 0.15s;
+    }
+    .tour-launch-btn:hover { background: #1d4ed8; transform: translateY(-1px); }
+
+    /* ====== Intro.js / Shepherd-style Spotlight Tour ====== */
+    #tour-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 9997;
+      display: none;
+      pointer-events: auto;
+    }
+    #tour-spotlight {
+      position: fixed;
+      z-index: 9998;
+      display: none;
+      pointer-events: none;
+      border-radius: 12px;
+      border: 3px solid #3b82f6;
+      box-shadow: 0 0 0 9999px rgba(15, 23, 42, 0.72), 0 0 28px rgba(59, 130, 246, 0.65);
+      transition: top 0.28s cubic-bezier(0.4, 0, 0.2, 1), left 0.28s cubic-bezier(0.4, 0, 0.2, 1), width 0.28s cubic-bezier(0.4, 0, 0.2, 1), height 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    #tour-popover {
+      position: fixed;
+      z-index: 9999;
+      display: none;
+      width: min(410px, calc(100vw - 24px));
+      background: #ffffff;
+      color: var(--text);
+      border-radius: 14px;
+      border: 1.5px solid #cbd5e1;
+      box-shadow: 0 20px 50px rgba(15, 23, 42, 0.35);
+      overflow: hidden;
+      transition: top 0.25s ease, left 0.25s ease;
+    }
+    .tour-progress-track { height: 4px; background: #e2e8f0; width: 100%; }
+    .tour-progress-fill { height: 100%; background: linear-gradient(90deg, #2563eb, #7c3aed); transition: width 0.25s; }
+    .tour-body { padding: 16px 18px 14px; }
+    .tour-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      font-size: 0.74rem;
+      font-weight: 700;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+    }
+    .tour-close {
+      background: none;
+      border: none;
+      font-size: 1.15rem;
+      color: var(--muted);
+      cursor: pointer;
+      line-height: 1;
+      padding: 2px 6px;
+      border-radius: 6px;
+    }
+    .tour-close:hover { background: #f1f5f9; color: var(--text); }
+    .tour-title { font-size: 1.05rem; font-weight: 800; color: var(--dark); margin-bottom: 6px; }
+    .tour-text { font-size: 0.86rem; color: #334155; line-height: 1.5; }
+    .tour-status {
+      margin-top: 10px;
+      padding: 8px 10px;
+      border-radius: 8px;
+      background: #eff6ff;
+      border-left: 3px solid var(--accent);
+      font-size: 0.78rem;
+      color: #1e3a8a;
+      display: none;
+    }
+    .tour-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px 14px;
+      border-top: 1px solid var(--border);
+      background: #f8fafc;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>DDIA Chapter 6 — Distributed Partitioning Visual Lab</h1>
+      <p>Live multi-container cluster (1 ZooKeeper-style Coordinator + 6 Shard Containers + Router/MPP Engine)</p>
+    </div>
+    <div class="header-meta">
+      <span class="pill" id="meta-epoch">Epoch #1</span>
+      <span class="pill" id="meta-active">4 Active Nodes</span>
+      <span class="pill" id="meta-strategy">Strategy: fixed</span>
+      <button class="tour-launch-btn" onclick="startTour(0)">🎓 Start Guided Tour (15 Steps)</button>
+      <button class="btn btn-outline" id="reset-btn" style="padding:6px 12px;font-size:0.78rem;" onclick="resetCluster(true)">Reset Cluster</button>
+    </div>
+  </header>
+
+  <div class="arch-strip" id="arch-strip">
+    <div>
+      <strong>🐳 Live Cluster:</strong>
+      <code>coordinator</code> (ZooKeeper metadata) &bull;
+      <code>node-1..4</code> (active shards) &bull;
+      <code>node-5..6</code> (standby) &bull;
+      <code>router</code> (routing tier + MPP)
+    </div>
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+      <span style="font-weight:600;">Jump to Tour Section:</span>
+      <button class="btn btn-outline" style="padding:3px 9px;font-size:0.75rem;" onclick="startTour(1)">6.2 Key-Value</button>
+      <button class="btn btn-outline" style="padding:3px 9px;font-size:0.75rem;" onclick="startTour(6)">6.3 Indexes</button>
+      <button class="btn btn-outline" style="padding:3px 9px;font-size:0.75rem;" onclick="startTour(9)">6.4 Rebalance</button>
+      <button class="btn btn-outline" style="padding:3px 9px;font-size:0.75rem;" onclick="startTour(12)">6.5 Routing &amp; MPP</button>
+    </div>
+  </div>
+
+  <nav class="tabs">
+    <button class="tab-btn active" onclick="switchTab('kv', this)">6.2 Key-Value &amp; Hot Spots</button>
+    <button class="tab-btn" onclick="switchTab('idx', this)">6.3 Secondary Indexes &amp; Tail Latency</button>
+    <button class="tab-btn" onclick="switchTab('rebalance', this)">6.4 Rebalancing &amp; Death Spiral</button>
+    <button class="tab-btn" onclick="switchTab('routing', this)">6.5 Request Routing &amp; MPP SQL</button>
+  </nav>
+
+  <main>
+    <!-- TAB 1: 6.2 KEY-VALUE & HOT SPOTS -->
+    <section id="tab-kv" class="tab-panel active">
+      <div class="grid-2">
+        <div class="card" id="kv-controls-card">
+          <h2>Workload Controls (6.2)</h2>
+          <label>Partitioning Scheme</label>
+          <select id="kv-scheme">
+            <option value="key_range">6.2.1 Key Range (Sorted)</option>
+            <option value="sensor_prefixed">6.2.1 Key Range (Sensor-Prefixed)</option>
+            <option value="hash">6.2.2 Hash of Key (Murmur3)</option>
+            <option value="compound_key">6.2.2 Cassandra Compound Key (user_id, ts)</option>
+          </select>
+
+          <label>Dataset Pattern</label>
+          <select id="kv-workload">
+            <option value="timestamps">Time-Series Timestamps (Sequential)</option>
+            <option value="celebrity">6.2.3 Celebrity Skew (80% 1 key)</option>
+            <option value="encyclopedia">Encyclopedia Terms (A–Z)</option>
+            <option value="compound_users">User Timeline Events (user_id|ts)</option>
+          </select>
+
+          <label class="check-row" id="kv-salt-row">
+            <input type="checkbox" id="kv-salt" />
+            <span>Enable Celebrity Key Salting (<code>celeb_bieber#00..09</code>)</span>
+          </label>
+
+          <div class="btn-row">
+            <button class="btn btn-primary" onclick="runKvBurst()">Write 28 Keys</button>
+            <button class="btn btn-dark" onclick="runKvQuery('range')">Test Range Scan</button>
+            <button class="btn btn-outline" onclick="runKvQuery('salted_celebrity')">Read Salted Celebrity</button>
+            <button class="btn btn-outline" onclick="runKvQuery('compound_user')">Read user_1 Timeline</button>
+          </div>
+          <div id="kv-result-banner"></div>
+          <div id="kv-query-output" class="mono" style="display:none;"></div>
+        </div>
+
+        <div>
+          <div class="card" id="kv-dist-card">
+            <h2>Live Shard Distribution Across Nodes</h2>
+            <p class="small-muted">Watch how sequential timestamps overload one range partition, why hashing balances keys (except identical celebrity keys), and how salting spreads writes at the cost of scatter-reads.</p>
+            <div class="nodes-grid" id="kv-nodes-grid" style="margin-top:12px;"></div>
+          </div>
+
+          <div class="card" id="hash-trap-card">
+            <h2>Section 6.2.2 Trap: Language Built-In Hash vs Murmur3 / MD5 (Fig 6-3)</h2>
+            <div style="display:flex;gap:10px;align-items:end;flex-wrap:wrap;">
+              <div style="flex:1;min-width:200px;">
+                <label style="margin-top:0;">Test Key</label>
+                <input type="text" id="hash-trap-key" value="2014-04-19 17:08:10" />
+              </div>
+              <button class="btn btn-primary" onclick="checkHashTrap()">Compare Across Processes</button>
+            </div>
+            <div id="hash-trap-output" class="mono" style="margin-top:10px;">Click "Compare Across Processes" to inspect JVM Process A vs B vs Murmur3 &amp; MD5.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2: 6.3 SECONDARY INDEXES -->
+    <section id="tab-idx" class="tab-panel">
+      <div class="grid-2">
+        <div class="card" id="idx-controls-card">
+          <h2>Secondary Index Lab (6.3)</h2>
+          <label>Indexing Architecture</label>
+          <select id="idx-mode">
+            <option value="document_local">6.3.1 Document-Partitioned (Local Index — Fig 6-4)</option>
+            <option value="term_global_sync">6.3.2 Term-Partitioned (Global Sync — Fig 6-5)</option>
+            <option value="term_global_async">6.3.2 Term-Partitioned (Global Async — DynamoDB GSI)</option>
+          </select>
+
+          <div class="btn-row">
+            <button class="btn btn-primary" onclick="seedCars()">Seed Used Cars (Fig 6-4)</button>
+            <button class="btn btn-outline" onclick="toggleSlowNode2()" id="slow-node-btn">Inject 450ms Slow Node (node-2)</button>
+          </div>
+
+          <hr style="margin:14px 0;border:none;border-top:1px solid var(--border);" />
+          <h3>Write New Car &amp; Observe Index Lag / Race</h3>
+          <div class="grid-even">
+            <div><label>Color</label><input type="text" id="car-color" value="purple" /></div>
+            <div><label>Make</label><input type="text" id="car-make" value="Ferrari" /></div>
+          </div>
+          <label class="check-row">
+            <input type="checkbox" id="car-diy-race" />
+            <span>Simulate Footnote (ii) DIY App-Level Index Crash</span>
+          </label>
+          <div class="btn-row">
+            <button class="btn btn-green" onclick="writeNewCar()">Write Car</button>
+          </div>
+
+          <hr style="margin:14px 0;border:none;border-top:1px solid var(--border);" />
+          <h3>Search by Secondary Index</h3>
+          <label>Filter Color</label>
+          <input type="text" id="search-color" value="red" />
+          <div class="btn-row">
+            <button class="btn btn-dark" onclick="searchCars()">Search Cars</button>
+          </div>
+          <div id="idx-write-banner"></div>
+        </div>
+
+        <div>
+          <div class="card" id="idx-latency-card">
+            <h2>Query Latency &amp; Tail Latency Amplification</h2>
+            <div id="idx-search-summary" class="banner banner-info">Click "Seed Used Cars" then "Search Cars" to observe Scatter/Gather vs single-shard Global Term Lookup.</div>
+            <div id="idx-timings" style="margin-top:12px;"></div>
+            <div id="idx-matches"></div>
+          </div>
+
+          <div class="card">
+            <h2>Inside Each Node: Primary Documents vs Local &amp; Global Indexes</h2>
+            <div class="nodes-grid" id="idx-nodes-grid"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: 6.4 REBALANCING -->
+    <section id="tab-rebalance" class="tab-panel">
+      <div class="grid-2">
+        <div class="card" id="rb-controls-card">
+          <h2>Rebalancing Controls (6.4)</h2>
+          <label>Rebalancing Strategy (6.4.1)</label>
+          <select id="rb-strategy" onchange="updateStrategy()">
+            <option value="hash_mod_n">hash(key) mod N (Anti-Pattern!)</option>
+            <option value="fixed" selected>Fixed Partitions (16 partitions — Fig 6-6)</option>
+            <option value="dynamic">Dynamic Range Splitting (10-key threshold)</option>
+            <option value="proportional">Proportional to Nodes (Cassandra 4 vnodes/node)</option>
+          </select>
+
+          <label class="check-row">
+            <input type="checkbox" id="rb-presplit" checked onchange="updateStrategy()" />
+            <span>Dynamic Mode: Pre-Split Initial Ranges (avoid cold-start 1-node trap)</span>
+          </label>
+
+          <label class="check-row">
+            <input type="checkbox" id="rb-auto" onchange="updateAutoMode()" />
+            <span>6.4.2 Automatic Rebalancing + Auto Failure Detection</span>
+          </label>
+
+          <div class="btn-row">
+            <button class="btn btn-green" onclick="joinNextNode()">+ Add Standby Node</button>
+            <button class="btn btn-outline" onclick="removeLastNode()">- Remove Node</button>
+          </div>
+
+          <hr style="margin:14px 0;border:none;border-top:1px solid var(--border);" />
+          <div id="rb-cascade-controls">
+          <h3>6.4.2 Cascading Failure Simulator</h3>
+          <p class="small-muted">Inject a temporary CPU/GC spike on <code>node-2</code>. Toggle Auto-Rebalance ON vs OFF to compare death-spiral vs human-in-the-loop.</p>
+          <div class="btn-row">
+            <button class="btn btn-red" onclick="overloadNode2()">Overload node-2 (450ms)</button>
+            <button class="btn btn-outline" onclick="recoverNode2()">Recover Cluster</button>
+            <button class="btn btn-primary" id="approve-plan-btn" style="display:none;" onclick="approvePendingPlan()">Approve Manual Plan</button>
+          </div>
+          <div id="rb-cascade-box"></div>
+          </div>
+        </div>
+
+        <div>
+          <div class="card" id="rb-map-card">
+            <h2>Live Cluster Partition Map &amp; Key Migration</h2>
+            <div id="rb-summary-banner" class="banner banner-info">Add/remove a node or switch strategies to measure exact keys moved across containers.</div>
+            <div class="nodes-grid" id="rb-nodes-grid" style="margin-top:12px;"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 4: 6.5 ROUTING & MPP -->
+    <section id="tab-routing" class="tab-panel">
+      <div class="grid-even">
+        <div class="card" id="route-tracer-card">
+          <h2>6.5 Request Routing Hop Tracer (Fig 6-7 &amp; 6-8)</h2>
+          <label>Lookup Key</label>
+          <input type="text" id="route-key" value="Danube" />
+          <label>Routing Approach</label>
+          <select id="route-mode">
+            <option value="any_node_gossip">1. Contact Any Node -> Forward (Cassandra/Riak Gossip)</option>
+            <option value="routing_tier_zk" selected>2. Partition-Aware Routing Tier (ZooKeeper / mongos)</option>
+            <option value="smart_client">3. Partition-Aware Smart Client (Direct)</option>
+          </select>
+          <label class="check-row">
+            <input type="checkbox" id="route-stale-gossip" />
+            <span>Simulate Stale Gossip Window (right after rebalance)</span>
+          </label>
+          <div class="btn-row">
+            <button class="btn btn-primary" onclick="traceRouting()">Trace Network Hops</button>
+          </div>
+          <div id="route-hops-container" style="margin-top:12px;"></div>
+        </div>
+
+        <div class="card" id="mpp-card">
+          <h2>6.5.1 Parallel Query Execution (MPP Analytics)</h2>
+          <p class="small-muted">Unlike single-key NoSQL reads, MPP warehouses break complex SQL into parallel execution stages across all partition nodes.</p>
+          <label>Filter: Minimum Car Year</label>
+          <input type="number" id="mpp-year" value="2020" min="2015" max="2025" />
+          <div class="btn-row">
+            <button class="btn btn-dark" onclick="runMppQuery()">Execute Parallel MPP SQL</button>
+          </div>
+          <div id="mpp-sql" class="mono" style="display:none;"></div>
+          <div id="mpp-stages" class="stage-grid"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Spotlight Tour Elements -->
+  <div id="tour-backdrop" onclick="closeTour()"></div>
+  <div id="tour-spotlight"></div>
+  <div id="tour-popover" role="dialog" aria-modal="true">
+    <div class="tour-progress-track"><div class="tour-progress-fill" id="tour-progress"></div></div>
+    <div class="tour-body">
+      <div class="tour-meta">
+        <span id="tour-step-badge">Step 1 / 15</span>
+        <button class="tour-close" onclick="closeTour()" title="Exit tour (Esc)">&times;</button>
+      </div>
+      <div class="tour-title" id="tour-title"></div>
+      <div class="tour-text" id="tour-text"></div>
+      <div class="tour-status" id="tour-status"></div>
+    </div>
+    <div class="tour-footer">
+      <button class="btn btn-outline" id="tour-prev-btn" onclick="prevTourStep()">← Back</button>
+      <div style="display:flex;gap:6px;">
+        <button class="btn btn-dark" id="tour-run-btn" onclick="runCurrentTourAction()" style="display:none;">▶ Re-run</button>
+        <button class="btn btn-primary" id="tour-next-btn" onclick="nextTourStep()">Next →</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let currentState = null;
+    let node2Slow = false;
+    let tourIdx = -1;
+
+    const TOUR_STEPS = [
+      {
+        tab: 'kv',
+        target: '#arch-strip',
+        section: 'Overview',
+        title: 'Welcome to the 8-Container Cluster',
+        text: 'You are looking at a real distributed cluster: 1 ZooKeeper-style <b>coordinator</b>, 4 active shard containers (<code>node-1..4</code>), 2 standby containers (<code>node-5..6</code>), and this <b>router</b> UI. Let’s walk through every DDIA Chapter 6 concept live!',
+      },
+      {
+        tab: 'kv',
+        target: '#kv-controls-card',
+        section: '6.2.1 Key Range',
+        title: '1. Time-Series Under Key-Range Partitioning',
+        text: 'We just selected <b>Key Range</b> + <b>Sequential Timestamps</b> and fired 28 writes across the cluster. Watch what happens to the shard distribution next!',
+        run: async () => {
+          document.getElementById('kv-query-output').style.display = 'none';
+          document.getElementById('kv-scheme').value = 'key_range';
+          document.getElementById('kv-workload').value = 'timestamps';
+          document.getElementById('kv-salt').checked = false;
+          await runKvBurst();
+          return 'Fired 28 sequential timestamps (2026-11-23T04:15:xx) under Key-Range.';
+        },
+      },
+      {
+        tab: 'kv',
+        target: '#kv-dist-card',
+        section: '6.2.1 Hot Spot!',
+        title: '2. Timestamp Hot Spot Exposed 🔥',
+        text: 'Look at <b>node-1</b> glowing red at <b>100% HOT</b> while nodes 2, 3, and 4 sit at 0%! Because timestamps increase monotonically, every live write hits today’s single range partition.',
+      },
+      {
+        tab: 'kv',
+        target: '#kv-dist-card',
+        section: '6.2.1 Sensor Prefix',
+        title: '3. Fixing It With Sensor Prefixing (And Its Tax)',
+        text: 'Prefixing keys as <code>sensor_01/timestamp</code> balanced writes evenly across all 4 nodes! Look at the JSON output on the left: the trade-off is <code>scatterGather: true</code> when scanning a time range across sensors.',
+        run: async () => {
+          document.getElementById('kv-scheme').value = 'sensor_prefixed';
+          document.getElementById('kv-workload').value = 'timestamps';
+          document.getElementById('kv-salt').checked = false;
+          await runKvBurst();
+          await runKvQuery('range');
+          return 'Switched to sensor_prefixed and ran a multi-sensor range query.';
+        },
+      },
+      {
+        tab: 'kv',
+        target: '#kv-controls-card',
+        section: '6.2.3 Celebrity Skew',
+        title: '4. Celebrity Key Salting & The 10× Read Tax',
+        text: 'Even Hash Partitioning fails when 80% of writes hit <i>one identical key</i> (<code>celeb_bieber</code>). Enabling <b>Key Salting</b> (<code>#00..#09</code>) spreads writes evenly — but look below: reading the celebrity now pays <code>fanOutRequests: 10</code>!',
+        run: async () => {
+          document.getElementById('kv-scheme').value = 'hash';
+          document.getElementById('kv-workload').value = 'celebrity';
+          document.getElementById('kv-salt').checked = true;
+          await runKvBurst();
+          await runKvQuery('salted_celebrity');
+          return 'Salted celeb_bieber#00..09 writes & ran 10-way salted read.';
+        },
+      },
+      {
+        tab: 'kv',
+        target: '#hash-trap-card',
+        section: '6.2.2 Hash Trap',
+        title: '5. Why Java hashCode() Breaks Distributed Routing',
+        text: 'Notice the output: simulated <b>Process A</b> and <b>Process B</b> hashed the exact same key to <i>different nodes</i>! Distributed systems must use deterministic hashes like <b>Murmur3</b> or <b>MD5</b> (Fig 6-3).',
+        run: async () => {
+          await checkHashTrap();
+          return 'Compared per-process hashCode vs Murmur3 & MD5 across processes.';
+        },
+      },
+      {
+        tab: 'idx',
+        target: '#idx-controls-card',
+        section: '6.3.1 Local Index',
+        title: '6. Document-Partitioned Secondary Indexes (Fig 6-4)',
+        text: 'We seeded the 8 DDIA used cars (<code>191 red Honda</code>, <code>214 black Dodge</code>, etc.) where each node maintains its own <b>local index</b>. Searching <code>color=red</code> triggers a parallel Scatter/Gather across all 4 nodes.',
+        run: async () => {
+          if (node2Slow) await toggleSlowNode2();
+          document.getElementById('idx-mode').value = 'document_local';
+          document.getElementById('search-color').value = 'red';
+          await seedCars();
+          await searchCars();
+          return 'Seeded 8 cars and ran parallel Scatter/Gather search for color=red.';
+        },
+      },
+      {
+        tab: 'idx',
+        target: '#idx-latency-card',
+        section: '6.3.1 Tail Latency',
+        title: '7. Tail Latency Amplification in Action',
+        text: 'We injected a <b>450ms GC pause</b> on <code>node-2</code> and ran the exact same search. Look at the bars: nodes 1, 3, and 4 finished in ~2ms, yet the entire user query stalled at <b>450ms+</b> waiting for the slowest node!',
+        run: async () => {
+          document.getElementById('idx-mode').value = 'document_local';
+          document.getElementById('search-color').value = 'red';
+          if (!node2Slow) await toggleSlowNode2();
+          await searchCars();
+          return 'Injected 450ms delay on node-2 and executed Scatter/Gather search.';
+        },
+      },
+      {
+        tab: 'idx',
+        target: '#idx-latency-card',
+        section: '6.3.2 Global Index',
+        title: '8. Term-Partitioned Index & Async GSI Lag (Fig 6-5)',
+        text: 'In <b>Global Async</b> mode (DynamoDB GSI style), we wrote a <code>purple Ferrari</code> and searched <code>color=purple</code> immediately. Notice two things: only <b>1 shard</b> was queried, and it returned <b>0 hits</b> until the 2.5s async lag finishes!',
+        run: async () => {
+          if (node2Slow) await toggleSlowNode2();
+          document.getElementById('idx-mode').value = 'term_global_async';
+          document.getElementById('car-color').value = 'purple';
+          document.getElementById('car-make').value = 'Ferrari';
+          document.getElementById('car-diy-race').checked = false;
+          document.getElementById('search-color').value = 'purple';
+          await writeNewCar();
+          await searchCars();
+          return 'Wrote purple Ferrari (2.5s async GSI lag) & searched immediately.';
+        },
+      },
+      {
+        tab: 'rebalance',
+        target: '#rb-map-card',
+        section: '6.4.1 Anti-Pattern',
+        title: '9. Why hash(key) mod N Is Catastrophic',
+        text: 'We seeded 28 keys and added <code>node-5</code> (4 → 5 nodes) under <code>hash mod N</code>. Look at the red summary banner: adding just ONE node forced <b>~80% of all keys</b> to migrate across containers!',
+        run: async () => {
+          await resetCluster();
+          await api('/api/coordinator/config', 'POST', { rebalanceStrategy: 'hash_mod_n', autoRebalance: false });
+          await api('/api/kv/burst', 'POST', { scheme: 'hash', workload: 'encyclopedia', count: 28 });
+          await joinNextNode();
+          return 'Added node-5 under hash_mod_n across 28 existing keys.';
+        },
+      },
+      {
+        tab: 'rebalance',
+        target: '#rb-map-card',
+        section: '6.4.1 Fixed Partitions',
+        title: '10. Fixed Partitions Steal Cleanly (Fig 6-6)',
+        text: 'Now look at <b>Fixed Partitions (16)</b> when <code>node-5</code> joins: only <b>4 whole partitions</b> (~20–25% of keys, shown in red) are stolen by the new node. Existing partitions stay put!',
+        run: async () => {
+          await resetCluster();
+          await api('/api/coordinator/config', 'POST', { rebalanceStrategy: 'fixed', autoRebalance: false });
+          await api('/api/kv/burst', 'POST', { scheme: 'hash', workload: 'encyclopedia', count: 28 });
+          await joinNextNode();
+          return 'Reset to 4 nodes, seeded 28 keys, and added node-5 under Fixed Partitions.';
+        },
+      },
+      {
+        tab: 'rebalance',
+        target: '#rb-cascade-controls',
+        section: '6.4.2 Death Spiral',
+        title: '11. Auto-Rebalance + Failure Detection = Cascade',
+        text: 'We turned <b>Auto-Rebalance ON</b> and spiked <code>node-2</code> to 450ms. Look at the red log: false failure detection marked <code>node-2</code> DEAD and dumped its partitions, immediately overloading <code>node-1</code> too! Human-in-the-loop prevents this.',
+        run: async () => {
+          await resetCluster();
+          await api('/api/coordinator/config', 'POST', { rebalanceStrategy: 'fixed', autoRebalance: true });
+          await overloadNode2();
+          return 'Simulated 450ms overload on node-2 with Auto-Rebalance enabled.';
+        },
+      },
+      {
+        tab: 'routing',
+        target: '#route-tracer-card',
+        section: '6.5 Request Routing',
+        title: '12. Stale Gossip vs ZooKeeper Routing (Fig 6-7 & 6-8)',
+        text: 'When a client hits a random node while <b>gossip is stale</b> after a rebalance, the request bounces through an extra <b>red stale redirect hop</b>! Switching to ZooKeeper or Smart Client avoids stale hops.',
+        run: async () => {
+          await resetCluster();
+          document.getElementById('route-key').value = 'Danube';
+          document.getElementById('route-mode').value = 'any_node_gossip';
+          document.getElementById('route-stale-gossip').checked = true;
+          await traceRouting();
+          return 'Traced GET "Danube" through a stale gossip window.';
+        },
+      },
+      {
+        tab: 'routing',
+        target: '#mpp-card',
+        section: '6.5.1 MPP SQL',
+        title: '13. Massively Parallel Processing (MPP) Stages',
+        text: 'Unlike single-key NoSQL lookups, analytical MPP engines split <code>GROUP BY make</code> into 4 parallel stages: <b>(1) Parallel Scan → (2) Hash Shuffle → (3) Parallel Aggregate → (4) Coordinator Final Gather</b>.',
+        run: async () => {
+          await api('/api/cars/seed', 'POST', { indexMode: 'document_local' });
+          document.getElementById('mpp-year').value = 2020;
+          await runMppQuery();
+          return 'Executed 4-stage parallel MPP SQL query across all 4 containers.';
+        },
+      },
+      {
+        tab: 'routing',
+        target: '#reset-btn',
+        section: 'Free Exploration',
+        title: '14. You’re Ready to Experiment!',
+        text: 'Click <b>Reset Cluster</b> anytime to restore the clean 4-node baseline, or click the section buttons under the header to replay any part of the tour during your presentation.',
+      },
+    ];
+
+    function activateTabById(tabId) {
+      const btnMap = { kv: 0, idx: 1, rebalance: 2, routing: 3 };
+      const btns = document.querySelectorAll('.tab-btn');
+      if (btns[btnMap[tabId]]) switchTab(tabId, btns[btnMap[tabId]]);
+    }
+
+    function positionTourElements(targetEl) {
+      const spotlight = document.getElementById('tour-spotlight');
+      const popover = document.getElementById('tour-popover');
+      const pad = 8;
+      const rect = targetEl.getBoundingClientRect();
+      const top = Math.max(8, rect.top - pad);
+      const left = Math.max(8, rect.left - pad);
+      const width = Math.min(window.innerWidth - 16, rect.width + pad * 2);
+      const height = Math.min(window.innerHeight - 16, rect.height + pad * 2);
+
+      spotlight.style.top = `${top}px`;
+      spotlight.style.left = `${left}px`;
+      spotlight.style.width = `${width}px`;
+      spotlight.style.height = `${height}px`;
+
+      popover.style.display = 'block';
+      const popRect = popover.getBoundingClientRect();
+      const gap = 14;
+
+      let popTop = top + height + gap;
+      let popLeft = left;
+
+      if (popTop + popRect.height > window.innerHeight - 12) {
+        if (top - popRect.height - gap >= 12) {
+          popTop = top - popRect.height - gap;
+        } else if (left + width + popRect.width + gap <= window.innerWidth - 12) {
+          popTop = Math.max(12, Math.min(top, window.innerHeight - popRect.height - 12));
+          popLeft = left + width + gap;
+        } else {
+          popTop = Math.max(12, window.innerHeight - popRect.height - 12);
+        }
+      }
+
+      popLeft = Math.max(12, Math.min(popLeft, window.innerWidth - popRect.width - 12));
+      popover.style.top = `${popTop}px`;
+      popover.style.left = `${popLeft}px`;
+    }
+
+    async function renderTourStep(runAction = true) {
+      if (tourIdx < 0 || tourIdx >= TOUR_STEPS.length) return;
+      const step = TOUR_STEPS[tourIdx];
+      activateTabById(step.tab);
+
+      document.getElementById('tour-backdrop').style.display = 'block';
+      document.getElementById('tour-spotlight').style.display = 'block';
+      document.getElementById('tour-popover').style.display = 'block';
+
+      document.getElementById('tour-step-badge').textContent = `${step.section} • Step ${tourIdx + 1} / ${TOUR_STEPS.length}`;
+      document.getElementById('tour-progress').style.width = `${Math.round(((tourIdx + 1) / TOUR_STEPS.length) * 100)}%`;
+      document.getElementById('tour-title').textContent = step.title;
+      document.getElementById('tour-text').innerHTML = step.text;
+      document.getElementById('tour-prev-btn').disabled = tourIdx === 0;
+      document.getElementById('tour-next-btn').textContent = tourIdx === TOUR_STEPS.length - 1 ? 'Finish ✓' : 'Next →';
+
+      const runBtn = document.getElementById('tour-run-btn');
+      const statusBox = document.getElementById('tour-status');
+      runBtn.style.display = step.run ? 'inline-flex' : 'none';
+      statusBox.style.display = 'none';
+
+      if (step.run && runAction) {
+        statusBox.style.display = 'block';
+        statusBox.textContent = 'Running live cluster step...';
+        try {
+          const msg = await step.run();
+          statusBox.textContent = `✓ ${msg}`;
+        } catch (err) {
+          statusBox.textContent = `Error: ${err.message}`;
+        }
+      }
+
+      const targetEl = document.querySelector(step.target);
+      if (targetEl) {
+        targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        setTimeout(() => positionTourElements(targetEl), 220);
+      }
+    }
+
+    async function runCurrentTourAction() {
+      await renderTourStep(true);
+    }
+
+    function startTour(idx = 0) {
+      tourIdx = Math.max(0, Math.min(TOUR_STEPS.length - 1, idx));
+      renderTourStep(true);
+    }
+
+    function nextTourStep() {
+      if (tourIdx >= TOUR_STEPS.length - 1) {
+        closeTour();
+        return;
+      }
+      tourIdx += 1;
+      renderTourStep(true);
+    }
+
+    function prevTourStep() {
+      if (tourIdx <= 0) return;
+      tourIdx -= 1;
+      renderTourStep(true);
+    }
+
+    function closeTour() {
+      tourIdx = -1;
+      document.getElementById('tour-backdrop').style.display = 'none';
+      document.getElementById('tour-spotlight').style.display = 'none';
+      document.getElementById('tour-popover').style.display = 'none';
+    }
+
+    window.addEventListener('resize', () => {
+      if (tourIdx >= 0) {
+        const el = document.querySelector(TOUR_STEPS[tourIdx].target);
+        if (el) positionTourElements(el);
+      }
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if (tourIdx < 0) return;
+      if (e.key === 'Escape') closeTour();
+      if (e.key === 'ArrowRight') nextTourStep();
+      if (e.key === 'ArrowLeft') prevTourStep();
+    });
+
+    function switchTab(id, btn) {
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById('tab-' + id).classList.add('active');
+      btn.classList.add('active');
+    }
+
+    async function api(path, method = 'GET', body = null) {
+      const res = await fetch(path, {
+        method,
+        headers: body ? { 'Content-Type': 'application/json' } : undefined,
+        body: body ? JSON.stringify(body) : undefined,
+      });
+      return res.json();
+    }
+
+    async function refreshState() {
+      currentState = await api('/api/state');
+      renderState();
+    }
+
+    function renderState() {
+      if (!currentState) return;
+      const { metadata, dumps, pendingPlan, cascadeLog } = currentState;
+      const activeNodes = metadata.nodes.filter(n => n.active);
+      document.getElementById('meta-epoch').textContent = `Epoch #${metadata.epoch}`;
+      document.getElementById('meta-active').textContent = `${activeNodes.length} Active Nodes`;
+      document.getElementById('meta-strategy').textContent = `Strategy: ${metadata.rebalanceStrategy}`;
+      document.getElementById('rb-strategy').value = metadata.rebalanceStrategy;
+      document.getElementById('rb-presplit').checked = metadata.preSplitDynamic;
+      document.getElementById('rb-auto').checked = metadata.autoRebalance;
+
+      // Tab 1: KV node bars
+      const totalKv = Math.max(dumps.reduce((s, d) => s + d.kvCount, 0), 1);
+      const avgKv = totalKv / Math.max(activeNodes.length, 1);
+      document.getElementById('kv-nodes-grid').innerHTML = metadata.nodes.filter(n => n.active).map(n => {
+        const dump = dumps.find(d => d.nodeId === n.id) || { kvCount: 0, kv: [] };
+        const pct = Math.round((dump.kvCount / totalKv) * 100);
+        const isHot = dump.kvCount > Math.max(avgKv * 1.5, 4);
+        const sample = (dump.kv || []).slice(0, 4).map(r => r.key).join(', ');
+        return `
+          <div class="node-box ${isHot ? 'hot' : ''}">
+            <div class="node-head">
+              <span>${n.id}</span>
+              <span class="badge ${isHot ? 'badge-hot' : 'badge-ok'}">${dump.kvCount} keys (${pct}%)${isHot ? ' HOT' : ''}</span>
+            </div>
+            <div class="bar-track"><div class="bar-fill ${isHot ? 'hot' : ''}" style="width:${pct}%"></div></div>
+            <div class="small-muted">${sample ? 'Sorted: ' + sample : 'No KV keys yet'}</div>
+          </div>`;
+      }).join('');
+
+      // Tab 2: Secondary indexes per node
+      document.getElementById('idx-nodes-grid').innerHTML = metadata.nodes.filter(n => n.active).map(n => {
+        const dump = dumps.find(d => d.nodeId === n.id) || { cars: [], localIndexes: {}, globalTermIndexes: {} };
+        const colors = Object.entries(dump.localIndexes?.colors || {}).map(([k, v]) => `${k}:[${v.join(',')}]`).join(' ');
+        const globals = Object.entries(dump.globalTermIndexes || {}).map(([k, v]) => `${k}->[${v.join(',')}]`).join(' ');
+        return `
+          <div class="node-box ${n.artificialDelayMs > 0 ? 'slow' : ''}">
+            <div class="node-head">
+              <span>${n.id}</span>
+              <span class="badge ${n.artificialDelayMs > 0 ? 'badge-slow' : 'badge-ok'}">${n.artificialDelayMs > 0 ? n.artificialDelayMs + 'ms slow' : dump.cars.length + ' cars'}</span>
+            </div>
+            <div class="small-muted"><strong>Docs:</strong> ${(dump.cars || []).map(c => `#${c.id}(${c.color})`).join(', ') || '—'}</div>
+            <div class="small-muted" style="margin-top:4px;"><strong>Local:</strong> ${colors || '—'}</div>
+            <div class="small-muted" style="margin-top:4px;"><strong>Global shards:</strong> ${globals || '—'}</div>
+          </div>`;
+      }).join('');
+
+      // Tab 3: Rebalancing node map
+      const movedParts = new Set(metadata.lastRebalanceSummary?.movedPartitions || []);
+      document.getElementById('rb-nodes-grid').innerHTML = metadata.nodes.map(n => {
+        const dump = dumps.find(d => d.nodeId === n.id) || { kvCount: 0, carCount: 0 };
+        const nodeParts = metadata.partitions.filter(p => p.nodeId === n.id);
+        const cls = !n.active ? 'standby' : (n.overloaded || n.status === 'slow' ? 'slow' : '');
+        const badgeCls = !n.active ? 'badge-standby' : (n.status === 'slow' ? 'badge-slow' : 'badge-ok');
+        return `
+          <div class="node-box ${cls}">
+            <div class="node-head">
+              <span>${n.id} (${n.capacityWeight}x)</span>
+              <span class="badge ${badgeCls}">${n.status}</span>
+            </div>
+            <div class="small-muted">Keys: ${dump.kvCount + dump.carCount} | Partitions: ${nodeParts.length}</div>
+            <div class="chip-wrap">
+              ${nodeParts.map(p => `<span class="chip ${movedParts.has(p.partitionId) ? 'moved' : ''}" title="${p.rangeLabel}">${p.partitionId}</span>`).join('') || '<span class="small-muted">Standby container</span>'}
+            </div>
+          </div>`;
+      }).join('');
+
+      if (metadata.lastRebalanceSummary) {
+        const s = metadata.lastRebalanceSummary;
+        const cls = s.movedPercent > 50 ? 'banner-danger' : 'banner-ok';
+        document.getElementById('rb-summary-banner').className = `banner ${cls}`;
+        document.getElementById('rb-summary-banner').innerHTML =
+          `<strong>${s.event}</strong>: Moved <strong>${s.movedKeys} / ${s.totalKeys}</strong> keys (${s.movedPercent}%). ` +
+          (s.movedPartitions.length ? `Migrated partitions: ${s.movedPartitions.join(', ')}` : '');
+      } else {
+        document.getElementById('rb-summary-banner').className = 'banner banner-info';
+        document.getElementById('rb-summary-banner').textContent =
+          'Add/remove a node or switch strategies to measure exact keys moved across containers.';
+      }
+
+      document.getElementById('approve-plan-btn').style.display = pendingPlan ? 'inline-flex' : 'none';
+      if (cascadeLog && cascadeLog.length) {
+        const cls = metadata.autoRebalance ? 'banner-danger' : 'banner-warn';
+        document.getElementById('rb-cascade-box').innerHTML =
+          `<div class="banner ${cls}"><strong>Cluster Event Log:</strong><br>${cascadeLog.join('<br>')}</div>`;
+      } else {
+        document.getElementById('rb-cascade-box').innerHTML = '';
+      }
+    }
+
+    async function runKvBurst() {
+      const scheme = document.getElementById('kv-scheme').value;
+      const workload = document.getElementById('kv-workload').value;
+      const saltCelebrity = document.getElementById('kv-salt').checked;
+      const res = await api('/api/kv/burst', 'POST', { scheme, workload, saltCelebrity, count: 28 });
+      const b = document.getElementById('kv-result-banner');
+      b.innerHTML = `<div class="banner ${res.hotSpotDetected ? 'banner-danger' : 'banner-ok'}">
+        Wrote <strong>${res.totalWritten}</strong> keys | Skew Ratio: <strong>${res.skewRatio}</strong>
+        ${res.hotSpotDetected ? ' — Hot Spot Detected!' : ' — Balanced!'}
+      </div>`;
+      await refreshState();
+    }
+
+    async function runKvQuery(mode) {
+      const scheme = document.getElementById('kv-scheme').value;
+      const prefix = mode === 'compound_user' ? 'user_1' : (scheme === 'sensor_prefixed' ? 'sensor_01/' : '2026-11-23');
+      const res = await api(`/api/kv/query?mode=${encodeURIComponent(mode)}&scheme=${encodeURIComponent(scheme)}&prefix=${encodeURIComponent(prefix)}`);
+      const out = document.getElementById('kv-query-output');
+      out.style.display = 'block';
+      out.textContent = JSON.stringify(res, null, 2);
+    }
+
+    async function checkHashTrap() {
+      const key = document.getElementById('hash-trap-key').value;
+      const res = await api(`/api/hash-trap?key=${encodeURIComponent(key)}`);
+      document.getElementById('hash-trap-output').textContent =
+        `Key: "${res.key}"\n` +
+        `❌ Language hash (Process A): ${res.unsafeProcessA.hash} -> node-${res.unsafeProcessA.partition + 1}\n` +
+        `❌ Language hash (Process B): ${res.unsafeProcessB.hash} -> node-${res.unsafeProcessB.partition + 1} (DIFFERENT NODE!)\n` +
+        `✅ Murmur3 (deterministic):   ${res.deterministicMurmur3.hash} -> node-${res.deterministicMurmur3.partition + 1}\n` +
+        `✅ MD5 first 2 bytes (0..65535): ${res.deterministicMd5First2Bytes.hash} -> partition p${res.deterministicMd5First2Bytes.partition}`;
+    }
+
+    async function seedCars() {
+      const indexMode = document.getElementById('idx-mode').value;
+      await api('/api/cars/seed', 'POST', { indexMode });
+      document.getElementById('idx-write-banner').innerHTML = `<div class="banner banner-ok">Seeded 8 cars from DDIA Fig 6-4/6-5 in <strong>${indexMode}</strong> mode.</div>`;
+      await refreshState();
+    }
+
+    async function writeNewCar() {
+      const indexMode = document.getElementById('idx-mode').value;
+      const color = document.getElementById('car-color').value;
+      const make = document.getElementById('car-make').value;
+      const simulateDiyRace = document.getElementById('car-diy-race').checked;
+      const res = await api('/api/cars/write', 'POST', {
+        color, make, indexMode, asyncLagMs: 2500, simulateDiyRace,
+      });
+      document.getElementById('idx-write-banner').innerHTML =
+        `<div class="banner ${res.warnings.length ? 'banner-warn' : 'banner-ok'}">
+          Wrote #${res.car.id} (${res.car.color} ${res.car.make}) to <strong>${res.docWriteNode}</strong>.<br>
+          Index writes: ${res.indexWriteNodes.join(', ')}<br>
+          ${res.warnings.join('<br>')}
+        </div>`;
+      await refreshState();
+      setTimeout(refreshState, 2600);
+    }
+
+    async function searchCars() {
+      const indexMode = document.getElementById('idx-mode').value;
+      const color = document.getElementById('search-color').value;
+      const res = await api(`/api/cars/search?indexMode=${encodeURIComponent(indexMode)}&color=${encodeURIComponent(color)}`);
+      document.getElementById('idx-search-summary').className = `banner ${res.scatterGather ? 'banner-warn' : 'banner-ok'}`;
+      document.getElementById('idx-search-summary').innerHTML =
+        `<strong>${res.totalMs}ms total</strong> — ${res.explanation}`;
+      const maxMs = Math.max(...res.perNodeTimings.map(t => t.elapsedMs), 1);
+      document.getElementById('idx-timings').innerHTML = res.perNodeTimings.map(t => `
+        <div style="display:flex;align-items:center;gap:10px;margin:4px 0;font-size:0.82rem;">
+          <strong style="width:70px;">${t.nodeId}</strong>
+          <div class="bar-track" style="flex:1;margin:0;"><div class="bar-fill ${t.elapsedMs > 150 ? 'hot' : ''}" style="width:${Math.round((t.elapsedMs/maxMs)*100)}%"></div></div>
+          <span style="width:110px;text-align:right;">${t.elapsedMs}ms (${t.hits} hits)</span>
+        </div>`).join('');
+      document.getElementById('idx-matches').innerHTML = `<table><thead><tr><th>ID</th><th>Color</th><th>Make</th><th>Location</th><th>Partition</th></tr></thead><tbody>` +
+        (res.matches.map(m => `<tr><td>#${m.id}</td><td>${m.color}</td><td>${m.make}</td><td>${m.location}</td><td>${m.partitionId}</td></tr>`).join('') || '<tr><td colspan="5">0 matches found (check if async GSI lag is still propagating!)</td></tr>') +
+        `</tbody></table>`;
+    }
+
+    async function toggleSlowNode2() {
+      node2Slow = !node2Slow;
+      await api('/api/coordinator/nodes/node-2/delay', 'POST', { artificialDelayMs: node2Slow ? 450 : 0 });
+      document.getElementById('slow-node-btn').textContent = node2Slow ? 'Clear Slow node-2 (0ms)' : 'Inject 450ms Slow Node (node-2)';
+      await refreshState();
+    }
+
+    async function updateStrategy() {
+      const rebalanceStrategy = document.getElementById('rb-strategy').value;
+      const preSplitDynamic = document.getElementById('rb-presplit').checked;
+      await api('/api/coordinator/config', 'POST', { rebalanceStrategy, preSplitDynamic });
+      await refreshState();
+    }
+
+    async function updateAutoMode() {
+      const autoRebalance = document.getElementById('rb-auto').checked;
+      await api('/api/coordinator/config', 'POST', { autoRebalance });
+      await refreshState();
+    }
+
+    async function joinNextNode() {
+      const standby = currentState.metadata.nodes.find(n => !n.active);
+      if (!standby) return alert('All 6 container nodes are already active!');
+      await api(`/api/coordinator/nodes/${standby.id}/activate`, 'POST', {});
+      await refreshState();
+    }
+
+    async function removeLastNode() {
+      const actives = currentState.metadata.nodes.filter(n => n.active);
+      if (actives.length <= 2) return alert('Keep at least 2 active nodes.');
+      const last = actives[actives.length - 1];
+      await api(`/api/coordinator/nodes/${last.id}/deactivate`, 'POST', {});
+      await refreshState();
+    }
+
+    async function overloadNode2() {
+      await api('/api/coordinator/nodes/node-2/overload', 'POST', {});
+      await refreshState();
+    }
+
+    async function recoverNode2() {
+      await api('/api/coordinator/nodes/node-2/recover', 'POST', {});
+      await refreshState();
+    }
+
+    async function approvePendingPlan() {
+      await api('/api/coordinator/rebalance/approve', 'POST', {});
+      await refreshState();
+    }
+
+    async function traceRouting() {
+      const key = document.getElementById('route-key').value;
+      const mode = document.getElementById('route-mode').value;
+      const simulateStaleGossip = document.getElementById('route-stale-gossip').checked;
+      const res = await api('/api/routing/trace', 'POST', { key, mode, simulateStaleGossip });
+      document.getElementById('route-hops-container').innerHTML =
+        `<div class="banner banner-info">Target: <strong>${res.targetNodeId}</strong> (${res.targetPartitionId}) | Client/Cluster Hops: <strong>${res.totalHops}</strong></div>` +
+        res.hops.map((h, i) => `
+          <div class="hop-step ${h.staleRedirect ? 'stale' : ''}">
+            <div class="hop-num">${i + 1}</div>
+            <div style="flex:1;">
+              <strong>${h.from} &rarr; ${h.to}</strong> &bull; <code>${h.action}</code>
+              <div class="small-muted">${h.detail} (${h.durationMs}ms)</div>
+            </div>
+          </div>`).join('');
+    }
+
+    async function runMppQuery() {
+      const minYear = Number(document.getElementById('mpp-year').value || 2020);
+      const res = await api('/api/mpp/query', 'POST', { minYear });
+      const sqlBox = document.getElementById('mpp-sql');
+      sqlBox.style.display = 'block';
+      sqlBox.textContent = res.sql;
+      document.getElementById('mpp-stages').innerHTML = res.stages.map(st => `
+        <div class="stage-box">
+          <div style="font-weight:700;color:var(--accent);font-size:0.85rem;">Stage ${st.stage}: ${st.name}</div>
+          <div class="small-muted" style="margin:4px 0 8px;">${st.description}</div>
+          <pre style="font-size:0.72rem;background:#fff;padding:6px;border-radius:6px;border:1px solid var(--border);overflow-x:auto;">${JSON.stringify(st.perNodeOutput, null, 2)}</pre>
+        </div>`).join('');
+    }
+
+    async function resetCluster(exitTour = false) {
+      if (exitTour) closeTour();
+      await api('/api/coordinator/reset', 'POST', {});
+      node2Slow = false;
+      document.getElementById('slow-node-btn').textContent = 'Inject 450ms Slow Node (node-2)';
+
+      // Clear all client-side lab outputs and restore default form controls
+      document.getElementById('kv-scheme').value = 'key_range';
+      document.getElementById('kv-workload').value = 'timestamps';
+      document.getElementById('kv-salt').checked = false;
+      document.getElementById('kv-result-banner').innerHTML = '';
+      const kvOut = document.getElementById('kv-query-output');
+      kvOut.style.display = 'none';
+      kvOut.textContent = '';
+      document.getElementById('hash-trap-key').value = '2014-04-19 17:08:10';
+      document.getElementById('hash-trap-output').textContent =
+        'Click "Compare Across Processes" to inspect JVM Process A vs B vs Murmur3 & MD5.';
+
+      document.getElementById('idx-mode').value = 'document_local';
+      document.getElementById('car-color').value = 'purple';
+      document.getElementById('car-make').value = 'Ferrari';
+      document.getElementById('car-diy-race').checked = false;
+      document.getElementById('search-color').value = 'red';
+      document.getElementById('idx-write-banner').innerHTML = '';
+      document.getElementById('idx-search-summary').className = 'banner banner-info';
+      document.getElementById('idx-search-summary').textContent =
+        'Click "Seed Used Cars" then "Search Cars" to observe Scatter/Gather vs single-shard Global Term Lookup.';
+      document.getElementById('idx-timings').innerHTML = '';
+      document.getElementById('idx-matches').innerHTML = '';
+
+      document.getElementById('route-key').value = 'Danube';
+      document.getElementById('route-mode').value = 'routing_tier_zk';
+      document.getElementById('route-stale-gossip').checked = false;
+      document.getElementById('route-hops-container').innerHTML = '';
+
+      document.getElementById('mpp-year').value = 2020;
+      const mppSql = document.getElementById('mpp-sql');
+      mppSql.style.display = 'none';
+      mppSql.textContent = '';
+      document.getElementById('mpp-stages').innerHTML = '';
+
+      await refreshState();
+    }
+
+    refreshState();
+  </script>
+</body>
+</html>

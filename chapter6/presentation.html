@@ -641,6 +641,127 @@
  .quiz-explanation { display: none; background: #f0fdf4; border: 2px solid #86efac; border-radius: 10px; padding: 12px 18px; margin-top: 8px; font-size: 1.05rem; line-height: 1.4; }
  .quiz-explanation.incorrect { display: block; background: #fef2f2; border-color: #fecaca; }
  .quiz-answer.revealed .quiz-explanation { display: block; }
+
+ /* ====== Visual Diagram & Banner Extensions ====== */
+ .part-pill {
+ display: inline-block;
+ background: rgba(255, 255, 255, 0.16);
+ border: 1px solid rgba(255, 255, 255, 0.3);
+ color: #fff;
+ font-size: 0.95rem;
+ font-weight: 700;
+ padding: 6px 18px;
+ border-radius: 999px;
+ text-transform: uppercase;
+ letter-spacing: 1.5px;
+ margin-bottom: 14px;
+ }
+ .svg-wrap {
+ width: 100%;
+ background: #f8fafc;
+ border: 1.5px solid #e2e8f0;
+ border-radius: 12px;
+ padding: 14px;
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ justify-content: center;
+ }
+ .svg-wrap svg {
+ width: 100%;
+ height: auto;
+ max-height: 440px;
+ display: block;
+ }
+ .svg-caption {
+ font-size: 0.85rem;
+ color: #475569;
+ margin-top: 8px;
+ text-align: center;
+ }
+ .warning-banner {
+ background: #fef2f2;
+ border-left: 4px solid #ef4444;
+ padding: 12px 16px;
+ border-radius: 8px;
+ font-size: 1.05rem;
+ line-height: 1.45;
+ color: #7f1d1d;
+ margin-top: 14px;
+ }
+ .tip-banner {
+ background: #fffbeb;
+ border-left: 4px solid #f59e0b;
+ padding: 12px 16px;
+ border-radius: 8px;
+ font-size: 1.05rem;
+ line-height: 1.45;
+ color: #78350f;
+ margin-top: 14px;
+ }
+ .info-banner {
+ background: var(--accent-light);
+ border-left: 4px solid var(--accent);
+ padding: 12px 16px;
+ border-radius: 8px;
+ font-size: 1.05rem;
+ line-height: 1.45;
+ color: #1e3a8a;
+ margin-top: 14px;
+ }
+ .matrix-table {
+ width: 100%;
+ border-collapse: collapse;
+ font-size: 1rem;
+ background: #fff;
+ border-radius: 10px;
+ overflow: hidden;
+ border: 1px solid #e2e8f0;
+ }
+ .matrix-table th {
+ background: #0f172a;
+ color: #fff;
+ padding: 10px 12px;
+ text-align: left;
+ font-weight: 700;
+ }
+ .matrix-table td {
+ padding: 9px 12px;
+ border-bottom: 1px solid #e2e8f0;
+ vertical-align: top;
+ }
+ .matrix-table tr:nth-child(even) td {
+ background: #f8fafc;
+ }
+ .poc-btn {
+ display: inline-flex;
+ align-items: center;
+ gap: 8px;
+ background: var(--accent);
+ color: #fff;
+ text-decoration: none;
+ padding: 12px 22px;
+ border-radius: 10px;
+ font-weight: 700;
+ font-size: 1.05rem;
+ margin-top: 14px;
+ box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25);
+ }
+ .compact-slide {
+ padding: 3.5% 7%;
+ gap: 18px;
+ }
+ .compact-slide h2 {
+ font-size: 2.25rem;
+ margin-bottom: 6px;
+ }
+ .compact-slide p {
+ font-size: 1.25rem;
+ }
+ .compact-slide ul {
+ font-size: 1.15rem;
+ margin-top: 8px;
+ }
  </style>
 </head>
 
@@ -649,462 +770,1371 @@
  <div class="progress-container">
  <div class="progress-bar" id="progressBar"></div>
  </div>
- <div class="slide-number" id="slideNum">1 / 26</div>
+ <div class="slide-number" id="slideNum">1 / 152</div>
 
  <div class="presentation" id="presentation">
 
  <!-- 1. Title Slide -->
  <section class="slide title-slide">
- <p>Designing Data-Intensive Applications</p>
- <h1>Partitioning</h1>
- <p>Knowledge Transfer Session • Chapter 6</p>
- <div class="image-box title-image">
- <img src="../chapter1/images/book_cover.jpg" alt="DDIA book cover" />
- </div>
+  <p>Designing Data-Intensive Applications</p>
+  <h1>Chapter 6: Partitioning</h1>
+  <p>Knowledge Transfer Session &bull; Part II: Distributed Data</p>
+  <div class="image-box title-image">
+   <img src="../chapter1/images/book_cover.jpg" alt="DDIA book cover" />
+  </div>
  </section>
+
  <!-- 2. Opening Quote -->
- <section class="slide content-slide">
- <h2>"We must break away from the sequential and not limit the computers."</h2>
- <p style="margin-top: 20px; opacity: 0.6;">— Grace Murray Hopper, <em>Management and the Computer of the Future</em> (1962)</p>
- <p style="margin-top: 30px;">For very large datasets or very high throughput, replication alone isn't enough. We need to <strong>break data into partitions</strong> (a.k.a. shards, regions, tablets, vnodes).</p>
- </section>
- <!-- 3. Why Partition -->
- <section class="slide content-slide">
- <h2>Why Partition?</h2>
- <div class="stat-box" style="margin-bottom: 20px;">
- <div class="number">Scalability</div>
- <div class="label">Spread data and query load across many nodes</div>
- </div>
- <div class="two-col">
- <div class="compare-card">
- <h3>The Goal</h3>
- <p>10 nodes should handle <strong>10×</strong> the data and <strong>10×</strong> the throughput of a single node.</p>
- </div>
- <div class="compare-card accent">
- <h3>The Enemy: Hot Spots 🔥</h3>
- <p><strong>Skewed</strong> partitioning → disproportionate load on one partition → 9 idle nodes, 1 bottleneck.</p>
- </div>
- </div>
- </section>
- <!-- 4. Section: Strategies -->
- <section class="slide section-header">
- <h2>Partitioning Strategies</h2>
- <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">Key range vs hash — and their trade-offs</p>
- </section>
- <!-- 5. Partitioning + Replication (Fig 6-1) -->
- <section class="slide content-slide with-image">
- <div>
- <h2>Partitioning + Replication</h2>
- <p>Usually combined: each partition is <strong>replicated</strong> on multiple nodes for fault tolerance.</p>
- <ul style="margin-top: 15px;">
- <li>Each node may store <strong>multiple partitions</strong></li>
- <li>A node can be <strong>leader</strong> for some partitions, <strong>follower</strong> for others</li>
- <li>Partitioning scheme is <strong>independent</strong> of replication scheme</li>
- </ul>
- </div>
- <div class="image-box">
- <img src="images/ddia_0601.png" alt="Partitioning and replication combined" />
- </div>
- </section>
- <!-- 6. Key Range (Fig 6-2) -->
- <section class="slide content-slide with-image">
- <div>
- <h2>Partitioning by Key Range</h2>
- <p>Assign continuous ranges of keys to each partition — like volumes of an encyclopedia.</p>
- <ul style="margin-top: 15px;">
- <li>Ranges <strong>adapt to data distribution</strong> (not evenly spaced)</li>
- <li>Within each partition, keys are <strong>sorted</strong> → range scans are efficient</li>
- <li>Great for <strong>time-series data</strong>: fetch all readings from a month</li>
- </ul>
- <p style="margin-top: 10px;">Used by: <span class="tag">HBase</span> <span class="tag">Bigtable</span> <span class="tag">RethinkDB</span></p>
- </div>
- <div class="image-box">
- <img src="images/ddia_0602.png" alt="Key range partitioning" />
- </div>
- </section>
- <!-- 7. Key Range Hot Spots -->
- <section class="slide content-slide">
- <h2>Key Range: The Hot Spot Problem</h2>
- <p>If key is a <strong>timestamp</strong>, all writes go to the partition for today → hot spot!</p>
- <div class="two-col" style="margin-top: 20px;">
- <div class="compare-card accent">
- <h3>❌ Problem</h3>
- <div class="code-block" style="font-size: 0.9rem;">
-Key: 2024-01-15-14:30:05
- ← all writes hit today's partition</div>
- </div>
- <div class="compare-card">
- <h3>✅ Solution</h3>
- <div class="code-block" style="font-size: 0.9rem;">
-Key: sensor_42/2024-01-15-14:30:05
- ← partition first by sensor, then time</div>
- <p style="margin-top: 8px;">Spread writes across sensors, but now range queries need per-sensor requests.</p>
- </div>
- </div>
- </section>
- <!-- 8. Hash Partitioning (Fig 6-3) -->
- <section class="slide content-slide with-image">
- <div>
- <h2>Partitioning by Hash of Key</h2>
- <p>Apply a hash function to each key → assign <strong>ranges of hashes</strong> to partitions.</p>
- <ul style="margin-top: 15px;">
- <li>Even similar keys → different hashes → <strong>evenly distributed</strong></li>
- <li>Hash functions: <span class="tag">MD5 (MongoDB)</span> <span class="tag">Murmur3 (Cassandra)</span> <span class="tag">FNV (Voldemort)</span></li>
- <li>⚠️ Language built-in hashes (Java hashCode) may differ across processes!</li>
- </ul>
- <div class="stat-box small" style="margin-top: 15px;">
- <div class="number">Trade-off</div>
- <div class="label">Lose the ability to do efficient range queries</div>
- </div>
- </div>
- <div class="image-box">
- <img src="images/ddia_0603.png" alt="Hash partitioning" />
- </div>
- </section>
- <!-- 9. Compound Key -->
- <section class="slide content-slide">
- <h2>Cassandra's Compound Key Compromise</h2>
- <p>Best of both worlds: <strong>hash the first part, sort by the rest</strong>.</p>
- <div class="code-block" style="font-size: 1rem; margin-top: 15px;">
-PRIMARY KEY (user_id, update_timestamp)
- ↑ hashed for partition ↑ sorted within partition</div>
- <ul style="margin-top: 20px;">
- <li>Can't range-scan across <code>user_id</code> (it's hashed)</li>
- <li><strong>Can</strong> efficiently range-scan timestamps <em>within a single user</em></li>
- <li>Elegant model for <strong>one-to-many</strong> relationships (user → posts, user → events)</li>
- </ul>
- </section>
- <!-- 10. Celebrity Problem -->
- <section class="slide content-slide">
- <h2>Skewed Workloads: The Celebrity Problem</h2>
- <p>Hashing distributes keys but can't help when <strong>all requests target the same key</strong>.</p>
- <p class="quote" style="margin-top: 15px;">A celebrity with millions of followers posts → massive writes to one key (their user ID or post ID).</p>
- <p style="margin-top: 15px;">Workaround: add a <strong>random number</strong> to the key:</p>
- <div class="code-block" style="font-size: 0.95rem; margin-top: 10px;">
-key = "celebrity_post_123" + random(0, 99)
-→ splits writes across 100 keys on different partitions</div>
- <p style="margin-top: 15px;">⚠️ Now reads must query all 100 keys and combine results. Only worth it for the small number of truly hot keys.</p>
- <p style="margin-top: 10px;">Today: most systems require <strong>application-level</strong> handling. Future: automatic detection.</p>
- </section>
- <!-- 11. Section: Secondary Indexes -->
- <section class="slide section-header">
- <h2>Partitioning &amp; Secondary Indexes</h2>
- <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">The bread and butter of relational databases meets partitioning</p>
- </section>
- <!-- 12. Document-Partitioned (Fig 6-4) -->
- <section class="slide content-slide with-image">
- <div>
- <h2>Document-Partitioned Indexes</h2>
- <p>Each partition maintains its own <strong>local index</strong>.</p>
- <ul style="margin-top: 10px;">
- <li>✅ Writes: only update <strong>one partition</strong></li>
- <li>❌ Reads: must <strong>scatter/gather</strong> across all partitions</li>
- <li>Prone to <strong>tail latency amplification</strong></li>
- </ul>
- <p style="margin-top: 10px;">Example: searching for red cars → query every partition, combine results.</p>
- <p style="margin-top: 10px;">Used by: <span class="tag">MongoDB</span> <span class="tag">Cassandra</span> <span class="tag">Elasticsearch</span> <span class="tag">Riak</span></p>
- </div>
- <div class="image-box">
- <img src="images/ddia_0604.png" alt="Document-partitioned secondary index" />
- </div>
- </section>
- <!-- 13. Term-Partitioned (Fig 6-5) -->
- <section class="slide content-slide with-image">
- <div>
- <h2>Term-Partitioned Indexes</h2>
- <p>A <strong>global index</strong> covering all partitions, itself partitioned by term.</p>
- <ul style="margin-top: 10px;">
- <li>✅ Reads: query <strong>one partition</strong> of the index</li>
- <li>❌ Writes: may affect <strong>multiple partitions</strong> (distributed transaction)</li>
- <li>In practice: updates are often <strong>async</strong></li>
- </ul>
- <p style="margin-top: 10px;">Example: <code>color:red</code> entries from ALL data partitions live in one index partition.</p>
- <p style="margin-top: 10px;">Used by: <span class="tag">DynamoDB</span> <span class="tag">Riak Search</span> <span class="tag">Oracle DW</span></p>
- </div>
- <div class="image-box">
- <img src="images/ddia_0605.png" alt="Term-partitioned secondary index" />
- </div>
- </section>
- <!-- 14. Local vs Global Comparison -->
- <section class="slide content-slide">
- <h2>Local vs Global Indexes</h2>
- <div style="overflow-x: auto;">
- <table style="width: 100%; border-collapse: collapse; font-size: 1.1rem; margin-top: 15px;">
- <tr style="background: var(--accent-light);">
- <th style="padding: 10px; text-align: left;"></th>
- <th style="padding: 10px; text-align: center;">Document-Partitioned (Local)</th>
- <th style="padding: 10px; text-align: center;">Term-Partitioned (Global)</th>
- </tr>
- <tr><td style="padding: 8px;"><strong>Writes</strong></td><td style="text-align: center;">✅ One partition</td><td style="text-align: center;">❌ Multiple partitions</td></tr>
- <tr style="background: #f8fafc;"><td style="padding: 8px;"><strong>Reads</strong></td><td style="text-align: center;">❌ Scatter/gather</td><td style="text-align: center;">✅ One partition</td></tr>
- <tr><td style="padding: 8px;"><strong>Consistency</strong></td><td style="text-align: center;">Immediate</td><td style="text-align: center;">Often async</td></tr>
- <tr style="background: #f8fafc;"><td style="padding: 8px;"><strong>Complexity</strong></td><td style="text-align: center;">Simpler</td><td style="text-align: center;">Distributed txn needed</td></tr>
- </table>
- </div>
- <p style="margin-top: 15px;">Choose based on your read/write ratio and consistency requirements.</p>
- </section>
- <!-- 15. Section: Rebalancing -->
- <section class="slide section-header">
- <h2>Rebalancing Partitions</h2>
- <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">Moving data when nodes join or leave the cluster</p>
- </section>
- <!-- 16. Why Rebalance -->
- <section class="slide content-slide">
- <h2>Why Rebalance?</h2>
- <ul style="margin-top: 15px;">
- <li>📈 Query throughput increases → add more CPUs</li>
- <li>💾 Dataset grows → add more disks and RAM</li>
- <li>💥 Machine fails → other nodes take over</li>
- </ul>
- <p style="margin-top: 20px;">Requirements for rebalancing:</p>
- <div class="three-col" style="margin-top: 15px;">
- <div class="compare-card">
- <h3>⚖️ Fair</h3>
- <p>Load evenly shared after rebalancing</p>
- </div>
- <div class="compare-card">
- <h3>🔄 Available</h3>
- <p>DB continues serving reads/writes during rebalancing</p>
- </div>
- <div class="compare-card">
- <h3>📦 Minimal</h3>
- <p>Move only what's necessary (minimize network I/O)</p>
- </div>
- </div>
- </section>
- <!-- 17. Don't Use Mod N -->
- <section class="slide content-slide">
- <h2>❌ Don't: hash mod N</h2>
- <div class="code-block" style="font-size: 1rem; margin-top: 15px;">
-hash(key) mod N → partition number</div>
- <p style="margin-top: 15px;">Seems simple, but when N changes, <strong>most keys move</strong>:</p>
- <div class="code-block" style="font-size: 0.95rem; margin-top: 10px;">
-hash(key) = 123456
- mod 10 = 6 → node 6
- mod 11 = 3 → node 3 ← moved!
- mod 12 = 0 → node 0 ← moved again!</div>
- <p style="margin-top: 15px;">Adding one node causes a <strong>massive data shuffle</strong>. Excessively expensive. Need better approaches.</p>
- </section>
- <!-- 18. Fixed Partitions (Fig 6-6) -->
- <section class="slide content-slide with-image">
- <div>
- <h2>Fixed Number of Partitions</h2>
- <p>Create <strong>many more partitions than nodes</strong> upfront.</p>
- <ul style="margin-top: 10px;">
- <li>10 nodes, 1,000 partitions → ~100 per node</li>
- <li>New node <strong>steals</strong> some partitions from existing nodes</li>
- <li>Only entire partitions move — keys stay in their partition</li>
- </ul>
- <p style="margin-top: 10px;">Used by: <span class="tag">Riak</span> <span class="tag">Elasticsearch</span> <span class="tag">Couchbase</span> <span class="tag">Voldemort</span></p>
- <p style="margin-top: 10px; color: var(--accent);">⚠️ Must choose partition count wisely — it's fixed forever. Too many = overhead, too few = limits growth.</p>
- </div>
- <div class="image-box">
- <img src="images/ddia_0606.png" alt="Fixed number of partitions" />
- </div>
- </section>
- <!-- 19. Dynamic & Proportional -->
- <section class="slide content-slide">
- <h2>Dynamic &amp; Proportional Partitioning</h2>
- <div class="two-col" style="margin-top: 15px;">
- <div class="compare-card">
- <h3>🔀 Dynamic Partitioning</h3>
- <p>Partition grows too large → <strong>split in half</strong>. Shrinks → <strong>merge</strong> with neighbor.</p>
- <ul style="font-size: 0.95rem; margin-top: 10px;">
- <li>Adapts to data volume automatically</li>
- <li>⚠️ Empty DB starts with 1 partition (need <strong>pre-splitting</strong>)</li>
- <li>HBase default: split at 10 GB</li>
- </ul>
- <p style="margin-top: 8px;">Used by: <span class="tag">HBase</span> <span class="tag">MongoDB</span> <span class="tag">RethinkDB</span></p>
- </div>
- <div class="compare-card">
- <h3>📏 Proportional to Nodes</h3>
- <p>Fixed number of partitions <strong>per node</strong>.</p>
- <ul style="font-size: 0.95rem; margin-top: 10px;">
- <li>More nodes → partitions split → each gets smaller</li>
- <li>New node randomly splits existing partitions</li>
- <li>Cassandra: 256 partitions per node</li>
- </ul>
- <p style="margin-top: 8px;">Used by: <span class="tag">Cassandra</span> <span class="tag">Ketama</span></p>
- </div>
- </div>
- </section>
- <!-- 20. Auto vs Manual -->
- <section class="slide content-slide">
- <h2>Automatic vs Manual Rebalancing</h2>
- <div class="two-col" style="margin-top: 15px;">
- <div class="compare-card">
- <h3>🤖 Automatic</h3>
- <p>System decides when and where to move partitions.</p>
- <p style="margin-top: 10px;">✅ Less operational work</p>
- <p>❌ Can be unpredictable</p>
- <p>❌ <strong>Dangerous with auto failure detection</strong>: overloaded node declared dead → rebalancing adds more load → cascading failure! 💀</p>
- </div>
- <div class="compare-card accent">
- <h3>👤 Manual (with suggestions)</h3>
- <p>System proposes a plan, admin approves.</p>
- <p style="margin-top: 10px;">✅ Human in the loop prevents surprises</p>
- <p>❌ Slower</p>
- <p style="margin-top: 10px;">Used by: <span class="tag">Couchbase</span> <span class="tag">Riak</span> <span class="tag">Voldemort</span></p>
- </div>
- </div>
- </section>
- <!-- 21. Section: Request Routing -->
- <section class="slide section-header">
- <h2>Request Routing</h2>
- <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">How clients find the right node: service discovery for databases</p>
- </section>
- <!-- 22. Three Approaches (Fig 6-7) -->
- <section class="slide content-slide with-image">
- <div>
- <h2>Three Routing Approaches</h2>
- <ol>
- <li><strong>Contact any node</strong> — node handles or forwards</li>
- <li><strong>Routing tier</strong> — partition-aware load balancer</li>
- <li><strong>Smart client</strong> — client knows partition→node mapping</li>
- </ol>
- <p style="margin-top: 15px;">Key challenge: how does the routing component learn about partition reassignments?</p>
- </div>
- <div class="image-box">
- <img src="images/ddia_0607.png" alt="Three routing approaches" />
- </div>
- </section>
- <!-- 23. ZooKeeper (Fig 6-8) -->
- <section class="slide content-slide with-image">
- <div>
- <h2>ZooKeeper for Coordination</h2>
- <p>Separate <strong>coordination service</strong> maintains the authoritative partition→node mapping.</p>
- <ul style="margin-top: 15px;">
- <li>Nodes register in ZooKeeper</li>
- <li>Routing tier / clients <strong>subscribe</strong> to changes</li>
- <li>Partition changes → ZooKeeper notifies subscribers</li>
- </ul>
- <p style="margin-top: 15px;">Used by: <span class="tag">Espresso (LinkedIn)</span> <span class="tag">HBase</span> <span class="tag">Kafka</span> <span class="tag">SolrCloud</span></p>
- <p style="margin-top: 10px;">Alternative: <strong>Gossip protocol</strong> (Cassandra, Riak) — no external dependency, but more complexity in DB nodes.</p>
- </div>
- <div class="image-box">
- <img src="images/ddia_0608.png" alt="ZooKeeper coordination" />
- </div>
+ <section class="slide content-slide compact-slide">
+  <p class="quote" style="font-size: 1.95rem; line-height: 1.45; font-style: italic;">
+   "Clearly, we must break away from the sequential and not limit the computers. We must state definitions and provide for priorities and descriptions of data. We must state relationships, not procedures."
+  </p>
+  <p style="opacity: 0.65; font-size: 1.3rem;">— Grace Murray Hopper, <em>Management and the Computer of the Future</em> (1962)</p>
+  <div class="info-banner" style="margin-top: 10px;">
+   <strong>Why Chapter 6?</strong> Replication (Ch. 5) copies the <em>same</em> data onto multiple nodes. When a dataset is too big for one disk or throughput exceeds one CPU, we must <strong>split data into partitions</strong> (sharding) in a shared-nothing cluster.
+  </div>
  </section>
 
- <!-- Partitioning Strategy Lab -->
- <section class="slide" id="partition-lab-slide" style="padding: 15px 25px; text-align: left; align-items: stretch; justify-content: flex-start;">
- <h2 style="font-size: 1.4rem; margin-bottom: 6px; text-align: center;">🔬 Partitioning Strategy Lab — Key Range vs Hash</h2>
- <div style="display: flex; gap: 12px; height: calc(100vh - 60px);">
-  <!-- Controls -->
-  <div style="flex: 0 0 200px; display: flex; flex-direction: column; gap: 6px; font-size: 0.78rem;">
-   <label style="font-weight: 700;">Dataset pattern:</label>
-   <select id="p-pattern" onchange="pGenerate()" style="padding: 5px; border: 2px solid #e2e8f0; border-radius: 6px; font-size: 0.8rem;">
-    <option value="uniform">Uniform random</option>
-    <option value="timeseries" selected>Time-series (timestamps)</option>
-    <option value="skewed">Skewed (celebrity)</option>
-    <option value="alphabetical">Alphabetical names</option>
-   </select>
+ <!-- 3. Replication Alone vs Partitioning -->
+ <section class="slide content-slide compact-slide">
+  <h2>Why Replication Alone Isn't Enough</h2>
+  <p>Each record belongs to <strong>exactly one partition</strong> — each partition acts like a small independent database.</p>
+  <div class="svg-wrap">
+   <svg viewBox="0 0 920 290" xmlns="http://www.w3.org/2000/svg">
+    <!-- Left: Replication Only -->
+    <rect x="10" y="10" width="420" height="270" rx="14" fill="#fef2f2" stroke="#fca5a5" stroke-width="2"/>
+    <text x="220" y="42" text-anchor="middle" font-family="Inter,sans-serif" font-size="17" font-weight="800" fill="#991b1b">❌ Replication Only (Ch. 5): 10 TB Dataset</text>
+    <rect x="40" y="65" width="105" height="125" rx="10" fill="#fff" stroke="#ef4444" stroke-width="2"/>
+    <text x="92" y="92" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="700" fill="#0f172a">Node 1</text>
+    <rect x="52" y="104" width="81" height="72" rx="6" fill="#fee2e2"/>
+    <text x="92" y="144" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="700" fill="#b91c1c">Full 10 TB</text>
+    <rect x="167" y="65" width="105" height="125" rx="10" fill="#fff" stroke="#ef4444" stroke-width="2"/>
+    <text x="219" y="92" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="700" fill="#0f172a">Node 2</text>
+    <rect x="179" y="104" width="81" height="72" rx="6" fill="#fee2e2"/>
+    <text x="219" y="144" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="700" fill="#b91c1c">Full 10 TB</text>
+    <rect x="294" y="65" width="105" height="125" rx="10" fill="#fff" stroke="#ef4444" stroke-width="2"/>
+    <text x="346" y="92" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="700" fill="#0f172a">Node 3</text>
+    <rect x="306" y="104" width="81" height="72" rx="6" fill="#fee2e2"/>
+    <text x="346" y="144" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="700" fill="#b91c1c">Full 10 TB</text>
+    <text x="220" y="228" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="#7f1d1d">Every node still needs a 10 TB disk &amp; handles 100% of writes!</text>
+    <text x="220" y="252" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" fill="#991b1b">Good for fault tolerance &amp; read scaling, NOT storage/write scaling.</text>
 
-   <label style="font-weight: 700; margin-top: 4px;">Partitions: <span id="p-count-val">4</span></label>
-   <input type="range" id="p-count" min="2" max="8" value="4" oninput="document.getElementById('p-count-val').textContent=this.value; pDistribute()" style="width: 100%;">
+    <!-- Right: Partitioning -->
+    <rect x="460" y="10" width="450" height="270" rx="14" fill="#eff6ff" stroke="#93c5fd" stroke-width="2"/>
+    <text x="685" y="42" text-anchor="middle" font-family="Inter,sans-serif" font-size="17" font-weight="800" fill="#1e3a8a">✅ Partitioning (Ch. 6): 10 TB Split Across 4 Nodes</text>
+    <g font-family="Inter,sans-serif" text-anchor="middle">
+     <rect x="480" y="65" width="94" height="125" rx="10" fill="#fff" stroke="#2563eb" stroke-width="2"/>
+     <text x="527" y="92" font-size="13" font-weight="700" fill="#0f172a">Node 1</text>
+     <rect x="492" y="105" width="70" height="70" rx="6" fill="#dbeafe"/>
+     <text x="527" y="136" font-size="13" font-weight="800" fill="#1d4ed8">P1</text>
+     <text x="527" y="156" font-size="11" fill="#1e40af">2.5 TB</text>
 
-   <label style="font-weight: 700; margin-top: 4px;">Keys: <span id="p-keys-val">200</span></label>
-   <input type="range" id="p-keys" min="50" max="500" value="200" step="50" oninput="document.getElementById('p-keys-val').textContent=this.value; pGenerate()" style="width: 100%;">
+     <rect x="586" y="65" width="94" height="125" rx="10" fill="#fff" stroke="#2563eb" stroke-width="2"/>
+     <text x="633" y="92" font-size="13" font-weight="700" fill="#0f172a">Node 2</text>
+     <rect x="598" y="105" width="70" height="70" rx="6" fill="#dbeafe"/>
+     <text x="633" y="136" font-size="13" font-weight="800" fill="#1d4ed8">P2</text>
+     <text x="633" y="156" font-size="11" fill="#1e40af">2.5 TB</text>
 
-   <button onclick="pGenerate()" style="margin-top: 6px; padding: 7px; background: var(--accent); color: white; border: none; border-radius: 6px; font-size: 0.8rem; font-weight: 600; cursor: pointer;">Generate Keys 🔄</button>
+     <rect x="692" y="65" width="94" height="125" rx="10" fill="#fff" stroke="#2563eb" stroke-width="2"/>
+     <text x="739" y="92" font-size="13" font-weight="700" fill="#0f172a">Node 3</text>
+     <rect x="704" y="105" width="70" height="70" rx="6" fill="#dbeafe"/>
+     <text x="739" y="136" font-size="13" font-weight="800" fill="#1d4ed8">P3</text>
+     <text x="739" y="156" font-size="11" fill="#1e40af">2.5 TB</text>
 
-   <div id="p-info" style="margin-top: 6px; background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 8px; padding: 8px; font-size: 0.72rem; line-height: 1.5;"></div>
+     <rect x="798" y="65" width="94" height="125" rx="10" fill="#fff" stroke="#2563eb" stroke-width="2"/>
+     <text x="845" y="92" font-size="13" font-weight="700" fill="#0f172a">Node 4</text>
+     <rect x="810" y="105" width="70" height="70" rx="6" fill="#dbeafe"/>
+     <text x="845" y="136" font-size="13" font-weight="800" fill="#1d4ed8">P4</text>
+     <text x="845" y="156" font-size="11" fill="#1e40af">2.5 TB</text>
+    </g>
+    <text x="685" y="228" text-anchor="middle" font-family="Inter,sans-serif" font-size="12.5" font-weight="600" fill="#1e3a8a">Shared-nothing cluster: 4× storage &amp; 4× throughput!</text>
+    <text x="685" y="252" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="#1d4ed8">1980s (Teradata, Tandem) → modern NoSQL &amp; warehouses.</text>
+   </svg>
+  </div>
+ </section>
 
-   <div style="margin-top: auto; font-size: 0.7rem; line-height: 1.5; background: #fffbeb; border: 1px solid #fcd34d; border-radius: 6px; padding: 8px;">
-    💡 Try <strong>time-series</strong> with key-range: all writes hit one partition!<br>
-    Then switch to <strong>hash</strong> — even distribution but no range queries.
+ <!-- 4. Chapter 6 Roadmap (Exact 6 TOC Sections) -->
+ <section class="slide content-slide compact-slide">
+  <h2>Chapter 6 Roadmap — 6 Core Sections</h2>
+  <p>From splitting primary keys to indexing, rebalancing, and routing requests across a live cluster.</p>
+  <div class="three-col" style="gap: 16px;">
+   <div class="compare-card">
+    <h3>6.1 Partitioning &amp; Replication</h3>
+    <p style="font-size: 1rem;">Terminology across DBs, shared-nothing architecture, and how leaders/followers combine with partitions.</p>
+   </div>
+   <div class="compare-card">
+    <h3>6.2 Key-Value Partitioning</h3>
+    <p style="font-size: 1rem;">Key range vs hash, timestamp hot spots, compound keys, and relieving celebrity skew.</p>
+   </div>
+   <div class="compare-card">
+    <h3>6.3 Secondary Indexes</h3>
+    <p style="font-size: 1rem;">Document-partitioned (local + scatter/gather) vs term-partitioned (global + async lag).</p>
+   </div>
+   <div class="compare-card">
+    <h3>6.4 Rebalancing Partitions</h3>
+    <p style="font-size: 1rem;">Why <code>mod N</code> fails, fixed vs dynamic vs proportional vnodes, and auto-rebalance cascades.</p>
+   </div>
+   <div class="compare-card">
+    <h3>6.5 Request Routing</h3>
+    <p style="font-size: 1rem;">Any-node gossip, routing tiers, smart clients, ZooKeeper watches, and MPP parallel queries.</p>
+   </div>
+   <div class="compare-card accent">
+    <h3>6.6 Summary &amp; Synthesis</h3>
+    <p style="font-size: 1rem;">End-to-end architecture decision tree, real DB cheat sheet, live Docker POC, and bridge to Ch. 7.</p>
    </div>
   </div>
-
-  <!-- Key Range side -->
-  <div style="flex: 1; display: flex; flex-direction: column; min-width: 0;">
-   <h3 style="font-size: 0.95rem; text-align: center; margin-bottom: 4px;">📊 Key Range Partitioning</h3>
-   <div id="p-range-bars" style="flex: 1; display: flex; align-items: flex-end; gap: 3px; padding: 4px; background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 8px;"></div>
-   <div id="p-range-stats" style="font-size: 0.72rem; margin-top: 4px; text-align: center;"></div>
-   <div id="p-range-note" style="font-size: 0.68rem; margin-top: 2px; text-align: center; color: #6b7280;"></div>
-  </div>
-
-  <!-- Hash side -->
-  <div style="flex: 1; display: flex; flex-direction: column; min-width: 0;">
-   <h3 style="font-size: 0.95rem; text-align: center; margin-bottom: 4px;">🔑 Hash Partitioning</h3>
-   <div id="p-hash-bars" style="flex: 1; display: flex; align-items: flex-end; gap: 3px; padding: 4px; background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 8px;"></div>
-   <div id="p-hash-stats" style="font-size: 0.72rem; margin-top: 4px; text-align: center;"></div>
-   <div id="p-hash-note" style="font-size: 0.68rem; margin-top: 2px; text-align: center; color: #6b7280;"></div>
-  </div>
- </div>
- </section>
- <!-- Lab: Rebalancing Simulator -->
- <section class="slide content-slide" id="rebalancing-lab-slide">
- <h2 style="margin-bottom:4px;">🔄 Rebalancing Simulator — What Happens When You Add a Node?</h2>
- <div style="display:flex;gap:10px;align-items:center;margin:4px 0;flex-wrap:wrap;font-size:0.85rem;">
- <label><b>Strategy:</b></label>
- <select id="rb-strategy" onchange="rbRender()" style="padding:5px 8px;border-radius:6px;border:2px solid #0277bd;font-size:0.82rem;">
- <option value="hashMod">hash mod N (BAD)</option>
- <option value="fixed" selected>Fixed # partitions</option>
- <option value="dynamic">Dynamic partitioning</option>
- </select>
- <button onclick="rbAddNode()" style="padding:6px 14px;background:#2e7d32;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:700;font-size:0.85rem;">+ Add Node</button>
- <button onclick="rbRemoveNode()" style="padding:6px 14px;background:#c62828;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:700;font-size:0.85rem;">− Remove Node</button>
- <button onclick="rbReset()" style="padding:6px 12px;background:#eee;border:1px solid #ccc;border-radius:8px;cursor:pointer;font-size:0.85rem;">Reset 🔄</button>
- <span id="rb-node-count" style="color:#666;font-size:0.82rem;">Nodes: 4</span>
- </div>
- <div style="display:flex;gap:10px;margin-top:4px;">
- <div style="flex:2;">
- <div id="rb-nodes" style="display:flex;gap:6px;flex-wrap:wrap;"></div>
- <div id="rb-moved" style="margin-top:6px;padding:8px 12px;border-radius:8px;font-size:0.82rem;background:#fff3e0;border:1px solid #ffcc80;display:none;"></div>
- </div>
- <div id="rb-explain" style="flex:1;background:#f5f5f5;border:1px solid #e0e0e0;border-radius:8px;padding:8px 10px;font-size:0.75rem;line-height:1.5;"></div>
- </div>
- <div style="background:#e1f5fe;border:1px solid #81d4fa;border-radius:8px;padding:5px 10px;margin-top:3px;font-size:0.75rem;">
- 💡 Based on <b>Ch6 "Rebalancing Partitions"</b>. <b>hash mod N</b> moves most keys when N changes. <b>Fixed partitions</b> pre-splits data and moves whole partitions. <b>Dynamic</b> splits/merges partitions as data grows.
- </div>
  </section>
 
- <!-- 24. Section: Summary -->
+ <!-- ==================== 6.1 PARTITIONING AND REPLICATION ==================== -->
  <section class="slide section-header">
- <h2>Summary</h2>
- <p style="font-size: 1.5rem; opacity: 0.7; margin-top: 20px;">Partitioning approaches, indexes, rebalancing, and routing</p>
+  <span class="part-pill">Section 6.1</span>
+  <h2>Partitioning and Replication</h2>
+  <p style="font-size: 1.4rem; opacity: 0.8; margin-top: 18px;">Shared vocabulary &amp; combining fault tolerance with horizontal scale</p>
  </section>
- <!-- 25. Summary -->
- <section class="slide content-slide">
- <h2>Chapter 6 Summary</h2>
- <div class="two-col" style="margin-top: 15px;">
- <div>
- <h3 style="margin-bottom: 10px;">Partitioning Strategies</h3>
- <ul>
- <li><strong>Key range</strong> — sorted, range queries, but hot spot risk</li>
- <li><strong>Hash</strong> — even distribution, but no range queries</li>
- <li><strong>Compound key</strong> — hash + sort (Cassandra)</li>
- </ul>
- <h3 style="margin-top: 20px; margin-bottom: 10px;">Secondary Indexes</h3>
- <ul>
- <li><strong>Local (document)</strong> — fast writes, scatter/gather reads</li>
- <li><strong>Global (term)</strong> — fast reads, complex writes</li>
- </ul>
- </div>
- <div>
- <h3 style="margin-bottom: 10px;">Rebalancing</h3>
- <ul>
- <li>Fixed partitions, dynamic splitting, or per-node</li>
- <li>Never use <code>hash mod N</code>!</li>
- <li>Human-in-the-loop is safer</li>
- </ul>
- <h3 style="margin-top: 20px; margin-bottom: 10px;">Request Routing</h3>
- <ul>
- <li>Any-node, routing tier, or smart client</li>
- <li>ZooKeeper or gossip protocol</li>
- </ul>
- </div>
- </div>
- <p style="margin-top: 15px;">Next: what happens when writes to <strong>multiple partitions</strong> need to succeed or fail together? → <strong>Transactions (Ch 7)</strong></p>
+
+ <!-- 6. Terminology & Netsplit Disambiguation -->
+ <section class="slide content-slide compact-slide">
+  <h2>Same Idea, Six Different Names (Plus One Trap)</h2>
+  <div class="two-col" style="gap: 24px; align-items: start;">
+   <div>
+    <table class="matrix-table">
+     <thead>
+      <tr><th>Database / System</th><th>Term for "Partition"</th></tr>
+     </thead>
+     <tbody>
+      <tr><td><strong>MongoDB, Elasticsearch, SolrCloud</strong></td><td><span class="tag">Shard</span></td></tr>
+      <tr><td><strong>Apache HBase</strong></td><td><span class="tag">Region</span></td></tr>
+      <tr><td><strong>Google Bigtable</strong></td><td><span class="tag">Tablet</span></td></tr>
+      <tr><td><strong>Apache Cassandra, Riak</strong></td><td><span class="tag">vnode (Virtual Node)</span></td></tr>
+      <tr><td><strong>Couchbase</strong></td><td><span class="tag">vBucket</span></td></tr>
+     </tbody>
+    </table>
+   </div>
+   <div>
+    <div class="compare-card accent">
+     <h3>⚠️ Footnote (i): Don't Confuse These!</h3>
+     <p style="font-size: 1.05rem; margin-top: 8px;"><strong>Database Partition (Sharding)</strong><br>Intentional horizontal split of a large dataset across nodes so each node stores a subset.</p>
+     <hr style="margin: 12px 0; border: none; border-top: 1px solid #93c5fd;">
+     <p style="font-size: 1.05rem;"><strong>Network Partition (Netsplit — Ch. 8)</strong><br>An accidental network fault cutting nodes off from communicating with each other.</p>
+    </div>
+   </div>
+  </div>
  </section>
- <!-- 26. Questions -->
+
+ <!-- 7. Combining Partitioning & Replication (Fig 6-1) -->
+ <section class="slide content-slide with-image compact-slide">
+  <div>
+   <h2>Combining Partitioning &amp; Replication</h2>
+   <p>In practice, partitioning and replication are <strong>combined</strong> so each partition has copies on multiple nodes.</p>
+   <ul>
+    <li>A single node stores <strong>multiple partitions</strong></li>
+    <li>Each node can be <strong>Leader</strong> for some partitions and <strong>Follower</strong> for others</li>
+    <li>Everything from Ch. 5 (sync/async, failover) applies <em>per partition</em></li>
+    <li>Partitioning choice is largely <strong>independent</strong> of replication choice</li>
+   </ul>
+  </div>
+  <div class="image-box">
+   <img src="images/ddia_0601.png" alt="Figure 6-1: Combining replication and partitioning" />
+  </div>
+ </section>
+
+ <!-- 8. Visual Trace: Write & Read on Partitioned Replicas -->
+ <section class="slide content-slide compact-slide">
+  <h2>Under the Hood: Routing a Write to Partition 4</h2>
+  <p>Notice in Figure 6-1: a write only hits the <strong>Leader</strong> of the target partition — other leaders stay untouched.</p>
+  <div class="svg-wrap">
+   <svg viewBox="0 0 920 270" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+     <marker id="arrB" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#2563eb"/></marker>
+     <marker id="arrG" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#059669"/></marker>
+    </defs>
+    <!-- Client -->
+    <rect x="20" y="95" width="130" height="72" rx="10" fill="#0f172a"/>
+    <text x="85" y="126" text-anchor="middle" font-family="Inter,sans-serif" font-size="14" font-weight="700" fill="#fff">Client</text>
+    <text x="85" y="148" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" fill="#93c5fd">PUT key → P4</text>
+
+    <!-- Node 4 (P4 Leader) -->
+    <rect x="235" y="30" width="210" height="205" rx="12" fill="#eff6ff" stroke="#2563eb" stroke-width="2.5"/>
+    <text x="340" y="58" text-anchor="middle" font-family="Inter,sans-serif" font-size="15" font-weight="800" fill="#1e3a8a">Node 4</text>
+    <rect x="255" y="72" width="170" height="44" rx="8" fill="#2563eb"/>
+    <text x="340" y="99" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="700" fill="#fff">Partition 4 LEADER</text>
+    <rect x="255" y="126" width="170" height="40" rx="8" fill="#fff" stroke="#cbd5e1"/>
+    <text x="340" y="151" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" fill="#475569">Partition 1 Follower</text>
+    <rect x="255" y="176" width="170" height="40" rx="8" fill="#fff" stroke="#cbd5e1"/>
+    <text x="340" y="201" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" fill="#475569">Partition 3 Follower</text>
+
+    <!-- Arrow Client -> Node 4 -->
+    <path d="M150,131 L250,96" stroke="#2563eb" stroke-width="3" fill="none" marker-end="url(#arrB)"/>
+    <text x="195" y="100" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" font-weight="700" fill="#2563eb">1. Write</text>
+
+    <!-- Node 2 (P4 Follower) -->
+    <rect x="545" y="20" width="210" height="105" rx="12" fill="#ecfdf5" stroke="#059669" stroke-width="2"/>
+    <text x="650" y="46" text-anchor="middle" font-family="Inter,sans-serif" font-size="14" font-weight="800" fill="#065f46">Node 2</text>
+    <rect x="565" y="58" width="170" height="48" rx="8" fill="#fff" stroke="#10b981" stroke-width="2"/>
+    <text x="650" y="87" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="700" fill="#047857">Partition 4 Follower</text>
+
+    <!-- Node 3 (P4 Follower) -->
+    <rect x="545" y="145" width="210" height="105" rx="12" fill="#ecfdf5" stroke="#059669" stroke-width="2"/>
+    <text x="650" y="171" text-anchor="middle" font-family="Inter,sans-serif" font-size="14" font-weight="800" fill="#065f46">Node 3</text>
+    <rect x="565" y="183" width="170" height="48" rx="8" fill="#fff" stroke="#10b981" stroke-width="2"/>
+    <text x="650" y="212" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="700" fill="#047857">Partition 4 Follower</text>
+
+    <!-- Replication Streams -->
+    <path d="M425,90 L560,82" stroke="#059669" stroke-width="2.5" stroke-dasharray="6,4" fill="none" marker-end="url(#arrG)"/>
+    <path d="M425,102 L560,204" stroke="#059669" stroke-width="2.5" stroke-dasharray="6,4" fill="none" marker-end="url(#arrG)"/>
+    <text x="492" y="75" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" font-weight="700" fill="#059669">2. Replicate</text>
+
+    <!-- Takeaway Box -->
+    <rect x="775" y="65" width="135" height="140" rx="10" fill="#fffbeb" stroke="#f59e0b" stroke-width="1.5"/>
+    <text x="842" y="95" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" font-weight="800" fill="#92400e">Orthogonal</text>
+    <text x="842" y="116" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="#78350f">Any replication</text>
+    <text x="842" y="133" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="#78350f">model works:</text>
+    <text x="842" y="153" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" font-weight="700" fill="#78350f">• Single-Leader</text>
+    <text x="842" y="170" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" font-weight="700" fill="#78350f">• Multi-Leader</text>
+    <text x="842" y="187" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" font-weight="700" fill="#78350f">• Leaderless</text>
+   </svg>
+  </div>
+ </section>
+
+ <!-- ==================== 6.2 PARTITIONING OF KEY-VALUE DATA ==================== -->
+ <section class="slide section-header">
+  <span class="part-pill">Section 6.2</span>
+  <h2>Partitioning of Key-Value Data</h2>
+  <p style="font-size: 1.4rem; opacity: 0.8; margin-top: 18px;">Key range vs hash, compound keys, and fighting skewed hot spots</p>
+ </section>
+
+ <!-- 10. Skew, Hot Spots, and Why Random Fails -->
+ <section class="slide content-slide compact-slide">
+  <h2>The Goal vs The Enemy vs Naive Random</h2>
+  <div class="svg-wrap">
+   <svg viewBox="0 0 920 300" xmlns="http://www.w3.org/2000/svg" font-family="Inter,sans-serif">
+    <!-- Panel 1: Fair -->
+    <rect x="10" y="10" width="285" height="280" rx="12" fill="#ecfdf5" stroke="#6ee7b7" stroke-width="2"/>
+    <text x="152" y="40" text-anchor="middle" font-size="16" font-weight="800" fill="#065f46">✅ Fair Partitioning</text>
+    <rect x="45" y="110" width="38" height="100" rx="5" fill="#10b981"/>
+    <rect x="100" y="110" width="38" height="100" rx="5" fill="#10b981"/>
+    <rect x="155" y="110" width="38" height="100" rx="5" fill="#10b981"/>
+    <rect x="210" y="110" width="38" height="100" rx="5" fill="#10b981"/>
+    <text x="152" y="242" text-anchor="middle" font-size="12" font-weight="700" fill="#065f46">10 nodes = 10× data &amp; 10× QPS</text>
+    <text x="152" y="264" text-anchor="middle" font-size="11" fill="#047857">Data and query load spread evenly</text>
+
+    <!-- Panel 2: Skewed -->
+    <rect x="315" y="10" width="290" height="280" rx="12" fill="#fef2f2" stroke="#fca5a5" stroke-width="2"/>
+    <text x="460" y="40" text-anchor="middle" font-size="16" font-weight="800" fill="#991b1b">🔥 Skew &amp; Hot Spot</text>
+    <rect x="350" y="195" width="38" height="15" rx="3" fill="#cbd5e1"/>
+    <rect x="405" y="195" width="38" height="15" rx="3" fill="#cbd5e1"/>
+    <rect x="460" y="65" width="38" height="145" rx="5" fill="#ef4444"/>
+    <text x="479" y="58" text-anchor="middle" font-size="13" font-weight="800" fill="#dc2626">HOT!</text>
+    <rect x="515" y="195" width="38" height="15" rx="3" fill="#cbd5e1"/>
+    <text x="460" y="242" text-anchor="middle" font-size="12" font-weight="700" fill="#991b1b">9 nodes idle, 1 node melts</text>
+    <text x="460" y="264" text-anchor="middle" font-size="11" fill="#b91c1c">Bottlenecked by single busy partition</text>
+
+    <!-- Panel 3: Random -->
+    <rect x="625" y="10" width="285" height="280" rx="12" fill="#fffbeb" stroke="#fcd34d" stroke-width="2"/>
+    <text x="767" y="40" text-anchor="middle" font-size="16" font-weight="800" fill="#92400e">🎲 Random Assignment</text>
+    <rect x="720" y="62" width="94" height="32" rx="6" fill="#0f172a"/>
+    <text x="767" y="83" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">GET "key_7"</text>
+    <line x1="767" y1="94" x2="670" y2="145" stroke="#d97706" stroke-width="2"/>
+    <line x1="767" y1="94" x2="735" y2="145" stroke="#d97706" stroke-width="2"/>
+    <line x1="767" y1="94" x2="800" y2="145" stroke="#d97706" stroke-width="2"/>
+    <line x1="767" y1="94" x2="865" y2="145" stroke="#d97706" stroke-width="2"/>
+    <rect x="650" y="148" width="40" height="45" rx="5" fill="#fde68a" stroke="#d97706"/>
+    <rect x="715" y="148" width="40" height="45" rx="5" fill="#fde68a" stroke="#d97706"/>
+    <rect x="780" y="148" width="40" height="45" rx="5" fill="#fde68a" stroke="#d97706"/>
+    <rect x="845" y="148" width="40" height="45" rx="5" fill="#fde68a" stroke="#d97706"/>
+    <text x="767" y="242" text-anchor="middle" font-size="12" font-weight="700" fill="#92400e">Even writes, terrible reads!</text>
+    <text x="767" y="264" text-anchor="middle" font-size="11" fill="#78350f">Must query ALL nodes in parallel to find 1 key</text>
+   </svg>
+  </div>
+ </section>
+
+ <!-- 11. 6.2.1 Partitioning by Key Range (Fig 6-2) -->
+ <section class="slide content-slide with-image compact-slide">
+  <div>
+   <span class="tag">6.2.1 Key Range</span>
+   <h2>Partitioning by Key Range</h2>
+   <p>Assign a continuous range of keys (<code>min → max</code>) to each partition — just like volumes of a print encyclopedia.</p>
+   <ul>
+    <li>Boundaries <strong>adapt to data skew</strong> (Vol 1: <code>A–B</code>, Vol 12: <code>T–Z</code>)</li>
+    <li>Inside each partition, keys stay <strong>sorted</strong> (SSTables / LSM-Trees)</li>
+    <li><strong>Range scans</strong> &amp; concatenated indexes are super fast</li>
+   </ul>
+   <p style="margin-top: 10px;">Used by: <span class="tag">Bigtable</span> <span class="tag">HBase</span> <span class="tag">RethinkDB</span> <span class="tag">MongoDB &lt;2.4</span></p>
+  </div>
+  <div class="image-box">
+   <img src="images/ddia_0602.png" alt="Figure 6-2: Print encyclopedia partitioned by key range" />
+  </div>
+ </section>
+
+ <!-- 12. Key-Range Superpower & Trap: Timestamps -->
+ <section class="slide content-slide compact-slide">
+  <h2>The Key-Range Trap: Time-Series Hot Spots</h2>
+  <p>If your key is a timestamp (<code>YYYY-MM-DD-HH:MM:SS</code>), range scans for "last month" are trivial — <strong>but all live writes hit today's partition!</strong></p>
+  <div class="svg-wrap">
+   <svg viewBox="0 0 920 265" xmlns="http://www.w3.org/2000/svg" font-family="Inter,sans-serif">
+    <defs><marker id="arrR" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#dc2626"/></marker></defs>
+    <!-- Stream of writes -->
+    <rect x="20" y="55" width="220" height="150" rx="10" fill="#0f172a"/>
+    <text x="130" y="84" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">10,000 Sensors Writing NOW</text>
+    <text x="130" y="112" text-anchor="middle" font-size="12" fill="#93c5fd">2026-11-23-04:15:01</text>
+    <text x="130" y="135" text-anchor="middle" font-size="12" fill="#93c5fd">2026-11-23-04:15:02</text>
+    <text x="130" y="158" text-anchor="middle" font-size="12" fill="#93c5fd">2026-11-23-04:15:03</text>
+    <text x="130" y="185" text-anchor="middle" font-size="11" fill="#fcd34d">Monotonically increasing keys!</text>
+
+    <!-- Partitions -->
+    <rect x="330" y="30" width="130" height="205" rx="10" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="2"/>
+    <text x="395" y="60" text-anchor="middle" font-size="14" font-weight="700" fill="#475569">Partition 1</text>
+    <text x="395" y="82" text-anchor="middle" font-size="12" fill="#64748b">Nov 20</text>
+    <text x="395" y="150" text-anchor="middle" font-size="13" font-weight="700" fill="#94a3b8">0 writes/s</text>
+
+    <rect x="475" y="30" width="130" height="205" rx="10" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="2"/>
+    <text x="540" y="60" text-anchor="middle" font-size="14" font-weight="700" fill="#475569">Partition 2</text>
+    <text x="540" y="82" text-anchor="middle" font-size="12" fill="#64748b">Nov 21</text>
+    <text x="540" y="150" text-anchor="middle" font-size="13" font-weight="700" fill="#94a3b8">0 writes/s</text>
+
+    <rect x="620" y="30" width="130" height="205" rx="10" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="2"/>
+    <text x="685" y="60" text-anchor="middle" font-size="14" font-weight="700" fill="#475569">Partition 3</text>
+    <text x="685" y="82" text-anchor="middle" font-size="12" fill="#64748b">Nov 22</text>
+    <text x="685" y="150" text-anchor="middle" font-size="13" font-weight="700" fill="#94a3b8">0 writes/s</text>
+
+    <rect x="765" y="30" width="140" height="205" rx="10" fill="#fef2f2" stroke="#ef4444" stroke-width="3"/>
+    <text x="835" y="60" text-anchor="middle" font-size="14" font-weight="800" fill="#991b1b">Partition 4 🔥</text>
+    <text x="835" y="82" text-anchor="middle" font-size="12" font-weight="700" fill="#b91c1c">Nov 23 (TODAY)</text>
+    <text x="835" y="150" text-anchor="middle" font-size="14" font-weight="800" fill="#dc2626">100% LOAD!</text>
+
+    <path d="M240,115 C380,10 640,10 760,90" stroke="#dc2626" stroke-width="3" fill="none" marker-end="url(#arrR)"/>
+    <path d="M240,135 C420,190 650,210 760,155" stroke="#dc2626" stroke-width="3" fill="none" marker-end="url(#arrR)"/>
+   </svg>
+  </div>
+ </section>
+
+ <!-- 13. Fixing Timestamp Skew: Sensor Prefixing & Read Trade-Off -->
+ <section class="slide content-slide compact-slide">
+  <h2>Fixing Timestamp Skew: Prefix With Sensor Name</h2>
+  <div class="two-col" style="gap: 24px;">
+   <div class="compare-card">
+    <h3>❌ Raw Timestamp Key</h3>
+    <div class="code-block" style="font-size: 0.95rem;">key = "2026-11-23-04:15:01"</div>
+    <ul style="font-size: 1rem; margin-top: 12px;">
+     <li><strong>Writes:</strong> 100% slam today's partition</li>
+     <li><strong>Read all sensors for Nov:</strong> 1 single range scan</li>
+    </ul>
+   </div>
+   <div class="compare-card accent">
+    <h3>✅ Sensor-Prefixed Key</h3>
+    <div class="code-block" style="font-size: 0.95rem;">key = "sensor_42/2026-11-23-04:15:01"</div>
+    <ul style="font-size: 1rem; margin-top: 12px;">
+     <li><strong>Writes:</strong> Spread evenly across all sensor partitions</li>
+     <li><strong>Read Trade-Off:</strong> Querying 50 sensors over a time range now requires <strong>50 separate range queries</strong></li>
+    </ul>
+   </div>
+  </div>
+  <div class="tip-banner">
+   <strong>Key Insight:</strong> Partitioning first by <code>sensor_name</code> and second by <code>timestamp</code> removes the write bottleneck, at the cost of per-sensor read queries.
+  </div>
+ </section>
+
+ <!-- 14. 6.2.2 Partitioning by Hash of Key (Fig 6-3) -->
+ <section class="slide content-slide with-image compact-slide">
+  <div>
+   <span class="tag">6.2.2 Hash of Key</span>
+   <h2>Partitioning by Hash of Key</h2>
+   <p>Feed the key into a deterministic hash function → assign <strong>ranges of hashes</strong> to each partition.</p>
+   <ul>
+    <li>Similar timestamps (<code>17:08:10</code>, <code>17:08:11</code>) hash to wildly different numbers → <strong>uniform spread</strong></li>
+    <li>Need not be cryptographic: <span class="tag">MD5 (MongoDB)</span> <span class="tag">Murmur3 (Cassandra)</span> <span class="tag">FNV (Voldemort)</span></li>
+    <li>Ranges can be evenly spaced, or chosen pseudorandomly</li>
+   </ul>
+  </div>
+  <div class="image-box">
+   <img src="images/ddia_0603.png" alt="Figure 6-3: Partitioning by hash of key" />
+  </div>
+ </section>
+
+ <!-- 15. Language Hash Trap & Consistent Hashing Myth -->
+ <section class="slide content-slide compact-slide">
+  <h2>Two Subtle Traps in Hash Partitioning</h2>
+  <div class="two-col" style="gap: 24px;">
+   <div class="compare-card">
+    <h3>❌ Trap 1: Built-In Language Hashes</h3>
+    <p style="font-size: 1rem;"><code>Java Object.hashCode()</code> &amp; <code>Ruby Object#hash</code> can differ across processes/restarts!</p>
+    <div class="svg-wrap" style="margin-top: 10px; padding: 10px;">
+     <svg viewBox="0 0 380 135" xmlns="http://www.w3.org/2000/svg" font-family="Inter,sans-serif">
+      <rect x="8" y="10" width="165" height="52" rx="8" fill="#fee2e2" stroke="#ef4444"/>
+      <text x="90" y="32" text-anchor="middle" font-size="12" font-weight="700" fill="#991b1b">JVM Process A</text>
+      <text x="90" y="50" text-anchor="middle" font-size="11" fill="#7f1d1d">hash("foo") = 101574 → P2</text>
+      <rect x="205" y="10" width="165" height="52" rx="8" fill="#fee2e2" stroke="#ef4444"/>
+      <text x="287" y="32" text-anchor="middle" font-size="12" font-weight="700" fill="#991b1b">JVM Process B</text>
+      <text x="287" y="50" text-anchor="middle" font-size="11" fill="#7f1d1d">hash("foo") = 884121 → P1</text>
+      <rect x="38" y="80" width="304" height="44" rx="8" fill="#ecfdf5" stroke="#10b981"/>
+      <text x="190" y="100" text-anchor="middle" font-size="12" font-weight="700" fill="#065f46">✅ Use Murmur3 / MD5 / FNV</text>
+      <text x="190" y="116" text-anchor="middle" font-size="11" fill="#047857">Always returns identical bits on every machine</text>
+     </svg>
+    </div>
+   </div>
+   <div class="compare-card accent">
+    <h3>⚠️ Trap 2: "Consistent Hashing" Confusion</h3>
+    <ul style="font-size: 1rem; margin-top: 8px;">
+     <li>Coined by Karger et al. (1997) for <strong>CDNs/caches</strong> with randomly chosen ring boundaries to avoid central control.</li>
+     <li>Nothing to do with Ch. 5 replica consistency or ACID consistency!</li>
+     <li>Actually works <strong>poorly for databases</strong> (unbalanced splits), so real DBs use fixed/dynamic hash ranges instead.</li>
+     <li><strong>Kleppmann's advice:</strong> Just say <em>hash partitioning</em>.</li>
+    </ul>
+   </div>
+  </div>
+ </section>
+
+ <!-- 16. What Hash Partitioning Loses: Range Queries -->
+ <section class="slide content-slide compact-slide">
+  <h2>The Price of Hashing: Range Queries Break</h2>
+  <p>Adjacent keys that lived side-by-side are now scattered across every partition — sort order is destroyed.</p>
+  <div class="svg-wrap">
+   <svg viewBox="0 0 920 265" xmlns="http://www.w3.org/2000/svg" font-family="Inter,sans-serif">
+    <!-- Left: Key Range -->
+    <rect x="10" y="10" width="435" height="245" rx="12" fill="#ecfdf5" stroke="#6ee7b7" stroke-width="2"/>
+    <text x="227" y="40" text-anchor="middle" font-size="16" font-weight="800" fill="#065f46">Key Range: SELECT * WHERE id BETWEEN 101 AND 104</text>
+    <rect x="35" y="62" width="175" height="125" rx="8" fill="#fff" stroke="#10b981" stroke-width="2.5"/>
+    <text x="122" y="86" text-anchor="middle" font-size="13" font-weight="800" fill="#047857">Partition 0 (1 node!)</text>
+    <text x="122" y="110" text-anchor="middle" font-size="12" fill="#0f172a">101 → Alice</text>
+    <text x="122" y="130" text-anchor="middle" font-size="12" fill="#0f172a">102 → Bob</text>
+    <text x="122" y="150" text-anchor="middle" font-size="12" fill="#0f172a">103 → Carol</text>
+    <text x="122" y="170" text-anchor="middle" font-size="12" fill="#0f172a">104 → Dave</text>
+    <rect x="235" y="62" width="185" height="125" rx="8" fill="#f8fafc" stroke="#cbd5e1"/>
+    <text x="327" y="128" text-anchor="middle" font-size="12" fill="#64748b">Partitions 1, 2, 3 untouched</text>
+    <text x="227" y="224" text-anchor="middle" font-size="13" font-weight="700" fill="#065f46">✅ Sequential disk scan on 1 partition</text>
+
+    <!-- Right: Hash -->
+    <rect x="475" y="10" width="435" height="245" rx="12" fill="#fef2f2" stroke="#fca5a5" stroke-width="2"/>
+    <text x="692" y="40" text-anchor="middle" font-size="16" font-weight="800" fill="#991b1b">Hash Partitioned: Same Range Query</text>
+    <g font-size="12" text-anchor="middle">
+     <rect x="495" y="65" width="88" height="115" rx="8" fill="#fff" stroke="#ef4444" stroke-width="2"/>
+     <text x="539" y="88" font-weight="700" fill="#991b1b">P0</text>
+     <text x="539" y="125" fill="#0f172a">102→Bob</text>
+
+     <rect x="597" y="65" width="88" height="115" rx="8" fill="#fff" stroke="#ef4444" stroke-width="2"/>
+     <text x="641" y="88" font-weight="700" fill="#991b1b">P1</text>
+     <text x="641" y="125" fill="#0f172a">104→Dave</text>
+
+     <rect x="699" y="65" width="88" height="115" rx="8" fill="#fff" stroke="#ef4444" stroke-width="2"/>
+     <text x="743" y="88" font-weight="700" fill="#991b1b">P2</text>
+     <text x="743" y="125" fill="#0f172a">101→Alice</text>
+
+     <rect x="801" y="65" width="88" height="115" rx="8" fill="#fff" stroke="#ef4444" stroke-width="2"/>
+     <text x="845" y="88" font-weight="700" fill="#991b1b">P3</text>
+     <text x="845" y="125" fill="#0f172a">103→Carol</text>
+    </g>
+    <text x="692" y="224" text-anchor="middle" font-size="13" font-weight="700" fill="#991b1b">❌ Must send range query to ALL partitions (MongoDB) or unsupported (Riak/Couchbase)</text>
+   </svg>
+  </div>
+ </section>
+
+ <!-- 17. Cassandra's Compound Primary Key Compromise -->
+ <section class="slide content-slide compact-slide">
+  <h2>Best of Both Worlds: Cassandra's Compound Key</h2>
+  <p>Hash the <strong>first column</strong> to choose the partition; keep remaining columns <strong>sorted inside the partition's SSTable</strong>.</p>
+  <div class="svg-wrap">
+   <svg viewBox="0 0 920 265" xmlns="http://www.w3.org/2000/svg" font-family="Inter,sans-serif">
+    <defs><marker id="arrC" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#2563eb"/></marker></defs>
+    <rect x="130" y="14" width="660" height="58" rx="10" fill="#0f172a"/>
+    <text x="460" y="40" text-anchor="middle" font-size="15" font-weight="700" fill="#fff">PRIMARY KEY ( ( <tspan fill="#60a5fa">user_id</tspan> ), <tspan fill="#34d399">update_timestamp</tspan> )</text>
+    <text x="345" y="60" text-anchor="middle" font-size="11" fill="#93c5fd">↑ Partition Key (Hashed)</text>
+    <text x="585" y="60" text-anchor="middle" font-size="11" fill="#6ee7b7">↑ Clustering Key (Sorted)</text>
+
+    <path d="M345,72 L240,115" stroke="#2563eb" stroke-width="2.5" fill="none" marker-end="url(#arrC)"/>
+    <path d="M585,72 L660,115" stroke="#059669" stroke-width="2.5" fill="none" marker-end="url(#arrC)"/>
+
+    <rect x="40" y="120" width="380" height="125" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+    <text x="230" y="148" text-anchor="middle" font-size="14" font-weight="800" fill="#1e3a8a">1. Hash(user_id) → Partition 2</text>
+    <text x="230" y="175" text-anchor="middle" font-size="12" fill="#1e40af">• Different users spread evenly across nodes</text>
+    <text x="230" y="198" text-anchor="middle" font-size="12" fill="#1e40af">• ❌ Can't range-scan across multiple users</text>
+    <text x="230" y="221" text-anchor="middle" font-size="12" fill="#1e40af">• ✅ All of user_42's posts live on ONE partition</text>
+
+    <rect x="465" y="120" width="415" height="125" rx="10" fill="#ecfdf5" stroke="#059669" stroke-width="2"/>
+    <text x="672" y="148" text-anchor="middle" font-size="14" font-weight="800" fill="#065f46">2. Sorted by update_timestamp in SSTable</text>
+    <text x="672" y="176" text-anchor="middle" font-size="12" fill="#047857"><code>user_42 | 2026-11-23 09:00</code> → "Morning!"</text>
+    <text x="672" y="198" text-anchor="middle" font-size="12" fill="#047857"><code>user_42 | 2026-11-23 11:30</code> → "Coffee time"</text>
+    <text x="672" y="222" text-anchor="middle" font-size="12" font-weight="700" fill="#065f46">✅ Ideal 1-to-many model (user → timeline posts)</text>
+   </svg>
+  </div>
+ </section>
+
+ <!-- 18. 6.2.3 Skewed Workloads: The Celebrity Problem -->
+ <section class="slide content-slide compact-slide">
+  <h2><span class="tag">6.2.3 Skewed Workloads</span> Even Hashing Can't Save You From One Hot Key</h2>
+  <p>Hashing distributes <em>distinct</em> keys evenly — but if millions of users comment on <strong>the exact same celebrity key</strong>, all traffic hashes to the <strong>same partition</strong>.</p>
+  <div class="two-col" style="margin-top: 10px;">
+   <div class="stat-box" style="margin: 0;">
+    <div class="number">3%</div>
+    <div class="label">of Twitter's servers once dedicated to a single celebrity user (Justin Bieber, 2010)</div>
+   </div>
+   <div class="compare-card accent">
+    <h3>Why Hashing Fails Here</h3>
+    <div class="code-block" style="font-size: 0.9rem;">Murmur3("celeb_bieber") == Murmur3("celeb_bieber")
+// Identical key → identical hash → ALWAYS Partition 2!</div>
+    <p style="font-size: 1rem; margin-top: 10px;">Today, most databases <strong>do not auto-mitigate</strong> single-key skew — the application must split the key.</p>
+   </div>
+  </div>
+ </section>
+
+ <!-- 19. Key Salting Walkthrough -->
+ <section class="slide content-slide compact-slide">
+  <h2>Relieving Hot Spots: Key Salting &amp; Its Read Tax</h2>
+  <div class="svg-wrap">
+   <svg viewBox="0 0 920 280" xmlns="http://www.w3.org/2000/svg" font-family="Inter,sans-serif">
+    <defs><marker id="arrS" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#2563eb"/></marker></defs>
+    <!-- Write Path -->
+    <rect x="15" y="15" width="435" height="250" rx="12" fill="#eff6ff" stroke="#93c5fd" stroke-width="2"/>
+    <text x="232" y="44" text-anchor="middle" font-size="16" font-weight="800" fill="#1e3a8a">Write Path: Append Random 2-Digit Salt</text>
+    <rect x="35" y="65" width="165" height="60" rx="8" fill="#0f172a"/>
+    <text x="117" y="90" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">celeb_123</text>
+    <text x="117" y="110" text-anchor="middle" font-size="11" fill="#fcd34d">+ rand(00..99)</text>
+
+    <path d="M200,82 L270,75" stroke="#2563eb" stroke-width="2" marker-end="url(#arrS)"/>
+    <path d="M200,95 L270,122" stroke="#2563eb" stroke-width="2" marker-end="url(#arrS)"/>
+    <path d="M200,108 L270,170" stroke="#2563eb" stroke-width="2" marker-end="url(#arrS)"/>
+
+    <rect x="275" y="60" width="155" height="32" rx="6" fill="#fff" stroke="#2563eb"/>
+    <text x="352" y="81" text-anchor="middle" font-size="12" font-weight="700" fill="#1d4ed8">celeb_123_04 → P1</text>
+    <rect x="275" y="106" width="155" height="32" rx="6" fill="#fff" stroke="#2563eb"/>
+    <text x="352" y="127" text-anchor="middle" font-size="12" font-weight="700" fill="#1d4ed8">celeb_123_47 → P7</text>
+    <rect x="275" y="152" width="155" height="32" rx="6" fill="#fff" stroke="#2563eb"/>
+    <text x="352" y="173" text-anchor="middle" font-size="12" font-weight="700" fill="#1d4ed8">celeb_123_91 → P3</text>
+    <text x="232" y="220" text-anchor="middle" font-size="12" font-weight="700" fill="#065f46">✅ Write load split across 100 keys/partitions!</text>
+    <text x="232" y="242" text-anchor="middle" font-size="11" fill="#1e40af">Only apply to tracked hot keys (extra bookkeeping)</text>
+
+    <!-- Read Path -->
+    <rect x="470" y="15" width="435" height="250" rx="12" fill="#fffbeb" stroke="#fcd34d" stroke-width="2"/>
+    <text x="687" y="44" text-anchor="middle" font-size="16" font-weight="800" fill="#92400e">Read Path: Pay the 100-Way Scatter Tax</text>
+    <rect x="495" y="68" width="155" height="40" rx="8" fill="#fff" stroke="#d97706" stroke-width="2"/>
+    <text x="572" y="93" text-anchor="middle" font-size="12" font-weight="700" fill="#92400e">Read celeb_123_00..99</text>
+    <rect x="705" y="68" width="175" height="112" rx="8" fill="#fff" stroke="#d97706" stroke-width="2"/>
+    <text x="792" y="92" text-anchor="middle" font-size="12" font-weight="700" fill="#92400e">Query ALL 100 keys</text>
+    <text x="792" y="114" text-anchor="middle" font-size="11" fill="#78350f">across partitions</text>
+    <text x="792" y="136" text-anchor="middle" font-size="12" font-weight="800" fill="#b45309">↓</text>
+    <text x="792" y="158" text-anchor="middle" font-size="12" font-weight="700" fill="#0f172a">Combine &amp; Sort</text>
+    <path d="M650,88 L700,88" stroke="#d97706" stroke-width="2.5" marker-end="url(#arrS)"/>
+    <text x="687" y="220" text-anchor="middle" font-size="12" font-weight="700" fill="#b45309">⚠️ Too expensive for normal keys!</text>
+    <text x="687" y="242" text-anchor="middle" font-size="11" fill="#78350f">Requires hot-key registry to know which keys are salted</text>
+   </svg>
+  </div>
+ </section>
+
+ <!-- 20. Interactive Lab 1: Partitioning Strategy Lab -->
+ <section class="slide" id="partition-lab-slide" style="padding: 15px 25px 52px; text-align: left; align-items: stretch; justify-content: flex-start;">
+  <h2 style="font-size: 1.4rem; margin-bottom: 6px; text-align: center;">🔬 Interactive Lab — Key Range vs Hash &amp; Hot Spot Mitigation</h2>
+  <div style="display: flex; gap: 12px; height: calc(100vh - 102px);">
+   <div style="flex: 0 0 220px; display: flex; flex-direction: column; gap: 6px; font-size: 0.78rem;">
+    <label style="font-weight: 700;">Dataset pattern:</label>
+    <select id="p-pattern" onchange="pGenerate()" style="padding: 5px; border: 2px solid #e2e8f0; border-radius: 6px; font-size: 0.8rem;">
+     <option value="uniform">Uniform random</option>
+     <option value="timeseries" selected>Time-series (timestamps)</option>
+     <option value="sensor_prefix">Time-series + sensor prefix</option>
+     <option value="skewed">Celebrity single hot key</option>
+     <option value="skewed_salted">Celebrity + 2-digit salting</option>
+     <option value="alphabetical">Alphabetical names</option>
+    </select>
+    <label style="font-weight: 700; margin-top: 4px;">Partitions: <span id="p-count-val">4</span></label>
+    <input type="range" id="p-count" min="2" max="8" value="4" oninput="document.getElementById('p-count-val').textContent=this.value; pDistribute()" style="width: 100%;">
+    <label style="font-weight: 700; margin-top: 4px;">Keys: <span id="p-keys-val">200</span></label>
+    <input type="range" id="p-keys" min="50" max="500" value="200" step="50" oninput="document.getElementById('p-keys-val').textContent=this.value; pGenerate()" style="width: 100%;">
+    <button onclick="pGenerate()" style="margin-top: 6px; padding: 7px; background: var(--accent); color: white; border: none; border-radius: 6px; font-size: 0.8rem; font-weight: 600; cursor: pointer;">Generate Keys 🔄</button>
+    <div id="p-info" style="margin-top: 6px; background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 8px; padding: 8px; font-size: 0.72rem; line-height: 1.5;"></div>
+    <div style="margin-top: auto; font-size: 0.7rem; line-height: 1.5; background: #fffbeb; border: 1px solid #fcd34d; border-radius: 6px; padding: 8px;">
+     💡 Compare <strong>Time-series</strong> vs <strong>Sensor prefix</strong>, and <strong>Celebrity</strong> vs <strong>Salting</strong>!
+    </div>
+   </div>
+   <div style="flex: 1; display: flex; flex-direction: column; min-width: 0;">
+    <h3 style="font-size: 0.95rem; text-align: center; margin-bottom: 4px;">📊 Key Range Partitioning</h3>
+    <div id="p-range-bars" style="flex: 1; display: flex; align-items: flex-end; gap: 3px; padding: 4px; background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 8px;"></div>
+    <div id="p-range-stats" style="font-size: 0.72rem; margin-top: 4px; text-align: center;"></div>
+    <div id="p-range-note" style="font-size: 0.68rem; margin-top: 2px; text-align: center; color: #6b7280;"></div>
+   </div>
+   <div style="flex: 1; display: flex; flex-direction: column; min-width: 0;">
+    <h3 style="font-size: 0.95rem; text-align: center; margin-bottom: 4px;">🔑 Hash Partitioning</h3>
+    <div id="p-hash-bars" style="flex: 1; display: flex; align-items: flex-end; gap: 3px; padding: 4px; background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 8px;"></div>
+    <div id="p-hash-stats" style="font-size: 0.72rem; margin-top: 4px; text-align: center;"></div>
+    <div id="p-hash-note" style="font-size: 0.68rem; margin-top: 2px; text-align: center; color: #6b7280;"></div>
+   </div>
+  </div>
+ </section>
+
+ <!-- ==================== 6.3 PARTITIONING AND SECONDARY INDEXES ==================== -->
+ <section class="slide section-header">
+  <span class="part-pill">Section 6.3</span>
+  <h2>Partitioning &amp; Secondary Indexes</h2>
+  <p style="font-size: 1.4rem; opacity: 0.8; margin-top: 18px;">When queries search by values instead of primary keys</p>
+ </section>
+
+ <!-- 22. Why Secondary Indexes Don't Map Neatly -->
+ <section class="slide content-slide compact-slide">
+  <h2>Why Secondary Indexes Complicate Partitioning</h2>
+  <p>A secondary index (<code>color:red</code>, <code>user:123</code>, word <code>hogwash</code>) doesn't identify one unique record — matching items can live in <strong>any partition</strong>.</p>
+  <div class="svg-wrap">
+   <svg viewBox="0 0 920 230" xmlns="http://www.w3.org/2000/svg" font-family="Inter,sans-serif">
+    <defs><marker id="arrI" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#2563eb"/></marker></defs>
+    <rect x="20" y="20" width="420" height="190" rx="12" fill="#eff6ff" stroke="#93c5fd" stroke-width="2"/>
+    <text x="230" y="50" text-anchor="middle" font-size="15" font-weight="800" fill="#1e3a8a">Primary Key Lookup: id = 191</text>
+    <rect x="50" y="95" width="110" height="44" rx="8" fill="#0f172a"/>
+    <text x="105" y="122" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">GET id=191</text>
+    <path d="M160,117 L245,117" stroke="#2563eb" stroke-width="3" marker-end="url(#arrI)"/>
+    <rect x="250" y="85" width="155" height="65" rx="8" fill="#fff" stroke="#2563eb" stroke-width="2"/>
+    <text x="327" y="114" text-anchor="middle" font-size="13" font-weight="800" fill="#1d4ed8">Partition 0 ONLY</text>
+    <text x="327" y="134" text-anchor="middle" font-size="11" fill="#475569">1 direct hop</text>
+
+    <rect x="480" y="20" width="420" height="190" rx="12" fill="#fffbeb" stroke="#fcd34d" stroke-width="2"/>
+    <text x="690" y="50" text-anchor="middle" font-size="15" font-weight="800" fill="#92400e">Secondary Index: WHERE color = 'red'</text>
+    <rect x="500" y="95" width="120" height="44" rx="8" fill="#0f172a"/>
+    <text x="560" y="122" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">color = 'red'</text>
+    <path d="M620,105 L710,82" stroke="#d97706" stroke-width="2.5" marker-end="url(#arrI)"/>
+    <path d="M620,117 L710,122" stroke="#d97706" stroke-width="2.5" marker-end="url(#arrI)"/>
+    <path d="M620,129 L710,162" stroke="#d97706" stroke-width="2.5" marker-end="url(#arrI)"/>
+    <rect x="715" y="65" width="160" height="32" rx="6" fill="#fff" stroke="#d97706"/>
+    <text x="795" y="86" text-anchor="middle" font-size="12" font-weight="700" fill="#92400e">P0: #191, #306</text>
+    <rect x="715" y="106" width="160" height="32" rx="6" fill="#fff" stroke="#d97706"/>
+    <text x="795" y="127" text-anchor="middle" font-size="12" font-weight="700" fill="#92400e">P1: #768</text>
+    <rect x="715" y="147" width="160" height="32" rx="6" fill="#fff" stroke="#d97706"/>
+    <text x="795" y="168" text-anchor="middle" font-size="12" font-weight="700" fill="#92400e">P2: #944</text>
+   </svg>
+  </div>
+  <p style="font-size: 1.15rem;">HBase &amp; Voldemort avoided secondary indexes; <strong>Riak, MongoDB, Cassandra, Elasticsearch, DynamoDB</strong> tackle them in two ways.</p>
+ </section>
+
+ <!-- 23. 6.3.1 Document-Partitioned (Local) Indexes (Fig 6-4) -->
+ <section class="slide content-slide with-image compact-slide">
+  <div>
+   <span class="tag">6.3.1 Local Index</span>
+   <h2>Partitioning by Document</h2>
+   <p>Each partition maintains its <strong>own secondary index</strong> covering only the documents stored inside that partition.</p>
+   <ul>
+    <li><strong>✅ Writes:</strong> Fast &amp; local — only touch the single partition owning that document ID</li>
+    <li><strong>❌ Reads:</strong> Must <strong>scatter/gather</strong> across <em>every</em> partition and merge results</li>
+    <li>Used by: <span class="tag">MongoDB</span> <span class="tag">Riak</span> <span class="tag">Cassandra</span> <span class="tag">Elasticsearch</span> <span class="tag">SolrCloud</span> <span class="tag">VoltDB</span></li>
+   </ul>
+  </div>
+  <div class="image-box">
+   <img src="images/ddia_0604.png" alt="Figure 6-4: Partitioning secondary indexes by document" />
+  </div>
+ </section>
+
+ <!-- 24. Scatter/Gather & Tail Latency Amplification -->
+ <section class="slide content-slide compact-slide">
+  <h2>The Hidden Danger of Scatter/Gather: Tail Latency Amplification</h2>
+  <p>Even when querying all partitions in parallel, the user waits for the <strong>slowest partition</strong> to respond.</p>
+  <div class="svg-wrap">
+   <svg viewBox="0 0 920 250" xmlns="http://www.w3.org/2000/svg" font-family="Inter,sans-serif">
+    <text x="30" y="34" font-size="14" font-weight="800" fill="#0f172a">Query: SELECT * FROM cars WHERE color = 'red' (across 5 partitions in parallel)</text>
+    <!-- Bars -->
+    <text x="30" y="75" font-size="13" font-weight="700" fill="#334155">Partition 0</text>
+    <rect x="140" y="58" width="45" height="24" rx="5" fill="#10b981"/>
+    <text x="195" y="75" font-size="12" font-weight="700" fill="#059669">8 ms</text>
+
+    <text x="30" y="113" font-size="13" font-weight="700" fill="#334155">Partition 1</text>
+    <rect x="140" y="96" width="60" height="24" rx="5" fill="#10b981"/>
+    <text x="210" y="113" font-size="12" font-weight="700" fill="#059669">11 ms</text>
+
+    <text x="30" y="151" font-size="13" font-weight="800" fill="#b91c1c">Partition 2</text>
+    <rect x="140" y="134" width="520" height="24" rx="5" fill="#ef4444"/>
+    <text x="672" y="151" font-size="13" font-weight="800" fill="#dc2626">450 ms (GC pause / disk compaction!)</text>
+
+    <text x="30" y="189" font-size="13" font-weight="700" fill="#334155">Partition 3</text>
+    <rect x="140" y="172" width="52" height="24" rx="5" fill="#10b981"/>
+    <text x="202" y="189" font-size="12" font-weight="700" fill="#059669">9 ms</text>
+
+    <text x="30" y="227" font-size="13" font-weight="700" fill="#334155">Partition 4</text>
+    <rect x="140" y="210" width="66" height="24" rx="5" fill="#10b981"/>
+    <text x="216" y="227" font-size="12" font-weight="700" fill="#059669">12 ms</text>
+
+    <!-- Overall wait line -->
+    <line x1="660" y1="45" x2="660" y2="240" stroke="#dc2626" stroke-width="2" stroke-dasharray="5,4"/>
+    <text x="670" y="85" font-size="13" font-weight="800" fill="#991b1b">User sees: 450 ms!</text>
+    <text x="670" y="106" font-size="11" fill="#7f1d1d">With 100 partitions &amp; 1% slow rate,</text>
+    <text x="670" y="122" font-size="11" font-weight="700" fill="#7f1d1d">63% of queries hit a slow tail!</text>
+   </svg>
+  </div>
+ </section>
+
+ <!-- 25. 6.3.2 Term-Partitioned (Global) Indexes (Fig 6-5) -->
+ <section class="slide content-slide with-image compact-slide">
+  <div>
+   <span class="tag">6.3.2 Global Index</span>
+   <h2>Partitioning by Term</h2>
+   <p>Construct a <strong>global index</strong> covering all data, then partition that index by the <strong>indexed term</strong> (e.g., <code>color:a–r</code> vs <code>s–z</code>).</p>
+   <ul>
+    <li><strong>✅ Reads:</strong> Query <strong>one index partition</strong> directly (no scatter/gather!). Can range-scan terms or hash terms for balance.</li>
+    <li><strong>❌ Writes:</strong> Writing 1 document can touch <strong>multiple partitions</strong> (data + color shard + make shard)</li>
+    <li>Used by: <span class="tag">DynamoDB GSI</span> <span class="tag">Riak Search</span> <span class="tag">Oracle DW</span></li>
+   </ul>
+  </div>
+  <div class="image-box">
+   <img src="images/ddia_0605.png" alt="Figure 6-5: Partitioning secondary indexes by term" />
+  </div>
+ </section>
+
+ <!-- 26. Global Index Write Dilemma & Async Lag + Footnote (ii) -->
+ <section class="slide content-slide compact-slide">
+  <h2>Global Index Dilemma: 2PC vs Async Lag (Plus DIY Trap)</h2>
+  <div class="svg-wrap">
+   <svg viewBox="0 0 920 225" xmlns="http://www.w3.org/2000/svg" font-family="Inter,sans-serif">
+    <line x1="50" y1="70" x2="870" y2="70" stroke="#94a3b8" stroke-width="3"/>
+    <circle cx="110" cy="70" r="10" fill="#2563eb"/>
+    <text x="110" y="46" text-anchor="middle" font-size="12" font-weight="800" fill="#1e3a8a">t = 0 ms</text>
+    <rect x="30" y="92" width="165" height="65" rx="8" fill="#eff6ff" stroke="#2563eb"/>
+    <text x="112" y="114" text-anchor="middle" font-size="12" font-weight="700" fill="#1e3a8a">Write Car #893</text>
+    <text x="112" y="132" text-anchor="middle" font-size="11" fill="#1e40af">Saved to Data P1</text>
+    <text x="112" y="148" text-anchor="middle" font-size="11" fill="#1e40af">Queues async index</text>
+
+    <circle cx="430" cy="70" r="10" fill="#dc2626"/>
+    <text x="430" y="46" text-anchor="middle" font-size="12" font-weight="800" fill="#991b1b">t = 15 ms</text>
+    <rect x="330" y="92" width="205" height="65" rx="8" fill="#fef2f2" stroke="#ef4444"/>
+    <text x="432" y="114" text-anchor="middle" font-size="12" font-weight="700" fill="#991b1b">Read color:silver</text>
+    <text x="432" y="132" text-anchor="middle" font-size="11" fill="#b91c1c">Queries Index P1</text>
+    <text x="432" y="148" text-anchor="middle" font-size="11" font-weight="800" fill="#dc2626">❌ #893 MISSING (lag!)</text>
+
+    <circle cx="770" cy="70" r="10" fill="#059669"/>
+    <text x="770" y="46" text-anchor="middle" font-size="12" font-weight="800" fill="#065f46">t = 250 ms</text>
+    <rect x="670" y="92" width="205" height="65" rx="8" fill="#ecfdf5" stroke="#10b981"/>
+    <text x="772" y="114" text-anchor="middle" font-size="12" font-weight="700" fill="#065f46">Async Index Applied</text>
+    <text x="772" y="132" text-anchor="middle" font-size="11" fill="#047857">color:silver → [..., 893]</text>
+    <text x="772" y="148" text-anchor="middle" font-size="11" font-weight="700" fill="#059669">✅ Now visible</text>
+
+    <rect x="30" y="172" width="845" height="42" rx="8" fill="#fffbeb" stroke="#f59e0b"/>
+    <text x="452" y="198" text-anchor="middle" font-size="12" font-weight="700" fill="#92400e">DynamoDB GSI updates asynchronously (&lt;1s normally, longer under faults). Sync updates require distributed 2PC (Ch. 7 &amp; 9).</text>
+   </svg>
+  </div>
+  <div class="warning-banner">
+   <strong>Footnote (ii) Warning — DIY App-Level Indexes:</strong> If your KV store lacks secondary indexes and you maintain them yourself in app code, race conditions &amp; partial write failures easily leave indexes permanently out of sync with data!
+  </div>
+ </section>
+
+ <!-- 27. Local vs Global Secondary Index Scorecard -->
+ <section class="slide content-slide compact-slide">
+  <h2>Local (Document) vs Global (Term) Secondary Indexes</h2>
+  <table class="matrix-table" style="font-size: 1.05rem;">
+   <thead>
+    <tr>
+     <th>Dimension</th>
+     <th>Document-Partitioned (Local)</th>
+     <th>Term-Partitioned (Global)</th>
+    </tr>
+   </thead>
+   <tbody>
+    <tr><td><strong>Index Scope</strong></td><td>Per-partition (only docs in that partition)</td><td>Global across all partitions (partitioned by term)</td></tr>
+    <tr><td><strong>Write Path</strong></td><td>✅ Single partition (fast, atomic)</td><td>❌ Multiple partitions (document + N term shards)</td></tr>
+    <tr><td><strong>Read Path</strong></td><td>❌ Scatter/gather across ALL partitions</td><td>✅ Single partition (plus doc fetches)</td></tr>
+    <tr><td><strong>Consistency</strong></td><td>Immediate within partition</td><td>Often asynchronous (eventual) unless 2PC</td></tr>
+    <tr><td><strong>Latency Risk</strong></td><td>Tail latency amplification on reads</td><td>Cross-partition write coordination / stale reads</td></tr>
+    <tr><td><strong>Real Systems</strong></td><td>MongoDB, Cassandra, Elasticsearch, Riak, VoltDB</td><td>DynamoDB GSI, Riak Search, Oracle Data Warehouse</td></tr>
+   </tbody>
+  </table>
+ </section>
+
+ <!-- ==================== 6.4 REBALANCING PARTITIONS ==================== -->
+ <section class="slide section-header">
+  <span class="part-pill">Section 6.4</span>
+  <h2>Rebalancing Partitions</h2>
+  <p style="font-size: 1.4rem; opacity: 0.8; margin-top: 18px;">Moving load cleanly as hardware scales, shrinks, or fails</p>
+ </section>
+
+ <!-- 29. Why Rebalance & 3 Golden Rules -->
+ <section class="slide content-slide compact-slide">
+  <h2>Why Rebalance &amp; The 3 Non-Negotiable Rules</h2>
+  <div class="two-col" style="gap: 24px;">
+   <div class="compare-card">
+    <h3>Triggers for Rebalancing</h3>
+    <ul style="font-size: 1.15rem;">
+     <li>📈 <strong>More traffic:</strong> Add CPUs to handle higher QPS</li>
+     <li>💾 <strong>More data:</strong> Add disks &amp; RAM for storage</li>
+     <li>💥 <strong>Node failure:</strong> Surviving nodes take over</li>
+    </ul>
+   </div>
+   <div class="compare-card accent">
+    <h3>3 Minimum Requirements</h3>
+    <ul style="font-size: 1.15rem;">
+     <li>⚖️ <strong>Fair share:</strong> Storage &amp; QPS balanced afterward</li>
+     <li>🔄 <strong>Zero downtime:</strong> Reads/writes keep working <em>during</em> move</li>
+     <li>📦 <strong>Minimal transfer:</strong> Move only necessary bytes (save network &amp; disk I/O)</li>
+    </ul>
+   </div>
+  </div>
+ </section>
+
+ <!-- 30. 6.4.1 Strategy 0: How NOT to do it: hash mod N -->
+ <section class="slide content-slide compact-slide">
+  <h2><span class="tag">6.4.1 Strategies</span> How NOT to Do It: <code>hash(key) mod N</code></h2>
+  <p>Changing the node count <code>N</code> changes the remainder for <strong>almost every key</strong>, triggering a massive network storm.</p>
+  <div class="svg-wrap">
+   <svg viewBox="0 0 920 250" xmlns="http://www.w3.org/2000/svg" font-family="Inter,sans-serif">
+    <rect x="20" y="15" width="880" height="48" rx="8" fill="#0f172a"/>
+    <text x="460" y="45" text-anchor="middle" font-size="16" font-weight="700" fill="#fff">Example Key: <tspan fill="#93c5fd">hash(key) = 123,456</tspan></text>
+
+    <!-- N=10 -->
+    <rect x="30" y="88" width="245" height="105" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+    <text x="152" y="116" text-anchor="middle" font-size="15" font-weight="800" fill="#1e3a8a">N = 10 nodes</text>
+    <text x="152" y="144" text-anchor="middle" font-size="14" fill="#1e40af">123,456 mod 10 = 6</text>
+    <text x="152" y="172" text-anchor="middle" font-size="14" font-weight="800" fill="#2563eb">Lives on Node 6</text>
+
+    <!-- Arrow -->
+    <text x="305" y="138" text-anchor="middle" font-size="22" font-weight="800" fill="#dc2626">→</text>
+    <text x="305" y="160" text-anchor="middle" font-size="11" font-weight="700" fill="#dc2626">+1 node</text>
+
+    <!-- N=11 -->
+    <rect x="335" y="88" width="245" height="105" rx="10" fill="#fef2f2" stroke="#ef4444" stroke-width="2"/>
+    <text x="457" y="116" text-anchor="middle" font-size="15" font-weight="800" fill="#991b1b">N = 11 nodes</text>
+    <text x="457" y="144" text-anchor="middle" font-size="14" fill="#b91c1c">123,456 mod 11 = 3</text>
+    <text x="457" y="172" text-anchor="middle" font-size="14" font-weight="800" fill="#dc2626">MOVED to Node 3!</text>
+
+    <!-- Arrow -->
+    <text x="610" y="138" text-anchor="middle" font-size="22" font-weight="800" fill="#dc2626">→</text>
+    <text x="610" y="160" text-anchor="middle" font-size="11" font-weight="700" fill="#dc2626">+1 node</text>
+
+    <!-- N=12 -->
+    <rect x="640" y="88" width="250" height="105" rx="10" fill="#fef2f2" stroke="#ef4444" stroke-width="2"/>
+    <text x="765" y="116" text-anchor="middle" font-size="15" font-weight="800" fill="#991b1b">N = 12 nodes</text>
+    <text x="765" y="144" text-anchor="middle" font-size="14" fill="#b91c1c">123,456 mod 12 = 0</text>
+    <text x="765" y="172" text-anchor="middle" font-size="14" font-weight="800" fill="#dc2626">MOVED AGAIN to Node 0!</text>
+
+    <rect x="30" y="206" width="860" height="36" rx="8" fill="#fee2e2"/>
+    <text x="460" y="229" text-anchor="middle" font-size="13" font-weight="800" fill="#991b1b">Result: Adding 1 node to 10 forces ~91% of all keys in the database to migrate over the network!</text>
+   </svg>
+  </div>
+ </section>
+
+ <!-- 31. Strategy 1: Fixed Number of Partitions (Fig 6-6) -->
+ <section class="slide content-slide with-image compact-slide">
+  <div>
+   <h2>Strategy 1: Fixed Number of Partitions</h2>
+   <p>Create <strong>many more partitions than nodes</strong> upfront (e.g., 1,000 partitions across 10 nodes = ~100/node).</p>
+   <ul>
+    <li>When a new node joins, it <strong>steals whole partitions</strong> from existing nodes</li>
+    <li>Key-to-partition mapping <strong>never changes</strong> — only partition-to-node ownership changes</li>
+    <li>Old assignment serves reads/writes while bulk data copies in the background</li>
+    <li>Supports <strong>mismatched hardware</strong> (assign more partitions to beefier nodes)</li>
+   </ul>
+   <p style="margin-top: 8px;">Used by: <span class="tag">Riak</span> <span class="tag">Elasticsearch</span> <span class="tag">Couchbase</span> <span class="tag">Voldemort</span></p>
+  </div>
+  <div class="image-box">
+   <img src="images/ddia_0606.png" alt="Figure 6-6: Adding a new node with fixed partitions" />
+  </div>
+ </section>
+
+ <!-- 32. The Fixed-Partition Sizing Dilemma -->
+ <section class="slide content-slide compact-slide">
+  <h2>The Fixed-Partition "Goldilocks" Dilemma</h2>
+  <p>Because partition count is fixed at cluster creation (hard/impossible to change later), picking the right number is tricky:</p>
+  <div class="three-col" style="gap: 18px;">
+   <div class="compare-card">
+    <h3 style="color: #dc2626;">Too Few Partitions</h3>
+    <ul style="font-size: 1rem;">
+     <li>Caps maximum nodes (cannot exceed partition count)</li>
+     <li>Each partition grows huge as data grows</li>
+     <li>Rebalancing &amp; node recovery become painfully slow</li>
+    </ul>
+   </div>
+   <div class="compare-card accent">
+    <h3>🎯 "Just Right"</h3>
+    <ul style="font-size: 1rem;">
+     <li>Matches expected <em>future</em> dataset size</li>
+     <li>Fast recovery &amp; fine-grained load balancing</li>
+     <li>Hard to predict if data grows 100× over 5 years!</li>
+    </ul>
+   </div>
+   <div class="compare-card">
+    <h3 style="color: #d97706;">Too Many Partitions</h3>
+    <ul style="font-size: 1rem;">
+     <li>Per-partition management &amp; metadata overhead</li>
+     <li>Each partition tracks files, Raft/Paxos groups, or indexes</li>
+     <li>Too small = wasted coordination overhead</li>
+    </ul>
+   </div>
+  </div>
+ </section>
+
+ <!-- 33. Strategy 2: Dynamic Partitioning -->
+ <section class="slide content-slide compact-slide">
+  <h2>Strategy 2: Dynamic Partitioning (Split &amp; Merge)</h2>
+  <p>Partitions grow and shrink automatically with data volume — like the top level of a <strong>B-Tree</strong>.</p>
+  <div class="svg-wrap">
+   <svg viewBox="0 0 920 235" xmlns="http://www.w3.org/2000/svg" font-family="Inter,sans-serif">
+    <defs><marker id="arrD" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#2563eb"/></marker></defs>
+    <!-- Before Split -->
+    <rect x="20" y="35" width="290" height="145" rx="12" fill="#fef2f2" stroke="#ef4444" stroke-width="2"/>
+    <text x="165" y="65" text-anchor="middle" font-size="14" font-weight="800" fill="#991b1b">Partition 0 exceeds 10 GB (HBase)</text>
+    <rect x="45" y="84" width="240" height="52" rx="8" fill="#fff" stroke="#ef4444"/>
+    <text x="165" y="108" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">Range [A – Z] • 12 GB</text>
+    <text x="165" y="126" text-anchor="middle" font-size="11" fill="#b91c1c">Exceeds threshold → trigger split!</text>
+    <text x="165" y="164" text-anchor="middle" font-size="11" fill="#7f1d1d">Also merges with neighbor if data deleted</text>
+
+    <path d="M315,108 L405,108" stroke="#2563eb" stroke-width="3" marker-end="url(#arrD)"/>
+    <text x="360" y="96" text-anchor="middle" font-size="12" font-weight="800" fill="#2563eb">Split</text>
+
+    <!-- After Split -->
+    <rect x="415" y="20" width="230" height="190" rx="12" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+    <text x="530" y="48" text-anchor="middle" font-size="14" font-weight="800" fill="#1e3a8a">Node 1</text>
+    <rect x="435" y="68" width="190" height="62" rx="8" fill="#fff" stroke="#2563eb"/>
+    <text x="530" y="95" text-anchor="middle" font-size="13" font-weight="700" fill="#1d4ed8">Partition 0a [A – M)</text>
+    <text x="530" y="116" text-anchor="middle" font-size="12" fill="#475569">~6 GB (stays here)</text>
+
+    <rect x="670" y="20" width="230" height="190" rx="12" fill="#ecfdf5" stroke="#059669" stroke-width="2"/>
+    <text x="785" y="48" text-anchor="middle" font-size="14" font-weight="800" fill="#065f46">Node 2</text>
+    <rect x="690" y="68" width="190" height="62" rx="8" fill="#fff" stroke="#059669"/>
+    <text x="785" y="95" text-anchor="middle" font-size="13" font-weight="700" fill="#047857">Partition 0b [M – Z]</text>
+    <text x="785" y="116" text-anchor="middle" font-size="12" fill="#475569">~6 GB (transferred via HDFS)</text>
+    <text x="657" y="185" text-anchor="middle" font-size="12" font-weight="700" fill="#0f172a">Works for Key-Range AND Hash (MongoDB ≥2.4, HBase, RethinkDB)</text>
+   </svg>
+  </div>
+ </section>
+
+ <!-- 34. Cold-Start Single-Partition Bottleneck & Pre-Splitting -->
+ <section class="slide content-slide compact-slide">
+  <h2>The Dynamic Caveat: Empty DB Bottleneck &amp; Pre-Splitting</h2>
+  <div class="two-col" style="gap: 24px;">
+   <div class="compare-card">
+    <h3 style="color: #dc2626;">❌ Cold-Start Problem</h3>
+    <p style="font-size: 1.05rem;">An empty DB has no key distribution yet — so it starts with <strong>1 partition on 1 node</strong>.</p>
+    <div class="svg-wrap" style="margin-top: 12px;">
+     <svg viewBox="0 0 380 115" xmlns="http://www.w3.org/2000/svg" font-family="Inter,sans-serif" text-anchor="middle">
+      <rect x="10" y="12" width="80" height="90" rx="8" fill="#fee2e2" stroke="#ef4444" stroke-width="2"/>
+      <text x="50" y="40" font-size="12" font-weight="800" fill="#991b1b">Node 1</text>
+      <text x="50" y="65" font-size="11" font-weight="700" fill="#dc2626">P0 (100%)</text>
+      <text x="50" y="84" font-size="10" fill="#7f1d1d">&lt;10 GB yet</text>
+      <rect x="103" y="12" width="80" height="90" rx="8" fill="#f1f5f9" stroke="#cbd5e1"/><text x="143" y="60" font-size="11" fill="#64748b">Node 2 Idle</text>
+      <rect x="196" y="12" width="80" height="90" rx="8" fill="#f1f5f9" stroke="#cbd5e1"/><text x="236" y="60" font-size="11" fill="#64748b">Node 3 Idle</text>
+      <rect x="289" y="12" width="80" height="90" rx="8" fill="#f1f5f9" stroke="#cbd5e1"/><text x="329" y="60" font-size="11" fill="#64748b">Node 4 Idle</text>
+     </svg>
+    </div>
+   </div>
+   <div class="compare-card accent">
+    <h3>✅ Pre-Splitting Solution</h3>
+    <p style="font-size: 1.05rem;">Configure initial split boundaries on the empty database (supported by <strong>HBase</strong> &amp; <strong>MongoDB</strong>).</p>
+    <div class="svg-wrap" style="margin-top: 12px;">
+     <svg viewBox="0 0 380 115" xmlns="http://www.w3.org/2000/svg" font-family="Inter,sans-serif" text-anchor="middle">
+      <rect x="10" y="12" width="80" height="90" rx="8" fill="#ecfdf5" stroke="#10b981" stroke-width="2"/><text x="50" y="42" font-size="12" font-weight="800" fill="#065f46">Node 1</text><text x="50" y="68" font-size="11" fill="#047857">P0 [A–F)</text>
+      <rect x="103" y="12" width="80" height="90" rx="8" fill="#ecfdf5" stroke="#10b981" stroke-width="2"/><text x="143" y="42" font-size="12" font-weight="800" fill="#065f46">Node 2</text><text x="143" y="68" font-size="11" fill="#047857">P1 [F–M)</text>
+      <rect x="196" y="12" width="80" height="90" rx="8" fill="#ecfdf5" stroke="#10b981" stroke-width="2"/><text x="236" y="42" font-size="12" font-weight="800" fill="#065f46">Node 3</text><text x="236" y="68" font-size="11" fill="#047857">P2 [M–S)</text>
+      <rect x="289" y="12" width="80" height="90" rx="8" fill="#ecfdf5" stroke="#10b981" stroke-width="2"/><text x="329" y="42" font-size="12" font-weight="800" fill="#065f46">Node 4</text><text x="329" y="68" font-size="11" fill="#047857">P3 [S–Z]</text>
+     </svg>
+    </div>
+   </div>
+  </div>
+ </section>
+
+ <!-- 35. Strategy 3: Partitioning Proportionally to Nodes -->
+ <section class="slide content-slide compact-slide">
+  <h2>Strategy 3: Proportional to Nodes (Cassandra vNodes)</h2>
+  <p>Instead of fixed total partitions or fixed data size, keep a <strong>fixed number of partitions per node</strong> (e.g., Cassandra default: <strong>256 vnodes/node</strong>).</p>
+  <div class="two-col" style="gap: 24px; align-items: center;">
+   <div class="svg-wrap">
+    <svg viewBox="0 0 430 215" xmlns="http://www.w3.org/2000/svg" font-family="Inter,sans-serif">
+     <text x="215" y="28" text-anchor="middle" font-size="14" font-weight="800" fill="#0f172a">Hash Ring When Node 4 Joins</text>
+     <rect x="20" y="50" width="390" height="44" rx="8" fill="#dbeafe" stroke="#2563eb"/>
+     <text x="85" y="77" text-anchor="middle" font-size="12" font-weight="700" fill="#1e3a8a">Node 1</text>
+     <text x="215" y="77" text-anchor="middle" font-size="12" font-weight="700" fill="#1e3a8a">Node 2</text>
+     <text x="345" y="77" text-anchor="middle" font-size="12" font-weight="700" fill="#1e3a8a">Node 3</text>
+     <line x1="150" y1="50" x2="150" y2="94" stroke="#2563eb" stroke-width="2"/>
+     <line x1="280" y1="50" x2="280" y2="94" stroke="#2563eb" stroke-width="2"/>
+
+     <text x="215" y="120" text-anchor="middle" font-size="12" font-weight="700" fill="#059669">↓ Node 4 picks random splits &amp; takes half of each</text>
+
+     <rect x="20" y="135" width="390" height="44" rx="8" fill="#dbeafe" stroke="#2563eb"/>
+     <rect x="105" y="135" width="45" height="44" fill="#10b981"/>
+     <rect x="235" y="135" width="45" height="44" fill="#10b981"/>
+     <rect x="365" y="135" width="45" height="44" rx="0" fill="#10b981"/>
+     <text x="62" y="162" text-anchor="middle" font-size="11" font-weight="700" fill="#1e3a8a">N1</text>
+     <text x="127" y="162" text-anchor="middle" font-size="11" font-weight="800" fill="#fff">N4</text>
+     <text x="192" y="162" text-anchor="middle" font-size="11" font-weight="700" fill="#1e3a8a">N2</text>
+     <text x="257" y="162" text-anchor="middle" font-size="11" font-weight="800" fill="#fff">N4</text>
+     <text x="322" y="162" text-anchor="middle" font-size="11" font-weight="700" fill="#1e3a8a">N3</text>
+     <text x="387" y="162" text-anchor="middle" font-size="11" font-weight="800" fill="#fff">N4</text>
+    </svg>
+   </div>
+   <div>
+    <ul style="font-size: 1.15rem;">
+     <li>Partitions shrink as you add nodes — keeping partition sizes stable as cluster scales</li>
+     <li>Requires <strong>hash partitioning</strong> (boundaries drawn from hash space — closest to Karger's consistent hashing)</li>
+     <li>Random splits can be uneven, so Cassandra uses 256 vnodes/node (improved in <strong>Cassandra 3.0</strong> token allocation)</li>
+     <li>Used by: <span class="tag">Cassandra</span> <span class="tag">Ketama</span></li>
+    </ul>
+   </div>
+  </div>
+ </section>
+
+ <!-- 36. Rebalancing Strategies Matrix -->
+ <section class="slide content-slide compact-slide">
+  <h2>Rebalancing Strategies Compared</h2>
+  <table class="matrix-table" style="font-size: 1.02rem;">
+   <thead>
+    <tr><th>Strategy</th><th>Partition Count</th><th>Partition Size</th><th>Works With</th><th>Real Databases</th></tr>
+   </thead>
+   <tbody>
+    <tr><td><strong>Fixed Partitions</strong></td><td>Constant forever</td><td>Grows with data</td><td>Hash partitioning</td><td>Riak, Elasticsearch, Couchbase, Voldemort</td></tr>
+    <tr><td><strong>Dynamic</strong></td><td>Scales with data volume</td><td>Bounded (min–max)</td><td>Key-Range &amp; Hash</td><td>HBase, RethinkDB, MongoDB</td></tr>
+    <tr><td><strong>Proportional</strong></td><td>Scales with node count</td><td>Shrinks as nodes added</td><td>Hash partitioning</td><td>Cassandra (256/node), Ketama</td></tr>
+   </tbody>
+  </table>
+ </section>
+
+ <!-- 37. 6.4.2 Operations: Automatic vs Manual Rebalancing -->
+ <section class="slide content-slide compact-slide">
+  <h2><span class="tag">6.4.2 Operations</span> Automatic vs Manual Rebalancing</h2>
+  <div class="three-col" style="gap: 18px;">
+   <div class="compare-card">
+    <h3 style="color: #dc2626;">🤖 Fully Automatic</h3>
+    <p style="font-size: 1rem;">System decides when &amp; where to move partitions with zero human input.</p>
+    <p style="font-size: 0.95rem; margin-top: 10px;">✅ Low routine ops work<br>❌ Expensive background I/O can hit live traffic unpredictably</p>
+   </div>
+   <div class="compare-card accent">
+    <h3>🤝 Suggested + Human Commit</h3>
+    <p style="font-size: 1rem;">System computes an optimal rebalance plan, but waits for an administrator to approve.</p>
+    <p style="font-size: 0.95rem; margin-top: 10px;">✅ Best balance of safety &amp; convenience<br><span class="tag">Couchbase</span> <span class="tag">Riak</span> <span class="tag">Voldemort</span></p>
+   </div>
+   <div class="compare-card">
+    <h3>🛠️ Fully Manual</h3>
+    <p style="font-size: 1rem;">Admin explicitly defines every partition-to-node mapping.</p>
+    <p style="font-size: 0.95rem; margin-top: 10px;">✅ Total predictability<br>❌ High operational toil at scale</p>
+   </div>
+  </div>
+ </section>
+
+ <!-- 38. Anatomy of a Cascading Failure -->
+ <section class="slide content-slide compact-slide">
+  <h2>Why Auto-Rebalance + Auto-Failure Detection Is Dangerous</h2>
+  <p>Automation can turn a temporary slowdown into a <strong>cluster-wide cascading failure</strong>:</p>
+  <div class="svg-wrap">
+   <svg viewBox="0 0 920 230" xmlns="http://www.w3.org/2000/svg" font-family="Inter,sans-serif">
+    <defs><marker id="arrF" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#dc2626"/></marker></defs>
+    <rect x="15" y="55" width="190" height="110" rx="10" fill="#fffbeb" stroke="#f59e0b" stroke-width="2"/>
+    <text x="110" y="88" text-anchor="middle" font-size="13" font-weight="800" fill="#92400e">1. Temporary Spike</text>
+    <text x="110" y="112" text-anchor="middle" font-size="11" fill="#78350f">Node 2 is overloaded</text>
+    <text x="110" y="130" text-anchor="middle" font-size="11" fill="#78350f">and slow to reply</text>
+
+    <path d="M205,110 L240,110" stroke="#dc2626" stroke-width="2.5" marker-end="url(#arrF)"/>
+
+    <rect x="245" y="55" width="195" height="110" rx="10" fill="#fef2f2" stroke="#ef4444" stroke-width="2"/>
+    <text x="342" y="88" text-anchor="middle" font-size="13" font-weight="800" fill="#991b1b">2. False "Dead" Alert</text>
+    <text x="342" y="112" text-anchor="middle" font-size="11" fill="#b91c1c">Peers assume Node 2</text>
+    <text x="342" y="130" text-anchor="middle" font-size="11" fill="#b91c1c">crashed (timeout)</text>
+
+    <path d="M440,110 L475,110" stroke="#dc2626" stroke-width="2.5" marker-end="url(#arrF)"/>
+
+    <rect x="480" y="55" width="200" height="110" rx="10" fill="#fee2e2" stroke="#dc2626" stroke-width="2.5"/>
+    <text x="580" y="88" text-anchor="middle" font-size="13" font-weight="800" fill="#991b1b">3. Auto-Rebalance Storm</text>
+    <text x="580" y="112" text-anchor="middle" font-size="11" fill="#7f1d1d">GBs of partitions stream</text>
+    <text x="580" y="130" text-anchor="middle" font-size="11" fill="#7f1d1d">across saturated network</text>
+
+    <path d="M680,110 L715,110" stroke="#dc2626" stroke-width="2.5" marker-end="url(#arrF)"/>
+
+    <rect x="720" y="55" width="185" height="110" rx="10" fill="#991b1b"/>
+    <text x="812" y="88" text-anchor="middle" font-size="13" font-weight="800" fill="#fff">4. Cascade Collapse</text>
+    <text x="812" y="112" text-anchor="middle" font-size="11" fill="#fecaca">Healthy nodes overload,</text>
+    <text x="812" y="130" text-anchor="middle" font-size="11" fill="#fecaca">fail heartbeats → repeat!</text>
+   </svg>
+  </div>
+  <div class="info-banner">
+   <strong>Operational Takeaway:</strong> Keeping a human in the loop prevents false failure triggers from amplifying an outage.
+  </div>
+ </section>
+
+ <!-- 39. Interactive Lab 2: Rebalancing Simulator -->
+ <section class="slide content-slide" id="rebalancing-lab-slide">
+  <h2 style="margin-bottom:4px;">🔄 Interactive Lab — Rebalancing Strategies Compared</h2>
+  <div style="display:flex;gap:10px;align-items:center;margin:4px 0;flex-wrap:wrap;font-size:0.85rem;">
+   <label><b>Strategy:</b></label>
+   <select id="rb-strategy" onchange="rbRender()" style="padding:5px 8px;border-radius:6px;border:2px solid #0277bd;font-size:0.82rem;">
+    <option value="hashMod">hash mod N (BAD)</option>
+    <option value="fixed" selected>Fixed # partitions (12 partitions)</option>
+    <option value="dynamic">Dynamic key-range splitting</option>
+    <option value="proportional">Proportional (vnodes per node)</option>
+   </select>
+   <button onclick="rbAddNode()" style="padding:6px 14px;background:#2e7d32;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:700;font-size:0.85rem;">+ Add Node</button>
+   <button onclick="rbRemoveNode()" style="padding:6px 14px;background:#c62828;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:700;font-size:0.85rem;">− Remove Node</button>
+   <button onclick="rbReset()" style="padding:6px 12px;background:#eee;border:1px solid #ccc;border-radius:8px;cursor:pointer;font-size:0.85rem;">Reset 🔄</button>
+   <span id="rb-node-count" style="color:#666;font-size:0.82rem;">Nodes: 4</span>
+  </div>
+  <div style="display:flex;gap:10px;margin-top:4px;">
+   <div style="flex:2;">
+    <div id="rb-nodes" style="display:flex;gap:6px;flex-wrap:wrap;"></div>
+    <div id="rb-moved" style="margin-top:6px;padding:8px 12px;border-radius:8px;font-size:0.82rem;background:#fff3e0;border:1px solid #ffcc80;display:none;"></div>
+   </div>
+   <div id="rb-explain" style="flex:1;background:#f5f5f5;border:1px solid #e0e0e0;border-radius:8px;padding:8px 10px;font-size:0.75rem;line-height:1.5;"></div>
+  </div>
+  <div style="background:#e1f5fe;border:1px solid #81d4fa;border-radius:8px;padding:5px 10px;margin-top:3px;font-size:0.75rem;">
+   💡 Watch the red key badges: <b>hash mod N</b> moves ~80% of keys on +1 node, while <b>Fixed / Dynamic / Proportional</b> move only the fair slice!
+  </div>
+ </section>
+
+ <!-- ==================== 6.5 REQUEST ROUTING ==================== -->
+ <section class="slide section-header">
+  <span class="part-pill">Section 6.5</span>
+  <h2>Request Routing</h2>
+  <p style="font-size: 1.4rem; opacity: 0.8; margin-top: 18px;">Service discovery for databases &amp; parallel query execution</p>
+ </section>
+
+ <!-- 41. The Service Discovery Problem -->
+ <section class="slide content-slide compact-slide">
+  <h2>The Core Question: "Which IP &amp; Port Owns Key <code>foo</code>?"</h2>
+  <p>Once partitions rebalance across nodes, partition-to-IP mappings constantly evolve — this is a specialized case of <strong>service discovery</strong>.</p>
+  <div class="two-col" style="margin-top: 10px;">
+   <div class="compare-card">
+    <h3>Why It's Harder Than Stateless APIs</h3>
+    <ul style="font-size: 1.08rem;">
+     <li>A stateless web request can hit <em>any</em> replica</li>
+     <li>A partitioned write/read for <code>"Danube"</code> MUST reach the exact node currently owning <code>partition 2</code></li>
+     <li>If participants disagree on the mapping → requests route to wrong nodes!</li>
+    </ul>
+   </div>
+   <div class="compare-card accent">
+    <h3>DNS Alone Isn't Enough</h3>
+    <ul style="font-size: 1.08rem;">
+     <li>DNS is fine for finding slow-changing cluster IPs (load balancers / routing tier)</li>
+     <li>DNS TTL caching is far too slow for rapid partition reassignments</li>
+     <li>Requires consensus or gossip for partition metadata</li>
+    </ul>
+   </div>
+  </div>
+ </section>
+
+ <!-- 42. Three Routing Approaches (Fig 6-7) -->
+ <section class="slide content-slide with-image compact-slide">
+  <div>
+   <h2>Three Ways to Route a Request</h2>
+   <ol style="font-size: 1.25rem; line-height: 1.6; padding-left: 24px; margin-top: 10px;">
+    <li><strong>Contact any node</strong> — via round-robin LB; if wrong node, it forwards internally to the owner</li>
+    <li><strong>Routing tier</strong> — partition-aware load balancer handles routing, nodes stay dumb</li>
+    <li><strong>Smart client</strong> — client caches the partition→node map and connects directly (zero extra hops)</li>
+   </ol>
+   <div class="tip-banner">
+    In all 3 cases, the hardest question is identical: <strong>how does the router stay updated when partitions move?</strong>
+   </div>
+  </div>
+  <div class="image-box">
+   <img src="images/ddia_0607.png" alt="Figure 6-7: Three different ways of routing a request" />
+  </div>
+ </section>
+
+ <!-- 43. ZooKeeper Coordination (Fig 6-8) -->
+ <section class="slide content-slide with-image compact-slide">
+  <div>
+   <h2>ZooKeeper: Authoritative Cluster Metadata</h2>
+   <p>Many systems offload consensus to a dedicated coordination service like <strong>ZooKeeper</strong>.</p>
+   <ul>
+    <li>Each DB node registers its owned partitions in ZooKeeper</li>
+    <li>Routing tier / smart clients <strong>subscribe (watch)</strong> for changes</li>
+    <li>Partition moves → ZooKeeper notifies watchers instantly</li>
+    <li>Examples: <span class="tag">HBase</span> <span class="tag">Kafka</span> <span class="tag">SolrCloud</span> <span class="tag">LinkedIn Espresso (Helix)</span></li>
+    <li>MongoDB uses its own <strong>config servers</strong> + <code>mongos</code> routers</li>
+   </ul>
+  </div>
+  <div class="image-box">
+   <img src="images/ddia_0608.png" alt="Figure 6-8: Using ZooKeeper to track partition assignments" />
+  </div>
+ </section>
+
+ <!-- 44. ZooKeeper vs Gossip Protocol -->
+ <section class="slide content-slide compact-slide">
+  <h2>Coordination Showdown: ZooKeeper vs Gossip Protocol</h2>
+  <div class="two-col" style="gap: 24px;">
+   <div class="compare-card accent">
+    <h3>🧭 External Consensus (ZooKeeper)</h3>
+    <ul style="font-size: 1.05rem;">
+     <li><strong>How:</strong> Single authoritative source of truth via consensus (Ch. 9)</li>
+     <li><strong>Pros:</strong> Strong agreement — routing tier has consistent view</li>
+     <li><strong>Cons:</strong> Extra operational dependency to run &amp; monitor</li>
+     <li><strong>Systems:</strong> HBase, Kafka, SolrCloud, Espresso, MongoDB (<code>config server</code>)</li>
+    </ul>
+   </div>
+   <div class="compare-card">
+    <h3>💬 Peer-to-Peer Gossip Protocol</h3>
+    <ul style="font-size: 1.05rem;">
+     <li><strong>How:</strong> Nodes exchange cluster state updates directly with peers (Approach 1 forwarding)</li>
+     <li><strong>Pros:</strong> Zero external service dependency</li>
+     <li><strong>Cons:</strong> More complexity inside DB nodes; brief stale views during propagation</li>
+     <li><strong>Systems:</strong> <span class="tag">Cassandra</span> <span class="tag">Riak</span> (plus <span class="tag">Couchbase moxi</span> via cluster nodes)</li>
+    </ul>
+   </div>
+  </div>
+ </section>
+
+ <!-- 45. 6.5.1 Parallel Query Execution (MPP) -->
+ <section class="slide content-slide compact-slide">
+  <h2><span class="tag">6.5.1 Parallel Query Execution</span> Beyond Single Keys: MPP Engines</h2>
+  <p>NoSQL stores usually handle single-key or scatter/gather lookups. Analytical <strong>MPP</strong> data warehouses parallelize full SQL plans across every node.</p>
+  <div class="svg-wrap">
+   <svg viewBox="0 0 920 230" xmlns="http://www.w3.org/2000/svg" font-family="Inter,sans-serif">
+    <defs><marker id="arrM" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#2563eb"/></marker></defs>
+    <rect x="15" y="10" width="890" height="36" rx="8" fill="#0f172a"/>
+    <text x="460" y="33" text-anchor="middle" font-size="13" font-weight="700" fill="#93c5fd">SELECT make, COUNT(*), AVG(price) FROM cars JOIN sales ON ... WHERE year &gt;= 2020 GROUP BY make</text>
+
+    <!-- Stage 1 -->
+    <rect x="15" y="65" width="195" height="145" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+    <text x="112" y="92" text-anchor="middle" font-size="13" font-weight="800" fill="#1e3a8a">1. Parallel Scan &amp; Filter</text>
+    <text x="112" y="118" text-anchor="middle" font-size="11" fill="#1e40af">Node 1 scans P0</text>
+    <text x="112" y="138" text-anchor="middle" font-size="11" fill="#1e40af">Node 2 scans P1</text>
+    <text x="112" y="158" text-anchor="middle" font-size="11" fill="#1e40af">Node 3 scans P2</text>
+    <text x="112" y="188" text-anchor="middle" font-size="11" font-weight="700" fill="#2563eb">Filter pushed to data!</text>
+
+    <path d="M210,138 L242,138" stroke="#2563eb" stroke-width="2.5" marker-end="url(#arrM)"/>
+
+    <!-- Stage 2 -->
+    <rect x="247" y="65" width="195" height="145" rx="10" fill="#fffbeb" stroke="#f59e0b" stroke-width="2"/>
+    <text x="344" y="92" text-anchor="middle" font-size="13" font-weight="800" fill="#92400e">2. Hash Shuffle</text>
+    <text x="344" y="118" text-anchor="middle" font-size="11" fill="#78350f">Repartition intermediate</text>
+    <text x="344" y="136" text-anchor="middle" font-size="11" fill="#78350f">rows by JOIN / GROUP BY</text>
+    <text x="344" y="158" text-anchor="middle" font-size="11" font-weight="700" fill="#b45309">All "Honda" → Node 1</text>
+    <text x="344" y="176" text-anchor="middle" font-size="11" font-weight="700" fill="#b45309">All "Audi" → Node 2</text>
+
+    <path d="M442,138 L474,138" stroke="#2563eb" stroke-width="2.5" marker-end="url(#arrM)"/>
+
+    <!-- Stage 3 -->
+    <rect x="479" y="65" width="195" height="145" rx="10" fill="#ecfdf5" stroke="#059669" stroke-width="2"/>
+    <text x="576" y="92" text-anchor="middle" font-size="13" font-weight="800" fill="#065f46">3. Parallel Aggregate</text>
+    <text x="576" y="122" text-anchor="middle" font-size="11" fill="#047857">Each node computes</text>
+    <text x="576" y="140" text-anchor="middle" font-size="11" fill="#047857">COUNT / AVG in parallel</text>
+    <text x="576" y="162" text-anchor="middle" font-size="11" fill="#047857">on its local groups</text>
+    <text x="576" y="188" text-anchor="middle" font-size="11" font-weight="700" fill="#059669">Tiny summary rows!</text>
+
+    <path d="M674,138 L706,138" stroke="#2563eb" stroke-width="2.5" marker-end="url(#arrM)"/>
+
+    <!-- Stage 4 -->
+    <rect x="711" y="65" width="194" height="145" rx="10" fill="#f8fafc" stroke="#0f172a" stroke-width="2"/>
+    <text x="808" y="92" text-anchor="middle" font-size="13" font-weight="800" fill="#0f172a">4. Final Gather</text>
+    <text x="808" y="122" text-anchor="middle" font-size="11" fill="#334155">Optimizer merges</text>
+    <text x="808" y="140" text-anchor="middle" font-size="11" fill="#334155">final result set</text>
+    <text x="808" y="176" text-anchor="middle" font-size="11" font-weight="700" fill="#0f172a">More in Ch. 10 (Batch)</text>
+   </svg>
+  </div>
+ </section>
+
+ <!-- ==================== 6.6 SUMMARY ==================== -->
+ <section class="slide section-header">
+  <span class="part-pill">Section 6.6</span>
+  <h2>Summary &amp; Synthesis</h2>
+  <p style="font-size: 1.4rem; opacity: 0.8; margin-top: 18px;">Design decision tree, real-world database map, and live POC</p>
+ </section>
+
+ <!-- 47. Chapter 6 Visual Decision Tree -->
+ <section class="slide content-slide compact-slide">
+  <h2>How to Architect a Partitioned System</h2>
+  <div class="svg-wrap">
+   <svg viewBox="0 0 920 300" xmlns="http://www.w3.org/2000/svg" font-family="Inter,sans-serif">
+    <defs><marker id="arrT" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#475569"/></marker></defs>
+    <!-- Row 1: Primary Key -->
+    <rect x="15" y="15" width="210" height="68" rx="10" fill="#0f172a"/>
+    <text x="120" y="45" text-anchor="middle" font-size="13" font-weight="800" fill="#fff">1. Access Pattern?</text>
+    <text x="120" y="65" text-anchor="middle" font-size="11" fill="#93c5fd">Key-value partitioning</text>
+    <path d="M225,49 L270,49" stroke="#475569" stroke-width="2" marker-end="url(#arrT)"/>
+    <rect x="275" y="15" width="195" height="68" rx="8" fill="#eff6ff" stroke="#2563eb"/>
+    <text x="372" y="42" text-anchor="middle" font-size="12" font-weight="800" fill="#1e3a8a">Range Scans Needed</text>
+    <text x="372" y="62" text-anchor="middle" font-size="11" fill="#1e40af">Key-Range (watch timestamps!)</text>
+    <rect x="485" y="15" width="205" height="68" rx="8" fill="#ecfdf5" stroke="#059669"/>
+    <text x="587" y="42" text-anchor="middle" font-size="12" font-weight="800" fill="#065f46">1-to-Many Timelines</text>
+    <text x="587" y="62" text-anchor="middle" font-size="11" fill="#047857">Compound Key (Hash+Sort)</text>
+    <rect x="705" y="15" width="200" height="68" rx="8" fill="#fffbeb" stroke="#d97706"/>
+    <text x="805" y="42" text-anchor="middle" font-size="12" font-weight="800" fill="#92400e">Point Lookups / Uniform</text>
+    <text x="805" y="62" text-anchor="middle" font-size="11" fill="#78350f">Hash (+ salt hot keys)</text>
+
+    <!-- Row 2: Secondary Indexes -->
+    <rect x="15" y="110" width="210" height="68" rx="10" fill="#0f172a"/>
+    <text x="120" y="140" text-anchor="middle" font-size="13" font-weight="800" fill="#fff">2. Secondary Indexes?</text>
+    <text x="120" y="160" text-anchor="middle" font-size="11" fill="#93c5fd">Read vs Write trade-off</text>
+    <path d="M225,144 L270,144" stroke="#475569" stroke-width="2" marker-end="url(#arrT)"/>
+    <rect x="275" y="110" width="305" height="68" rx="8" fill="#eff6ff" stroke="#2563eb"/>
+    <text x="427" y="137" text-anchor="middle" font-size="12" font-weight="800" fill="#1e3a8a">Write-Heavy / Immediate Consistency</text>
+    <text x="427" y="157" text-anchor="middle" font-size="11" fill="#1e40af">Document-Partitioned (Local) → scatter/gather reads</text>
+    <rect x="595" y="110" width="310" height="68" rx="8" fill="#ecfdf5" stroke="#059669"/>
+    <text x="750" y="137" text-anchor="middle" font-size="12" font-weight="800" fill="#065f46">Read-Heavy / Can Tolerate Async Lag</text>
+    <text x="750" y="157" text-anchor="middle" font-size="11" fill="#047857">Term-Partitioned (Global) → 1-shard reads</text>
+
+    <!-- Row 3: Rebalance & Routing -->
+    <rect x="15" y="205" width="210" height="68" rx="10" fill="#0f172a"/>
+    <text x="120" y="235" text-anchor="middle" font-size="13" font-weight="800" fill="#fff">3. Rebalance &amp; Route?</text>
+    <text x="120" y="255" text-anchor="middle" font-size="11" fill="#93c5fd">Cluster operations</text>
+    <path d="M225,239 L270,239" stroke="#475569" stroke-width="2" marker-end="url(#arrT)"/>
+    <rect x="275" y="205" width="305" height="68" rx="8" fill="#f8fafc" stroke="#64748b"/>
+    <text x="427" y="232" text-anchor="middle" font-size="12" font-weight="800" fill="#0f172a">Never use hash mod N!</text>
+    <text x="427" y="252" text-anchor="middle" font-size="11" fill="#475569">Use Fixed, Dynamic (pre-split), or Proportional + Human approval</text>
+    <rect x="595" y="205" width="310" height="68" rx="8" fill="#f8fafc" stroke="#64748b"/>
+    <text x="750" y="232" text-anchor="middle" font-size="12" font-weight="800" fill="#0f172a">Coordination Choice</text>
+    <text x="750" y="252" text-anchor="middle" font-size="11" fill="#475569">ZooKeeper + Routing Tier OR Peer-to-Peer Gossip</text>
+   </svg>
+  </div>
+ </section>
+
+ <!-- 48. Real-World Database Cheat Sheet -->
+ <section class="slide content-slide compact-slide">
+  <h2>Chapter 6 Real-World Database Cheat Sheet</h2>
+  <table class="matrix-table" style="font-size: 0.96rem;">
+   <thead>
+    <tr><th>System</th><th>Key Strategy</th><th>Secondary Index</th><th>Rebalancing</th><th>Routing / Metadata</th></tr>
+   </thead>
+   <tbody>
+    <tr><td><strong>HBase / Bigtable</strong></td><td>Key Range (Regions/Tablets)</td><td>Avoided (by design)</td><td>Dynamic split (10 GB) + pre-split</td><td>ZooKeeper (HBase)</td></tr>
+    <tr><td><strong>MongoDB</strong></td><td>Hash (MD5) or Key Range</td><td>Local (Document)</td><td>Dynamic chunk splitting</td><td>Config servers + <code>mongos</code></td></tr>
+    <tr><td><strong>Cassandra</strong></td><td>Compound (Murmur3 + sort)</td><td>Local (Document)</td><td>Proportional (256 vnodes/node)</td><td>Any-node + Gossip</td></tr>
+    <tr><td><strong>Riak</strong></td><td>Hash</td><td>Local + Global Search</td><td>Fixed partitions (human commit)</td><td>Any-node + Gossip</td></tr>
+    <tr><td><strong>Elasticsearch / Solr</strong></td><td>Hash</td><td>Local (Document)</td><td>Fixed shards</td><td>Cluster state / ZooKeeper (Solr)</td></tr>
+    <tr><td><strong>Couchbase</strong></td><td>Hash (vBuckets)</td><td>—</td><td>Fixed (human commit)</td><td>Routing tier (<code>moxi</code>)</td></tr>
+    <tr><td><strong>DynamoDB</strong></td><td>Hash (+ Range sort key)</td><td>Global (Term, Async GSI)</td><td>Managed dynamic splitting</td><td>Managed routing tier</td></tr>
+   </tbody>
+  </table>
+ </section>
+
+ <!-- 49. Looking Ahead: Bridge to Chapter 7 -->
+ <section class="slide content-slide compact-slide">
+  <h2>The Next Frontier: Multi-Partition Operations</h2>
+  <p>Partitions scale because each one operates mostly independently — <strong>until a single operation must write to multiple partitions</strong>.</p>
+  <div class="two-col" style="margin-top: 10px;">
+   <div class="compare-card">
+    <h3>The Unanswered Question</h3>
+    <p style="font-size: 1.15rem;">What happens if writing to <strong>Partition 1</strong> succeeds, but writing to <strong>Partition 2</strong> fails or crashes halfway?</p>
+   </div>
+   <div class="compare-card accent">
+    <h3>Coming Up Next</h3>
+    <ul style="font-size: 1.1rem;">
+     <li><strong>Chapter 7: Transactions</strong> — Atomicity &amp; Isolation</li>
+     <li><strong>Chapter 9: Consistency &amp; Consensus</strong> — Distributed 2PC &amp; ZooKeeper internals</li>
+     <li><strong>Chapter 10 &amp; 12:</strong> MPP / Batch Joins &amp; Derived Term Indexes</li>
+    </ul>
+   </div>
+  </div>
+ </section>
+
+ <!-- 50. Live Multi-Container POC Showcase -->
+ <section class="slide content-slide compact-slide">
+  <h2>🔬 Live Hands-On Lab: <code>chapter6/partitioning-poc</code></h2>
+  <p>Run an 8-container TypeScript cluster (1 ZooKeeper-style Coordinator + 6 Shard Nodes + Router/MPP Engine) directly via Docker:</p>
+  <div class="code-block" style="font-size: 1rem;">cd chapter6/partitioning-poc
+docker compose up --build -d
+# Open http://localhost:3060 in your browser!</div>
+  <div class="two-col" style="margin-top: 10px;">
+   <div class="compare-card">
+    <h3>Tabs 1 &amp; 2 (Sections 6.2 &amp; 6.3)</h3>
+    <ul style="font-size: 1rem;">
+     <li>Trigger timestamp &amp; celebrity hot spots + salting</li>
+     <li>Test <code>hashCode()</code> process mismatch vs Murmur3</li>
+     <li>Inject a 450ms slow node for tail latency amplification</li>
+     <li>Observe async global index lag &amp; DIY crash races</li>
+    </ul>
+   </div>
+   <div class="compare-card accent">
+    <h3>Tabs 3 &amp; 4 (Sections 6.4 &amp; 6.5)</h3>
+    <ul style="font-size: 1rem;">
+     <li>Add <code>node-5</code>/<code>node-6</code> live &amp; compare % keys moved</li>
+     <li>Trigger overload to contrast auto-cascade vs manual plan</li>
+     <li>Trace Gossip stale redirects vs ZooKeeper routing</li>
+     <li>Run a 4-stage parallel MPP SQL aggregation</li>
+    </ul>
+   </div>
+  </div>
+  <div><a class="poc-btn" href="partitioning-poc/README.md" target="_blank">Open POC README &amp; Instructions →</a></div>
+ </section>
+
+ <!-- 51. Questions -->
  <section class="slide title-slide">
- <h1>Questions?</h1>
- <p>Designing Data-Intensive Applications • Chapter 6</p>
- <div class="image-box questions-image">
- <img src="images/questions.jpg" alt="Q&A discussion" />
- </div>
+  <h1>Questions?</h1>
+  <p>Designing Data-Intensive Applications • Chapter 6</p>
+  <div class="image-box questions-image">
+   <img src="images/questions.jpg" alt="Q&A discussion" />
+  </div>
  </section>
 
 
@@ -2853,10 +3883,21 @@ hash(key) = 123456
     // All keys cluster in a narrow time range (today)
     const ts = new Date(now - Math.random() * 3600000);
     pKeys.push(ts.toISOString().slice(0, 19));
+   } else if (pattern === 'sensor_prefix') {
+    const ts = new Date(now - Math.random() * 3600000);
+    const sensor = 'sensor_' + String((i % 12) + 1).padStart(2, '0');
+    pKeys.push(sensor + '/' + ts.toISOString().slice(0, 19));
    } else if (pattern === 'skewed') {
-    // 80% of writes go to one "celebrity" key prefix
+    // 80% of writes target the EXACT same celebrity key
     if (Math.random() < 0.8) {
-     pKeys.push('celeb_post_' + i);
+     pKeys.push('celeb_bieber_hot');
+    } else {
+     pKeys.push('user_' + Math.floor(Math.random() * 10000) + '_post_' + i);
+    }
+   } else if (pattern === 'skewed_salted') {
+    if (Math.random() < 0.8) {
+     const salt = String(i % 20).padStart(2, '0');
+     pKeys.push('celeb_bieber_hot#' + salt);
     } else {
      pKeys.push('user_' + Math.floor(Math.random() * 10000) + '_post_' + i);
     }
@@ -2905,10 +3946,12 @@ hash(key) = 123456
   const pattern = document.getElementById('p-pattern').value;
   const info = document.getElementById('p-info');
   const descs = {
-   uniform: '🎲 <strong>Uniform random keys</strong> — both strategies should distribute evenly.',
-   timeseries: '⏰ <strong>Time-series keys</strong> — all timestamps fall in the same range partition, creating a <em>hot spot</em>. Hash distributes evenly.',
-   skewed: '🌟 <strong>Celebrity/skewed keys</strong> — 80% of keys share a prefix. Key-range puts them together. Hash spreads them out (but still possible hot spot if same exact key).',
-   alphabetical: '🔤 <strong>Alphabetical names</strong> — uneven letter frequency causes mild skew with key-range. Hash evens it out.'
+   uniform: '🎲 <strong>Uniform random keys</strong> — both strategies distribute evenly.',
+   timeseries: '⏰ <strong>Time-series keys</strong> — sequential timestamps skew key-range; hash spreads them evenly.',
+   sensor_prefix: '🌡️ <strong>Sensor-prefixed timestamps</strong> — prefixing spreads writes across key-range partitions too (at the cost of per-sensor reads).',
+   skewed: '🌟 <strong>Single hot celebrity key</strong> — 80% of requests target identical key <code>celeb_bieber_hot</code>. Even hashing cannot split identical keys!',
+   skewed_salted: '🧂 <strong>Celebrity + 2-digit salting</strong> — appending <code>#00..#19</code> breaks the single hot key across partitions (reads must merge all 20).',
+   alphabetical: '🔤 <strong>Alphabetical names</strong> — uneven letter distribution causes mild key-range skew; hash balances it.'
   };
   info.innerHTML = descs[pattern] || '';
  }
@@ -2956,6 +3999,7 @@ hash(key) = 123456
  const s=document.getElementById('rb-strategy').value;const a=new Array(rbTotalKeys);
  if(s==='hashMod'){for(let k=0;k<rbTotalKeys;k++)a[k]=rbHash(k,rbNodes)%rbNodes;}
  else if(s==='fixed'){const np=12;for(let k=0;k<rbTotalKeys;k++){const p=rbHash(k,np)%np;a[k]=Math.floor(p*rbNodes/np);}}
+ else if(s==='proportional'){const vnodesPerNode=3;const totalV=rbNodes*vnodesPerNode;for(let k=0;k<rbTotalKeys;k++){const v=rbHash(k,totalV)%totalV;a[k]=v%rbNodes;}}
  else{const perNode=Math.ceil(rbTotalKeys/rbNodes);for(let k=0;k<rbTotalKeys;k++)a[k]=Math.min(Math.floor(k/perNode),rbNodes-1);}
  return a;
  }
@@ -2978,9 +4022,10 @@ hash(key) = 123456
  mv.innerHTML=moved>0?`🔄 <b>${moved}/${rbTotalKeys}</b> keys moved (${pct}%) — <span style="color:${pct>50?'#c62828':'#2e7d32'}">${pct>50?'Excessive!':'Minimal movement ✓'}</span>`:'✅ No keys moved.';}
  else mv.style.display='none';
  const s=document.getElementById('rb-strategy').value;
- const explains={hashMod:'<b>hash mod N:</b> Each key assigned to <code>hash(key) % N</code>. When N changes, <em>most keys</em> get reassigned to different nodes. This is terrible for rebalancing — almost everything moves!',
- fixed:'<b>Fixed partitions:</b> Create many more partitions than nodes (e.g., 12 partitions for 4 nodes). When a node is added, it "steals" whole partitions from existing nodes. Only the stolen partitions move — much better!',
- dynamic:'<b>Dynamic partitioning:</b> Partitions split when they get too large, merge when too small. New nodes receive whole partitions. Keys are range-assigned so neighboring keys stay together.'};
+ const explains={hashMod:'<b>hash mod N:</b> Each key assigned to <code>hash(key) % N</code>. When N changes, <em>most keys</em> get reassigned to different nodes (~80% move)!',
+ fixed:'<b>Fixed partitions:</b> Create many more partitions than nodes upfront. New nodes steal whole partitions — key-to-partition mapping stays fixed.',
+ dynamic:'<b>Dynamic partitioning:</b> Partitions split when exceeding size threshold and merge when shrinking. Great for key-range datasets (HBase, MongoDB).',
+ proportional:'<b>Proportional to nodes:</b> Fixed number of vnodes per node (Cassandra: 256/node). Adding a node splits existing ranges so partition size shrinks as cluster grows.'};
  document.getElementById('rb-explain').innerHTML=explains[s];
  }
  function rbAddNode(){if(rbNodes>=8)return;rbPrevAssign=rbAssign();rbNodes++;rbRender();}

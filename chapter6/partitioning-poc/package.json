@@ -1,0 +1,11 @@
+{
+  "name": "ddia-ch6-partitioning-poc",
+  "version": "1.0.0",
+  "description": "Dockerized multi-node distributed partitioning visual lab & POC for DDIA Chapter 6",
+  "type": "module",
+  "scripts": {
+    "coordinator": "node src/coordinator.ts",
+    "shard": "node src/shard-node.ts",
+    "router": "node src/router.ts"
+  }
+}

@@ -1,0 +1,116 @@
+services:
+  coordinator:
+    build: .
+    command: node src/coordinator.ts
+    environment:
+      PORT: "4000"
+      SHARD_NODES: "node-1:http://node-1:4001,node-2:http://node-2:4002,node-3:http://node-3:4003,node-4:http://node-4:4004,node-5:http://node-5:4005,node-6:http://node-6:4006"
+    ports:
+      - "4000:4000"
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:4000/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 2s
+      timeout: 2s
+      retries: 10
+
+  node-1:
+    build: .
+    command: node src/shard-node.ts
+    environment:
+      NODE_ID: "node-1"
+      PORT: "4001"
+      COORDINATOR_URL: "http://coordinator:4000"
+    ports:
+      - "4001:4001"
+    depends_on:
+      coordinator:
+        condition: service_healthy
+
+  node-2:
+    build: .
+    command: node src/shard-node.ts
+    environment:
+      NODE_ID: "node-2"
+      PORT: "4002"
+      COORDINATOR_URL: "http://coordinator:4000"
+    ports:
+      - "4002:4002"
+    depends_on:
+      coordinator:
+        condition: service_healthy
+
+  node-3:
+    build: .
+    command: node src/shard-node.ts
+    environment:
+      NODE_ID: "node-3"
+      PORT: "4003"
+      COORDINATOR_URL: "http://coordinator:4000"
+    ports:
+      - "4003:4003"
+    depends_on:
+      coordinator:
+        condition: service_healthy
+
+  node-4:
+    build: .
+    command: node src/shard-node.ts
+    environment:
+      NODE_ID: "node-4"
+      PORT: "4004"
+      COORDINATOR_URL: "http://coordinator:4000"
+    ports:
+      - "4004:4004"
+    depends_on:
+      coordinator:
+        condition: service_healthy
+
+  node-5:
+    build: .
+    command: node src/shard-node.ts
+    environment:
+      NODE_ID: "node-5"
+      PORT: "4005"
+      COORDINATOR_URL: "http://coordinator:4000"
+    ports:
+      - "4005:4005"
+    depends_on:
+      coordinator:
+        condition: service_healthy
+
+  node-6:
+    build: .
+    command: node src/shard-node.ts
+    environment:
+      NODE_ID: "node-6"
+      PORT: "4006"
+      COORDINATOR_URL: "http://coordinator:4000"
+    ports:
+      - "4006:4006"
+    depends_on:
+      coordinator:
+        condition: service_healthy
+
+  router:
+    build: .
+    command: node src/router.ts
+    environment:
+      PORT: "3060"
+      COORDINATOR_URL: "http://coordinator:4000"
+    ports:
+      - "3060:3060"
+    depends_on:
+      coordinator:
+        condition: service_healthy
+      node-1:
+        condition: service_started
+      node-2:
+        condition: service_started
+      node-3:
+        condition: service_started
+      node-4:
+        condition: service_started
+      node-5:
+        condition: service_started
+      node-6:
+        condition: service_started
